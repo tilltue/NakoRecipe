@@ -68,8 +68,6 @@
     
     NSString *thumbUrl = [thumbUrlArr objectAtIndex:index];
     UIImageView *tempImageView = [[UIImageView alloc] init];
-    tempImageView.layer.cornerRadius = 5;
-    tempImageView.layer.masksToBounds = YES;
     tempImageView.layer.borderColor = [UIColor darkGrayColor].CGColor;
     tempImageView.layer.borderWidth = 1.0f;
     tempImageView.alpha = .7f;
@@ -90,28 +88,18 @@
     menuLabel.shadowColor = [UIColor grayColor];
     menuLabel.shadowOffset = CGSizeMake(0.8,0.8);
     [menuLabel setFrame:CGRectMake(5, 5, 100, 15)];
-    
-    UILabel *tempIconLabel = [[UILabel alloc] init];
-    tempIconLabel.textColor = [CommonUI getUIColorFromHexString:@"#FFA500"];
-    tempIconLabel.backgroundColor = [UIColor clearColor];
-    tempIconLabel.text = @"\u2764";
-    tempIconLabel.font = [UIFont fontWithName:@"IconicStroke" size:14];
-    tempIconLabel.shadowColor = [UIColor grayColor];
-    tempIconLabel.shadowOffset = CGSizeMake(0.8,0.8);
-    [tempIconLabel setFrame:CGRectMake(110, 5, 15, 15)];
-    [tempView addSubview:tempIconLabel];
-    
-    tempIconLabel = [[UILabel alloc] init];
-    tempIconLabel.textColor = [CommonUI getUIColorFromHexString:@"#A52A2A"];
-    tempIconLabel.backgroundColor = [UIColor clearColor];
-    tempIconLabel.text = @"\uE06D";
-    tempIconLabel.font = [UIFont fontWithName:@"IconicStroke" size:14];
-    tempIconLabel.shadowColor = [UIColor grayColor];
-    tempIconLabel.shadowOffset = CGSizeMake(0.8,0.8);
-    [tempIconLabel setFrame:CGRectMake(130, 5, 15, 15)];
-    
-    [tempView addSubview:tempIconLabel];
     [tempView addSubview:menuLabel];
+    
+    UIButton *tempButton = [[UIButton alloc] init];
+    [tempButton setImage:[UIImage imageNamed:@"Icons-h"] forState:UIControlStateNormal];
+    [tempButton setFrame:CGRectMake(150-15, resizeHeight - 15, 10, 10)];
+    [tempView addSubview:tempButton];
+    
+    tempButton = [[UIButton alloc] init];
+    [tempButton setImage:[UIImage imageNamed:@"Icons-comments"] forState:UIControlStateNormal];
+    [tempButton setFrame:CGRectMake(150-30, resizeHeight - 15, 10, 10)];
+    [tempView addSubview:tempButton];
+    
     return tempView;
 }
 
