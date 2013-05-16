@@ -1,183 +1,319 @@
 //
 //  FileControl.m
-//  guitarNako
+//  eBookMall
 //
-//  Created by nako on 10/30/12.
-//  Copyright (c) 2012 nako. All rights reserved.
+//  Created by nako on 1/11/13.
+//  Copyright (c) 2013 nako. All rights reserved.
 //
 
 #import "FileControl.h"
 #include <sys/xattr.h>
-#import "XMLWriter.h"
-#import "GDataXMLNode.h"
+
+#define TEMP_DIR NSTemporaryDirectory()
 
 @implementation FileControl
 
-+ (void)addSkipBackupAttributeToItemAtURL:(NSString *)path
++ (BOOL)checkFileExist:(NSString *)fullPath
 {
-    const char* filePath = [path fileSystemRepresentation];
-    
+    NSFileManager *fm =[NSFileManager defaultManager];
+	if (![fm fileExistsAtPath:fullPath]) {
+		return NO;
+	}
+    return YES;
+}
+
++ (void)addSkipBackupAttributeToPath:(NSString*)path
+{
+    u_int8_t b = 1;
+    setxattr( [ path fileSystemRepresentation ], "com.apple.MobileBackup", &b, 1, 0, 0 );
+}
+
++ (void)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
+{
+    const char* filePath = [[URL path] fileSystemRepresentation];
     const char* attrName = "com.apple.MobileBackup";
     u_int8_t attrValue = 1;
-    
     setxattr(filePath, attrName, &attrValue, sizeof(attrValue), 0, 0);
 }
 
-+ (void)createCodeSaveDir
++ (NSString *)getStringToPath:(NSString *)path
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *savingDirectory = [documentsDirectory stringByAppendingString:@"/Code"];
-    NSFileManager *fmg;
-    fmg = [NSFileManager defaultManager];
-    if( [fmg fileExistsAtPath:savingDirectory] ){
-    }else{
-        [fmg createDirectoryAtPath:savingDirectory withIntermediateDirectories:YES attributes:nil error:nil];
-        [self addSkipBackupAttributeToItemAtURL:savingDirectory];
-    }
+    NSString *tempString = [NSString stringWithContentsOfFile:path
+                                                     encoding:NSUTF8StringEncoding
+                                                        error:nil];
+    return tempString;
 }
 
-+ (NSMutableArray *)getListScoreFile
++ (NSData *)getDataToPath:(NSString *)path
 {
-    NSMutableArray *scoreFileList;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *savingDirectory = [documentsDirectory stringByAppendingString:@"/Code"];
-    NSFileManager *fmg;
-    fmg = [NSFileManager defaultManager];
-    if( [fmg fileExistsAtPath:savingDirectory] ){
-        NSArray *filelist = [fmg contentsOfDirectoryAtPath:savingDirectory error:NULL];
-        scoreFileList = [[NSMutableArray alloc] initWithArray:filelist];
-        return scoreFileList;
-    }else{
-        return nil;
-    }
-    return scoreFileList;
+    NSData *tempData = [[NSMutableData alloc] initWithContentsOfFile:path];
+    return tempData;
 }
 
-+ (void)convertDataToMusicSheetArray:(NSMutableArray *)musicSheets withXMLWriter:(XMLWriter *)xmlWriter
+
++ (NSString *)getDocumentsPath
 {
-    NSInteger codeStepCount;
-    NSMutableDictionary *tempDic;
-    NSMutableArray *tempCodeInfos;
-    CodeInfo *tempCodeInfo;
-    NSString *mSheetTag = @"SHEET";
-    NSString *stepTag = @"STEP";
-    NSString *codeTag = @"CODE";
-	   
-    for( int i=0;i<[musicSheets count]; i++)
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+	return documentsDirectory;
+}
+
++(NSString *)getLibraryCachesPath
+{
+    NSArray  * paths                  = NSSearchPathForDirectoriesInDomains( NSCachesDirectory, NSUserDomainMask, YES );
+    NSString * libraryCachesDirectory = [ paths objectAtIndex: 0 ];
+    
+    return libraryCachesDirectory;
+}
+
++ (void)createBooksDirectory {
+	NSString      * docPath  = [ FileControl getDocumentsPath ];
+	NSString      * booksDir = [ docPath stringByAppendingFormat: @"/books" ];
+	NSFileManager * fm       = [ NSFileManager defaultManager ];
+	NSError       * error;
+    
+	if( ![ fm fileExistsAtPath: booksDir ] )
     {
-        [xmlWriter writeStartElement:mSheetTag];
-        [xmlWriter writeAttribute:@"sheet_count" value:[NSString stringWithFormat:@"%d",i]];
-        tempDic = [musicSheets objectAtIndex:i];
-        if( tempDic != nil){
-            codeStepCount = [[tempDic allKeys] count];
-            for( int j=0;j<codeStepCount;j++)
-            {
-                [xmlWriter writeStartElement:stepTag];
-                [xmlWriter writeAttribute:@"step_count" value:[NSString stringWithFormat:@"%d",j]];
-                tempCodeInfos = [tempDic objectForKey:[NSString stringWithFormat:@"%d",j]];
-                if( tempCodeInfos != nil){
-                    for( int k=0; k< [tempCodeInfos count];k++)
-                    {
-                        tempCodeInfo = [tempCodeInfos objectAtIndex:k];
-                        if( tempCodeInfo != nil){
-                            [xmlWriter writeStartElement:codeTag];
-                            [xmlWriter writeAttribute:@"code_name" value:[NSString stringWithFormat:@"%@",tempCodeInfo.codeName]];
-                            [xmlWriter writeAttribute:@"rhythm" value:[NSString stringWithFormat:@"%d",tempCodeInfo.rhythm]];
-                            [xmlWriter writeEndElement:codeTag];
-                        }
-                    }
-                    [xmlWriter writeEndElement:stepTag];
-                }else{
-                    [xmlWriter writeEndElement:stepTag];
-                }
-            }
-            [xmlWriter writeEndElement:mSheetTag];
-        }else{
-            [xmlWriter writeEndElement:mSheetTag];
+		[ fm createDirectoryAtPath: booksDir
+       withIntermediateDirectories: NO
+                        attributes: nil
+                             error: &error ];
+        
+        [ FileControl addSkipBackupAttributeToPath: booksDir ];
+	}
+}
+
++ (NSString*)getBooksDirectory
+{
+	NSString * docPath  = [ FileControl getDocumentsPath ];
+	NSString * booksDir = [ docPath stringByAppendingFormat: @"/books" ];
+    
+    if( ![ FileControl checkFileExist: booksDir ] )
+    {
+        [ FileControl createBooksDirectory ];
+    }
+    
+	return booksDir;
+}
+
++ (void)createDownloadsDirectory
+{
+	NSString      * docPath      = [ FileControl getDocumentsPath ];
+	NSString      * downloadsDir = [ docPath stringByAppendingFormat: @"/downloads" ];
+	NSFileManager * fm           = [ NSFileManager defaultManager ];
+	NSError       * error;
+    
+	if( ![ fm fileExistsAtPath: downloadsDir ] )
+    {
+		[ fm createDirectoryAtPath: downloadsDir
+       withIntermediateDirectories: NO
+                        attributes: nil
+                             error: &error ];
+        
+        [ FileControl addSkipBackupAttributeToPath: downloadsDir ];
+	}
+}
+
++ (NSString*)getDownloadsDirectory
+{
+	NSString *docPath = [FileControl getDocumentsPath];
+	NSString *downloadsDir = [docPath stringByAppendingFormat:@"/downloads"];
+	if (![FileControl checkFileExist:downloadsDir]) {
+        [FileControl createDownloadsDirectory];
+    }
+	return downloadsDir;
+}
+
++ (NSString *)getDownloadFilePath:(NSString *)contentID withMemberNo:(NSString *)memberNo
+{
+    if( contentID == nil || memberNo == nil )
+        return nil;
+    return [NSString stringWithFormat:@"%@/%@_%@.download",[self getDownloadsDirectory],contentID,memberNo];
+}
+
++ (void)createEPubDirectory:(NSString *)fileName
+{
+	NSFileManager * fm      = [ NSFileManager defaultManager ];
+	NSString      * ePubDir = [ FileControl getEPubDirectory: fileName ];
+	NSError       * error;
+    
+	if( ![ fm fileExistsAtPath: ePubDir ] )
+    {
+		[ fm createDirectoryAtPath: ePubDir
+       withIntermediateDirectories: NO
+                        attributes: nil
+                             error: &error ];
+	}
+}
+
++ (NSString*)getEPubDirectory:(NSString*)fileName {
+    NSString * fileNameWithoutExt = [ fileName stringByDeletingPathExtension ];
+    
+    int offset = [ fileName length ] - [ fileNameWithoutExt length ];
+    
+    NSString *pureName = [fileName substringToIndex:[fileName length] - offset ];
+	NSString *booksDir = [FileControl getBooksDirectory];
+	NSString *ePubDir = [booksDir stringByAppendingPathComponent:pureName];
+    
+	return ePubDir;
+}
+
++ (NSInteger)getFileLength:(NSString *)filePath
+{
+    NSFileManager * fm      = [ NSFileManager defaultManager ];
+    NSInteger fileLength = 0;
+    NSError       * error;
+    if([FileControl checkFileExist:filePath]){
+        NSDictionary *fileAttr = [fm attributesOfItemAtPath:filePath error:&error];
+        fileLength = [fileAttr fileSize];
+    }
+    return fileLength;
+}
+
++ (void)removeFile:(NSString*)path
+{
+    NSFileManager *fm =[NSFileManager defaultManager];
+	if (![fm fileExistsAtPath:path]) {
+		return;
+	}
+	NSError *error;
+	[fm removeItemAtPath:path error:&error];
+}
+
++ (NSString *)createDrmDecryptFile:(NSString *)fileName
+{
+    NSFileManager * fm      = [ NSFileManager defaultManager ];
+	NSString      * drmDecryptFilePath = [[self getDownloadsDirectory] stringByAppendingFormat:@"/decryptDRM%@",fileName];
+    
+	if( ![ fm fileExistsAtPath: drmDecryptFilePath ] )
+    {
+		[ fm createFileAtPath:drmDecryptFilePath
+                     contents:nil
+                   attributes:nil
+         ];
+	}
+    return drmDecryptFilePath;
+}
+
++ (NSString *)getDownloadImagePath:(NSString *)contentID withMemberNo:(NSString *)memberNo withCoverUrl:(NSString *)coverUrl
+{
+    NSString *downloadFilePath = [FileControl getDownloadFilePath:contentID withMemberNo:memberNo];
+    NSString *installFileName = [[downloadFilePath lastPathComponent] stringByDeletingPathExtension];
+    NSString *installFilePath = [FileControl getEPubDirectory:installFileName];
+    NSString *downloadImagePath = [installFilePath stringByAppendingFormat:@"/%@%@.%@",contentID,memberNo,[coverUrl pathExtension]];
+    if( [self checkFileExist:downloadImagePath] ){
+        return downloadImagePath;
+    }else{
+        //        [InstallBook downloadCoverImage:contentID withMemberNo:memberNo withCoverUrl:coverUrl];
+        return nil;
+    }
+}
+
++ (void)cacheImageToURL:(NSString *)imageURLString
+{
+    NSURL *ImageURL = [[NSURL alloc] initWithString:imageURLString];
+    
+    // Generate a unique path to a resource representing the image you want
+    NSString *filename = [imageURLString lastPathComponent];
+    NSString *uniquePath = [TEMP_DIR stringByAppendingPathComponent: filename];
+    
+    // Check for file existence
+    if( ![[NSFileManager defaultManager] fileExistsAtPath: uniquePath] ){
+        // The file doesn't exist, we should get a copy of it
+        
+        // Fetch image
+        NSData *data = [[NSData alloc] initWithContentsOfURL: ImageURL];
+        UIImage *image = [[UIImage alloc] initWithData: data];
+        
+        // Is it PNG or JPG/JPEG?
+        // Running the image representation function writes the data from the image to a file
+        if( [imageURLString rangeOfString:@".png" options: NSCaseInsensitiveSearch].location != NSNotFound ){
+            
+            [UIImagePNGRepresentation(image) writeToFile: uniquePath atomically: YES];
+            
+        }else if([imageURLString rangeOfString: @".jpg" options: NSCaseInsensitiveSearch].location != NSNotFound ||
+                 [imageURLString rangeOfString: @".jpeg" options: NSCaseInsensitiveSearch].location != NSNotFound ){
+            
+            [UIImageJPEGRepresentation(image, 100) writeToFile: uniquePath atomically: YES];
         }
     }
 }
 
-+ (void)saveMusicSheet:(NSString *)mSheetName withCodeInfoArrayInMusicSheet:(NSMutableArray *)codeInfoInMusicSheet
++ (void)cacheImage:(NSString *)imageURL withImage:(UIImage *)image
 {
-    [self createCodeSaveDir];
+    // Generate a unique path to a resource representing the image you want
+    NSString *filename = [imageURL lastPathComponent];
+    NSString *uniquePath = [TEMP_DIR stringByAppendingPathComponent: filename];
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *savingFileName = [mSheetName stringByAppendingString:@"_Code.cod"];
-    NSString *savingFilePath = [documentsDirectory stringByAppendingString:[NSString stringWithFormat:@"/Code/%@",savingFileName]];
-    
-    NSFileManager *fmg;
-    NSData *convertData = nil;
-    XMLWriter *xmlWriter;
-    xmlWriter = [[XMLWriter alloc] init];
-    NSString *gScoreName = @"GUITAR_SCORE";
-    
-    [xmlWriter writeStartElement:gScoreName];
-    [self convertDataToMusicSheetArray:codeInfoInMusicSheet withXMLWriter:xmlWriter];
-    [xmlWriter writeEndElement:gScoreName];
-	
-	//NSLog(@"%@", [xmlWriter toString]);
-    
-    fmg = [NSFileManager defaultManager];
-    convertData = [[xmlWriter toString] dataUsingEncoding:NSUTF8StringEncoding];
-    if( [fmg fileExistsAtPath:savingFilePath] )
-        [fmg removeItemAtPath:savingFilePath error:nil];
-    [fmg createFileAtPath:savingFilePath contents:convertData attributes:nil];
-}
-
-+ (NSMutableArray *)convertMusicSheetToData:(NSData *)data
-{
-    NSMutableArray *tempMusicSheetArr = [[NSMutableArray alloc] init];
-    GDataXMLDocument *xmlDoc;
-    xmlDoc = [[GDataXMLDocument alloc] initWithData:data encoding:NSUTF8StringEncoding error:nil];
-    NSArray *mSheets = [xmlDoc nodesForXPath:@"//GUITAR_SCORE/SHEET" error:nil];
-
-    for( GDataXMLElement *mSheet in mSheets ){
-        NSMutableDictionary *tempStepDic = [[NSMutableDictionary alloc] init];
-        NSArray *steps = [mSheet elementsForName:@"STEP"];
-        for( GDataXMLElement *step in steps ){
-            NSMutableArray *tempCodes = [[NSMutableArray alloc] init];
-            NSArray *codes = [step elementsForName:@"CODE"];
-            for( GDataXMLElement *code in codes)
-            {
-                CodeInfo *tempCodeInfo = [[CodeInfo alloc] init];
-                tempCodeInfo.codeName = [[code attributeForName:@"code_name"] stringValue];
-                tempCodeInfo.rhythm = [[[code attributeForName:@"rhythm"] stringValue] intValue];
-                [tempCodes addObject:tempCodeInfo];
-            }
-            [tempStepDic setObject:tempCodes forKey:[[step attributeForName:@"step_count"] stringValue]];
+    // Check for file existence
+    if( ![[NSFileManager defaultManager] fileExistsAtPath: uniquePath] ){
+        if( [imageURL rangeOfString:@".png" options: NSCaseInsensitiveSearch].location != NSNotFound ){
+            
+            [UIImagePNGRepresentation(image) writeToFile: uniquePath atomically: YES];
+            
+        }else if([imageURL rangeOfString: @".jpg" options: NSCaseInsensitiveSearch].location != NSNotFound ||
+                 [imageURL rangeOfString: @".jpeg" options: NSCaseInsensitiveSearch].location != NSNotFound ){
+            
+            [UIImageJPEGRepresentation(image, 100) writeToFile: uniquePath atomically: YES];
         }
-        [tempMusicSheetArr addObject:tempStepDic];
     }
-    return tempMusicSheetArr;
 }
 
-+ (NSMutableArray *)loadMusicSheet:(NSString *)mSheetName
+
+
++ (UIImage *)getCachedImage:(NSString *)imageURLString
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *loadFileName;
-    if( [mSheetName hasSuffix:@"cod"] )
-        loadFileName = mSheetName;
-    else
-        loadFileName = [mSheetName stringByAppendingString:@"_Code.cod"];
-    NSString *loadFilePath = [documentsDirectory stringByAppendingString:[NSString stringWithFormat:@"/Code/%@",loadFileName]];
+    NSString *filename = [imageURLString lastPathComponent];
+    NSString *uniquePath = [TEMP_DIR stringByAppendingPathComponent: filename];
     
-    NSFileManager *fmg;
-    NSData *readData = nil;
+    UIImage *image;
     
-    fmg = [NSFileManager defaultManager];
-    if( [fmg fileExistsAtPath:loadFilePath] ){
-        readData = [fmg contentsAtPath:loadFilePath];
-        if( [readData length] > 0 ){
-            return [self convertMusicSheetToData:readData];
-        }
+    // Check for a cached version
+    if( [[NSFileManager defaultManager] fileExistsAtPath: uniquePath] ){
+        image = [UIImage imageWithContentsOfFile: uniquePath]; // this is the cached image
+    }else{
+        // get a new one
+        [self cacheImageToURL: imageURLString];
+        image = [UIImage imageWithContentsOfFile: uniquePath];
+    }
+    return image;
+}
+
++ (UIImage *)checkCachedImage:(NSString *)imageURLString
+{
+    NSString *filename = [imageURLString lastPathComponent];
+    NSString *uniquePath = [TEMP_DIR stringByAppendingPathComponent: filename];
+    
+    UIImage *image;
+    
+    // Check for a cached version
+    if( [[NSFileManager defaultManager] fileExistsAtPath: uniquePath] ){
+        image = [UIImage imageWithContentsOfFile: uniquePath]; // this is the cached image
     }else{
         return nil;
     }
-    return nil;
+    return image;
+}
+
++ (NSArray *)getAllImageFileList:(NSString *)rootDir
+{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray *dirContents = [fm contentsOfDirectoryAtPath:rootDir error:nil];
+    NSMutableArray *fileList = [[NSMutableArray alloc] init];
+    for( NSString *dir in dirContents )
+    {
+        NSString *path = [rootDir stringByAppendingPathComponent:dir];
+        BOOL isDir = NO;
+        [fm fileExistsAtPath:path isDirectory:(&isDir)];
+        if(!isDir) {
+            NSString *fileName = [path lastPathComponent];
+            if( [fileName hasSuffix:@"jpg"] || [fileName hasSuffix:@"png"] ){
+                [fileList addObject:path];
+            }
+        }else{
+            [fileList addObjectsFromArray:[self getAllImageFileList:path]];
+        }
+    }
+    return fileList;
 }
 @end

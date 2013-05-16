@@ -13,5 +13,6 @@
 {
     NSMutableDictionary *rectDic;
     PSCollectionView *psCollectionView;
+    NSMutableArray *thumbUrlArr;
 }
 @end

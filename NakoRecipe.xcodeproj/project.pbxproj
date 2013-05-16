@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		226072C01744A65F00CF3EAA /* FileControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 226072BF1744A65F00CF3EAA /* FileControl.m */; };
 		A3FB73171743DE9700413AE8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73161743DE9700413AE8 /* UIKit.framework */; };
 		A3FB73191743DE9700413AE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73181743DE9700413AE8 /* Foundation.framework */; };
 		A3FB731B1743DE9700413AE8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB731A1743DE9700413AE8 /* CoreGraphics.framework */; };
@@ -40,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		226072BE1744A65F00CF3EAA /* FileControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileControl.h; path = source/System/FileControl.h; sourceTree = "<group>"; };
+		226072BF1744A65F00CF3EAA /* FileControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileControl.m; path = source/System/FileControl.m; sourceTree = "<group>"; };
 		A3FB73131743DE9700413AE8 /* NakoRecipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NakoRecipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3FB73161743DE9700413AE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A3FB73181743DE9700413AE8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -97,6 +100,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		226072BC1744A23A00CF3EAA /* Resouce */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resouce;
+			sourceTree = "<group>";
+		};
 		A3FB730A1743DE9700413AE8 = {
 			isa = PBXGroup;
 			children = (
@@ -135,6 +145,7 @@
 				A3FB73261743DE9700413AE8 /* AppDelegate.m */,
 				A3FB734B1743E18900413AE8 /* MainUI */,
 				A3FB734F1743E3C500413AE8 /* Util */,
+				226072BC1744A23A00CF3EAA /* Resouce */,
 				A3FB731D1743DE9700413AE8 /* Supporting Files */,
 			);
 			path = NakoRecipe;
@@ -215,6 +226,8 @@
 		A3FB73581743E71500413AE8 /* System */ = {
 			isa = PBXGroup;
 			children = (
+				226072BE1744A65F00CF3EAA /* FileControl.h */,
+				226072BF1744A65F00CF3EAA /* FileControl.m */,
 				A3FB73591743E72200413AE8 /* CommonUI.h */,
 				A3FB735A1743E72200413AE8 /* CommonUI.m */,
 			);
@@ -337,6 +350,7 @@
 				A3FB73571743E3F600413AE8 /* PSCollectionViewCell.m in Sources */,
 				A3FB735D1743E72200413AE8 /* CommonUI.m in Sources */,
 				A3FB736317445B3000413AE8 /* RecipePinterest.m in Sources */,
+				226072C01744A65F00CF3EAA /* FileControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,6 +525,7 @@
 				A3FB73471743DE9700413AE8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A3FB73481743DE9700413AE8 /* Build configuration list for PBXNativeTarget "NakoRecipeTests" */ = {
 			isa = XCConfigurationList;
@@ -519,6 +534,7 @@
 				A3FB734A1743DE9700413AE8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
