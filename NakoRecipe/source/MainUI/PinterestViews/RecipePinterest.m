@@ -7,6 +7,7 @@
 //
 
 #import "RecipePinterest.h"
+#import "HttpApi.h"
 #import "FileControl.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -43,6 +44,7 @@
                        @"http://cfile211.uf.daum.net/image/226E7C46519468210767DA",
                        @"http://cfile229.uf.daum.net/image/22632A465194682120E6A4",
                        nil];
+        NSLog(@"%@",[[HttpApi getInstance] getRecipe]);
     }
     return self;
 }
@@ -61,45 +63,61 @@
     return 10;
 }
 
+#define PHONE_TWO_CELL_WIDTH 148
+#define PHONE_TWO_THUMB_WIDTH 140
+#define HEART_AND_COMMENT_ICONWIDTH 15
+#define THUMB_INFO_HEIGHT 40
+#define DETAIL_INFO_HEIGHT 40
+#define USER_THUMB_ICONWIDTH 25
+
 - (UIView *)collectionView:(PSCollectionView *)collectionView cellForRowAtIndex:(NSInteger)index
 {
+    CGFloat thumbMargin = (PHONE_TWO_CELL_WIDTH - PHONE_TWO_THUMB_WIDTH)/2;
     UIView *tempView = [[UIView alloc] init];
     tempView.backgroundColor = [UIColor whiteColor];
     
     NSString *thumbUrl = [thumbUrlArr objectAtIndex:index];
     UIImageView *tempImageView = [[UIImageView alloc] init];
-    tempImageView.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    tempImageView.layer.borderWidth = 1.0f;
-    tempImageView.alpha = .7f;
-    tempImageView.backgroundColor = [UIColor blackColor];
     NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:thumbUrl]];
     UIImage *tempImage = [[UIImage alloc] initWithData:data];
-    CGFloat resizeHeight = (150 / tempImage.size.width ) * tempImage.size.height;
+    CGFloat resizeHeight = (PHONE_TWO_THUMB_WIDTH / tempImage.size.width ) * tempImage.size.height;
     [tempImageView setImage:tempImage];
     [tempView addSubview:tempImageView];
-    [tempView setFrame:CGRectMake(0, 0, 150, resizeHeight)];
-    [tempImageView setFrame:CGRectMake(0, 0, 150, resizeHeight)];
+    [tempView setFrame:CGRectMake(0, 0, PHONE_TWO_CELL_WIDTH, resizeHeight+THUMB_INFO_HEIGHT+DETAIL_INFO_HEIGHT)];
+    [tempImageView setFrame:CGRectMake(thumbMargin, thumbMargin, PHONE_TWO_THUMB_WIDTH, resizeHeight)];
     
     UILabel *menuLabel = [[UILabel alloc] init];
-    menuLabel.textColor = [UIColor whiteColor];
+    menuLabel.textColor = [UIColor blackColor];
     menuLabel.backgroundColor = [UIColor clearColor];
     menuLabel.text = @"레시피 제목";
-    menuLabel.font = [UIFont systemFontOfSize:14];
-    menuLabel.shadowColor = [UIColor grayColor];
-    menuLabel.shadowOffset = CGSizeMake(0.8,0.8);
-    [menuLabel setFrame:CGRectMake(5, 5, 100, 15)];
+    menuLabel.alpha = .8f;
+    menuLabel.font = [UIFont systemFontOfSize:9];
+    [menuLabel setFrame:CGRectMake(thumbMargin, resizeHeight+thumbMargin+5, PHONE_TWO_THUMB_WIDTH, 10)];
     [tempView addSubview:menuLabel];
     
     UIButton *tempButton = [[UIButton alloc] init];
-    [tempButton setImage:[UIImage imageNamed:@"Icons-h"] forState:UIControlStateNormal];
-    [tempButton setFrame:CGRectMake(150-15, resizeHeight - 15, 10, 10)];
+    tempButton.alpha = .4f;
+    [tempButton setImage:[UIImage imageNamed:@"Icons-h_black"] forState:UIControlStateNormal];
+    [tempButton setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-HEART_AND_COMMENT_ICONWIDTH, resizeHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
     [tempView addSubview:tempButton];
     
     tempButton = [[UIButton alloc] init];
-    [tempButton setImage:[UIImage imageNamed:@"Icons-comments"] forState:UIControlStateNormal];
-    [tempButton setFrame:CGRectMake(150-30, resizeHeight - 15, 10, 10)];
+    tempButton.alpha = .4f;
+    [tempButton setImage:[UIImage imageNamed:@"Icons-comments_black"] forState:UIControlStateNormal];
+    [tempButton setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*2), resizeHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
     [tempView addSubview:tempButton];
     
+    UIView *tempView2 = [[UIView alloc] init];
+    tempView2.backgroundColor = [CommonUI getUIColorFromHexString:@"#F2F3F7"];
+    
+    tempImageView = [[UIImageView alloc] init];
+    data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://cfile222.uf.daum.net/image/2304F15051949F031E7836"]];
+    tempImage = [[UIImage alloc] initWithData:data];
+    [tempImageView setImage:tempImage];
+    [tempView2 addSubview:tempImageView];
+    [tempView2 setFrame:CGRectMake(0, resizeHeight+THUMB_INFO_HEIGHT, PHONE_TWO_CELL_WIDTH, DETAIL_INFO_HEIGHT)];
+    [tempImageView setFrame:CGRectMake(thumbMargin, DETAIL_INFO_HEIGHT/2-USER_THUMB_ICONWIDTH/2, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
+    [tempView addSubview:tempView2];
     return tempView;
 }
 
@@ -108,7 +126,7 @@
     NSString *thumbUrl = [thumbUrlArr objectAtIndex:index];
     NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:thumbUrl]];
     UIImage *tempImage = [[UIImage alloc] initWithData:data];
-    CGFloat resizeHeight = (150 / tempImage.size.width ) * tempImage.size.height;
-    return resizeHeight;
+    CGFloat resizeHeight = (PHONE_TWO_THUMB_WIDTH / tempImage.size.width ) * tempImage.size.height;
+    return resizeHeight+THUMB_INFO_HEIGHT+DETAIL_INFO_HEIGHT;
 }
 @end

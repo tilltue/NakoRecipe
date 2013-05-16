@@ -7,6 +7,7 @@
 //
 
 #import "PinterestViewController.h"
+#import "HttpApi.h"
 
 @interface PinterestViewController ()
 
@@ -27,10 +28,15 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.view.backgroundColor = [CommonUI getUIColorFromHexString:@"#E4E3DC"];
     recipePinterest = [[RecipePinterest alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:recipePinterest];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [[HttpApi getInstance] getRecipe];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

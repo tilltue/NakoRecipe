@@ -12,6 +12,12 @@
 		226072CB1744C06700CF3EAA /* Icons-chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072C81744C06700CF3EAA /* Icons-chat@2x.png */; };
 		226072CC1744C06700CF3EAA /* Icons-comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072C91744C06700CF3EAA /* Icons-comments@2x.png */; };
 		226072CD1744C06700CF3EAA /* Icons-h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072CA1744C06700CF3EAA /* Icons-h@2x.png */; };
+		226072D11744D5D200CF3EAA /* Icons-chat_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072CE1744D5D200CF3EAA /* Icons-chat_black@2x.png */; };
+		226072D21744D5D200CF3EAA /* Icons-comments_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072CF1744D5D200CF3EAA /* Icons-comments_black@2x.png */; };
+		226072D31744D5D200CF3EAA /* Icons-h_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072D01744D5D200CF3EAA /* Icons-h_black@2x.png */; };
+		226072D717450A9A00CF3EAA /* HttpApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 226072D617450A9A00CF3EAA /* HttpApi.m */; };
+		226072DB17450B1100CF3EAA /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 226072DA17450B1100CF3EAA /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		226072DD17450C0700CF3EAA /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 226072DC17450C0600CF3EAA /* libxml2.2.dylib */; };
 		A3FB73171743DE9700413AE8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73161743DE9700413AE8 /* UIKit.framework */; };
 		A3FB73191743DE9700413AE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73181743DE9700413AE8 /* Foundation.framework */; };
 		A3FB731B1743DE9700413AE8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB731A1743DE9700413AE8 /* CoreGraphics.framework */; };
@@ -51,6 +57,14 @@
 		226072C81744C06700CF3EAA /* Icons-chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-chat@2x.png"; path = "resource/Icons-chat@2x.png"; sourceTree = "<group>"; };
 		226072C91744C06700CF3EAA /* Icons-comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-comments@2x.png"; path = "resource/Icons-comments@2x.png"; sourceTree = "<group>"; };
 		226072CA1744C06700CF3EAA /* Icons-h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-h@2x.png"; path = "resource/Icons-h@2x.png"; sourceTree = "<group>"; };
+		226072CE1744D5D200CF3EAA /* Icons-chat_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-chat_black@2x.png"; path = "resource/Icons-chat_black@2x.png"; sourceTree = "<group>"; };
+		226072CF1744D5D200CF3EAA /* Icons-comments_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-comments_black@2x.png"; path = "resource/Icons-comments_black@2x.png"; sourceTree = "<group>"; };
+		226072D01744D5D200CF3EAA /* Icons-h_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-h_black@2x.png"; path = "resource/Icons-h_black@2x.png"; sourceTree = "<group>"; };
+		226072D517450A9A00CF3EAA /* HttpApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpApi.h; path = source/System/HttpApi/HttpApi.h; sourceTree = "<group>"; };
+		226072D617450A9A00CF3EAA /* HttpApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HttpApi.m; path = source/System/HttpApi/HttpApi.m; sourceTree = "<group>"; };
+		226072D917450B1100CF3EAA /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDataXMLNode.h; path = source/ExternSource/GDataXML/GDataXMLNode.h; sourceTree = "<group>"; };
+		226072DA17450B1100CF3EAA /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDataXMLNode.m; path = source/ExternSource/GDataXML/GDataXMLNode.m; sourceTree = "<group>"; };
+		226072DC17450C0600CF3EAA /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		A3FB73131743DE9700413AE8 /* NakoRecipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NakoRecipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3FB73161743DE9700413AE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A3FB73181743DE9700413AE8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -88,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				226072DD17450C0700CF3EAA /* libxml2.2.dylib in Frameworks */,
 				A3FB73601743EC1900413AE8 /* QuartzCore.framework in Frameworks */,
 				A3FB73171743DE9700413AE8 /* UIKit.framework in Frameworks */,
 				A3FB73191743DE9700413AE8 /* Foundation.framework in Frameworks */,
@@ -111,6 +126,9 @@
 		226072BC1744A23A00CF3EAA /* Resouce */ = {
 			isa = PBXGroup;
 			children = (
+				226072CE1744D5D200CF3EAA /* Icons-chat_black@2x.png */,
+				226072CF1744D5D200CF3EAA /* Icons-comments_black@2x.png */,
+				226072D01744D5D200CF3EAA /* Icons-h_black@2x.png */,
 				226072C81744C06700CF3EAA /* Icons-chat@2x.png */,
 				226072C91744C06700CF3EAA /* Icons-comments@2x.png */,
 				226072CA1744C06700CF3EAA /* Icons-h@2x.png */,
@@ -125,6 +143,24 @@
 				226072C21744B47900CF3EAA /* iconic_stroke.ttf */,
 			);
 			name = Font;
+			sourceTree = "<group>";
+		};
+		226072D417450A7900CF3EAA /* HttpApi */ = {
+			isa = PBXGroup;
+			children = (
+				226072D517450A9A00CF3EAA /* HttpApi.h */,
+				226072D617450A9A00CF3EAA /* HttpApi.m */,
+			);
+			name = HttpApi;
+			sourceTree = "<group>";
+		};
+		226072D817450B0200CF3EAA /* GDataXML */ = {
+			isa = PBXGroup;
+			children = (
+				226072D917450B1100CF3EAA /* GDataXMLNode.h */,
+				226072DA17450B1100CF3EAA /* GDataXMLNode.m */,
+			);
+			name = GDataXML;
 			sourceTree = "<group>";
 		};
 		A3FB730A1743DE9700413AE8 = {
@@ -149,6 +185,7 @@
 		A3FB73151743DE9700413AE8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				226072DC17450C0600CF3EAA /* libxml2.2.dylib */,
 				A3FB735F1743EC1900413AE8 /* QuartzCore.framework */,
 				A3FB73161743DE9700413AE8 /* UIKit.framework */,
 				A3FB73181743DE9700413AE8 /* Foundation.framework */,
@@ -227,6 +264,7 @@
 		A3FB73501743E3D600413AE8 /* ExternSource */ = {
 			isa = PBXGroup;
 			children = (
+				226072D817450B0200CF3EAA /* GDataXML */,
 				A3FB73511743E3E500413AE8 /* PintrestLib */,
 			);
 			name = ExternSource;
@@ -246,6 +284,7 @@
 		A3FB73581743E71500413AE8 /* System */ = {
 			isa = PBXGroup;
 			children = (
+				226072D417450A7900CF3EAA /* HttpApi */,
 				226072BE1744A65F00CF3EAA /* FileControl.h */,
 				226072BF1744A65F00CF3EAA /* FileControl.m */,
 				A3FB73591743E72200413AE8 /* CommonUI.h */,
@@ -333,6 +372,9 @@
 				226072CB1744C06700CF3EAA /* Icons-chat@2x.png in Resources */,
 				226072CC1744C06700CF3EAA /* Icons-comments@2x.png in Resources */,
 				226072CD1744C06700CF3EAA /* Icons-h@2x.png in Resources */,
+				226072D11744D5D200CF3EAA /* Icons-chat_black@2x.png in Resources */,
+				226072D21744D5D200CF3EAA /* Icons-comments_black@2x.png in Resources */,
+				226072D31744D5D200CF3EAA /* Icons-h_black@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +417,8 @@
 				A3FB735D1743E72200413AE8 /* CommonUI.m in Sources */,
 				A3FB736317445B3000413AE8 /* RecipePinterest.m in Sources */,
 				226072C01744A65F00CF3EAA /* FileControl.m in Sources */,
+				226072D717450A9A00CF3EAA /* HttpApi.m in Sources */,
+				226072DB17450B1100CF3EAA /* GDataXMLNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,6 +523,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "NakoRecipe/NakoRecipe-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -490,6 +535,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "NakoRecipe/NakoRecipe-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
