@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		226072C01744A65F00CF3EAA /* FileControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 226072BF1744A65F00CF3EAA /* FileControl.m */; };
+		226072C31744B47900CF3EAA /* iconic_stroke.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 226072C21744B47900CF3EAA /* iconic_stroke.ttf */; };
 		A3FB73171743DE9700413AE8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73161743DE9700413AE8 /* UIKit.framework */; };
 		A3FB73191743DE9700413AE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73181743DE9700413AE8 /* Foundation.framework */; };
 		A3FB731B1743DE9700413AE8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB731A1743DE9700413AE8 /* CoreGraphics.framework */; };
@@ -43,6 +44,7 @@
 /* Begin PBXFileReference section */
 		226072BE1744A65F00CF3EAA /* FileControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileControl.h; path = source/System/FileControl.h; sourceTree = "<group>"; };
 		226072BF1744A65F00CF3EAA /* FileControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileControl.m; path = source/System/FileControl.m; sourceTree = "<group>"; };
+		226072C21744B47900CF3EAA /* iconic_stroke.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = iconic_stroke.ttf; path = resource/font/iconic_stroke.ttf; sourceTree = "<group>"; };
 		A3FB73131743DE9700413AE8 /* NakoRecipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NakoRecipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3FB73161743DE9700413AE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A3FB73181743DE9700413AE8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -103,8 +105,17 @@
 		226072BC1744A23A00CF3EAA /* Resouce */ = {
 			isa = PBXGroup;
 			children = (
+				226072C11744B47000CF3EAA /* Font */,
 			);
 			name = Resouce;
+			sourceTree = "<group>";
+		};
+		226072C11744B47000CF3EAA /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				226072C21744B47900CF3EAA /* iconic_stroke.ttf */,
+			);
+			name = Font;
 			sourceTree = "<group>";
 		};
 		A3FB730A1743DE9700413AE8 = {
@@ -309,6 +320,7 @@
 				A3FB73291743DE9700413AE8 /* Default.png in Resources */,
 				A3FB732B1743DE9700413AE8 /* Default@2x.png in Resources */,
 				A3FB732D1743DE9700413AE8 /* Default-568h@2x.png in Resources */,
+				226072C31744B47900CF3EAA /* iconic_stroke.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

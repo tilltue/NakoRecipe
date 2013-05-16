@@ -8,6 +8,7 @@
 
 #import "RecipePinterest.h"
 #import "FileControl.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation RecipePinterest
 
@@ -63,10 +64,15 @@
 - (UIView *)collectionView:(PSCollectionView *)collectionView cellForRowAtIndex:(NSInteger)index
 {
     UIView *tempView = [[UIView alloc] init];
-    tempView.backgroundColor = [UIColor blackColor];
+    tempView.backgroundColor = [UIColor whiteColor];
+    
     NSString *thumbUrl = [thumbUrlArr objectAtIndex:index];
     UIImageView *tempImageView = [[UIImageView alloc] init];
-    tempImageView.alpha = .9f;
+    tempImageView.layer.cornerRadius = 5;
+    tempImageView.layer.masksToBounds = YES;
+    tempImageView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    tempImageView.layer.borderWidth = 1.0f;
+    tempImageView.alpha = .7f;
     tempImageView.backgroundColor = [UIColor blackColor];
     NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:thumbUrl]];
     UIImage *tempImage = [[UIImage alloc] initWithData:data];
@@ -84,6 +90,27 @@
     menuLabel.shadowColor = [UIColor grayColor];
     menuLabel.shadowOffset = CGSizeMake(0.8,0.8);
     [menuLabel setFrame:CGRectMake(5, 5, 100, 15)];
+    
+    UILabel *tempIconLabel = [[UILabel alloc] init];
+    tempIconLabel.textColor = [CommonUI getUIColorFromHexString:@"#FFA500"];
+    tempIconLabel.backgroundColor = [UIColor clearColor];
+    tempIconLabel.text = @"\u2764";
+    tempIconLabel.font = [UIFont fontWithName:@"IconicStroke" size:14];
+    tempIconLabel.shadowColor = [UIColor grayColor];
+    tempIconLabel.shadowOffset = CGSizeMake(0.8,0.8);
+    [tempIconLabel setFrame:CGRectMake(110, 5, 15, 15)];
+    [tempView addSubview:tempIconLabel];
+    
+    tempIconLabel = [[UILabel alloc] init];
+    tempIconLabel.textColor = [CommonUI getUIColorFromHexString:@"#A52A2A"];
+    tempIconLabel.backgroundColor = [UIColor clearColor];
+    tempIconLabel.text = @"\uE06D";
+    tempIconLabel.font = [UIFont fontWithName:@"IconicStroke" size:14];
+    tempIconLabel.shadowColor = [UIColor grayColor];
+    tempIconLabel.shadowOffset = CGSizeMake(0.8,0.8);
+    [tempIconLabel setFrame:CGRectMake(130, 5, 15, 15)];
+    
+    [tempView addSubview:tempIconLabel];
     [tempView addSubview:menuLabel];
     return tempView;
 }
