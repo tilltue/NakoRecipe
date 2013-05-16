@@ -1,0 +1,526 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A3FB73171743DE9700413AE8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73161743DE9700413AE8 /* UIKit.framework */; };
+		A3FB73191743DE9700413AE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73181743DE9700413AE8 /* Foundation.framework */; };
+		A3FB731B1743DE9700413AE8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB731A1743DE9700413AE8 /* CoreGraphics.framework */; };
+		A3FB73211743DE9700413AE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A3FB731F1743DE9700413AE8 /* InfoPlist.strings */; };
+		A3FB73231743DE9700413AE8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FB73221743DE9700413AE8 /* main.m */; };
+		A3FB73271743DE9700413AE8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FB73261743DE9700413AE8 /* AppDelegate.m */; };
+		A3FB73291743DE9700413AE8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A3FB73281743DE9700413AE8 /* Default.png */; };
+		A3FB732B1743DE9700413AE8 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A3FB732A1743DE9700413AE8 /* Default@2x.png */; };
+		A3FB732D1743DE9700413AE8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A3FB732C1743DE9700413AE8 /* Default-568h@2x.png */; };
+		A3FB73351743DE9700413AE8 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73341743DE9700413AE8 /* SenTestingKit.framework */; };
+		A3FB73361743DE9700413AE8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73161743DE9700413AE8 /* UIKit.framework */; };
+		A3FB73371743DE9700413AE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73181743DE9700413AE8 /* Foundation.framework */; };
+		A3FB733F1743DE9700413AE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A3FB733D1743DE9700413AE8 /* InfoPlist.strings */; };
+		A3FB73421743DE9700413AE8 /* NakoRecipeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FB73411743DE9700413AE8 /* NakoRecipeTests.m */; };
+		A3FB734E1743E1D000413AE8 /* PinterestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FB734D1743E1D000413AE8 /* PinterestViewController.m */; };
+		A3FB73561743E3F600413AE8 /* PSCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FB73531743E3F600413AE8 /* PSCollectionView.m */; };
+		A3FB73571743E3F600413AE8 /* PSCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FB73551743E3F600413AE8 /* PSCollectionViewCell.m */; };
+		A3FB735D1743E72200413AE8 /* CommonUI.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FB735A1743E72200413AE8 /* CommonUI.m */; };
+		A3FB73601743EC1900413AE8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB735F1743EC1900413AE8 /* QuartzCore.framework */; };
+		A3FB736317445B3000413AE8 /* RecipePinterest.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FB736217445B3000413AE8 /* RecipePinterest.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A3FB73381743DE9700413AE8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A3FB730B1743DE9700413AE8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A3FB73121743DE9700413AE8;
+			remoteInfo = NakoRecipe;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A3FB73131743DE9700413AE8 /* NakoRecipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NakoRecipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3FB73161743DE9700413AE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A3FB73181743DE9700413AE8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A3FB731A1743DE9700413AE8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		A3FB731E1743DE9700413AE8 /* NakoRecipe-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NakoRecipe-Info.plist"; sourceTree = "<group>"; };
+		A3FB73201743DE9700413AE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A3FB73221743DE9700413AE8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A3FB73241743DE9700413AE8 /* NakoRecipe-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NakoRecipe-Prefix.pch"; sourceTree = "<group>"; };
+		A3FB73251743DE9700413AE8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		A3FB73261743DE9700413AE8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		A3FB73281743DE9700413AE8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		A3FB732A1743DE9700413AE8 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		A3FB732C1743DE9700413AE8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		A3FB73331743DE9700413AE8 /* NakoRecipeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NakoRecipeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3FB73341743DE9700413AE8 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		A3FB733C1743DE9700413AE8 /* NakoRecipeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NakoRecipeTests-Info.plist"; sourceTree = "<group>"; };
+		A3FB733E1743DE9700413AE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A3FB73401743DE9700413AE8 /* NakoRecipeTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NakoRecipeTests.h; sourceTree = "<group>"; };
+		A3FB73411743DE9700413AE8 /* NakoRecipeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NakoRecipeTests.m; sourceTree = "<group>"; };
+		A3FB734C1743E1D000413AE8 /* PinterestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PinterestViewController.h; path = source/MainUI/PinterestViewController.h; sourceTree = "<group>"; };
+		A3FB734D1743E1D000413AE8 /* PinterestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PinterestViewController.m; path = source/MainUI/PinterestViewController.m; sourceTree = "<group>"; };
+		A3FB73521743E3F600413AE8 /* PSCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PSCollectionView.h; path = source/ExternSource/PintrestLib/PSCollectionView.h; sourceTree = "<group>"; };
+		A3FB73531743E3F600413AE8 /* PSCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PSCollectionView.m; path = source/ExternSource/PintrestLib/PSCollectionView.m; sourceTree = "<group>"; };
+		A3FB73541743E3F600413AE8 /* PSCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PSCollectionViewCell.h; path = source/ExternSource/PintrestLib/PSCollectionViewCell.h; sourceTree = "<group>"; };
+		A3FB73551743E3F600413AE8 /* PSCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PSCollectionViewCell.m; path = source/ExternSource/PintrestLib/PSCollectionViewCell.m; sourceTree = "<group>"; };
+		A3FB73591743E72200413AE8 /* CommonUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonUI.h; path = source/System/CommonUI.h; sourceTree = "<group>"; };
+		A3FB735A1743E72200413AE8 /* CommonUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonUI.m; path = source/System/CommonUI.m; sourceTree = "<group>"; };
+		A3FB735F1743EC1900413AE8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		A3FB736117445B3000413AE8 /* RecipePinterest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecipePinterest.h; path = source/MainUI/PinterestViews/RecipePinterest.h; sourceTree = "<group>"; };
+		A3FB736217445B3000413AE8 /* RecipePinterest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecipePinterest.m; path = source/MainUI/PinterestViews/RecipePinterest.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A3FB73101743DE9700413AE8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3FB73601743EC1900413AE8 /* QuartzCore.framework in Frameworks */,
+				A3FB73171743DE9700413AE8 /* UIKit.framework in Frameworks */,
+				A3FB73191743DE9700413AE8 /* Foundation.framework in Frameworks */,
+				A3FB731B1743DE9700413AE8 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3FB732F1743DE9700413AE8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3FB73351743DE9700413AE8 /* SenTestingKit.framework in Frameworks */,
+				A3FB73361743DE9700413AE8 /* UIKit.framework in Frameworks */,
+				A3FB73371743DE9700413AE8 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A3FB730A1743DE9700413AE8 = {
+			isa = PBXGroup;
+			children = (
+				A3FB731C1743DE9700413AE8 /* NakoRecipe */,
+				A3FB733A1743DE9700413AE8 /* NakoRecipeTests */,
+				A3FB73151743DE9700413AE8 /* Frameworks */,
+				A3FB73141743DE9700413AE8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A3FB73141743DE9700413AE8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A3FB73131743DE9700413AE8 /* NakoRecipe.app */,
+				A3FB73331743DE9700413AE8 /* NakoRecipeTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A3FB73151743DE9700413AE8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A3FB735F1743EC1900413AE8 /* QuartzCore.framework */,
+				A3FB73161743DE9700413AE8 /* UIKit.framework */,
+				A3FB73181743DE9700413AE8 /* Foundation.framework */,
+				A3FB731A1743DE9700413AE8 /* CoreGraphics.framework */,
+				A3FB73341743DE9700413AE8 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A3FB731C1743DE9700413AE8 /* NakoRecipe */ = {
+			isa = PBXGroup;
+			children = (
+				A3FB73251743DE9700413AE8 /* AppDelegate.h */,
+				A3FB73261743DE9700413AE8 /* AppDelegate.m */,
+				A3FB734B1743E18900413AE8 /* MainUI */,
+				A3FB734F1743E3C500413AE8 /* Util */,
+				A3FB731D1743DE9700413AE8 /* Supporting Files */,
+			);
+			path = NakoRecipe;
+			sourceTree = "<group>";
+		};
+		A3FB731D1743DE9700413AE8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A3FB731E1743DE9700413AE8 /* NakoRecipe-Info.plist */,
+				A3FB731F1743DE9700413AE8 /* InfoPlist.strings */,
+				A3FB73221743DE9700413AE8 /* main.m */,
+				A3FB73241743DE9700413AE8 /* NakoRecipe-Prefix.pch */,
+				A3FB73281743DE9700413AE8 /* Default.png */,
+				A3FB732A1743DE9700413AE8 /* Default@2x.png */,
+				A3FB732C1743DE9700413AE8 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A3FB733A1743DE9700413AE8 /* NakoRecipeTests */ = {
+			isa = PBXGroup;
+			children = (
+				A3FB73401743DE9700413AE8 /* NakoRecipeTests.h */,
+				A3FB73411743DE9700413AE8 /* NakoRecipeTests.m */,
+				A3FB733B1743DE9700413AE8 /* Supporting Files */,
+			);
+			path = NakoRecipeTests;
+			sourceTree = "<group>";
+		};
+		A3FB733B1743DE9700413AE8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A3FB733C1743DE9700413AE8 /* NakoRecipeTests-Info.plist */,
+				A3FB733D1743DE9700413AE8 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A3FB734B1743E18900413AE8 /* MainUI */ = {
+			isa = PBXGroup;
+			children = (
+				A3FB734C1743E1D000413AE8 /* PinterestViewController.h */,
+				A3FB734D1743E1D000413AE8 /* PinterestViewController.m */,
+				A3FB736117445B3000413AE8 /* RecipePinterest.h */,
+				A3FB736217445B3000413AE8 /* RecipePinterest.m */,
+			);
+			name = MainUI;
+			sourceTree = "<group>";
+		};
+		A3FB734F1743E3C500413AE8 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				A3FB73581743E71500413AE8 /* System */,
+				A3FB73501743E3D600413AE8 /* ExternSource */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
+		A3FB73501743E3D600413AE8 /* ExternSource */ = {
+			isa = PBXGroup;
+			children = (
+				A3FB73511743E3E500413AE8 /* PintrestLib */,
+			);
+			name = ExternSource;
+			sourceTree = "<group>";
+		};
+		A3FB73511743E3E500413AE8 /* PintrestLib */ = {
+			isa = PBXGroup;
+			children = (
+				A3FB73521743E3F600413AE8 /* PSCollectionView.h */,
+				A3FB73531743E3F600413AE8 /* PSCollectionView.m */,
+				A3FB73541743E3F600413AE8 /* PSCollectionViewCell.h */,
+				A3FB73551743E3F600413AE8 /* PSCollectionViewCell.m */,
+			);
+			name = PintrestLib;
+			sourceTree = "<group>";
+		};
+		A3FB73581743E71500413AE8 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				A3FB73591743E72200413AE8 /* CommonUI.h */,
+				A3FB735A1743E72200413AE8 /* CommonUI.m */,
+			);
+			name = System;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A3FB73121743DE9700413AE8 /* NakoRecipe */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A3FB73451743DE9700413AE8 /* Build configuration list for PBXNativeTarget "NakoRecipe" */;
+			buildPhases = (
+				A3FB730F1743DE9700413AE8 /* Sources */,
+				A3FB73101743DE9700413AE8 /* Frameworks */,
+				A3FB73111743DE9700413AE8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NakoRecipe;
+			productName = NakoRecipe;
+			productReference = A3FB73131743DE9700413AE8 /* NakoRecipe.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A3FB73321743DE9700413AE8 /* NakoRecipeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A3FB73481743DE9700413AE8 /* Build configuration list for PBXNativeTarget "NakoRecipeTests" */;
+			buildPhases = (
+				A3FB732E1743DE9700413AE8 /* Sources */,
+				A3FB732F1743DE9700413AE8 /* Frameworks */,
+				A3FB73301743DE9700413AE8 /* Resources */,
+				A3FB73311743DE9700413AE8 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A3FB73391743DE9700413AE8 /* PBXTargetDependency */,
+			);
+			name = NakoRecipeTests;
+			productName = NakoRecipeTests;
+			productReference = A3FB73331743DE9700413AE8 /* NakoRecipeTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A3FB730B1743DE9700413AE8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = tilltue;
+			};
+			buildConfigurationList = A3FB730E1743DE9700413AE8 /* Build configuration list for PBXProject "NakoRecipe" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A3FB730A1743DE9700413AE8;
+			productRefGroup = A3FB73141743DE9700413AE8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A3FB73121743DE9700413AE8 /* NakoRecipe */,
+				A3FB73321743DE9700413AE8 /* NakoRecipeTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A3FB73111743DE9700413AE8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3FB73211743DE9700413AE8 /* InfoPlist.strings in Resources */,
+				A3FB73291743DE9700413AE8 /* Default.png in Resources */,
+				A3FB732B1743DE9700413AE8 /* Default@2x.png in Resources */,
+				A3FB732D1743DE9700413AE8 /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3FB73301743DE9700413AE8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3FB733F1743DE9700413AE8 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A3FB73311743DE9700413AE8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A3FB730F1743DE9700413AE8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3FB73231743DE9700413AE8 /* main.m in Sources */,
+				A3FB73271743DE9700413AE8 /* AppDelegate.m in Sources */,
+				A3FB734E1743E1D000413AE8 /* PinterestViewController.m in Sources */,
+				A3FB73561743E3F600413AE8 /* PSCollectionView.m in Sources */,
+				A3FB73571743E3F600413AE8 /* PSCollectionViewCell.m in Sources */,
+				A3FB735D1743E72200413AE8 /* CommonUI.m in Sources */,
+				A3FB736317445B3000413AE8 /* RecipePinterest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3FB732E1743DE9700413AE8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3FB73421743DE9700413AE8 /* NakoRecipeTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A3FB73391743DE9700413AE8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A3FB73121743DE9700413AE8 /* NakoRecipe */;
+			targetProxy = A3FB73381743DE9700413AE8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A3FB731F1743DE9700413AE8 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A3FB73201743DE9700413AE8 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A3FB733D1743DE9700413AE8 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A3FB733E1743DE9700413AE8 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A3FB73431743DE9700413AE8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A3FB73441743DE9700413AE8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A3FB73461743DE9700413AE8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
+				INFOPLIST_FILE = "NakoRecipe/NakoRecipe-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		A3FB73471743DE9700413AE8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
+				INFOPLIST_FILE = "NakoRecipe/NakoRecipe-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		A3FB73491743DE9700413AE8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/NakoRecipe.app/NakoRecipe";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
+				INFOPLIST_FILE = "NakoRecipeTests/NakoRecipeTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		A3FB734A1743DE9700413AE8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/NakoRecipe.app/NakoRecipe";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
+				INFOPLIST_FILE = "NakoRecipeTests/NakoRecipeTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A3FB730E1743DE9700413AE8 /* Build configuration list for PBXProject "NakoRecipe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3FB73431743DE9700413AE8 /* Debug */,
+				A3FB73441743DE9700413AE8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A3FB73451743DE9700413AE8 /* Build configuration list for PBXNativeTarget "NakoRecipe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3FB73461743DE9700413AE8 /* Debug */,
+				A3FB73471743DE9700413AE8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		A3FB73481743DE9700413AE8 /* Build configuration list for PBXNativeTarget "NakoRecipeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3FB73491743DE9700413AE8 /* Debug */,
+				A3FB734A1743DE9700413AE8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A3FB730B1743DE9700413AE8 /* Project object */;
+}
