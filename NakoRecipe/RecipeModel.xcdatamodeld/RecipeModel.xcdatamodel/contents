@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="AttatchMent" representedClassName="AttatchMent" syncable="YES">
+        <attribute name="height" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="post_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumb_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="width" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="Post" representedClassName="Post" syncable="YES">
+        <attribute name="comment_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="like_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="post_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="attatchments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AttatchMent" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Post" positionX="160" positionY="192" width="128" height="133"/>
+        <element name="AttatchMent" positionX="376" positionY="267" width="128" height="103"/>
+    </elements>
+</model>

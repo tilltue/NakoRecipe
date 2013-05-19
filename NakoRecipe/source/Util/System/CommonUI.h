@@ -21,6 +21,4 @@
 + (UIImage *)makeThreePartImage:(UIImage *)leftImage rightImage:(UIImage *)rightImage centerImage:(UIImage *)centerImage withSize:(CGSize)dstRect;
 + (UIImage *)makeRetinaThreePartImage:(UIImage *)leftImage rightImage:(UIImage *)rightImage centerImage:(UIImage *)centerImage withSize:(CGSize)dstRect;
 + (UIImage *)makeRetinaImageByHeight:(UIImage *)stackImage withSize:(CGSize)dstSize;
-+ (void)popIn:(NSTimeInterval)duration delegate:(id)delegate withView:(UIView *)view;
-+ (void)popOut:(NSTimeInterval)duration delegate:(id)delegate withView:(UIView *)view;
 @end

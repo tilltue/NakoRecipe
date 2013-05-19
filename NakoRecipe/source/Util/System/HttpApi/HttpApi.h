@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+@interface HttpRequestResult : NSObject
+@property (nonatomic, retain) NSString *retString;
+@property (nonatomic, retain) NSString *errorDomain;
+@end
+
+
 @interface HttpApi : NSObject
 + (HttpApi *)getInstance;
 - (NSString *)getRecipe;
