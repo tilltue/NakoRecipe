@@ -20,6 +20,7 @@
 #pragma mark - Post
 - (void)savePost:(NSDictionary *)jsonDict;
 - (NSArray *)getPosts;
+- (Post *)getPost:(NSString *)postId;
 #pragma mark - Attachment
 
 @end

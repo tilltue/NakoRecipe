@@ -30,7 +30,10 @@
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [CommonUI getUIColorFromHexString:@"#E4E3DC"];
     recipePinterest = [[RecipePinterest alloc] initWithFrame:self.view.bounds];
+    recipePinterest.delegate = self;
     [self.view addSubview:recipePinterest];
+    
+    recipeViewController = [[RecipeViewController alloc] init];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -45,4 +48,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - pintrestview delegate
+
+- (void)selectRecipe:(NSString *)recipeId
+{
+    recipeViewController.currentPostId = recipeId;
+    [self presentViewController:recipeViewController animated:YES completion:nil];
+}
 @end

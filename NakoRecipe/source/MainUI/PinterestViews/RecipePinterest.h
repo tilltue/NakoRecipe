@@ -23,11 +23,17 @@
 @end
 
 @interface PintrestItem : NSObject
+@property (nonatomic, strong) NSString *postId;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSMutableArray *attachItems;
 @property (nonatomic, assign) NSInteger like_count;
 @property (nonatomic, assign) NSInteger comment_count;
 @end
+
+@protocol RecipePinterestDelegate <NSObject>
+- (void)selectRecipe:(NSString *)recipeId;
+@end
+
 
 @interface RecipePinterest : UIView <PSCollectionViewDataSource,PSCollectionViewDelegate>
 {
@@ -35,5 +41,6 @@
     PSCollectionView *psCollectionView;
     NSMutableArray *pintrestItems;
 }
+@property (nonatomic, unsafe_unretained) id <RecipePinterestDelegate> delegate;
 - (void)reloadPintRest;
 @end

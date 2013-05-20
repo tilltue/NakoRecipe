@@ -37,6 +37,8 @@
 		A3D0D55A1748F123006C0AA9 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D5591748F123006C0AA9 /* Post.m */; };
 		A3D0D55D1748F8FA006C0AA9 /* AttatchMent.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D55C1748F8FA006C0AA9 /* AttatchMent.m */; };
 		A3D0D5611748FBAF006C0AA9 /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D5601748FBAF006C0AA9 /* AsyncImageView.m */; };
+		A3D0D566174903DB006C0AA9 /* RecipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D565174903DB006C0AA9 /* RecipeViewController.m */; };
+		A3D0D569174903FD006C0AA9 /* RecipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D568174903FD006C0AA9 /* RecipeView.m */; };
 		A3FB73171743DE9700413AE8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73161743DE9700413AE8 /* UIKit.framework */; };
 		A3FB73191743DE9700413AE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73181743DE9700413AE8 /* Foundation.framework */; };
 		A3FB731B1743DE9700413AE8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB731A1743DE9700413AE8 /* CoreGraphics.framework */; };
@@ -118,6 +120,10 @@
 		A3D0D55C1748F8FA006C0AA9 /* AttatchMent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AttatchMent.m; path = source/Util/System/CoreData/AttatchMent.m; sourceTree = "<group>"; };
 		A3D0D55F1748FBAF006C0AA9 /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncImageView.h; path = source/Util/ExternSource/AsyncView/AsyncImageView.h; sourceTree = "<group>"; };
 		A3D0D5601748FBAF006C0AA9 /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncImageView.m; path = source/Util/ExternSource/AsyncView/AsyncImageView.m; sourceTree = "<group>"; };
+		A3D0D564174903DB006C0AA9 /* RecipeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecipeViewController.h; path = source/MainUI/RecipeViewController.h; sourceTree = "<group>"; };
+		A3D0D565174903DB006C0AA9 /* RecipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecipeViewController.m; path = source/MainUI/RecipeViewController.m; sourceTree = "<group>"; };
+		A3D0D567174903FD006C0AA9 /* RecipeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecipeView.h; path = source/MainUI/RecipeView/RecipeView.h; sourceTree = "<group>"; };
+		A3D0D568174903FD006C0AA9 /* RecipeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecipeView.m; path = source/MainUI/RecipeView/RecipeView.m; sourceTree = "<group>"; };
 		A3FB73131743DE9700413AE8 /* NakoRecipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NakoRecipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3FB73161743DE9700413AE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A3FB73181743DE9700413AE8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -279,6 +285,28 @@
 			name = AsyncView;
 			sourceTree = "<group>";
 		};
+		A3D0D562174903A7006C0AA9 /* PintrestViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A3FB734C1743E1D000413AE8 /* PinterestViewController.h */,
+				A3FB734D1743E1D000413AE8 /* PinterestViewController.m */,
+				A3FB736117445B3000413AE8 /* RecipePinterest.h */,
+				A3FB736217445B3000413AE8 /* RecipePinterest.m */,
+			);
+			name = PintrestViewController;
+			sourceTree = "<group>";
+		};
+		A3D0D563174903B6006C0AA9 /* RecipeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A3D0D564174903DB006C0AA9 /* RecipeViewController.h */,
+				A3D0D565174903DB006C0AA9 /* RecipeViewController.m */,
+				A3D0D567174903FD006C0AA9 /* RecipeView.h */,
+				A3D0D568174903FD006C0AA9 /* RecipeView.m */,
+			);
+			name = RecipeViewController;
+			sourceTree = "<group>";
+		};
 		A3FB730A1743DE9700413AE8 = {
 			isa = PBXGroup;
 			children = (
@@ -361,10 +389,8 @@
 		A3FB734B1743E18900413AE8 /* MainUI */ = {
 			isa = PBXGroup;
 			children = (
-				A3FB734C1743E1D000413AE8 /* PinterestViewController.h */,
-				A3FB734D1743E1D000413AE8 /* PinterestViewController.m */,
-				A3FB736117445B3000413AE8 /* RecipePinterest.h */,
-				A3FB736217445B3000413AE8 /* RecipePinterest.m */,
+				A3D0D563174903B6006C0AA9 /* RecipeViewController */,
+				A3D0D562174903A7006C0AA9 /* PintrestViewController */,
 			);
 			name = MainUI;
 			sourceTree = "<group>";
@@ -553,6 +579,8 @@
 				A3D0D55A1748F123006C0AA9 /* Post.m in Sources */,
 				A3D0D55D1748F8FA006C0AA9 /* AttatchMent.m in Sources */,
 				A3D0D5611748FBAF006C0AA9 /* AsyncImageView.m in Sources */,
+				A3D0D566174903DB006C0AA9 /* RecipeViewController.m in Sources */,
+				A3D0D569174903FD006C0AA9 /* RecipeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

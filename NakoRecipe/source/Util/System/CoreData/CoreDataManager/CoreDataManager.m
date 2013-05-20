@@ -123,6 +123,18 @@
     return nil;
 }
 
+- (Post *)getPost:(NSString *)postId
+{
+    if( postId == nil )
+        return nil;
+    NSPredicate *_predicate;
+    _predicate = [NSPredicate predicateWithFormat:@"post_id == %@",postId];
+    NSArray *fetchedResults = [self getFetchResults:@"Post" withKey:@"post_id" filter:_predicate];
+    if( [fetchedResults count] > 0 )
+        return [fetchedResults objectAtIndex:0];
+    return nil;
+}
+
 - (void)savePost:(NSDictionary *)jsonDict
 {
     id tempValue = nil;

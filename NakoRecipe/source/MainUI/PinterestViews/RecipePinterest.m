@@ -20,6 +20,7 @@
 @end
 
 @implementation RecipePinterest
+@synthesize delegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -56,6 +57,7 @@
         for( Post *item in posts )
         {
             PintrestItem *newPintrestItem = [[PintrestItem alloc] init];
+            newPintrestItem.postId = item.post_id;
             newPintrestItem.title = item.title;
             newPintrestItem.like_count = [item.like_count integerValue];
             newPintrestItem.comment_count = [item.comment_count integerValue];
@@ -83,6 +85,12 @@
     return [pintrestItems count];
 }
 
+- (void)collectionView:(PSCollectionView *)collectionView didSelectCell:(PSCollectionViewCell *)cell atIndex:(NSInteger)index
+{
+    PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
+    [[self delegate] selectRecipe:pintrestItem.postId];
+}
+
 - (UIView *)collectionView:(PSCollectionView *)collectionView cellForRowAtIndex:(NSInteger)index
 {
     CGFloat thumbMargin = (PHONE_TWO_CELL_WIDTH - PHONE_TWO_THUMB_WIDTH)/2;
@@ -98,26 +106,46 @@
     [tempView setFrame:CGRectMake(0, 0, PHONE_TWO_CELL_WIDTH, resizeHeight+THUMB_INFO_HEIGHT+DETAIL_INFO_HEIGHT)];
     [tempAsyncImageView setFrame:CGRectMake(thumbMargin, thumbMargin, PHONE_TWO_THUMB_WIDTH, resizeHeight)];
     
-    UILabel *menuLabel = [[UILabel alloc] init];
-    menuLabel.textColor = [UIColor blackColor];
-    menuLabel.backgroundColor = [UIColor clearColor];
-    menuLabel.text = pintrestItem.title;
-    menuLabel.alpha = .8f;
-    menuLabel.font = [UIFont systemFontOfSize:9];
-    [menuLabel setFrame:CGRectMake(thumbMargin, resizeHeight+thumbMargin+5, PHONE_TWO_THUMB_WIDTH, 10)];
-    [tempView addSubview:menuLabel];
+    UILabel *tempLabel = [[UILabel alloc] init];
+    tempLabel.textColor = [UIColor blackColor];
+    tempLabel.backgroundColor = [UIColor clearColor];
+    tempLabel.text = pintrestItem.title;
+    tempLabel.alpha = .8f;
+    tempLabel.font = [UIFont systemFontOfSize:9];
+    [tempLabel setFrame:CGRectMake(thumbMargin, resizeHeight+thumbMargin+5, PHONE_TWO_THUMB_WIDTH, 10)];
+    [tempView addSubview:tempLabel];
     
     UIButton *tempButton = [[UIButton alloc] init];
     tempButton.alpha = .4f;
     [tempButton setImage:[UIImage imageNamed:@"Icons-h_black"] forState:UIControlStateNormal];
-    [tempButton setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-HEART_AND_COMMENT_ICONWIDTH, resizeHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
+    [tempButton setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*2), resizeHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
     [tempView addSubview:tempButton];
+    
+    tempLabel = [[UILabel alloc] init];
+    tempLabel.textColor = [UIColor blackColor];
+    tempLabel.textAlignment = NSTextAlignmentCenter;
+    tempLabel.backgroundColor = [UIColor clearColor];
+    tempLabel.text = [NSString stringWithFormat:@"%d",pintrestItem.like_count];
+    tempLabel.alpha = .4f;
+    tempLabel.font = [UIFont systemFontOfSize:10];
+    [tempLabel setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH), resizeHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
+    [tempView addSubview:tempLabel];
     
     tempButton = [[UIButton alloc] init];
     tempButton.alpha = .4f;
     [tempButton setImage:[UIImage imageNamed:@"Icons-comments_black"] forState:UIControlStateNormal];
-    [tempButton setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*2), resizeHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
+    [tempButton setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*4), resizeHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
     [tempView addSubview:tempButton];
+    
+    tempLabel = [[UILabel alloc] init];
+    tempLabel.textColor = [UIColor blackColor];
+    tempLabel.textAlignment = NSTextAlignmentCenter;
+    tempLabel.backgroundColor = [UIColor clearColor];
+    tempLabel.text = [NSString stringWithFormat:@"%d",pintrestItem.comment_count];
+    tempLabel.alpha = .4f;
+    tempLabel.font = [UIFont systemFontOfSize:10];
+    [tempLabel setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*3), resizeHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
+    [tempView addSubview:tempLabel];
     
     UIView *tempView2 = [[UIView alloc] init];
     tempView2.backgroundColor = [CommonUI getUIColorFromHexString:@"#F2F3F7"];

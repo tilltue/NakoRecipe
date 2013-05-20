@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "RecipePinterest.h"
+#import "RecipeViewController.h"
 
-@interface PinterestViewController : UIViewController
+@interface PinterestViewController : UIViewController <RecipePinterestDelegate>
 {
     RecipePinterest *recipePinterest;
+    RecipeViewController *recipeViewController;
 }
 @end
