@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#define RECIPE_THUMB_INFO_HEIGHT    40
+#define RECIPE_DETAIL_INFO_HEIGHT   300
 
 @interface RecipeView : UIScrollView
 {
@@ -14,7 +16,12 @@
     UILabel *titleLabel;
     UIScrollView *imageScrollView;
     UIView *recipeInfo;
+    UIView *recipeDetailInfo;
     UILabel *recipeContent;
+    UIButton *likeButton;
+    UIButton *commentButton;
+    UILabel *likeLabel;
+    UILabel *commentLabel;
 }
 - (void)reloadRecipeView:(NSString *)postId;
 @end
