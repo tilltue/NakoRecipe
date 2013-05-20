@@ -53,6 +53,7 @@
 - (void)selectRecipe:(NSString *)recipeId
 {
     recipeViewController.currentPostId = recipeId;
+    recipeViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:recipeViewController animated:YES completion:nil];
 }
 @end
