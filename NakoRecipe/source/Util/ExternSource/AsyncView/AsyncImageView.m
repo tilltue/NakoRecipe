@@ -23,11 +23,12 @@
     return self;
 }
 
-- (void)loadImageFromURL:(NSString *)url
+- (void)loadImageFromURL:(NSString *)url withResizeWidth:(CGFloat)width
 {
     connection = nil;
     data = nil;
     isLoadComplete = NO;
+    resizeWidth = width;
     [self setImage:nil];
     UIImage *tempCacheImage = nil;
     if( (tempCacheImage = [FileControl checkCachedImage:url]) != nil ){
@@ -59,9 +60,12 @@
 - (void)connectionDidFinishLoading:(NSURLConnection*)theConnection
 {
     if( self ){
-        if( [data length] > 0 ){
-            [FileControl cacheImage:[[[theConnection currentRequest] URL] absoluteString]  withImage:[UIImage imageWithData:data]];
-            [self setImage:[UIImage imageWithData:data]];
+        if( [data length] > 0 && resizeWidth > 0 ){
+            UIImage *tempImage = [UIImage imageWithData:data];
+            CGFloat resizeHeight = (resizeWidth / (float)tempImage.size.width ) * (float)tempImage.size.height;
+            tempImage = [CommonUI ImageResize:tempImage withSize:CGSizeMake(resizeWidth, resizeHeight)];
+            [FileControl cacheImage:[[[theConnection currentRequest] URL] absoluteString]  withImage:tempImage];
+            [self setImage:tempImage];
         }
         isLoadComplete = YES;
         connection=nil;

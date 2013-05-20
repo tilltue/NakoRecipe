@@ -67,7 +67,7 @@
         for( AttatchMent *attachItem in tempPost.attatchments ){
             CGFloat resizeHeight = (imageScrollView.frame.size.width / (float)[attachItem.width integerValue] ) * (float)[attachItem.height intValue];
             AsyncImageView *tempAsyncImageview = [[AsyncImageView alloc] init];
-            [tempAsyncImageview loadImageFromURL:attachItem.thumb_url];
+            [tempAsyncImageview loadImageFromURL:attachItem.thumb_url withResizeWidth:imageScrollView.frame.size.width];
             [imageScrollView addSubview:tempAsyncImageview];
             [tempAsyncImageview setFrame:CGRectMake(imageScrollView.frame.size.width*i, 0, [attachItem.width intValue],resizeHeight)];
             i++;

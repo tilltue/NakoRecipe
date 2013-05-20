@@ -100,7 +100,7 @@
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
     AttatchItem *tempAttatchItem = [pintrestItem.attachItems objectAtIndex:0];
     AsyncImageView *tempAsyncImageView = [[AsyncImageView alloc] init];
-    [tempAsyncImageView loadImageFromURL:tempAttatchItem.image_url];
+    [tempAsyncImageView loadImageFromURL:tempAttatchItem.image_url withResizeWidth:PHONE_TWO_THUMB_WIDTH*4];
     CGFloat resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
     [tempView addSubview:tempAsyncImageView];
     [tempView setFrame:CGRectMake(0, 0, PHONE_TWO_CELL_WIDTH, resizeHeight+THUMB_INFO_HEIGHT+DETAIL_INFO_HEIGHT)];

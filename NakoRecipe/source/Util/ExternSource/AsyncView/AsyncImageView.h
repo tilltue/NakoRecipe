@@ -14,6 +14,7 @@
     NSMutableData* data;
     NSString *loadURL;
     BOOL isLoadComplete;
+    CGFloat resizeWidth;
 }
-- (void)loadImageFromURL:(NSString *)url;
+- (void)loadImageFromURL:(NSString *)url withResizeWidth:(CGFloat)width;
 @end

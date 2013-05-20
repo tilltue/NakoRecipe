@@ -13,7 +13,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "85"
          endingLineNumber = "85"
-         landmarkName = "-collectionView:cellForRowAtIndex:"
+         landmarkName = "-numberOfRowsInCollectionView:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
