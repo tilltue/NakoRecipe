@@ -35,8 +35,13 @@
         psCollectionView.autoresizingMask = ~UIViewAutoresizingNone;
         psCollectionView.collectionViewDataSource = self;
         psCollectionView.collectionViewDelegate = self;
-        psCollectionView.numColsPortrait = 2;
-        psCollectionView.numColsLandscape = 2;
+        if( [SystemInfo isPad] ){
+            psCollectionView.numColsPortrait = 3;
+            psCollectionView.numColsLandscape = 3;
+        }else{
+            psCollectionView.numColsPortrait = 2;
+            psCollectionView.numColsLandscape = 2;
+        }
         [self  addSubview:psCollectionView];
         
         pintrestItems = [[NSMutableArray alloc] init];
