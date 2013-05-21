@@ -112,7 +112,6 @@
     NSLog(@"Comment Button :%d",paramSender.tag);
 }
 
-
 - (Class)collectionView:(PSCollectionView *)collectionView cellClassForRowAtIndex:(NSInteger)index {
     return [PSCollectionViewCell class];
 }

@@ -13,17 +13,21 @@
 @interface RecipeView : UIScrollView
 {
     NSMutableDictionary *rectDic;
-    UILabel *titleLabel;
-    UIScrollView *imageScrollView;
-    NSMutableArray *imageArr;
     
-    UIView *recipeInfo;
-    UIView *recipeDetailInfo;
-    UILabel *recipeContent;
-    UIButton *likeButton;
-    UIButton *commentButton;
-    UILabel *likeLabel;
-    UILabel *commentLabel;
+    UILabel         *titleLabel;
+    UIScrollView    *imageScrollView;
+    NSMutableArray  *imageArr;
+    
+    UIView      *recipeInfo;
+    UIView      *recipeDetailInfo;
+    UITextView     *recipeContent;
+    
+    UIImageView *likeImageView;
+    UIImageView *commentImageView;
+    UIButton    *likeButton;
+    UIButton    *commentButton;
+    UILabel     *likeLabel;
+    UILabel     *commentLabel;
 }
 - (void)reloadRecipeView:(NSString *)postId;
 @end

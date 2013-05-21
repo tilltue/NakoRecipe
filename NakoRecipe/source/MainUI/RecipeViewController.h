@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "RecipeView.h"
 
-@interface RecipeViewController : UIViewController
+@interface RecipeViewController : UIViewController <UIGestureRecognizerDelegate>
 {
     RecipeView *recipeView;
 }

@@ -38,7 +38,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [[HttpApi getInstance] getRecipe];
+    //[[HttpApi getInstance] getRecipe];
     [recipePinterest reloadPintRest];
 }
 

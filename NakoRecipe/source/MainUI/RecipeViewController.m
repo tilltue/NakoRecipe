@@ -53,11 +53,21 @@
 
 #pragma mark - gesture handler
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([touch.view.superview isKindOfClass:[UIButton class]] || [touch.view isKindOfClass:[UIButton class]])
+    {
+        return NO;
+    }
+    return YES;
+}
+
 - (void)initGestureRecognizer:(UIView *)view
 {
     UITapGestureRecognizer *tapRecognizer;
     tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     tapRecognizer.cancelsTouchesInView = NO;
+    tapRecognizer.delegate = self;
     [view addGestureRecognizer:tapRecognizer];
 }
 

@@ -34,10 +34,10 @@
         recipeContent = [[UILabel alloc] init];
         [self addSubview:recipeInfo];
         
-        likeButton = [[UIButton alloc] init];
-        likeButton.alpha = .4f;
-        [likeButton setImage:[UIImage imageNamed:@"Icons-h_black"] forState:UIControlStateNormal];
-        [recipeInfo addSubview:likeButton];
+        
+        likeImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icons-h_black"]];
+        likeImageView.alpha = .4f;
+        [recipeInfo addSubview:likeImageView];
         
         likeLabel = [[UILabel alloc] init];
         likeLabel.textColor = [UIColor blackColor];
@@ -47,11 +47,15 @@
         likeLabel.font = [UIFont systemFontOfSize:10];
         [recipeInfo addSubview:likeLabel];
         
-        commentButton = [[UIButton alloc] init];
-        commentButton.alpha = .4f;
-        [commentButton setImage:[UIImage imageNamed:@"Icons-comments_black"] forState:UIControlStateNormal];
-        [recipeInfo addSubview:commentButton];
-        
+        likeButton = [[UIButton alloc] init];
+        likeButton.alpha = .4f;
+        [likeButton addTarget:self action:@selector(handleHeartButtonTap:) forControlEvents:UIControlEventTouchUpInside];
+        [recipeInfo addSubview:likeButton];
+
+        commentImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icons-comments_black"]];
+        commentImageView.alpha = .4f;
+        [recipeInfo addSubview:commentImageView];
+
         commentLabel = [[UILabel alloc] init];
         commentLabel.textColor = [UIColor blackColor];
         commentLabel.textAlignment = NSTextAlignmentCenter;
@@ -60,17 +64,22 @@
         commentLabel.font = [UIFont systemFontOfSize:10];
         [recipeInfo addSubview:commentLabel];
         
+        commentButton = [[UIButton alloc] init];
+        commentButton.alpha = .4f;
+        [commentButton addTarget:self action:@selector(handleCommentButtonTap:) forControlEvents:UIControlEventTouchUpInside];
+        [recipeInfo addSubview:commentButton];
         
         recipeDetailInfo = [[UIView alloc] init];
         recipeDetailInfo.backgroundColor = [UIColor whiteColor];
         [self addSubview:recipeDetailInfo];
         
-        recipeContent = [[UILabel alloc] init];
+        recipeContent = [[UITextView alloc] init];
         recipeContent.textColor = [UIColor blackColor];
         recipeContent.backgroundColor = [UIColor clearColor];
-        recipeContent.lineBreakMode = NSLineBreakByWordWrapping;
-        recipeContent.numberOfLines = 0;
-        recipeContent.font = [UIFont systemFontOfSize:12];
+//        recipeContent.lineBreakMode = NSLineBreakByWordWrapping;
+//        recipeContent.numberOfLines = 0;
+        recipeContent.font = [UIFont fontWithName:@"HA-TTL" size:20];
+//        recipeContent.font = [UIFont systemFontOfSize:12];
         [recipeDetailInfo addSubview:recipeContent];
         
         imageArr = [[NSMutableArray alloc] init];
@@ -95,16 +104,41 @@
     }
     [imageScrollView setContentSize:CGSizeMake((imageScrollView.frame.size.width)*([imageArr count]), imageScrollView.frame.size.height)];
     [recipeInfo setFrame:CGRectMake(10, imageScrollView.frame.size.height, imageScrollView.frame.size.width, RECIPE_THUMB_INFO_HEIGHT)];
+    
     CGFloat iconSize = 15.0f;
-    [likeButton setFrame:CGRectMake(imageScrollView.frame.size.width-10-(iconSize*2), iconSize, iconSize, iconSize)];
-    [likeLabel setFrame:CGRectMake(imageScrollView.frame.size.width-10-(iconSize*1), iconSize, iconSize, iconSize)];
-    [commentButton setFrame:CGRectMake(imageScrollView.frame.size.width-10-(iconSize*4), iconSize, iconSize, iconSize)];
-    [commentLabel setFrame:CGRectMake(imageScrollView.frame.size.width-10-(iconSize*3), iconSize, iconSize, iconSize)];
+    [likeImageView      setFrame:CGRectMake(imageScrollView.frame.size.width-10-(iconSize*3), iconSize, iconSize, iconSize)];
+    [likeLabel          setFrame:CGRectMake(imageScrollView.frame.size.width-10-(iconSize*2), iconSize, iconSize*2, iconSize)];
+    [likeButton         setFrame:CGRectMake(imageScrollView.frame.size.width-10-(iconSize*3), iconSize, iconSize*3, iconSize)];
+    
+    [commentImageView   setFrame:CGRectMake(imageScrollView.frame.size.width-10-(iconSize*6), iconSize, iconSize, iconSize)];
+    [commentLabel       setFrame:CGRectMake(imageScrollView.frame.size.width-10-(iconSize*5), iconSize, iconSize*2, iconSize)];
+    [commentButton      setFrame:CGRectMake(imageScrollView.frame.size.width-10-(iconSize*6), iconSize, iconSize*3, iconSize)];
     
     [recipeDetailInfo setFrame:CGRectMake(10, imageScrollView.frame.size.height+RECIPE_THUMB_INFO_HEIGHT+10, imageScrollView.frame.size.width,RECIPE_DETAIL_INFO_HEIGHT)];
     [recipeContent setFrame:CGRectMake(10, 10, recipeDetailInfo.frame.size.width-20, recipeDetailInfo.frame.size.height-20)];
     [recipeContent sizeToFit];
     [self setContentSize:CGSizeMake(self.frame.size.width,imageScrollView.frame.size.height+RECIPE_THUMB_INFO_HEIGHT+10+RECIPE_DETAIL_INFO_HEIGHT+10)];
+}
+
+- (void)handleHeartButtonTap:(UIButton *)paramSender
+{
+    NSLog(@"Heart Button :%d",paramSender.tag);
+}
+
+- (void)handleCommentButtonTap:(UIButton *)paramSender
+{
+    NSLog(@"Comment Button :%d",paramSender.tag);
+}
+
+- (NSString *)splitEnter:(NSString*)string
+{
+    if (string){
+        if( [string length] && [string characterAtIndex:0] == '\n'){
+            return [self splitEnter:[string substringFromIndex:1]];
+        }else
+            return string;
+    }else
+        return string;
 }
 
 - (void)reloadRecipeView:(NSString *)postId
@@ -133,7 +167,7 @@
         [imageScrollView setContentSize:CGSizeMake((imageScrollView.frame.size.width)*([imageArr count]), imageScrollView.frame.size.height)];
         likeLabel.text = [NSString stringWithFormat:@"%d",[tempPost.like_count intValue]];
         commentLabel.text = [NSString stringWithFormat:@"%d",[tempPost.comment_count intValue]];
-        recipeContent.text = tempPost.content;
+        recipeContent.text = [self splitEnter:tempPost.content];
     }
 }
 
