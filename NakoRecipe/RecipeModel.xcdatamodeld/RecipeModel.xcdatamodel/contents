@@ -11,11 +11,12 @@
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="like_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="post_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tags" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="attatchments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AttatchMent" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Post" positionX="160" positionY="192" width="128" height="133"/>
         <element name="AttatchMent" positionX="376" positionY="267" width="128" height="103"/>
+        <element name="Post" positionX="160" positionY="192" width="128" height="150"/>
     </elements>
 </model>

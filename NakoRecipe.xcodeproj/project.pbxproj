@@ -11,6 +11,7 @@
 		224B4ABC174B9E7E00CE7A9B /* 세발자전거L.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4AB8174B9E7E00CE7A9B /* 세발자전거L.TTF */; };
 		224B4ABD174B9E7E00CE7A9B /* 테트리스L.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4AB9174B9E7E00CE7A9B /* 테트리스L.TTF */; };
 		224B4ABE174B9E7E00CE7A9B /* 테트리스M.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4ABA174B9E7E00CE7A9B /* 테트리스M.TTF */; };
+		224B4AC1174BB6C500CE7A9B /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 224B4AC0174BB6C500CE7A9B /* Post.m */; };
 		226072CB1744C06700CF3EAA /* Icons-chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072C81744C06700CF3EAA /* Icons-chat@2x.png */; };
 		226072CC1744C06700CF3EAA /* Icons-comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072C91744C06700CF3EAA /* Icons-comments@2x.png */; };
 		226072CD1744C06700CF3EAA /* Icons-h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072CA1744C06700CF3EAA /* Icons-h@2x.png */; };
@@ -38,7 +39,6 @@
 		A3D0D5461748D621006C0AA9 /* SBJsonStreamWriterAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D53A1748D621006C0AA9 /* SBJsonStreamWriterAccumulator.m */; };
 		A3D0D5471748D621006C0AA9 /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D53C1748D621006C0AA9 /* SBJsonStreamWriterState.m */; };
 		A3D0D5481748D621006C0AA9 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D53E1748D621006C0AA9 /* SBJsonWriter.m */; };
-		A3D0D55A1748F123006C0AA9 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D5591748F123006C0AA9 /* Post.m */; };
 		A3D0D55D1748F8FA006C0AA9 /* AttatchMent.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D55C1748F8FA006C0AA9 /* AttatchMent.m */; };
 		A3D0D5611748FBAF006C0AA9 /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D5601748FBAF006C0AA9 /* AsyncImageView.m */; };
 		A3D0D566174903DB006C0AA9 /* RecipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D565174903DB006C0AA9 /* RecipeViewController.m */; };
@@ -77,6 +77,8 @@
 		224B4AB8174B9E7E00CE7A9B /* 세발자전거L.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "세발자전거L.TTF"; path = "resource/font/세발자전거L.TTF"; sourceTree = "<group>"; };
 		224B4AB9174B9E7E00CE7A9B /* 테트리스L.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "테트리스L.TTF"; path = "resource/font/테트리스L.TTF"; sourceTree = "<group>"; };
 		224B4ABA174B9E7E00CE7A9B /* 테트리스M.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "테트리스M.TTF"; path = "resource/font/테트리스M.TTF"; sourceTree = "<group>"; };
+		224B4ABF174BB6C400CE7A9B /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Post.h; path = source/Util/System/CoreData/Post.h; sourceTree = "<group>"; };
+		224B4AC0174BB6C500CE7A9B /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Post.m; path = source/Util/System/CoreData/Post.m; sourceTree = "<group>"; };
 		226072C81744C06700CF3EAA /* Icons-chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-chat@2x.png"; path = "resource/Icons-chat@2x.png"; sourceTree = "<group>"; };
 		226072C91744C06700CF3EAA /* Icons-comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-comments@2x.png"; path = "resource/Icons-comments@2x.png"; sourceTree = "<group>"; };
 		226072CA1744C06700CF3EAA /* Icons-h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-h@2x.png"; path = "resource/Icons-h@2x.png"; sourceTree = "<group>"; };
@@ -123,8 +125,6 @@
 		A3D0D53C1748D621006C0AA9 /* SBJsonStreamWriterState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonStreamWriterState.m; path = source/Util/System/HttpApi/SBJson/SBJsonStreamWriterState.m; sourceTree = "<group>"; };
 		A3D0D53D1748D621006C0AA9 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = source/Util/System/HttpApi/SBJson/SBJsonWriter.h; sourceTree = "<group>"; };
 		A3D0D53E1748D621006C0AA9 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonWriter.m; path = source/Util/System/HttpApi/SBJson/SBJsonWriter.m; sourceTree = "<group>"; };
-		A3D0D5581748F123006C0AA9 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Post.h; path = source/Util/System/CoreData/Post.h; sourceTree = "<group>"; };
-		A3D0D5591748F123006C0AA9 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Post.m; path = source/Util/System/CoreData/Post.m; sourceTree = "<group>"; };
 		A3D0D55B1748F8FA006C0AA9 /* AttatchMent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AttatchMent.h; path = source/Util/System/CoreData/AttatchMent.h; sourceTree = "<group>"; };
 		A3D0D55C1748F8FA006C0AA9 /* AttatchMent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AttatchMent.m; path = source/Util/System/CoreData/AttatchMent.m; sourceTree = "<group>"; };
 		A3D0D55F1748FBAF006C0AA9 /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncImageView.h; path = source/Util/ExternSource/AsyncView/AsyncImageView.h; sourceTree = "<group>"; };
@@ -252,8 +252,8 @@
 		A3D0D51417489F37006C0AA9 /* CoreDataObject */ = {
 			isa = PBXGroup;
 			children = (
-				A3D0D5581748F123006C0AA9 /* Post.h */,
-				A3D0D5591748F123006C0AA9 /* Post.m */,
+				224B4ABF174BB6C400CE7A9B /* Post.h */,
+				224B4AC0174BB6C500CE7A9B /* Post.m */,
 				A3D0D55B1748F8FA006C0AA9 /* AttatchMent.h */,
 				A3D0D55C1748F8FA006C0AA9 /* AttatchMent.m */,
 			);
@@ -593,12 +593,12 @@
 				A3D0D5461748D621006C0AA9 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				A3D0D5471748D621006C0AA9 /* SBJsonStreamWriterState.m in Sources */,
 				A3D0D5481748D621006C0AA9 /* SBJsonWriter.m in Sources */,
-				A3D0D55A1748F123006C0AA9 /* Post.m in Sources */,
 				A3D0D55D1748F8FA006C0AA9 /* AttatchMent.m in Sources */,
 				A3D0D5611748FBAF006C0AA9 /* AsyncImageView.m in Sources */,
 				A3D0D566174903DB006C0AA9 /* RecipeViewController.m in Sources */,
 				A3D0D569174903FD006C0AA9 /* RecipeView.m in Sources */,
 				226072E0174B2F5100CF3EAA /* SystemInfo.m in Sources */,
+				224B4AC1174BB6C500CE7A9B /* Post.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

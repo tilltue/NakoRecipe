@@ -100,6 +100,19 @@
     [psCollectionView reloadData];
 }
 
+#pragma mark - handle Button
+
+- (void)handleHeartButtonTap:(UIButton *)paramSender
+{
+    NSLog(@"Heart Button :%d",paramSender.tag);
+}
+
+- (void)handleCommentButtonTap:(UIButton *)paramSender
+{
+    NSLog(@"Comment Button :%d",paramSender.tag);
+}
+
+
 - (Class)collectionView:(PSCollectionView *)collectionView cellClassForRowAtIndex:(NSInteger)index {
     return [PSCollectionViewCell class];
 }
@@ -177,9 +190,11 @@
     [tempView addSubview:tempLabel];
     
     UIButton *tempButton = [[UIButton alloc] init];
-    tempButton.alpha = .4f;
     //tempButton.backgroundColor = [UIColor redColor];
+    tempButton.alpha = .4f;
+    tempButton.tag = index;
     [tempButton setFrame:CGRectMake(heartIcon.frame.origin.x-3, heartIcon.frame.origin.y-3, heartIcon.frame.size.width+tempLabel.frame.size.width+6, heartIcon.frame.size.height+6)];
+    [tempButton addTarget:self action:@selector(handleHeartButtonTap:) forControlEvents:UIControlEventTouchUpInside];
     [tempView addSubview:tempButton];
     
     
@@ -200,7 +215,9 @@
     
     tempButton = [[UIButton alloc] init];
     //tempButton.backgroundColor = [UIColor blueColor];
+    tempButton.tag = index;
     [tempButton setFrame:CGRectMake(commentIcon.frame.origin.x-3, commentIcon.frame.origin.y-3, commentIcon.frame.size.width+tempLabel.frame.size.width+6, commentIcon.frame.size.height+6)];
+    [tempButton addTarget:self action:@selector(handleCommentButtonTap:) forControlEvents:UIControlEventTouchUpInside];
     [tempView addSubview:tempButton];
     
     UIView *tempView2 = [[UIView alloc] init];

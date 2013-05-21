@@ -2,8 +2,8 @@
 //  Post.h
 //  NakoRecipe
 //
-//  Created by tilltue on 13. 5. 19..
-//  Copyright (c) 2013년 tilltue. All rights reserved.
+//  Created by nako on 5/21/13.
+//  Copyright (c) 2013 tilltue. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -13,11 +13,12 @@
 
 @interface Post : NSManagedObject
 
-@property (nonatomic, retain) NSString * post_id;
-@property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSNumber * comment_count;
 @property (nonatomic, retain) NSString * content;
 @property (nonatomic, retain) NSNumber * like_count;
-@property (nonatomic, retain) NSNumber * comment_count;
+@property (nonatomic, retain) NSString * post_id;
+@property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSString * tags;
 @property (nonatomic, retain) NSSet *attatchments;
 @end
 

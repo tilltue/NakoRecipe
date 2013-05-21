@@ -144,7 +144,7 @@
     tempValue = [jsonDict objectForKey:@"ID"];
     if( [tempValue isKindOfClass:[NSDecimalNumber class]] )
         tempValue = [NSString stringWithFormat:@"%@",[tempValue stringValue]];
-    if( tempValue != nil && [tempValue length] > 0 && ![self validatePostId:tempValue] )
+    if( tempValue != nil && [tempValue length] > 0 && ![self validatePostId:tempValue] )//Post Update?
         return;
     Post *tempPost = (Post *) [NSEntityDescription insertNewObjectForEntityForName:@"Post" inManagedObjectContext:ad.managedObjectContext];
     tempPost.post_id = tempValue;
@@ -160,6 +160,14 @@
     tempValue = [jsonDict objectForKey:@"comment_count"];
     if( tempValue != nil )
         tempPost.comment_count = [NSNumber numberWithInt:[tempValue intValue]];
+    
+    NSMutableDictionary *tempDict = [jsonDict objectForKey:@"tags"];
+    if( [[tempDict allKeys] count] > 0 ){
+        NSString *key = [[tempDict allKeys] objectAtIndex:0];
+        if( [key length] > 0 )
+            tempPost.tags = key;
+    }
+    
     NSMutableDictionary *attatchmentDicts = [jsonDict objectForKey:@"attachments"];
     for( NSString *key in [attatchmentDicts allKeys] )
     {
