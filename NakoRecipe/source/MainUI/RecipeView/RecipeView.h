@@ -15,6 +15,8 @@
     NSMutableDictionary *rectDic;
     UILabel *titleLabel;
     UIScrollView *imageScrollView;
+    NSMutableArray *imageArr;
+    
     UIView *recipeInfo;
     UIView *recipeDetailInfo;
     UILabel *recipeContent;

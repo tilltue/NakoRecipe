@@ -118,8 +118,11 @@
 - (NSArray *)getPosts
 {
     NSArray *fetchedResults = [self getFetchResults:@"Post" withKey:@"post_id" filter:nil];
-    if( [fetchedResults count] > 0 )
-        return fetchedResults;
+    if( [fetchedResults count] > 0 ){
+        NSMutableArray *sortArray = [[NSMutableArray alloc] initWithArray:fetchedResults];
+        [sortArray sortUsingFunction:intSortPostId context:nil];
+        return sortArray;
+    }
     return nil;
 }
 
@@ -213,6 +216,18 @@
     return outString;
 }
 
+NSInteger intSortPostId(Post *item1, Post *item2, void *context)
+{
+    int v1 = [item1.post_id intValue];
+    int v2 = [item2.post_id intValue];
+    if (v1 < v2)
+        return NSOrderedAscending;
+    else if (v1 > v2)
+        return NSOrderedDescending;
+    else
+        return NSOrderedSame;
+}
+
 NSInteger intSortURL(AttatchMent *item1, AttatchMent *item2, void *context)
 {
     NSString *fileName1 = [[item1.thumb_url lastPathComponent] stringByDeletingPathExtension];
@@ -221,9 +236,9 @@ NSInteger intSortURL(AttatchMent *item1, AttatchMent *item2, void *context)
     fileName2 = [fileName2 substringFromIndex:[fileName2 length]-1];
     int v1 = [fileName1 intValue];
     int v2 = [fileName2 intValue];
-    if (v1 > v2)
+    if (v1 < v2)
         return NSOrderedAscending;
-    else if (v1 < v2)
+    else if (v1 > v2)
         return NSOrderedDescending;
     else
         return NSOrderedSame;

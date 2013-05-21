@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		226072C31744B47900CF3EAA /* iconic_stroke.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 226072C21744B47900CF3EAA /* iconic_stroke.ttf */; };
+		224B4ABB174B9E7E00CE7A9B /* 세발자전거B.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4AB7174B9E7E00CE7A9B /* 세발자전거B.TTF */; };
+		224B4ABC174B9E7E00CE7A9B /* 세발자전거L.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4AB8174B9E7E00CE7A9B /* 세발자전거L.TTF */; };
+		224B4ABD174B9E7E00CE7A9B /* 테트리스L.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4AB9174B9E7E00CE7A9B /* 테트리스L.TTF */; };
+		224B4ABE174B9E7E00CE7A9B /* 테트리스M.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4ABA174B9E7E00CE7A9B /* 테트리스M.TTF */; };
 		226072CB1744C06700CF3EAA /* Icons-chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072C81744C06700CF3EAA /* Icons-chat@2x.png */; };
 		226072CC1744C06700CF3EAA /* Icons-comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072C91744C06700CF3EAA /* Icons-comments@2x.png */; };
 		226072CD1744C06700CF3EAA /* Icons-h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072CA1744C06700CF3EAA /* Icons-h@2x.png */; };
@@ -70,7 +73,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		226072C21744B47900CF3EAA /* iconic_stroke.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = iconic_stroke.ttf; path = resource/font/iconic_stroke.ttf; sourceTree = "<group>"; };
+		224B4AB7174B9E7E00CE7A9B /* 세발자전거B.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "세발자전거B.TTF"; path = "resource/font/세발자전거B.TTF"; sourceTree = "<group>"; };
+		224B4AB8174B9E7E00CE7A9B /* 세발자전거L.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "세발자전거L.TTF"; path = "resource/font/세발자전거L.TTF"; sourceTree = "<group>"; };
+		224B4AB9174B9E7E00CE7A9B /* 테트리스L.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "테트리스L.TTF"; path = "resource/font/테트리스L.TTF"; sourceTree = "<group>"; };
+		224B4ABA174B9E7E00CE7A9B /* 테트리스M.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "테트리스M.TTF"; path = "resource/font/테트리스M.TTF"; sourceTree = "<group>"; };
 		226072C81744C06700CF3EAA /* Icons-chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-chat@2x.png"; path = "resource/Icons-chat@2x.png"; sourceTree = "<group>"; };
 		226072C91744C06700CF3EAA /* Icons-comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-comments@2x.png"; path = "resource/Icons-comments@2x.png"; sourceTree = "<group>"; };
 		226072CA1744C06700CF3EAA /* Icons-h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-h@2x.png"; path = "resource/Icons-h@2x.png"; sourceTree = "<group>"; };
@@ -197,7 +203,10 @@
 		226072C11744B47000CF3EAA /* Font */ = {
 			isa = PBXGroup;
 			children = (
-				226072C21744B47900CF3EAA /* iconic_stroke.ttf */,
+				224B4AB7174B9E7E00CE7A9B /* 세발자전거B.TTF */,
+				224B4AB8174B9E7E00CE7A9B /* 세발자전거L.TTF */,
+				224B4AB9174B9E7E00CE7A9B /* 테트리스L.TTF */,
+				224B4ABA174B9E7E00CE7A9B /* 테트리스M.TTF */,
 			);
 			name = Font;
 			sourceTree = "<group>";
@@ -518,13 +527,16 @@
 				A3FB73291743DE9700413AE8 /* Default.png in Resources */,
 				A3FB732B1743DE9700413AE8 /* Default@2x.png in Resources */,
 				A3FB732D1743DE9700413AE8 /* Default-568h@2x.png in Resources */,
-				226072C31744B47900CF3EAA /* iconic_stroke.ttf in Resources */,
 				226072CB1744C06700CF3EAA /* Icons-chat@2x.png in Resources */,
 				226072CC1744C06700CF3EAA /* Icons-comments@2x.png in Resources */,
 				226072CD1744C06700CF3EAA /* Icons-h@2x.png in Resources */,
 				226072D11744D5D200CF3EAA /* Icons-chat_black@2x.png in Resources */,
 				226072D21744D5D200CF3EAA /* Icons-comments_black@2x.png in Resources */,
 				226072D31744D5D200CF3EAA /* Icons-h_black@2x.png in Resources */,
+				224B4ABB174B9E7E00CE7A9B /* 세발자전거B.TTF in Resources */,
+				224B4ABC174B9E7E00CE7A9B /* 세발자전거L.TTF in Resources */,
+				224B4ABD174B9E7E00CE7A9B /* 테트리스L.TTF in Resources */,
+				224B4ABE174B9E7E00CE7A9B /* 테트리스M.TTF in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -56,15 +56,15 @@
     if( [SystemInfo isPad] ){
         [rectDic setObject:@"248" forKey:@"PHONE_TWO_CELL_WIDTH"];
         [rectDic setObject:@"240" forKey:@"PHONE_TWO_THUMB_WIDTH"];
-        [rectDic setObject:@"15" forKey:@"HEART_AND_COMMENT_ICONWIDTH"];
+        [rectDic setObject:@"10" forKey:@"HEART_AND_COMMENT_ICONWIDTH"];
         [rectDic setObject:@"40" forKey:@"THUMB_INFO_HEIGHT"];
         [rectDic setObject:@"40" forKey:@"DETAIL_INFO_HEIGHT"];
         [rectDic setObject:@"25" forKey:@"USER_THUMB_ICONWIDTH"];
     }else{
         [rectDic setObject:@"148" forKey:@"PHONE_TWO_CELL_WIDTH"];
         [rectDic setObject:@"140" forKey:@"PHONE_TWO_THUMB_WIDTH"];
-        [rectDic setObject:@"15" forKey:@"HEART_AND_COMMENT_ICONWIDTH"];
-        [rectDic setObject:@"40" forKey:@"THUMB_INFO_HEIGHT"];
+        [rectDic setObject:@"10" forKey:@"HEART_AND_COMMENT_ICONWIDTH"];
+        [rectDic setObject:@"30" forKey:@"THUMB_INFO_HEIGHT"];
         [rectDic setObject:@"40" forKey:@"DETAIL_INFO_HEIGHT"];
         [rectDic setObject:@"25" forKey:@"USER_THUMB_ICONWIDTH"];
     }
@@ -114,6 +114,22 @@
     [[self delegate] selectRecipe:pintrestItem.postId];
 }
 
+- (NSMutableAttributedString *)makeAttrString:(NSString *)text withTitleHeight:(CGSize)titleLabelSize
+{
+    CGFloat textWidth = 0;
+    textWidth += [[text substringToIndex:1] sizeWithFont:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height]].width;
+    textWidth += [[text substringFromIndex:1] sizeWithFont:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height*.9]].width;
+    NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:text];
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#FFA500"] range:NSMakeRange(0, 1)];
+    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height] range:NSMakeRange(0, 1)];
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(1, [text length]-1)];
+    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height*.9] range:NSMakeRange(1, [text length]-1)];
+    if( textWidth > titleLabelSize.width && titleLabelSize.width != 0 ){
+        return [self makeAttrString:text withTitleHeight:CGSizeMake(titleLabelSize.width, titleLabelSize.height*.9)];
+    }
+    return attrStr;
+}
+
 - (UIView *)collectionView:(PSCollectionView *)collectionView cellForRowAtIndex:(NSInteger)index
 {
     CGFloat PHONE_TWO_CELL_WIDTH        = [[rectDic objectForKey:@"PHONE_TWO_CELL_WIDTH"] floatValue];
@@ -128,28 +144,27 @@
     tempView.backgroundColor = [UIColor whiteColor];
     
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
-    AttatchItem *tempAttatchItem = [pintrestItem.attachItems objectAtIndex:0];
+    AttatchItem *tempAttatchItem = [pintrestItem.attachItems objectAtIndex:[pintrestItem.attachItems count]-1];
     AsyncImageView *tempAsyncImageView = [[AsyncImageView alloc] init];
     [tempAsyncImageView loadImageFromURL:tempAttatchItem.image_url withResizeWidth:PHONE_TWO_THUMB_WIDTH*4];
+
     CGFloat resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
+    CGFloat titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
     [tempView addSubview:tempAsyncImageView];
-    [tempView setFrame:CGRectMake(0, 0, PHONE_TWO_CELL_WIDTH, resizeHeight+THUMB_INFO_HEIGHT+DETAIL_INFO_HEIGHT)];
+    [tempView setFrame:CGRectMake(0, 0, PHONE_TWO_CELL_WIDTH, resizeHeight+titleHeight+THUMB_INFO_HEIGHT+DETAIL_INFO_HEIGHT)];
     [tempAsyncImageView setFrame:CGRectMake(thumbMargin, thumbMargin, PHONE_TWO_THUMB_WIDTH, resizeHeight)];
     
     UILabel *tempLabel = [[UILabel alloc] init];
-    tempLabel.textColor = [UIColor blackColor];
     tempLabel.backgroundColor = [UIColor clearColor];
-    tempLabel.text = pintrestItem.title;
-    tempLabel.alpha = .8f;
-    tempLabel.font = [UIFont systemFontOfSize:9];
-    [tempLabel setFrame:CGRectMake(thumbMargin, resizeHeight+thumbMargin+5, PHONE_TWO_THUMB_WIDTH, 10)];
+    tempLabel.attributedText = [self makeAttrString:pintrestItem.title withTitleHeight:CGSizeMake(PHONE_TWO_CELL_WIDTH-10, titleHeight)];
+    [tempLabel setFrame:CGRectMake(thumbMargin, resizeHeight+thumbMargin+5, PHONE_TWO_THUMB_WIDTH, [tempLabel.attributedText size].height+5)];
     [tempView addSubview:tempLabel];
+
     
-    UIButton *tempButton = [[UIButton alloc] init];
-    tempButton.alpha = .4f;
-    [tempButton setImage:[UIImage imageNamed:@"Icons-h_black"] forState:UIControlStateNormal];
-    [tempButton setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*2), resizeHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
-    [tempView addSubview:tempButton];
+    UIImageView *heartIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icons-h_black"]];
+    heartIcon.alpha = .4f;
+    [heartIcon setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*4), resizeHeight+titleHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
+    [tempView addSubview:heartIcon];
     
     tempLabel = [[UILabel alloc] init];
     tempLabel.textColor = [UIColor blackColor];
@@ -158,14 +173,20 @@
     tempLabel.text = [NSString stringWithFormat:@"%d",pintrestItem.like_count];
     tempLabel.alpha = .4f;
     tempLabel.font = [UIFont systemFontOfSize:10];
-    [tempLabel setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH), resizeHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
+    [tempLabel setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*2), resizeHeight+titleHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH*2, HEART_AND_COMMENT_ICONWIDTH)];
     [tempView addSubview:tempLabel];
     
-    tempButton = [[UIButton alloc] init];
+    UIButton *tempButton = [[UIButton alloc] init];
     tempButton.alpha = .4f;
-    [tempButton setImage:[UIImage imageNamed:@"Icons-comments_black"] forState:UIControlStateNormal];
-    [tempButton setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*4), resizeHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
+    //tempButton.backgroundColor = [UIColor redColor];
+    [tempButton setFrame:CGRectMake(heartIcon.frame.origin.x-3, heartIcon.frame.origin.y-3, heartIcon.frame.size.width+tempLabel.frame.size.width+6, heartIcon.frame.size.height+6)];
     [tempView addSubview:tempButton];
+    
+    
+    UIImageView *commentIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icons-comments_black"]];
+    commentIcon.alpha = .4f;
+    [commentIcon setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*8), resizeHeight+titleHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
+    [tempView addSubview:commentIcon];
     
     tempLabel = [[UILabel alloc] init];
     tempLabel.textColor = [UIColor blackColor];
@@ -174,18 +195,25 @@
     tempLabel.text = [NSString stringWithFormat:@"%d",pintrestItem.comment_count];
     tempLabel.alpha = .4f;
     tempLabel.font = [UIFont systemFontOfSize:10];
-    [tempLabel setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*3), resizeHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
+    [tempLabel setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*6), resizeHeight+titleHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH*2, HEART_AND_COMMENT_ICONWIDTH)];
     [tempView addSubview:tempLabel];
+    
+    tempButton = [[UIButton alloc] init];
+    //tempButton.backgroundColor = [UIColor blueColor];
+    [tempButton setFrame:CGRectMake(commentIcon.frame.origin.x-3, commentIcon.frame.origin.y-3, commentIcon.frame.size.width+tempLabel.frame.size.width+6, commentIcon.frame.size.height+6)];
+    [tempView addSubview:tempButton];
     
     UIView *tempView2 = [[UIView alloc] init];
     tempView2.backgroundColor = [CommonUI getUIColorFromHexString:@"#F2F3F7"];
+    [tempView2 setFrame:CGRectMake(0, resizeHeight+thumbMargin+titleHeight+THUMB_INFO_HEIGHT, PHONE_TWO_CELL_WIDTH, DETAIL_INFO_HEIGHT)];
+    [tempView addSubview:tempView2];
     /*
     UIImageView *tempImageView = [[UIImageView alloc] init];
     NSData *data = [[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://cfile222.uf.daum.net/image/2304F15051949F031E7836"]];
     UIImage *tempImage = [[UIImage alloc] initWithData:data];
     [tempImageView setImage:tempImage];
     [tempView2 addSubview:tempImageView];
-    [tempView2 setFrame:CGRectMake(0, resizeHeight+THUMB_INFO_HEIGHT, PHONE_TWO_CELL_WIDTH, DETAIL_INFO_HEIGHT)];
+    
     [tempImageView setFrame:CGRectMake(thumbMargin, DETAIL_INFO_HEIGHT/2-USER_THUMB_ICONWIDTH/2, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
     [tempView addSubview:tempView2];*/
     return tempView;
@@ -200,7 +228,7 @@
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
     AttatchItem *tempAttatchItem = [pintrestItem.attachItems objectAtIndex:0];
     CGFloat resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
-    //NSLog(@"%d %d %f",tempAttatchItem.width,tempAttatchItem.height,resizeHeight);
-    return resizeHeight+THUMB_INFO_HEIGHT+DETAIL_INFO_HEIGHT;
+    CGFloat titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
+    return resizeHeight+titleHeight+THUMB_INFO_HEIGHT+DETAIL_INFO_HEIGHT;
 }
 @end

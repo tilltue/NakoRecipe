@@ -9,7 +9,8 @@
 #import "AppDelegate.h"
 #import "FileControl.h"
 #import "PinterestViewController.h"
-
+//HA-SJL 세발자전거 HA-SJB
+//HA-TTL 테트리스 HA-TTM
 @implementation AppDelegate
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;

@@ -72,6 +72,8 @@
         recipeContent.numberOfLines = 0;
         recipeContent.font = [UIFont systemFontOfSize:12];
         [recipeDetailInfo addSubview:recipeContent];
+        
+        imageArr = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -86,16 +88,18 @@
     CGRect tempRect;
     tempRect = [CommonUI getRectFromDic:rectDic withKey:@"imageScrollView"];
     [imageScrollView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height * 0.8)];
-    for( int i = 0; i < [imageScrollView.subviews count]; i++ )
+    for( int i = 0; i < [imageArr count]; i++ )
     {
-        AsyncImageView *tempSubImageView = [imageScrollView.subviews objectAtIndex:i];
-        [tempSubImageView setFrame:CGRectMake((imageScrollView.frame.size.width+10)*i+10, (imageScrollView.frame.size.height)/2-tempSubImageView.frame.size.height/2, imageScrollView.frame.size.width-20, tempSubImageView.frame.size.height)];
+        AsyncImageView *tempSubImageView = [imageArr objectAtIndex:i];
+        [tempSubImageView setFrame:CGRectMake((imageScrollView.frame.size.width)*i+10, (imageScrollView.frame.size.height)/2-tempSubImageView.frame.size.height/2, imageScrollView.frame.size.width-20, tempSubImageView.frame.size.height)];
     }
+    [imageScrollView setContentSize:CGSizeMake((imageScrollView.frame.size.width)*([imageArr count]), imageScrollView.frame.size.height)];
     [recipeInfo setFrame:CGRectMake(10, imageScrollView.frame.size.height, imageScrollView.frame.size.width, RECIPE_THUMB_INFO_HEIGHT)];
-    [likeButton setFrame:CGRectMake(imageScrollView.frame.size.width-10-(15*2), 15, 15, 15)];
-    [likeLabel setFrame:CGRectMake(imageScrollView.frame.size.width-10-(15*1), 15, 15, 15)];
-    [commentButton setFrame:CGRectMake(imageScrollView.frame.size.width-10-(15*4), 15, 15, 15)];
-    [commentLabel setFrame:CGRectMake(imageScrollView.frame.size.width-10-(15*3), 15, 15, 15)];
+    CGFloat iconSize = 15.0f;
+    [likeButton setFrame:CGRectMake(imageScrollView.frame.size.width-10-(iconSize*2), iconSize, iconSize, iconSize)];
+    [likeLabel setFrame:CGRectMake(imageScrollView.frame.size.width-10-(iconSize*1), iconSize, iconSize, iconSize)];
+    [commentButton setFrame:CGRectMake(imageScrollView.frame.size.width-10-(iconSize*4), iconSize, iconSize, iconSize)];
+    [commentLabel setFrame:CGRectMake(imageScrollView.frame.size.width-10-(iconSize*3), iconSize, iconSize, iconSize)];
     
     [recipeDetailInfo setFrame:CGRectMake(10, imageScrollView.frame.size.height+RECIPE_THUMB_INFO_HEIGHT+10, imageScrollView.frame.size.width,RECIPE_DETAIL_INFO_HEIGHT)];
     [recipeContent setFrame:CGRectMake(10, 10, recipeDetailInfo.frame.size.width-20, recipeDetailInfo.frame.size.height-20)];
@@ -109,21 +113,24 @@
     tempRect = [CommonUI getRectFromDic:rectDic withKey:@"imageScrollView"];
     [imageScrollView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height * 0.8)];
     
-    for( UIImageView *tempSubImageView in imageScrollView.subviews )
+    for( AsyncImageView *tempSubImageView in imageArr )
         [tempSubImageView removeFromSuperview];
+    [imageArr removeAllObjects];
+    
     Post *tempPost = [[CoreDataManager getInstance] getPost:postId];
     if( [tempPost.attatchments count] > 0 ){
         NSMutableArray *sortArray = [[NSMutableArray alloc] initWithArray:[tempPost.attatchments allObjects]];
         [sortArray sortUsingFunction:intSortURL context:nil];
-        int i = 0;
-        for( AttatchMent *attachItem in sortArray ){
+        for( int i = 0; i < [sortArray count]; i++ ){
+            AttatchMent *attachItem = [sortArray objectAtIndex:i];
             CGFloat resizeHeight = ((imageScrollView.frame.size.width-40) / (float)[attachItem.width integerValue] ) * (float)[attachItem.height intValue];
             AsyncImageView *tempAsyncImageview = [[AsyncImageView alloc] init];
             [tempAsyncImageview loadImageFromURL:attachItem.thumb_url withResizeWidth:imageScrollView.frame.size.width*4];
             [imageScrollView addSubview:tempAsyncImageview];
-            [tempAsyncImageview setFrame:CGRectMake((imageScrollView.frame.size.width+10)*i+10, (imageScrollView.frame.size.height)/2-resizeHeight/2, imageScrollView.frame.size.width-20,resizeHeight)];
-            i++;
+            [imageArr addObject:tempAsyncImageview];
+            [tempAsyncImageview setFrame:CGRectMake((imageScrollView.frame.size.width)*i+10, (imageScrollView.frame.size.height)/2-resizeHeight/2, imageScrollView.frame.size.width-20,resizeHeight)];
         }
+        [imageScrollView setContentSize:CGSizeMake((imageScrollView.frame.size.width)*([imageArr count]), imageScrollView.frame.size.height)];
         likeLabel.text = [NSString stringWithFormat:@"%d",[tempPost.like_count intValue]];
         commentLabel.text = [NSString stringWithFormat:@"%d",[tempPost.comment_count intValue]];
         recipeContent.text = tempPost.content;
