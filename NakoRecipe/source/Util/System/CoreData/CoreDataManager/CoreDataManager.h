@@ -22,5 +22,6 @@
 - (NSArray *)getPosts;
 - (Post *)getPost:(NSString *)postId;
 #pragma mark - Attachment
-
+//sort
+NSInteger intSortURL(AttatchMent *item1, AttatchMent *item2, void *context);
 @end

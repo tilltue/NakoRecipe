@@ -52,6 +52,22 @@
 - (void)makeLayout
 {
     [rectDic setObject:@"{{0,0},{0,0}}" forKey:@"psCollectionView"];
+    //value
+    if( [SystemInfo isPad] ){
+        [rectDic setObject:@"248" forKey:@"PHONE_TWO_CELL_WIDTH"];
+        [rectDic setObject:@"240" forKey:@"PHONE_TWO_THUMB_WIDTH"];
+        [rectDic setObject:@"15" forKey:@"HEART_AND_COMMENT_ICONWIDTH"];
+        [rectDic setObject:@"40" forKey:@"THUMB_INFO_HEIGHT"];
+        [rectDic setObject:@"40" forKey:@"DETAIL_INFO_HEIGHT"];
+        [rectDic setObject:@"25" forKey:@"USER_THUMB_ICONWIDTH"];
+    }else{
+        [rectDic setObject:@"148" forKey:@"PHONE_TWO_CELL_WIDTH"];
+        [rectDic setObject:@"140" forKey:@"PHONE_TWO_THUMB_WIDTH"];
+        [rectDic setObject:@"15" forKey:@"HEART_AND_COMMENT_ICONWIDTH"];
+        [rectDic setObject:@"40" forKey:@"THUMB_INFO_HEIGHT"];
+        [rectDic setObject:@"40" forKey:@"DETAIL_INFO_HEIGHT"];
+        [rectDic setObject:@"25" forKey:@"USER_THUMB_ICONWIDTH"];
+    }
 }
 
 - (void)reloadPintRest
@@ -67,8 +83,10 @@
             newPintrestItem.like_count = [item.like_count integerValue];
             newPintrestItem.comment_count = [item.comment_count integerValue];
             if( [item.attatchments count] > 0 ){
+                NSMutableArray *sortArray = [[NSMutableArray alloc] initWithArray:[item.attatchments allObjects]];
+                [sortArray sortUsingFunction:intSortURL context:nil];
                 newPintrestItem.attachItems = [[NSMutableArray alloc] init];
-                for( AttatchMent *attatchItem in item.attatchments ){
+                for( AttatchMent *attatchItem in sortArray ){
                     AttatchItem *newAttatchItem = [[AttatchItem alloc] init];
                     newAttatchItem.image_url =  attatchItem.thumb_url;
                     newAttatchItem.width = [attatchItem.width intValue];
@@ -98,6 +116,13 @@
 
 - (UIView *)collectionView:(PSCollectionView *)collectionView cellForRowAtIndex:(NSInteger)index
 {
+    CGFloat PHONE_TWO_CELL_WIDTH        = [[rectDic objectForKey:@"PHONE_TWO_CELL_WIDTH"] floatValue];
+    CGFloat PHONE_TWO_THUMB_WIDTH       = [[rectDic objectForKey:@"PHONE_TWO_THUMB_WIDTH"] floatValue];
+    CGFloat THUMB_INFO_HEIGHT           = [[rectDic objectForKey:@"THUMB_INFO_HEIGHT"] floatValue];
+    CGFloat DETAIL_INFO_HEIGHT          = [[rectDic objectForKey:@"DETAIL_INFO_HEIGHT"] floatValue];
+    CGFloat HEART_AND_COMMENT_ICONWIDTH = [[rectDic objectForKey:@"HEART_AND_COMMENT_ICONWIDTH"] floatValue];
+    //CGFloat USER_THUMB_ICONWIDTH        = [[rectDic objectForKey:@"USER_THUMB_ICONWIDTH"] floatValue];
+    
     CGFloat thumbMargin = (PHONE_TWO_CELL_WIDTH - PHONE_TWO_THUMB_WIDTH)/2;
     UIView *tempView = [[UIView alloc] init];
     tempView.backgroundColor = [UIColor whiteColor];
@@ -168,6 +193,10 @@
 
 - (CGFloat)collectionView:(PSCollectionView *)collectionView heightForRowAtIndex:(NSInteger)index
 {
+    CGFloat PHONE_TWO_THUMB_WIDTH       = [[rectDic objectForKey:@"PHONE_TWO_THUMB_WIDTH"] floatValue];
+    CGFloat THUMB_INFO_HEIGHT           = [[rectDic objectForKey:@"THUMB_INFO_HEIGHT"] floatValue];
+    CGFloat DETAIL_INFO_HEIGHT          = [[rectDic objectForKey:@"DETAIL_INFO_HEIGHT"] floatValue];
+    
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
     AttatchItem *tempAttatchItem = [pintrestItem.attachItems objectAtIndex:0];
     CGFloat resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;

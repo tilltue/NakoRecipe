@@ -48,12 +48,21 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 #pragma mark - pintrestview delegate
 
 - (void)selectRecipe:(NSString *)recipeId
 {
     recipeViewController.currentPostId = recipeId;
-    recipeViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    if( [SystemInfo isPad] ){
+        recipeViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    }else{
+        recipeViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    }
     [self presentViewController:recipeViewController animated:YES completion:nil];
 }
 @end

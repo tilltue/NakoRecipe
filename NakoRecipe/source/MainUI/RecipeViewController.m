@@ -46,6 +46,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 #pragma mark - gesture handler
 
 - (void)initGestureRecognizer:(UIView *)view
@@ -58,7 +63,11 @@
 
 -(void)handleTap:(UITapGestureRecognizer *)gestureRecognizer
 {
-    self.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    if( [SystemInfo isPad] ){
+        self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    }else{
+        self.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

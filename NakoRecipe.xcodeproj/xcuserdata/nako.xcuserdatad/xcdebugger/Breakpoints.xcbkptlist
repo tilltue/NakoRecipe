@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "NakoRecipe/source/MainUI/PinterestViews/RecipePinterest.m"
-         timestampString = "390803337.484324"
+         timestampString = "390806824.63818"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "90"
-         endingLineNumber = "90"
+         startingLineNumber = "108"
+         endingLineNumber = "108"
          landmarkName = "-numberOfRowsInCollectionView:"
          landmarkType = "5">
       </FileBreakpoint>

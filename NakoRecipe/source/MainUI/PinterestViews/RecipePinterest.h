@@ -9,13 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "PSCollectionView.h"
 
-#define PHONE_TWO_CELL_WIDTH 148
-#define PHONE_TWO_THUMB_WIDTH 140
-#define HEART_AND_COMMENT_ICONWIDTH 15
-#define THUMB_INFO_HEIGHT 40
-#define DETAIL_INFO_HEIGHT 40
-#define USER_THUMB_ICONWIDTH 25
-
 @interface AttatchItem : NSObject
 @property (nonatomic, strong) NSString *image_url;
 @property (nonatomic, assign) NSInteger width;

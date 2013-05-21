@@ -113,8 +113,10 @@
         [tempSubImageView removeFromSuperview];
     Post *tempPost = [[CoreDataManager getInstance] getPost:postId];
     if( [tempPost.attatchments count] > 0 ){
+        NSMutableArray *sortArray = [[NSMutableArray alloc] initWithArray:[tempPost.attatchments allObjects]];
+        [sortArray sortUsingFunction:intSortURL context:nil];
         int i = 0;
-        for( AttatchMent *attachItem in tempPost.attatchments ){
+        for( AttatchMent *attachItem in sortArray ){
             CGFloat resizeHeight = ((imageScrollView.frame.size.width-40) / (float)[attachItem.width integerValue] ) * (float)[attachItem.height intValue];
             AsyncImageView *tempAsyncImageview = [[AsyncImageView alloc] init];
             [tempAsyncImageview loadImageFromURL:attachItem.thumb_url withResizeWidth:imageScrollView.frame.size.width*4];

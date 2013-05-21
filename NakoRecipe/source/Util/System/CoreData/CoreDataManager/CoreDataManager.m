@@ -213,4 +213,19 @@
     return outString;
 }
 
+NSInteger intSortURL(AttatchMent *item1, AttatchMent *item2, void *context)
+{
+    NSString *fileName1 = [[item1.thumb_url lastPathComponent] stringByDeletingPathExtension];
+    NSString *fileName2 = [[item2.thumb_url lastPathComponent] stringByDeletingPathExtension];
+    fileName1 = [fileName1 substringFromIndex:[fileName1 length]-1];
+    fileName2 = [fileName2 substringFromIndex:[fileName2 length]-1];
+    int v1 = [fileName1 intValue];
+    int v2 = [fileName2 intValue];
+    if (v1 > v2)
+        return NSOrderedAscending;
+    else if (v1 < v2)
+        return NSOrderedDescending;
+    else
+        return NSOrderedSame;
+}
 @end
