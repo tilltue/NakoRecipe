@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString *postId;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *creatorThumb;
+@property (nonatomic, strong) NSString *tags;
 @property (nonatomic, strong) NSMutableArray *attachItems;
 @property (nonatomic, assign) NSInteger like_count;
 @property (nonatomic, assign) NSInteger comment_count;

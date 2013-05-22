@@ -16,7 +16,7 @@
 @end
 
 @implementation PintrestItem
-@synthesize title,attachItems,like_count,comment_count,creatorThumb;
+@synthesize title,attachItems,like_count,comment_count,creatorThumb,tags;
 @end
 
 @implementation RecipePinterest
@@ -77,21 +77,22 @@
     if( [posts count] > 0 ){
         for( Post *item in posts )
         {
-            PintrestItem *newPintrestItem = [[PintrestItem alloc] init];
-            newPintrestItem.postId = item.post_id;
-            newPintrestItem.title = item.title;
-            newPintrestItem.like_count = [item.like_count integerValue];
-            newPintrestItem.comment_count = [item.comment_count integerValue];
-            newPintrestItem.creatorThumb = item.creator_url;
+            PintrestItem *newPintrestItem   = [[PintrestItem alloc] init];
+            newPintrestItem.postId          = item.post_id;
+            newPintrestItem.title           = item.title;
+            newPintrestItem.like_count      = [item.like_count integerValue];
+            newPintrestItem.comment_count   = [item.comment_count integerValue];
+            newPintrestItem.creatorThumb    = item.creator_url;
+            newPintrestItem.tags            = item.tags;
             if( [item.attatchments count] > 0 ){
                 NSMutableArray *sortArray = [[NSMutableArray alloc] initWithArray:[item.attatchments allObjects]];
                 [sortArray sortUsingFunction:intSortURL context:nil];
-                newPintrestItem.attachItems = [[NSMutableArray alloc] init];
+                newPintrestItem.attachItems     = [[NSMutableArray alloc] init];
                 for( AttatchMent *attatchItem in sortArray ){
                     AttatchItem *newAttatchItem = [[AttatchItem alloc] init];
-                    newAttatchItem.image_url =  attatchItem.thumb_url;
-                    newAttatchItem.width = [attatchItem.width intValue];
-                    newAttatchItem.height = [attatchItem.height intValue];
+                    newAttatchItem.image_url    =  attatchItem.thumb_url;
+                    newAttatchItem.width        = [attatchItem.width intValue];
+                    newAttatchItem.height       = [attatchItem.height intValue];
                     [newPintrestItem.attachItems addObject:newAttatchItem];
                 }
             }
@@ -139,6 +140,33 @@
     [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height*.9] range:NSMakeRange(1, [text length]-1)];
     if( textWidth > titleLabelSize.width && titleLabelSize.width != 0 ){
         return [self makeAttrString:text withTitleHeight:CGSizeMake(titleLabelSize.width, titleLabelSize.height*.9)];
+    }
+    return attrStr;
+}
+
+- (NSMutableAttributedString *)makeAttrString:(NSArray *)tagTextArr withInfoHeight:(CGSize)titleLabelSize
+{
+    if( [tagTextArr count] < 3 )
+        return nil;
+    CGFloat textWidth = 0;
+    NSString *infoString    = nil;
+    NSString *broadCastNum  = [tagTextArr objectAtIndex:0];
+    NSString *broadCastDate = [tagTextArr objectAtIndex:1];
+    NSString *creator       = [tagTextArr objectAtIndex:2];
+    
+    infoString = broadCastNum;
+    infoString = [infoString stringByAppendingString:@"회 "];
+    infoString = [infoString stringByAppendingString:[creator stringByAppendingString:@"\n"]];
+    infoString = [infoString stringByAppendingString:broadCastDate];
+    textWidth += [infoString sizeWithFont:[UIFont fontWithName:@"HA-SJL" size:titleLabelSize.height*.3]].width;
+    
+    NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:infoString];
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#FFA500"] range:NSMakeRange(0, 1)];
+    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-SJL" size:titleLabelSize.height*.3] range:NSMakeRange(0, 1)];
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(1, [infoString length]-1)];
+    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-SJL" size:titleLabelSize.height*.3] range:NSMakeRange(1, [infoString length]-1)];
+    if( textWidth > titleLabelSize.width && titleLabelSize.width != 0 ){
+        return [self makeAttrString:tagTextArr withInfoHeight:CGSizeMake(titleLabelSize.width, titleLabelSize.height*.9)];
     }
     return attrStr;
 }
@@ -235,11 +263,24 @@
     tempAsyncImageView.contentMode = UIViewContentModeScaleAspectFill;
     tempAsyncImageView.clipsToBounds = YES;
     [tempAsyncImageView loadImageFromURL:pintrestItem.creatorThumb withResizeWidth:USER_THUMB_ICONWIDTH*4];
+    [tempAsyncImageView setFrame:CGRectMake(thumbMargin, DETAIL_INFO_HEIGHT/2-USER_THUMB_ICONWIDTH/2, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
     [tempView2 addSubview:tempAsyncImageView];
     
-    [tempAsyncImageView setFrame:CGRectMake(thumbMargin, DETAIL_INFO_HEIGHT/2-USER_THUMB_ICONWIDTH/2, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
+    NSArray *infoTextArr = [pintrestItem.tags componentsSeparatedByString:@"|"];
+    if( [infoTextArr count] > 0 ){
+        CGSize infoTextSize = CGSizeMake(self.frame.size.width-thumbMargin*3+USER_THUMB_ICONWIDTH, DETAIL_INFO_HEIGHT-thumbMargin*2);
+        tempLabel = [[UILabel alloc] init];
+        tempLabel.attributedText = [self makeAttrString:infoTextArr withInfoHeight:infoTextSize];
+        tempLabel.backgroundColor = [UIColor clearColor];
+        tempLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        tempLabel.numberOfLines = 2;
+        [tempLabel setFrame:CGRectMake(thumbMargin*2+USER_THUMB_ICONWIDTH, DETAIL_INFO_HEIGHT/2-infoTextSize.height/2, infoTextSize.width, infoTextSize.height)];
+        [tempView2 addSubview:tempLabel];
+    }
     [tempView addSubview:tempView2];
-                    
+    
+    NSLog(@"%@",pintrestItem.tags);
+    
     return tempView;
 }
 
