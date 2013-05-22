@@ -2,7 +2,7 @@
 //  Post.h
 //  NakoRecipe
 //
-//  Created by nako on 5/21/13.
+//  Created by nako on 5/22/13.
 //  Copyright (c) 2013 tilltue. All rights reserved.
 //
 
@@ -17,8 +17,9 @@
 @property (nonatomic, retain) NSString * content;
 @property (nonatomic, retain) NSNumber * like_count;
 @property (nonatomic, retain) NSString * post_id;
-@property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * tags;
+@property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSString * creator_url;
 @property (nonatomic, retain) NSSet *attatchments;
 @end
 

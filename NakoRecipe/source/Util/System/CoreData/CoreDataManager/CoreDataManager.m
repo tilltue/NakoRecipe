@@ -168,11 +168,16 @@
             tempPost.tags = key;
     }
     
+    NSString *thumbImagePrefix = @"creator";
     NSMutableDictionary *attatchmentDicts = [jsonDict objectForKey:@"attachments"];
     for( NSString *key in [attatchmentDicts allKeys] )
     {
         NSMutableDictionary *attatchment = [attatchmentDicts objectForKey:key];
         tempValue = [attatchment objectForKey:@"URL"];
+        if( [[tempValue lastPathComponent] hasPrefix:thumbImagePrefix] ){
+            tempPost.creator_url = tempValue;
+            continue;
+        }
         if( tempValue != nil && [tempValue length] > 0 ){
             AttatchMent *tempAttachment = [self saveAttatchment:attatchment withPostId:tempPost.post_id];
             [tempPost addAttatchmentsObject:tempAttachment];

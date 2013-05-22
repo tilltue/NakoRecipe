@@ -2,7 +2,7 @@
 //  Post.m
 //  NakoRecipe
 //
-//  Created by nako on 5/21/13.
+//  Created by nako on 5/22/13.
 //  Copyright (c) 2013 tilltue. All rights reserved.
 //
 
@@ -16,8 +16,9 @@
 @dynamic content;
 @dynamic like_count;
 @dynamic post_id;
-@dynamic title;
 @dynamic tags;
+@dynamic title;
+@dynamic creator_url;
 @dynamic attatchments;
 
 @end

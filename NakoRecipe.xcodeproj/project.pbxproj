@@ -11,7 +11,6 @@
 		224B4ABC174B9E7E00CE7A9B /* 세발자전거L.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4AB8174B9E7E00CE7A9B /* 세발자전거L.TTF */; };
 		224B4ABD174B9E7E00CE7A9B /* 테트리스L.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4AB9174B9E7E00CE7A9B /* 테트리스L.TTF */; };
 		224B4ABE174B9E7E00CE7A9B /* 테트리스M.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4ABA174B9E7E00CE7A9B /* 테트리스M.TTF */; };
-		224B4AC1174BB6C500CE7A9B /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 224B4AC0174BB6C500CE7A9B /* Post.m */; };
 		226072CB1744C06700CF3EAA /* Icons-chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072C81744C06700CF3EAA /* Icons-chat@2x.png */; };
 		226072CC1744C06700CF3EAA /* Icons-comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072C91744C06700CF3EAA /* Icons-comments@2x.png */; };
 		226072CD1744C06700CF3EAA /* Icons-h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072CA1744C06700CF3EAA /* Icons-h@2x.png */; };
@@ -20,6 +19,7 @@
 		226072D31744D5D200CF3EAA /* Icons-h_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072D01744D5D200CF3EAA /* Icons-h_black@2x.png */; };
 		226072DD17450C0700CF3EAA /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 226072DC17450C0600CF3EAA /* libxml2.2.dylib */; };
 		226072E0174B2F5100CF3EAA /* SystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 226072DF174B2F5100CF3EAA /* SystemInfo.m */; };
+		22D4B472174CB59A00F91441 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D4B471174CB59A00F91441 /* Post.m */; };
 		A3D0D50217489E7B006C0AA9 /* HttpApi.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D50117489E7B006C0AA9 /* HttpApi.m */; };
 		A3D0D50717489E89006C0AA9 /* CommonUI.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D50417489E89006C0AA9 /* CommonUI.m */; };
 		A3D0D50817489E89006C0AA9 /* FileControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D50617489E89006C0AA9 /* FileControl.m */; };
@@ -77,8 +77,6 @@
 		224B4AB8174B9E7E00CE7A9B /* 세발자전거L.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "세발자전거L.TTF"; path = "resource/font/세발자전거L.TTF"; sourceTree = "<group>"; };
 		224B4AB9174B9E7E00CE7A9B /* 테트리스L.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "테트리스L.TTF"; path = "resource/font/테트리스L.TTF"; sourceTree = "<group>"; };
 		224B4ABA174B9E7E00CE7A9B /* 테트리스M.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "테트리스M.TTF"; path = "resource/font/테트리스M.TTF"; sourceTree = "<group>"; };
-		224B4ABF174BB6C400CE7A9B /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Post.h; path = source/Util/System/CoreData/Post.h; sourceTree = "<group>"; };
-		224B4AC0174BB6C500CE7A9B /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Post.m; path = source/Util/System/CoreData/Post.m; sourceTree = "<group>"; };
 		226072C81744C06700CF3EAA /* Icons-chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-chat@2x.png"; path = "resource/Icons-chat@2x.png"; sourceTree = "<group>"; };
 		226072C91744C06700CF3EAA /* Icons-comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-comments@2x.png"; path = "resource/Icons-comments@2x.png"; sourceTree = "<group>"; };
 		226072CA1744C06700CF3EAA /* Icons-h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-h@2x.png"; path = "resource/Icons-h@2x.png"; sourceTree = "<group>"; };
@@ -88,6 +86,8 @@
 		226072DC17450C0600CF3EAA /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		226072DE174B2F5100CF3EAA /* SystemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemInfo.h; path = source/Util/System/SystemInfo.h; sourceTree = "<group>"; };
 		226072DF174B2F5100CF3EAA /* SystemInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemInfo.m; path = source/Util/System/SystemInfo.m; sourceTree = "<group>"; };
+		22D4B470174CB59A00F91441 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Post.h; path = source/Util/System/CoreData/Post.h; sourceTree = "<group>"; };
+		22D4B471174CB59A00F91441 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Post.m; path = source/Util/System/CoreData/Post.m; sourceTree = "<group>"; };
 		A3D0D50017489E7B006C0AA9 /* HttpApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpApi.h; path = source/Util/System/HttpApi/HttpApi.h; sourceTree = "<group>"; };
 		A3D0D50117489E7B006C0AA9 /* HttpApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HttpApi.m; path = source/Util/System/HttpApi/HttpApi.m; sourceTree = "<group>"; };
 		A3D0D50317489E89006C0AA9 /* CommonUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonUI.h; path = source/Util/System/CommonUI.h; sourceTree = "<group>"; };
@@ -252,8 +252,8 @@
 		A3D0D51417489F37006C0AA9 /* CoreDataObject */ = {
 			isa = PBXGroup;
 			children = (
-				224B4ABF174BB6C400CE7A9B /* Post.h */,
-				224B4AC0174BB6C500CE7A9B /* Post.m */,
+				22D4B470174CB59A00F91441 /* Post.h */,
+				22D4B471174CB59A00F91441 /* Post.m */,
 				A3D0D55B1748F8FA006C0AA9 /* AttatchMent.h */,
 				A3D0D55C1748F8FA006C0AA9 /* AttatchMent.m */,
 			);
@@ -598,7 +598,7 @@
 				A3D0D566174903DB006C0AA9 /* RecipeViewController.m in Sources */,
 				A3D0D569174903FD006C0AA9 /* RecipeView.m in Sources */,
 				226072E0174B2F5100CF3EAA /* SystemInfo.m in Sources */,
-				224B4AC1174BB6C500CE7A9B /* Post.m in Sources */,
+				22D4B472174CB59A00F91441 /* Post.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

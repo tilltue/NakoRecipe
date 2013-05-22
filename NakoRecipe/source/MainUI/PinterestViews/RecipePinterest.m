@@ -242,7 +242,7 @@
     CGFloat DETAIL_INFO_HEIGHT          = [[rectDic objectForKey:@"DETAIL_INFO_HEIGHT"] floatValue];
     
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
-    AttatchItem *tempAttatchItem = [pintrestItem.attachItems objectAtIndex:0];
+    AttatchItem *tempAttatchItem = [pintrestItem.attachItems objectAtIndex:[pintrestItem.attachItems count]-1];
     CGFloat resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
     CGFloat titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
     return resizeHeight+titleHeight+THUMB_INFO_HEIGHT+DETAIL_INFO_HEIGHT;

@@ -9,6 +9,7 @@
     <entity name="Post" representedClassName="Post" syncable="YES">
         <attribute name="comment_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="creator_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="like_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="post_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tags" optional="YES" attributeType="String" syncable="YES"/>
@@ -17,6 +18,6 @@
     </entity>
     <elements>
         <element name="AttatchMent" positionX="376" positionY="267" width="128" height="103"/>
-        <element name="Post" positionX="160" positionY="192" width="128" height="150"/>
+        <element name="Post" positionX="160" positionY="192" width="128" height="165"/>
     </elements>
 </model>
