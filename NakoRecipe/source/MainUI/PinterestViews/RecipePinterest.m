@@ -151,20 +151,18 @@
     CGFloat textWidth = 0;
     NSString *infoString    = nil;
     NSString *broadCastNum  = [tagTextArr objectAtIndex:0];
-    NSString *broadCastDate = [tagTextArr objectAtIndex:1];
     NSString *creator       = [tagTextArr objectAtIndex:2];
     
     infoString = broadCastNum;
     infoString = [infoString stringByAppendingString:@"회 "];
-    infoString = [infoString stringByAppendingString:[creator stringByAppendingString:@"\n"]];
-    infoString = [infoString stringByAppendingString:broadCastDate];
-    textWidth += [infoString sizeWithFont:[UIFont fontWithName:@"HA-SJL" size:titleLabelSize.height*.3]].width;
+    infoString = [infoString stringByAppendingString:creator];
+    textWidth += [infoString sizeWithFont:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height]].width;
     
     NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:infoString];
-    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#FFA500"] range:NSMakeRange(0, 1)];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-SJL" size:titleLabelSize.height*.3] range:NSMakeRange(0, 1)];
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#3EA99F"] range:NSMakeRange(0, 1)];
+    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height] range:NSMakeRange(0, 1)];
     [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(1, [infoString length]-1)];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-SJL" size:titleLabelSize.height*.3] range:NSMakeRange(1, [infoString length]-1)];
+    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height] range:NSMakeRange(1, [infoString length]-1)];
     if( textWidth > titleLabelSize.width && titleLabelSize.width != 0 ){
         return [self makeAttrString:tagTextArr withInfoHeight:CGSizeMake(titleLabelSize.width, titleLabelSize.height*.9)];
     }
