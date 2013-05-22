@@ -16,7 +16,7 @@
 @end
 
 @implementation PintrestItem
-@synthesize title,attachItems,like_count,comment_count;
+@synthesize title,attachItems,like_count,comment_count,creatorThumb;
 @end
 
 @implementation RecipePinterest
@@ -82,6 +82,7 @@
             newPintrestItem.title = item.title;
             newPintrestItem.like_count = [item.like_count integerValue];
             newPintrestItem.comment_count = [item.comment_count integerValue];
+            newPintrestItem.creatorThumb = item.creator_url;
             if( [item.attatchments count] > 0 ){
                 NSMutableArray *sortArray = [[NSMutableArray alloc] initWithArray:[item.attatchments allObjects]];
                 [sortArray sortUsingFunction:intSortURL context:nil];
@@ -149,23 +150,29 @@
     CGFloat THUMB_INFO_HEIGHT           = [[rectDic objectForKey:@"THUMB_INFO_HEIGHT"] floatValue];
     CGFloat DETAIL_INFO_HEIGHT          = [[rectDic objectForKey:@"DETAIL_INFO_HEIGHT"] floatValue];
     CGFloat HEART_AND_COMMENT_ICONWIDTH = [[rectDic objectForKey:@"HEART_AND_COMMENT_ICONWIDTH"] floatValue];
-    //CGFloat USER_THUMB_ICONWIDTH        = [[rectDic objectForKey:@"USER_THUMB_ICONWIDTH"] floatValue];
+    CGFloat USER_THUMB_ICONWIDTH        = [[rectDic objectForKey:@"USER_THUMB_ICONWIDTH"] floatValue];
     
     CGFloat thumbMargin = (PHONE_TWO_CELL_WIDTH - PHONE_TWO_THUMB_WIDTH)/2;
     UIView *tempView = [[UIView alloc] init];
     tempView.backgroundColor = [UIColor whiteColor];
     
+    CGFloat resizeHeight = 0;
+    CGFloat titleHeight = 0;
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
-    AttatchItem *tempAttatchItem = [pintrestItem.attachItems objectAtIndex:[pintrestItem.attachItems count]-1];
-    AsyncImageView *tempAsyncImageView = [[AsyncImageView alloc] init];
-    [tempAsyncImageView loadImageFromURL:tempAttatchItem.image_url withResizeWidth:PHONE_TWO_THUMB_WIDTH*4];
-
-    CGFloat resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
-    CGFloat titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
-    [tempView addSubview:tempAsyncImageView];
-    [tempView setFrame:CGRectMake(0, 0, PHONE_TWO_CELL_WIDTH, resizeHeight+titleHeight+THUMB_INFO_HEIGHT+DETAIL_INFO_HEIGHT)];
-    [tempAsyncImageView setFrame:CGRectMake(thumbMargin, thumbMargin, PHONE_TWO_THUMB_WIDTH, resizeHeight)];
-    
+    if( [pintrestItem.attachItems count] > 0){
+        AttatchItem *tempAttatchItem = [pintrestItem.attachItems objectAtIndex:[pintrestItem.attachItems count]-1];
+        AsyncImageView *tempAsyncImageView = [[AsyncImageView alloc] init];
+        [tempAsyncImageView loadImageFromURL:tempAttatchItem.image_url withResizeWidth:PHONE_TWO_THUMB_WIDTH*4];
+        
+        resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
+        titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
+        [tempView addSubview:tempAsyncImageView];
+        [tempView setFrame:CGRectMake(0, 0, PHONE_TWO_CELL_WIDTH, resizeHeight+titleHeight+THUMB_INFO_HEIGHT+DETAIL_INFO_HEIGHT)];
+        [tempAsyncImageView setFrame:CGRectMake(thumbMargin, thumbMargin, PHONE_TWO_THUMB_WIDTH, resizeHeight)];
+    }else{
+        resizeHeight = PHONE_TWO_THUMB_WIDTH;
+        titleHeight = PHONE_TWO_THUMB_WIDTH*.2;
+    }
     UILabel *tempLabel = [[UILabel alloc] init];
     tempLabel.backgroundColor = [UIColor clearColor];
     tempLabel.attributedText = [self makeAttrString:pintrestItem.title withTitleHeight:CGSizeMake(PHONE_TWO_CELL_WIDTH-10, titleHeight)];
@@ -223,15 +230,14 @@
     tempView2.backgroundColor = [CommonUI getUIColorFromHexString:@"#F2F3F7"];
     [tempView2 setFrame:CGRectMake(0, resizeHeight+thumbMargin+titleHeight+THUMB_INFO_HEIGHT, PHONE_TWO_CELL_WIDTH, DETAIL_INFO_HEIGHT)];
     [tempView addSubview:tempView2];
-    /*
-    UIImageView *tempImageView = [[UIImageView alloc] init];
-    NSData *data = [[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://cfile222.uf.daum.net/image/2304F15051949F031E7836"]];
-    UIImage *tempImage = [[UIImage alloc] initWithData:data];
-    [tempImageView setImage:tempImage];
-    [tempView2 addSubview:tempImageView];
     
-    [tempImageView setFrame:CGRectMake(thumbMargin, DETAIL_INFO_HEIGHT/2-USER_THUMB_ICONWIDTH/2, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
-    [tempView addSubview:tempView2];*/
+    AsyncImageView *tempAsyncImageView = [[AsyncImageView alloc] init];
+    [tempAsyncImageView loadImageFromURL:pintrestItem.creatorThumb withResizeWidth:USER_THUMB_ICONWIDTH*4];
+    [tempView2 addSubview:tempAsyncImageView];
+    
+    [tempAsyncImageView setFrame:CGRectMake(thumbMargin, DETAIL_INFO_HEIGHT/2-USER_THUMB_ICONWIDTH/2, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
+    [tempView addSubview:tempView2];
+                    
     return tempView;
 }
 
@@ -241,10 +247,17 @@
     CGFloat THUMB_INFO_HEIGHT           = [[rectDic objectForKey:@"THUMB_INFO_HEIGHT"] floatValue];
     CGFloat DETAIL_INFO_HEIGHT          = [[rectDic objectForKey:@"DETAIL_INFO_HEIGHT"] floatValue];
     
+    CGFloat resizeHeight = 0;
+    CGFloat titleHeight = 0;
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
-    AttatchItem *tempAttatchItem = [pintrestItem.attachItems objectAtIndex:[pintrestItem.attachItems count]-1];
-    CGFloat resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
-    CGFloat titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
+    if( [pintrestItem.attachItems count] > 0 ){
+        AttatchItem *tempAttatchItem = [pintrestItem.attachItems objectAtIndex:[pintrestItem.attachItems count]-1];
+        resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
+        titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
+    }else{
+        resizeHeight = PHONE_TWO_THUMB_WIDTH;
+        titleHeight = PHONE_TWO_THUMB_WIDTH*.2;
+    }
     return resizeHeight+titleHeight+THUMB_INFO_HEIGHT+DETAIL_INFO_HEIGHT;
 }
 @end
