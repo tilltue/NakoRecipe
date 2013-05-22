@@ -232,6 +232,8 @@
     [tempView addSubview:tempView2];
     
     AsyncImageView *tempAsyncImageView = [[AsyncImageView alloc] init];
+    tempAsyncImageView.contentMode = UIViewContentModeScaleAspectFill;
+    tempAsyncImageView.clipsToBounds = YES;
     [tempAsyncImageView loadImageFromURL:pintrestItem.creatorThumb withResizeWidth:USER_THUMB_ICONWIDTH*4];
     [tempView2 addSubview:tempAsyncImageView];
     
