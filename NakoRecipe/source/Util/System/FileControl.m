@@ -83,6 +83,21 @@
 	}
 }
 
++ (void)createCachePath:(NSString *)dirName
+{
+	NSString      * cacheDir = [ TEMP_DIR stringByAppendingString:dirName ];
+	NSFileManager * fm       = [ NSFileManager defaultManager ];
+	NSError       * error;
+    
+	if( ![ fm fileExistsAtPath: cacheDir ] )
+    {
+		[ fm createDirectoryAtPath: cacheDir
+       withIntermediateDirectories: NO
+                        attributes: nil
+                             error: &error ];
+	}
+}
+
 + (NSString*)getBooksDirectory
 {
 	NSString * docPath  = [ FileControl getDocumentsPath ];
@@ -239,6 +254,26 @@
     }
 }
 
++ (void)cacheImage:(NSString *)imageURL withImage:(UIImage *)image withDir:(NSString *)dirName
+{
+    // Generate a unique path to a resource representing the image you want
+    NSString *filename = [imageURL lastPathComponent];
+    NSString *uniquePath = [TEMP_DIR stringByAppendingPathComponent: [dirName stringByAppendingFormat:@"/%@",filename]];
+    [self createCachePath:dirName];
+    // Check for file existence
+    if( ![[NSFileManager defaultManager] fileExistsAtPath: uniquePath] ){
+        if( [imageURL rangeOfString:@".png" options: NSCaseInsensitiveSearch].location != NSNotFound ){
+            
+            [UIImagePNGRepresentation(image) writeToFile: uniquePath atomically: YES];
+            
+        }else if([imageURL rangeOfString: @".jpg" options: NSCaseInsensitiveSearch].location != NSNotFound ||
+                 [imageURL rangeOfString: @".jpeg" options: NSCaseInsensitiveSearch].location != NSNotFound ){
+            
+            [UIImageJPEGRepresentation(image, 100) writeToFile: uniquePath atomically: YES];
+        }
+    }
+}
+
 + (void)cacheImage:(NSString *)imageURL withImage:(UIImage *)image
 {
     // Generate a unique path to a resource representing the image you want
@@ -259,12 +294,10 @@
     }
 }
 
-
-
 + (UIImage *)getCachedImage:(NSString *)imageURLString
 {
     NSString *filename = [imageURLString lastPathComponent];
-    NSString *uniquePath = [TEMP_DIR stringByAppendingPathComponent: filename];
+    NSString *uniquePath = [TEMP_DIR stringByAppendingPathComponent:filename];
     
     UIImage *image;
     
@@ -275,6 +308,22 @@
         // get a new one
         [self cacheImageToURL: imageURLString];
         image = [UIImage imageWithContentsOfFile: uniquePath];
+    }
+    return image;
+}
+
++ (UIImage *)checkCachedImage:(NSString *)imageURLString withDir:(NSString *)dirName
+{
+    NSString *filename = [imageURLString lastPathComponent];
+    NSString *uniquePath = [TEMP_DIR stringByAppendingPathComponent:[dirName stringByAppendingFormat:@"/%@",filename]];
+    
+    UIImage *image;
+    
+    // Check for a cached version
+    if( [[NSFileManager defaultManager] fileExistsAtPath: uniquePath] ){
+        image = [UIImage imageWithContentsOfFile: uniquePath]; // this is the cached image
+    }else{
+        return nil;
     }
     return image;
 }

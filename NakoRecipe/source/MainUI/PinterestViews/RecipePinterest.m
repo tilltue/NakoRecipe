@@ -158,11 +158,12 @@
     infoString = [infoString stringByAppendingString:creator];
     textWidth += [infoString sizeWithFont:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height]].width;
     
+    NSInteger colorRocation = [broadCastNum length];
     NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:infoString];
-    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#3EA99F"] range:NSMakeRange(0, 1)];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height] range:NSMakeRange(0, 1)];
-    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(1, [infoString length]-1)];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height] range:NSMakeRange(1, [infoString length]-1)];
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#3EA99F"] range:NSMakeRange(0, colorRocation)];
+    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height] range:NSMakeRange(0, colorRocation)];
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(colorRocation, [infoString length]-colorRocation)];
+    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height] range:NSMakeRange(colorRocation, [infoString length]-colorRocation)];
     if( textWidth > titleLabelSize.width && titleLabelSize.width != 0 ){
         return [self makeAttrString:tagTextArr withInfoHeight:CGSizeMake(titleLabelSize.width, titleLabelSize.height*.9)];
     }
@@ -193,9 +194,17 @@
         resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
         titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
         [tempView addSubview:tempAsyncImageView];
-        [tempView setFrame:CGRectMake(0, 0, PHONE_TWO_CELL_WIDTH, resizeHeight+titleHeight+THUMB_INFO_HEIGHT+DETAIL_INFO_HEIGHT)];
         [tempAsyncImageView setFrame:CGRectMake(thumbMargin, thumbMargin, PHONE_TWO_THUMB_WIDTH, resizeHeight)];
     }else{
+        UILabel *noImageLabel = [[UILabel alloc] init];
+        noImageLabel.textColor = [CommonUI getUIColorFromHexString:@"#657383"];
+        noImageLabel.backgroundColor = [CommonUI getUIColorFromHexString:@"#EFEDFA"];
+        noImageLabel.textAlignment = NSTextAlignmentCenter;
+        noImageLabel.text = @"No Image";
+        noImageLabel.font = [UIFont fontWithName:@"HA-TTL" size:40];
+        [noImageLabel setFrame:CGRectMake(thumbMargin, thumbMargin, PHONE_TWO_THUMB_WIDTH, PHONE_TWO_THUMB_WIDTH)];
+        [tempView addSubview:noImageLabel];
+        
         resizeHeight = PHONE_TWO_THUMB_WIDTH;
         titleHeight = PHONE_TWO_THUMB_WIDTH*.2;
     }
@@ -265,19 +274,16 @@
     [tempView2 addSubview:tempAsyncImageView];
     
     NSArray *infoTextArr = [pintrestItem.tags componentsSeparatedByString:@"|"];
-    if( [infoTextArr count] > 0 ){
-        CGSize infoTextSize = CGSizeMake(self.frame.size.width-thumbMargin*3+USER_THUMB_ICONWIDTH, DETAIL_INFO_HEIGHT-thumbMargin*2);
+    if( [infoTextArr count] > 3 ){
+        CGSize infoTextSize = CGSizeMake(PHONE_TWO_CELL_WIDTH-thumbMargin*3-USER_THUMB_ICONWIDTH, DETAIL_INFO_HEIGHT-thumbMargin*2);
         tempLabel = [[UILabel alloc] init];
         tempLabel.attributedText = [self makeAttrString:infoTextArr withInfoHeight:infoTextSize];
         tempLabel.backgroundColor = [UIColor clearColor];
-        tempLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        tempLabel.numberOfLines = 2;
-        [tempLabel setFrame:CGRectMake(thumbMargin*2+USER_THUMB_ICONWIDTH, DETAIL_INFO_HEIGHT/2-infoTextSize.height/2, infoTextSize.width, infoTextSize.height)];
+        [tempLabel setFrame:CGRectMake(thumbMargin*2+USER_THUMB_ICONWIDTH, DETAIL_INFO_HEIGHT/2-infoTextSize.height/3, infoTextSize.width, infoTextSize.height)];
         [tempView2 addSubview:tempLabel];
     }
     [tempView addSubview:tempView2];
-    
-    NSLog(@"%@",pintrestItem.tags);
+//    NSLog(@"%@",pintrestItem.tags);
     
     return tempView;
 }

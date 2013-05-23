@@ -28,8 +28,10 @@
 + (void)removeFile:(NSString*)path;
 + (NSString *)createDrmDecryptFile:(NSString *)fileName;
 + (NSString *)getDownloadImagePath:(NSString *)contentID withMemberNo:(NSString *)memberNo withCoverUrl:(NSString *)coverUrl;
++ (void)cacheImage:(NSString *)imageURL withImage:(UIImage *)image withDir:(NSString *)dirName;
 + (void)cacheImage:(NSString *)imageURL withImage:(UIImage *)image;
 + (UIImage *)getCachedImage:(NSString *)imageURLString;
++ (UIImage *)checkCachedImage:(NSString *)imageURLString withDir:(NSString *)dirName;
 + (UIImage *)checkCachedImage:(NSString *)imageURLString;
 + (NSArray *)getAllImageFileList:(NSString *)rootDir;
 @end

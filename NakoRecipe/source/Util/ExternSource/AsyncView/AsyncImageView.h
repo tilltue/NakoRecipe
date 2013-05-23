@@ -16,5 +16,6 @@
     BOOL isLoadComplete;
     CGFloat resizeWidth;
 }
+@property (nonatomic, strong) NSString *uniqueDir;
 - (void)loadImageFromURL:(NSString *)url withResizeWidth:(CGFloat)width;
 @end
