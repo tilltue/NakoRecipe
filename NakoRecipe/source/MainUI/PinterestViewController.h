@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "RecipePinterest.h"
 #import "RecipeViewController.h"
+#import "HttpAsyncApi.h"
 
-@interface PinterestViewController : UIViewController <RecipePinterestDelegate>
+@interface PinterestViewController : UIViewController <RecipePinterestDelegate,RequestObserver>
 {
     RecipePinterest *recipePinterest;
     RecipeViewController *recipeViewController;

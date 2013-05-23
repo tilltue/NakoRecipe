@@ -38,4 +38,5 @@
 }
 @property (nonatomic, unsafe_unretained) id <RecipePinterestDelegate> delegate;
 - (void)reloadPintRest;
+- (NSArray *)getShowIndex;
 @end

@@ -182,6 +182,11 @@ static inline NSInteger PSCollectionIndexForKey(NSString *key) {
 
 #pragma mark - View
 
+- (NSArray *)getVisibleIndex
+{
+    return [self.visibleViews allKeys];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     

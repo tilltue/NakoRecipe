@@ -102,6 +102,13 @@
     [psCollectionView reloadData];
 }
 
+- (NSArray *)getShowIndex
+{
+    NSArray *visibles = [psCollectionView getVisibleIndex];
+    
+    return nil;
+}
+
 #pragma mark - handle Button
 
 - (void)handleHeartButtonTap:(UIButton *)paramSender
@@ -172,6 +179,7 @@
 
 - (UIView *)collectionView:(PSCollectionView *)collectionView cellForRowAtIndex:(NSInteger)index
 {
+    NSLog(@"show : %d",index);
     CGFloat PHONE_TWO_CELL_WIDTH        = [[rectDic objectForKey:@"PHONE_TWO_CELL_WIDTH"] floatValue];
     CGFloat PHONE_TWO_THUMB_WIDTH       = [[rectDic objectForKey:@"PHONE_TWO_THUMB_WIDTH"] floatValue];
     CGFloat THUMB_INFO_HEIGHT           = [[rectDic objectForKey:@"THUMB_INFO_HEIGHT"] floatValue];

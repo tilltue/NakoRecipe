@@ -7,7 +7,6 @@
 //
 
 #import "PinterestViewController.h"
-#import "HttpApi.h"
 #import "CoreDataManager.h"
 
 @interface PinterestViewController ()
@@ -33,13 +32,13 @@
     recipePinterest = [[RecipePinterest alloc] initWithFrame:self.view.bounds];
     recipePinterest.delegate = self;
     [self.view addSubview:recipePinterest];
+    [[HttpAsyncApi getInstance] attachObserver:self];
     
     recipeViewController = [[RecipeViewController alloc] init];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    //[[HttpApi getInstance] getRecipe];
     if( [[[CoreDataManager getInstance] getPosts] count] > 0 )
         ;//update?
     else
@@ -49,6 +48,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [[HttpAsyncApi getInstance] requestRecipe:0 withEndPostIndex:10];
 }
 
 - (void)didReceiveMemoryWarning
@@ -60,6 +60,14 @@
 - (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
+}
+
+#pragma mark - request observer
+
+- (void)requestFinished:(NSString *)retString
+{
+    NSLog(@"%@",retString);
+    [recipePinterest getShowIndex];
 }
 
 #pragma mark - pintrestview delegate

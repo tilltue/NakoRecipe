@@ -51,7 +51,7 @@
  This is similar to UITableView reloadData)
  */
 - (void)reloadData;
-
+- (NSArray *)getVisibleIndex;
 /**
  Dequeues a reusable view that was previously initialized
  This is similar to UITableView dequeueReusableCellWithIdentifier
