@@ -18,6 +18,7 @@
 +(CoreDataManager *)getInstance;
 - (void)saveContext;
 #pragma mark - Post
+- (void)makePostFromBundle;
 - (void)savePost:(NSDictionary *)jsonDict;
 - (NSArray *)getPosts;
 - (Post *)getPost:(NSString *)postId;

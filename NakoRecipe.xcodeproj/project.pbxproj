@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		224B4ABB174B9E7E00CE7A9B /* 세발자전거B.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4AB7174B9E7E00CE7A9B /* 세발자전거B.TTF */; };
 		224B4ABC174B9E7E00CE7A9B /* 세발자전거L.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4AB8174B9E7E00CE7A9B /* 세발자전거L.TTF */; };
 		224B4ABD174B9E7E00CE7A9B /* 테트리스L.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4AB9174B9E7E00CE7A9B /* 테트리스L.TTF */; };
-		224B4ABE174B9E7E00CE7A9B /* 테트리스M.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4ABA174B9E7E00CE7A9B /* 테트리스M.TTF */; };
 		226072CB1744C06700CF3EAA /* Icons-chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072C81744C06700CF3EAA /* Icons-chat@2x.png */; };
 		226072CC1744C06700CF3EAA /* Icons-comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072C91744C06700CF3EAA /* Icons-comments@2x.png */; };
 		226072CD1744C06700CF3EAA /* Icons-h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072CA1744C06700CF3EAA /* Icons-h@2x.png */; };
@@ -20,6 +18,7 @@
 		226072DD17450C0700CF3EAA /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 226072DC17450C0600CF3EAA /* libxml2.2.dylib */; };
 		226072E0174B2F5100CF3EAA /* SystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 226072DF174B2F5100CF3EAA /* SystemInfo.m */; };
 		22D4B472174CB59A00F91441 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D4B471174CB59A00F91441 /* Post.m */; };
+		22D4B475174DF5BD00F91441 /* DefaultJSON.htm in Resources */ = {isa = PBXBuildFile; fileRef = 22D4B474174DF5BD00F91441 /* DefaultJSON.htm */; };
 		A3D0D50217489E7B006C0AA9 /* HttpApi.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D50117489E7B006C0AA9 /* HttpApi.m */; };
 		A3D0D50717489E89006C0AA9 /* CommonUI.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D50417489E89006C0AA9 /* CommonUI.m */; };
 		A3D0D50817489E89006C0AA9 /* FileControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D50617489E89006C0AA9 /* FileControl.m */; };
@@ -73,10 +72,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		224B4AB7174B9E7E00CE7A9B /* 세발자전거B.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "세발자전거B.TTF"; path = "resource/font/세발자전거B.TTF"; sourceTree = "<group>"; };
 		224B4AB8174B9E7E00CE7A9B /* 세발자전거L.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "세발자전거L.TTF"; path = "resource/font/세발자전거L.TTF"; sourceTree = "<group>"; };
 		224B4AB9174B9E7E00CE7A9B /* 테트리스L.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "테트리스L.TTF"; path = "resource/font/테트리스L.TTF"; sourceTree = "<group>"; };
-		224B4ABA174B9E7E00CE7A9B /* 테트리스M.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "테트리스M.TTF"; path = "resource/font/테트리스M.TTF"; sourceTree = "<group>"; };
 		226072C81744C06700CF3EAA /* Icons-chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-chat@2x.png"; path = "resource/Icons-chat@2x.png"; sourceTree = "<group>"; };
 		226072C91744C06700CF3EAA /* Icons-comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-comments@2x.png"; path = "resource/Icons-comments@2x.png"; sourceTree = "<group>"; };
 		226072CA1744C06700CF3EAA /* Icons-h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-h@2x.png"; path = "resource/Icons-h@2x.png"; sourceTree = "<group>"; };
@@ -88,6 +85,7 @@
 		226072DF174B2F5100CF3EAA /* SystemInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemInfo.m; path = source/Util/System/SystemInfo.m; sourceTree = "<group>"; };
 		22D4B470174CB59A00F91441 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Post.h; path = source/Util/System/CoreData/Post.h; sourceTree = "<group>"; };
 		22D4B471174CB59A00F91441 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Post.m; path = source/Util/System/CoreData/Post.m; sourceTree = "<group>"; };
+		22D4B474174DF5BD00F91441 /* DefaultJSON.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = DefaultJSON.htm; path = resource/DefaultJSON/DefaultJSON.htm; sourceTree = "<group>"; };
 		A3D0D50017489E7B006C0AA9 /* HttpApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpApi.h; path = source/Util/System/HttpApi/HttpApi.h; sourceTree = "<group>"; };
 		A3D0D50117489E7B006C0AA9 /* HttpApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HttpApi.m; path = source/Util/System/HttpApi/HttpApi.m; sourceTree = "<group>"; };
 		A3D0D50317489E89006C0AA9 /* CommonUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonUI.h; path = source/Util/System/CommonUI.h; sourceTree = "<group>"; };
@@ -189,13 +187,14 @@
 		226072BC1744A23A00CF3EAA /* Resouce */ = {
 			isa = PBXGroup;
 			children = (
+				226072C11744B47000CF3EAA /* Font */,
+				22D4B473174DF54200F91441 /* DefaultJSON */,
 				226072CE1744D5D200CF3EAA /* Icons-chat_black@2x.png */,
 				226072CF1744D5D200CF3EAA /* Icons-comments_black@2x.png */,
 				226072D01744D5D200CF3EAA /* Icons-h_black@2x.png */,
 				226072C81744C06700CF3EAA /* Icons-chat@2x.png */,
 				226072C91744C06700CF3EAA /* Icons-comments@2x.png */,
 				226072CA1744C06700CF3EAA /* Icons-h@2x.png */,
-				226072C11744B47000CF3EAA /* Font */,
 			);
 			name = Resouce;
 			sourceTree = "<group>";
@@ -203,10 +202,8 @@
 		226072C11744B47000CF3EAA /* Font */ = {
 			isa = PBXGroup;
 			children = (
-				224B4AB7174B9E7E00CE7A9B /* 세발자전거B.TTF */,
 				224B4AB8174B9E7E00CE7A9B /* 세발자전거L.TTF */,
 				224B4AB9174B9E7E00CE7A9B /* 테트리스L.TTF */,
-				224B4ABA174B9E7E00CE7A9B /* 테트리스M.TTF */,
 			);
 			name = Font;
 			sourceTree = "<group>";
@@ -228,6 +225,14 @@
 				A3D0D50A17489E98006C0AA9 /* GDataXMLNode.m */,
 			);
 			name = GDataXML;
+			sourceTree = "<group>";
+		};
+		22D4B473174DF54200F91441 /* DefaultJSON */ = {
+			isa = PBXGroup;
+			children = (
+				22D4B474174DF5BD00F91441 /* DefaultJSON.htm */,
+			);
+			name = DefaultJSON;
 			sourceTree = "<group>";
 		};
 		A3D0D51217489F29006C0AA9 /* CoreData */ = {
@@ -533,10 +538,9 @@
 				226072D11744D5D200CF3EAA /* Icons-chat_black@2x.png in Resources */,
 				226072D21744D5D200CF3EAA /* Icons-comments_black@2x.png in Resources */,
 				226072D31744D5D200CF3EAA /* Icons-h_black@2x.png in Resources */,
-				224B4ABB174B9E7E00CE7A9B /* 세발자전거B.TTF in Resources */,
 				224B4ABC174B9E7E00CE7A9B /* 세발자전거L.TTF in Resources */,
 				224B4ABD174B9E7E00CE7A9B /* 테트리스L.TTF in Resources */,
-				224B4ABE174B9E7E00CE7A9B /* 테트리스M.TTF in Resources */,
+				22D4B475174DF5BD00F91441 /* DefaultJSON.htm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

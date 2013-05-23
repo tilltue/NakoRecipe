@@ -8,6 +8,7 @@
 
 #import "PinterestViewController.h"
 #import "HttpApi.h"
+#import "CoreDataManager.h"
 
 @interface PinterestViewController ()
 
@@ -39,7 +40,15 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     //[[HttpApi getInstance] getRecipe];
+    if( [[[CoreDataManager getInstance] getPosts] count] > 0 )
+        ;//update?
+    else
+        [[CoreDataManager getInstance] makePostFromBundle];
     [recipePinterest reloadPintRest];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
 }
 
 - (void)didReceiveMemoryWarning

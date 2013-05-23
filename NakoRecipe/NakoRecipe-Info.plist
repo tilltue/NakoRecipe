@@ -28,8 +28,6 @@
 	<array>
 		<string>세발자전거L.TTF</string>
 		<string>테트리스L.TTF</string>
-		<string>테트리스M.TTF</string>
-		<string>세발자전거B.TTF</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>

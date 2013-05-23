@@ -126,6 +126,23 @@
     return nil;
 }
 
+- (void)makePostFromBundle
+{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"DefaultJSON" ofType:@"htm"];
+    NSData *bundleJSONData = [NSData dataWithContentsOfFile:filePath];
+    NSMutableDictionary* dict = [[[SBJsonParser alloc] init] objectWithData:bundleJSONData];
+    NSString *found = [dict objectForKey:@"found"];
+    if( [found intValue] > 0 ){
+        NSLog(@"fonund %d",[found intValue]);
+        NSArray *postDictArr = [dict objectForKey:@"posts"];
+        for( NSMutableDictionary *postDict in postDictArr )
+        {
+            if( [postDict objectForKey:@"ID"] != nil )
+                [[CoreDataManager getInstance] savePost:postDict];
+        }
+    }
+}
+
 - (Post *)getPost:(NSString *)postId
 {
     if( postId == nil )

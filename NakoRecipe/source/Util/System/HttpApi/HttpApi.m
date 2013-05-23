@@ -59,12 +59,6 @@
     return tempResult;
 }
 
-- (BOOL)jsonError:(NSMutableDictionary *)jsonDic
-{
-    BOOL result = [[jsonDic objectForKey:@"error_code"] isEqualToString:@"0000"]?YES:NO;
-    return result;
-}
-
 - (NSString *)getRecipe
 {
     HttpRequestResult *ret = [self requestJSON:DATA_URL];

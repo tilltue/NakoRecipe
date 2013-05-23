@@ -327,11 +327,9 @@
     }else{
         titleLabel.attributedText = [[NSMutableAttributedString alloc] initWithString:@""];
     }
-
     likeLabel.text = [NSString stringWithFormat:@"%d",[tempPost.like_count intValue]];
     commentLabel.text = [NSString stringWithFormat:@"%d",[tempPost.comment_count intValue]];
     recipeContent.text = [self splitEnter:tempPost.content];
-    //CGSize infoTextSize = CGSizeMake(PHONE_TWO_CELL_WIDTH-thumbMargin*3-USER_THUMB_ICONWIDTH, DETAIL_INFO_HEIGHT-thumbMargin*2);
     imagePageControl.currentPage    = 0;
     imagePageControl.numberOfPages  = [imageArr count];
 }
