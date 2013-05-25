@@ -25,13 +25,14 @@
     UITextView      *recipeContent;
     
     UIButton    *youtubeButton;
+    /*
     UIImageView *likeImageView;
     UIImageView *commentImageView;
     UIButton    *likeButton;
     UIButton    *commentButton;
     UILabel     *likeLabel;
     UILabel     *commentLabel;
-    
+    */
     NSString    *currentPostId;
     
     AsyncImageView *youtubeThumbImageView;

@@ -30,9 +30,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [CommonUI getUIColorFromHexString:@"#E4E3DC"];
-    recipeView = [[RecipeView alloc] initWithFrame:self.view.bounds];
+    recipeView = [[RecipeView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
     [self.view addSubview:recipeView];
-    [self initGestureRecognizer:self.view];
     
     CGRect tempRect = [SystemInfo isPad]?CGRectMake(0, 0, 768, 40):CGRectMake(0, 0, 220, 40);
     CGFloat titleFontHeight;

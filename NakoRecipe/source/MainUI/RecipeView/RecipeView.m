@@ -31,7 +31,7 @@
         noImageLabel.backgroundColor = [CommonUI getUIColorFromHexString:@"#EFEDFA"];
         noImageLabel.textAlignment = NSTextAlignmentCenter;
         noImageLabel.text = @"No Image";
-        noImageLabel.font = [UIFont fontWithName:UIFONT_NAME size:80];
+        noImageLabel.font = [UIFont fontWithName:UIFONT_NAME size:50];
         [recipeInfo addSubview:noImageLabel];
         
         imageScrollView = [[UIScrollView alloc] init];
@@ -59,39 +59,39 @@
         [youtubeButton addTarget:self action:@selector(handleYoutubeButtonTap:) forControlEvents:UIControlEventTouchUpInside];
         [recipeInfo addSubview:youtubeButton];
         
-        likeImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icons-h_black"]];
-        likeImageView.alpha = .4f;
-        [recipeInfo addSubview:likeImageView];
-        
-        likeLabel = [[UILabel alloc] init];
-        likeLabel.textColor = [UIColor blackColor];
-        likeLabel.textAlignment = NSTextAlignmentCenter;
-        likeLabel.backgroundColor = [UIColor clearColor];
-        likeLabel.alpha = .4f;
-        likeLabel.font = [UIFont systemFontOfSize:10];
-        [recipeInfo addSubview:likeLabel];
-        
-        likeButton = [[UIButton alloc] init];
-        likeButton.alpha = .4f;
-        [likeButton addTarget:self action:@selector(handleHeartButtonTap:) forControlEvents:UIControlEventTouchUpInside];
-        [recipeInfo addSubview:likeButton];
+//        likeImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icons-h_black"]];
+//        likeImageView.alpha = .4f;
+//        [recipeInfo addSubview:likeImageView];
+//        
+//        likeLabel = [[UILabel alloc] init];
+//        likeLabel.textColor = [UIColor blackColor];
+//        likeLabel.textAlignment = NSTextAlignmentCenter;
+//        likeLabel.backgroundColor = [UIColor clearColor];
+//        likeLabel.alpha = .4f;
+//        likeLabel.font = [UIFont systemFontOfSize:10];
+//        [recipeInfo addSubview:likeLabel];
+//        
+//        likeButton = [[UIButton alloc] init];
+//        likeButton.alpha = .4f;
+//        [likeButton addTarget:self action:@selector(handleHeartButtonTap:) forControlEvents:UIControlEventTouchUpInside];
+//        [recipeInfo addSubview:likeButton];
+//
+//        commentImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icons-comments_black"]];
+//        commentImageView.alpha = .4f;
+//        [recipeInfo addSubview:commentImageView];
 
-        commentImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icons-comments_black"]];
-        commentImageView.alpha = .4f;
-        [recipeInfo addSubview:commentImageView];
-
-        commentLabel = [[UILabel alloc] init];
-        commentLabel.textColor = [UIColor blackColor];
-        commentLabel.textAlignment = NSTextAlignmentCenter;
-        commentLabel.backgroundColor = [UIColor clearColor];
-        commentLabel.alpha = .4f;
-        commentLabel.font = [UIFont systemFontOfSize:10];
-        [recipeInfo addSubview:commentLabel];
-        
-        commentButton = [[UIButton alloc] init];
-        commentButton.alpha = .4f;
-        [commentButton addTarget:self action:@selector(handleCommentButtonTap:) forControlEvents:UIControlEventTouchUpInside];
-        [recipeInfo addSubview:commentButton];
+//        commentLabel = [[UILabel alloc] init];
+//        commentLabel.textColor = [UIColor blackColor];
+//        commentLabel.textAlignment = NSTextAlignmentCenter;
+//        commentLabel.backgroundColor = [UIColor clearColor];
+//        commentLabel.alpha = .4f;
+//        commentLabel.font = [UIFont systemFontOfSize:10];
+//        [recipeInfo addSubview:commentLabel];
+//        
+//        commentButton = [[UIButton alloc] init];
+//        commentButton.alpha = .4f;
+//        [commentButton addTarget:self action:@selector(handleCommentButtonTap:) forControlEvents:UIControlEventTouchUpInside];
+//        [recipeInfo addSubview:commentButton];
         
         recipeDetailInfo = [[UIView alloc] init];
         recipeDetailInfo.backgroundColor = [UIColor whiteColor];
@@ -113,7 +113,9 @@
 - (void)makeLayout
 {
     [rectDic setObject:@"{{10,10},{0,0}}"   forKey:@"imageScrollView"];
-    [rectDic setObject:@"30"                forKey:@"DETAIL_INFO_MARGIN"];
+    [rectDic setObject:@"20"                forKey:@"DETAIL_INFO_MARGIN"];
+    [rectDic setObject:@"30"                forKey:@"RECIPE_INFO_HEIGHT"];
+    [rectDic setObject:@"30"                forKey:@"YOUTUBE_BTN_HEIGHT"];
     [rectDic setObject:@"300"               forKey:@"RECIPE_DETAIL_INFO_HEIGHT"];
     [rectDic setObject:@"15"                forKey:@"IMAGE_PAGECONTROL_HEIGHT"];
 }
@@ -124,28 +126,41 @@
     CGFloat youtubeThumbMargin = 3.0f;
     CGFloat iconSize = 15.0f;
     CGFloat DETAIL_INFO_MARGIN          = [[rectDic objectForKey:@"DETAIL_INFO_MARGIN"] floatValue];
+    CGFloat RECIPE_INFO_HEIGHT          = [[rectDic objectForKey:@"RECIPE_INFO_HEIGHT"] floatValue];
     CGFloat RECIPE_DETAIL_INFO_HEIGHT   = [[rectDic objectForKey:@"RECIPE_DETAIL_INFO_HEIGHT"] floatValue];
+    CGFloat YOUTUBE_BTN_HEIGHT          = [[rectDic objectForKey:@"YOUTUBE_BTN_HEIGHT"] floatValue];
     
     tempRect = [CommonUI getRectFromDic:rectDic withKey:@"imageScrollView"];
-    [recipeInfo setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height * 0.8)];
-    [noImageLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8)];
-    [imageScrollView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8)];
-    [titleLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y*2+imageScrollView.frame.size.height, recipeInfo.frame.size.width - tempRect.origin.x*2-iconSize*6, recipeInfo.frame.size.height * 0.2-tempRect.origin.y*2)];
     for( int i = 0; i < [imageArr count]; i++ )
     {
         AsyncImageView *tempSubImageView = [imageArr objectAtIndex:i];
-        [tempSubImageView setFrame:CGRectMake((imageScrollView.frame.size.width)*i, (imageScrollView.frame.size.height)/2-tempSubImageView.frame.size.height/2, imageScrollView.frame.size.width, tempSubImageView.frame.size.height)];
+        [tempSubImageView setFrame:CGRectMake((self.frame.size.width - tempRect.origin.x*4)*i, 0, self.frame.size.width - tempRect.origin.x*4, tempSubImageView.frame.size.height)];
+    }
+    if( [imageArr count] > imagePageControl.currentPage ){
+        AsyncImageView *tempSubImageView = [imageArr objectAtIndex:imagePageControl.currentPage];
+        [imageScrollView setFrame:CGRectMake(tempRect.origin.x,tempRect.origin.y, tempSubImageView.frame.size.width, tempSubImageView.frame.size.height)];
+        [recipeInfo setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, imageScrollView.frame.size.height+tempRect.origin.y*4+RECIPE_INFO_HEIGHT+YOUTUBE_BTN_HEIGHT)];
+        [titleLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y*2+imageScrollView.frame.size.height, recipeInfo.frame.size.width - tempRect.origin.x*2-iconSize*6, RECIPE_INFO_HEIGHT)];
+    }else{
+        [recipeInfo setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height*.3+tempRect.origin.y*4+RECIPE_INFO_HEIGHT+YOUTUBE_BTN_HEIGHT)];
+        [noImageLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8-RECIPE_INFO_HEIGHT-YOUTUBE_BTN_HEIGHT+tempRect.origin.y)];
+        [titleLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y*2+noImageLabel.frame.size.height, recipeInfo.frame.size.width - tempRect.origin.x*2-iconSize*6, RECIPE_INFO_HEIGHT)];
     }
     [imageScrollView setContentSize:CGSizeMake((imageScrollView.frame.size.width)*([imageArr count]), imageScrollView.frame.size.height)];
-    [youtubeButton      setFrame:CGRectMake(titleLabel.frame.origin.x+titleLabel.frame.size.width, titleLabel.frame.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2 - titleLabel.frame.size.width, titleLabel.frame.size.height-tempRect.origin.y*2-iconSize)];
-    [youtubeThumbImageView setFrame:CGRectMake(youtubeButton.frame.origin.x+youtubeThumbMargin, youtubeButton.frame.origin.y+youtubeThumbMargin, youtubeButton.frame.size.width/3,youtubeButton.frame.size.height-youtubeThumbMargin*2)];
-    [likeImageView      setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*2), recipeInfo.frame.size.height-iconSize*2, iconSize, iconSize)];
-    [likeLabel          setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*1), recipeInfo.frame.size.height-iconSize*2, iconSize*2, iconSize)];
-    [likeButton         setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*2), recipeInfo.frame.size.height-iconSize*2, iconSize*3, iconSize)];
-    
-    [commentImageView   setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*5), recipeInfo.frame.size.height-iconSize*2, iconSize, iconSize)];
-    [commentLabel       setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*4), recipeInfo.frame.size.height-iconSize*2, iconSize*2, iconSize)];
-    [commentButton      setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*5), recipeInfo.frame.size.height-iconSize*2, iconSize*3, iconSize)];
+    if([SystemInfo isPad]){
+        [youtubeButton      setFrame:CGRectMake(tempRect.origin.y, titleLabel.frame.origin.y+titleLabel.frame.size.height+tempRect.origin.y, 100, YOUTUBE_BTN_HEIGHT)];
+        [youtubeThumbImageView setFrame:CGRectMake(youtubeButton.frame.origin.x+youtubeThumbMargin, youtubeButton.frame.origin.y+youtubeThumbMargin, youtubeButton.frame.size.width/3,youtubeButton.frame.size.height-youtubeThumbMargin*2)];
+    }else{
+        [youtubeButton      setFrame:CGRectMake(tempRect.origin.y, titleLabel.frame.origin.y+titleLabel.frame.size.height+tempRect.origin.y, (recipeInfo.frame.size.width - tempRect.origin.x*2)*(0.35), YOUTUBE_BTN_HEIGHT)];
+        [youtubeThumbImageView setFrame:CGRectMake(youtubeButton.frame.origin.x+youtubeThumbMargin, youtubeButton.frame.origin.y+youtubeThumbMargin, youtubeButton.frame.size.width/3,youtubeButton.frame.size.height-youtubeThumbMargin*2)];
+    }
+//    [likeImageView      setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*2), recipeInfo.frame.size.height-iconSize*2, iconSize, iconSize)];
+//    [likeLabel          setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*1), recipeInfo.frame.size.height-iconSize*2, iconSize*2, iconSize)];
+//    [likeButton         setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*2), recipeInfo.frame.size.height-iconSize*2, iconSize*3, iconSize)];
+//    
+//    [commentImageView   setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*5), recipeInfo.frame.size.height-iconSize*2, iconSize, iconSize)];
+//    [commentLabel       setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*4), recipeInfo.frame.size.height-iconSize*2, iconSize*2, iconSize)];
+//    [commentButton      setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*5), recipeInfo.frame.size.height-iconSize*2, iconSize*3, iconSize)];
     
     [recipeDetailInfo setFrame:CGRectMake(10, recipeInfo.frame.size.height+DETAIL_INFO_MARGIN+10, recipeInfo.frame.size.width,RECIPE_DETAIL_INFO_HEIGHT)];
     [recipeContent setFrame:CGRectMake(10, 10, recipeDetailInfo.frame.size.width-20, recipeDetailInfo.frame.size.height-20)];
@@ -191,6 +206,7 @@
         imagePageControl.currentPage +=1;
         [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
     }
+    [self layoutIfNeeded];
 }
 
 - (void)initGestureRecognizer:(UIView *)view
@@ -228,7 +244,7 @@
         [youtubeButton setAttributedTitle:attrStr forState:UIControlStateNormal];
         [youtubeButton setTitleEdgeInsets:textInset];
     }else{
-        UIEdgeInsets textInset = [SystemInfo isPad]?UIEdgeInsetsMake(10, 30, 0, 0):UIEdgeInsetsMake(3, 0, 0, 0);
+        UIEdgeInsets textInset = [SystemInfo isPad]?UIEdgeInsetsMake(3, 0, 0, 0):UIEdgeInsetsMake(3, 0, 0, 0);
         NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:@"Youtube영상없음"];
         [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(0, 3)];
         [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME_HA size:18] range:NSMakeRange(0, 3)];
@@ -273,17 +289,18 @@
     [self setContentOffset:CGPointMake(0, 0)];
     CGFloat iconSize = 15.0f;
     CGRect tempRect;
+    CGFloat RECIPE_INFO_HEIGHT          = [[rectDic objectForKey:@"RECIPE_INFO_HEIGHT"] floatValue];
     tempRect = [CommonUI getRectFromDic:rectDic withKey:@"imageScrollView"];
     [recipeInfo setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height * 0.8)];
     [noImageLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8)];
     [imageScrollView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8)];
-    [titleLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y*2+imageScrollView.frame.size.height, recipeInfo.frame.size.width - tempRect.origin.x*2-iconSize*6, recipeInfo.frame.size.height * 0.2-tempRect.origin.y*2)];
+    [titleLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y*2+imageScrollView.frame.size.height, recipeInfo.frame.size.width - tempRect.origin.x*2-iconSize*6, RECIPE_INFO_HEIGHT)];
     
     for( AsyncImageView *tempSubImageView in imageArr )
         [tempSubImageView removeFromSuperview];
     [imageArr removeAllObjects];
-    likeLabel.text      = @"0";
-    commentLabel.text   = @"0";
+//    likeLabel.text      = @"0";
+//    commentLabel.text   = @"0";
     recipeContent.text  = @"";
     
     Post *tempPost = [[CoreDataManager getInstance] getPost:postId];
@@ -297,7 +314,7 @@
             [tempAsyncImageview loadImageFromURL:attachItem.thumb_url withResizeWidth:imageScrollView.frame.size.width*4];
             [imageScrollView addSubview:tempAsyncImageview];
             [imageArr addObject:tempAsyncImageview];
-            [tempAsyncImageview setFrame:CGRectMake((imageScrollView.frame.size.width)*i, (imageScrollView.frame.size.height)/2-resizeHeight/2, imageScrollView.frame.size.width,resizeHeight)];
+            [tempAsyncImageview setFrame:CGRectMake((imageScrollView.frame.size.width)*i, 0, imageScrollView.frame.size.width,resizeHeight)];
         }
         [imageScrollView setContentSize:CGSizeMake((imageScrollView.frame.size.width)*([imageArr count]), imageScrollView.frame.size.height)];
         //NSLog(@"%@ : %@",postId,recipeContent.text);
@@ -307,7 +324,6 @@
         //첨부 이미지가 없을때
         noImageLabel.hidden = NO;
         imageScrollView.hidden = YES;
-
     }
     NSArray *infoTextArr = [tempPost.tags componentsSeparatedByString:@"|"];
     if( [infoTextArr count] > 4 ){
@@ -327,11 +343,12 @@
     }else{
         titleLabel.attributedText = [[NSMutableAttributedString alloc] initWithString:@""];
     }
-    likeLabel.text = [NSString stringWithFormat:@"%d",[tempPost.like_count intValue]];
-    commentLabel.text = [NSString stringWithFormat:@"%d",[tempPost.comment_count intValue]];
+
     recipeContent.text = [self splitEnter:tempPost.content];
     imagePageControl.currentPage    = 0;
     imagePageControl.numberOfPages  = [imageArr count];
+    [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
+    [self layoutIfNeeded];
 }
 
 @end

@@ -54,7 +54,7 @@
     [rectDic setObject:@"{{0,0},{0,0}}" forKey:@"psCollectionView"];
     //value
     if( [SystemInfo isPad] ){
-        [rectDic setObject:@"248" forKey:@"PHONE_TWO_CELL_WIDTH"];
+        [rectDic setObject:@"245" forKey:@"PHONE_TWO_CELL_WIDTH"];
         [rectDic setObject:@"240" forKey:@"PHONE_TWO_THUMB_WIDTH"];
         [rectDic setObject:@"10" forKey:@"HEART_AND_COMMENT_ICONWIDTH"];
         [rectDic setObject:@"40" forKey:@"THUMB_INFO_HEIGHT"];
@@ -277,7 +277,7 @@
     tempLabel.backgroundColor = [UIColor clearColor];
     if( [infoTextArr count] > 1 )
         tempLabel.text = [NSString stringWithFormat:@"%@ 방영",[infoTextArr objectAtIndex:1]];
-    tempLabel.font = [UIFont systemFontOfSize:10];
+    tempLabel.font = [SystemInfo isPad]?[UIFont systemFontOfSize:15]:[UIFont systemFontOfSize:10];
     [tempLabel setFrame:CGRectMake(thumbMargin, resizeHeight+thumbMargin+titleHeight+thumbMargin, PHONE_TWO_CELL_WIDTH-thumbMargin*2, THUMB_INFO_HEIGHT)];
     [tempView addSubview:tempLabel];
 

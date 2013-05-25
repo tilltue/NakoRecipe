@@ -302,9 +302,9 @@ NSInteger intSortPostId(Post *item1, Post *item2, void *context)
 {
     int v1 = [item1.post_id intValue];
     int v2 = [item2.post_id intValue];
-    if (v1 < v2)
+    if (v1 > v2)
         return NSOrderedAscending;
-    else if (v1 > v2)
+    else if (v1 < v2)
         return NSOrderedDescending;
     else
         return NSOrderedSame;

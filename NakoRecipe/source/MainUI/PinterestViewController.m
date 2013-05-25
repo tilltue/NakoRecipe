@@ -37,8 +37,7 @@
                                       action:@selector(update)];
     refreshButton.tintColor = [CommonUI getUIColorFromHexString:@"#C9C5C5"];
     self.navigationItem.rightBarButtonItem = refreshButton;
-
-    recipePinterest = [[RecipePinterest alloc] initWithFrame:self.view.bounds];
+    recipePinterest = [[RecipePinterest alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
     recipePinterest.delegate = self;
     [self.view addSubview:recipePinterest];
     [[HttpAsyncApi getInstance] attachObserver:self];
