@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#define UIFONT_NAME_HA @"HA-TTL"
+#define UIFONT_NAME @"AppleSDGothicNeo-Medium"
 
 @interface SystemInfo : NSObject
 +(BOOL)isPad;

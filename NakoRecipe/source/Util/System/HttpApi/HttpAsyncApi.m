@@ -36,7 +36,7 @@
     return singletonInstance;
 }
 
-- (void)requestRecipe:(NSInteger)startPostIndex withEndPostIndex:(NSInteger)endPostIndex
+- (void)requestRecipe:(NSInteger)numberPostIndex withOffsetPostIndex:(NSInteger)offsetPostIndex
 {
     if( requestState == E_REQUEST_STATE_PROGRESS || requestState == E_REQUEST_STATE_START ){
         //NSLog(@"Progress");
@@ -45,8 +45,8 @@
         if( responseData == nil )
             responseData = [[NSMutableData alloc] init];
         [responseData setLength:0];
-        
-        NSURL * url = [[NSURL alloc] initWithString:DATA_URL];
+//        NSLog(@"%@",[NSString stringWithFormat:@"%@&number=%d&offset=%d&order=ASC",DATA_URL,numberPostIndex,offsetPostIndex]);
+        NSURL * url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@&number=%d&offset=%d",DATA_URL,numberPostIndex,offsetPostIndex]];
         NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:REQUEST_TIMEOUT];
         connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         [connection start];
@@ -88,7 +88,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSLog(@"finish");
-    NSLog(@"%@",[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+    //NSLog(@"%@",[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
     requestState = E_REQUEST_STATE_COMPLETE;
     [self requestFinished];
 }

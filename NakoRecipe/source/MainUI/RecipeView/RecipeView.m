@@ -31,7 +31,7 @@
         noImageLabel.backgroundColor = [CommonUI getUIColorFromHexString:@"#EFEDFA"];
         noImageLabel.textAlignment = NSTextAlignmentCenter;
         noImageLabel.text = @"No Image";
-        noImageLabel.font = [UIFont fontWithName:@"HA-TTL" size:80];
+        noImageLabel.font = [UIFont fontWithName:UIFONT_NAME size:80];
         [recipeInfo addSubview:noImageLabel];
         
         imageScrollView = [[UIScrollView alloc] init];
@@ -101,7 +101,7 @@
         recipeContent.textColor = [UIColor blackColor];
         recipeContent.editable = NO;
         recipeContent.backgroundColor = [UIColor clearColor];
-        recipeContent.font = [UIFont fontWithName:@"HA-TTL" size:20];
+        recipeContent.font = [UIFont fontWithName:UIFONT_NAME size:14];
         [recipeDetailInfo addSubview:recipeContent];
         
         imageArr = [[NSMutableArray alloc] init];
@@ -222,20 +222,20 @@
         UIEdgeInsets textInset = [SystemInfo isPad]?UIEdgeInsetsMake(10, 30, 0, 0):UIEdgeInsetsMake(10, 31, 0, 0);
         NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:@"YouTube"];
         [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(0, 3)];
-        [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:24] range:NSMakeRange(0, 3)];
+        [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME_HA size:24] range:NSMakeRange(0, 3)];
         [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#C11B17"] range:NSMakeRange(3, 4)];
-        [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:20] range:NSMakeRange(3, 4)];
+        [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME_HA size:20] range:NSMakeRange(3, 4)];
         [youtubeButton setAttributedTitle:attrStr forState:UIControlStateNormal];
         [youtubeButton setTitleEdgeInsets:textInset];
     }else{
         UIEdgeInsets textInset = [SystemInfo isPad]?UIEdgeInsetsMake(10, 30, 0, 0):UIEdgeInsetsMake(3, 0, 0, 0);
         NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:@"Youtube영상없음"];
         [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(0, 3)];
-        [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:18] range:NSMakeRange(0, 3)];
+        [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME_HA size:18] range:NSMakeRange(0, 3)];
         [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#C11B17"] range:NSMakeRange(3, 4)];
-        [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:18] range:NSMakeRange(3, 4)];
+        [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME_HA size:18] range:NSMakeRange(3, 4)];
         [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(7, 4)];
-        [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:18] range:NSMakeRange(7, 4)];
+        [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME_HA size:18] range:NSMakeRange(7, 4)];
         [youtubeButton setAttributedTitle:attrStr forState:UIControlStateNormal];
         [youtubeButton setTitleEdgeInsets:textInset];
     }
@@ -253,14 +253,14 @@
     infoString = creator;
     infoString = [infoString stringByAppendingString:@"의 "];
     infoString = [infoString stringByAppendingString:foodName];
-    textWidth += [infoString sizeWithFont:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height]].width;
+    textWidth += [infoString sizeWithFont:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height]].width;
     
     NSInteger colorRocation = [creator length];
     NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:infoString];
     [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#FFA500"] range:NSMakeRange(0, colorRocation)];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height] range:NSMakeRange(0, colorRocation)];
+    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height] range:NSMakeRange(0, colorRocation)];
     [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(colorRocation, [infoString length]-colorRocation)];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height] range:NSMakeRange(colorRocation, [infoString length]-colorRocation)];
+    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height] range:NSMakeRange(colorRocation, [infoString length]-colorRocation)];
     if( textWidth > titleLabelSize.width && titleLabelSize.width != 0 ){
         return [self makeAttrString:tagTextArr withInfoHeight:CGSizeMake(titleLabelSize.width, titleLabelSize.height*.9)];
     }

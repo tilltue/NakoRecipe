@@ -43,6 +43,7 @@
 		A3D0D5611748FBAF006C0AA9 /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D5601748FBAF006C0AA9 /* AsyncImageView.m */; };
 		A3D0D566174903DB006C0AA9 /* RecipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D565174903DB006C0AA9 /* RecipeViewController.m */; };
 		A3D0D569174903FD006C0AA9 /* RecipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D568174903FD006C0AA9 /* RecipeView.m */; };
+		A3E530D217507B5700C651F3 /* AppPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E530D117507B5700C651F3 /* AppPreference.m */; };
 		A3FB73171743DE9700413AE8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73161743DE9700413AE8 /* UIKit.framework */; };
 		A3FB73191743DE9700413AE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73181743DE9700413AE8 /* Foundation.framework */; };
 		A3FB731B1743DE9700413AE8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB731A1743DE9700413AE8 /* CoreGraphics.framework */; };
@@ -134,6 +135,8 @@
 		A3D0D565174903DB006C0AA9 /* RecipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecipeViewController.m; path = source/MainUI/RecipeViewController.m; sourceTree = "<group>"; };
 		A3D0D567174903FD006C0AA9 /* RecipeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecipeView.h; path = source/MainUI/RecipeView/RecipeView.h; sourceTree = "<group>"; };
 		A3D0D568174903FD006C0AA9 /* RecipeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecipeView.m; path = source/MainUI/RecipeView/RecipeView.m; sourceTree = "<group>"; };
+		A3E530D017507B5700C651F3 /* AppPreference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppPreference.h; path = source/Util/System/AppPreference.h; sourceTree = "<group>"; };
+		A3E530D117507B5700C651F3 /* AppPreference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppPreference.m; path = source/Util/System/AppPreference.m; sourceTree = "<group>"; };
 		A3FB73131743DE9700413AE8 /* NakoRecipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NakoRecipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3FB73161743DE9700413AE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A3FB73181743DE9700413AE8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -457,6 +460,8 @@
 				A3D0D50417489E89006C0AA9 /* CommonUI.m */,
 				A3D0D50517489E89006C0AA9 /* FileControl.h */,
 				A3D0D50617489E89006C0AA9 /* FileControl.m */,
+				A3E530D017507B5700C651F3 /* AppPreference.h */,
+				A3E530D117507B5700C651F3 /* AppPreference.m */,
 				226072D417450A7900CF3EAA /* HttpApi */,
 			);
 			name = System;
@@ -609,6 +614,7 @@
 				226072E0174B2F5100CF3EAA /* SystemInfo.m in Sources */,
 				22D4B472174CB59A00F91441 /* Post.m in Sources */,
 				22D4B478174DFFDE00F91441 /* HttpAsyncApi.m in Sources */,
+				A3E530D217507B5700C651F3 /* AppPreference.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

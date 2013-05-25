@@ -19,6 +19,8 @@
 - (void)saveContext;
 #pragma mark - Post
 - (void)makePostFromBundle;
+- (BOOL)validatePostId:(NSString *)postId;
+- (void)updatePost:(NSDictionary *)jsonDict;
 - (void)savePost:(NSDictionary *)jsonDict;
 - (NSArray *)getPosts;
 - (Post *)getPost:(NSString *)postId;

@@ -7,6 +7,7 @@
 //
 
 #import "RecipeViewController.h"
+#import "CoreDataManager.h"
 
 @interface RecipeViewController ()
 
@@ -32,12 +33,36 @@
     recipeView = [[RecipeView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:recipeView];
     [self initGestureRecognizer:self.view];
+    
+    CGRect tempRect = [SystemInfo isPad]?CGRectMake(0, 0, 768, 40):CGRectMake(0, 0, 220, 40);
+    CGFloat titleFontHeight;
+    if( [UIFONT_NAME isEqualToString:@"HA-TTL"] )
+        titleFontHeight = [SystemInfo isPad]?24.0:24.0f;
+    else
+        titleFontHeight = [SystemInfo isPad]?24.0:24.0f;
+    UILabel *label = [[UILabel alloc] initWithFrame:tempRect];
+    label.font = [UIFont fontWithName:UIFONT_NAME size:titleFontHeight];
+    label.shadowColor = [UIColor clearColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [CommonUI getUIColorFromHexString:@"#696565"];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"";
+    self.navigationItem.titleView = label;
+    self.navigationItem.backBarButtonItem.tintColor = [CommonUI getUIColorFromHexString:@"#C9C5C5"];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if( currentPostId != nil )
+    if( currentPostId != nil ){
         [recipeView reloadRecipeView:currentPostId];
+        Post *tempPost = [[CoreDataManager getInstance] getPost:currentPostId];
+        NSArray *infoTextArr = [tempPost.tags componentsSeparatedByString:@"|"];
+        if( [infoTextArr count] > 4 ){
+            NSString *food_name       = [infoTextArr objectAtIndex:3];
+            UILabel *tempLabel = (UILabel *)self.navigationItem.titleView;
+            tempLabel.text = food_name;
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning

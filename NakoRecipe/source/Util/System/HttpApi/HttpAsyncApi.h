@@ -34,5 +34,5 @@ typedef enum {
 @property NSInteger requestState;
 + (HttpAsyncApi *)getInstance;
 - (void)attachObserver:(id<RequestObserver>)observer;
-- (void)requestRecipe:(NSInteger)startPostIndex withEndPostIndex:(NSInteger)endPostIndex;
+- (void)requestRecipe:(NSInteger)numberPostIndex withOffsetPostIndex:(NSInteger)offsetPostIndex;
 @end

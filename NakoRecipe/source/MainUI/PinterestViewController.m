@@ -8,6 +8,8 @@
 
 #import "PinterestViewController.h"
 #import "CoreDataManager.h"
+#import "AppPreference.h"
+#import "SBJson.h"
 
 @interface PinterestViewController ()
 
@@ -29,6 +31,13 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [CommonUI getUIColorFromHexString:@"#E4E3DC"];
+    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc]
+                                      initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                      target:self
+                                      action:@selector(update)];
+    refreshButton.tintColor = [CommonUI getUIColorFromHexString:@"#C9C5C5"];
+    self.navigationItem.rightBarButtonItem = refreshButton;
+
     recipePinterest = [[RecipePinterest alloc] initWithFrame:self.view.bounds];
     recipePinterest.delegate = self;
     [self.view addSubview:recipePinterest];
@@ -48,7 +57,6 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [[HttpAsyncApi getInstance] requestRecipe:0 withEndPostIndex:10];
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,12 +70,61 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
+#pragma mark - Recipe Info update
+
+- (void)updateCheck
+{
+    BOOL updateCheck = NO;
+    NSInteger tempTime = [[AppPreference getCheckTime:PREKEY_UPDATE_RECIPE] floatValue];
+    if( tempTime < 0 ){
+        updateCheck = YES;
+        [AppPreference setCheckTime:[NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970]] withKey:PREKEY_UPDATE_RECIPE];
+    }else{
+        NSInteger tempInterVal = [[NSDate date] timeIntervalSince1970] - tempTime;
+        if( tempInterVal > 120 ){
+            updateCheck = YES;
+            [AppPreference setCheckTime:[NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970]] withKey:PREKEY_UPDATE_RECIPE];
+        }
+    }
+    if( updateCheck ){
+        NSInteger currentPostCount = [[[CoreDataManager getInstance] getPosts] count];
+        [[HttpAsyncApi getInstance] requestRecipe:currentPostCount withOffsetPostIndex:0];
+    }
+}
+
+- (void)update
+{
+    NSInteger currentPostCount = [[[CoreDataManager getInstance] getPosts] count];
+    [[HttpAsyncApi getInstance] requestRecipe:currentPostCount withOffsetPostIndex:0];
+}
+
 #pragma mark - request observer
 
 - (void)requestFinished:(NSString *)retString
 {
-    NSLog(@"%@",retString);
-    [recipePinterest getShowIndex];
+    //NSLog(@"%@",retString);
+    //[recipePinterest getShowIndex];
+    NSMutableDictionary* dict = [[[SBJsonParser alloc] init] objectWithString:retString];
+    NSString *found = [dict objectForKey:@"found"];
+    if( [found intValue] > 0 ){
+        NSArray *postDictArr = [dict objectForKey:@"posts"];
+        for( NSMutableDictionary *postDict in postDictArr )
+        {
+            NSString *postID = [postDict objectForKey:@"ID"];
+            if( postID != nil ){
+                if( [[CoreDataManager getInstance] validatePostId:postID] )
+                    [[CoreDataManager getInstance] savePost:postDict];
+                else
+                    [[CoreDataManager getInstance] updatePost:postDict];
+            }
+        }
+        [recipePinterest reloadPintRest];
+        //전체 갯수가 더 많을때 부분 요청을 다시 한번 한다.
+        NSInteger currentPostCount = [[[CoreDataManager getInstance] getPosts] count];
+        if( currentPostCount < [found intValue] )
+            [[HttpAsyncApi getInstance] requestRecipe:[found intValue] withOffsetPostIndex:currentPostCount];
+    }
+
 }
 
 #pragma mark - pintrestview delegate
@@ -80,6 +137,6 @@
     }else{
         recipeViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     }
-    [self presentViewController:recipeViewController animated:YES completion:nil];
+    [self.navigationController pushViewController:recipeViewController animated:YES];
 }
 @end

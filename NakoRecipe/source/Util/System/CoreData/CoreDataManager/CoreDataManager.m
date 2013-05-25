@@ -155,13 +155,65 @@
     return nil;
 }
 
+- (void)updatePost:(NSDictionary *)jsonDict
+{
+    id tempValue = nil;
+    tempValue = [jsonDict objectForKey:@"ID"];
+    if( [tempValue isKindOfClass:[NSDecimalNumber class]] )
+        tempValue = [NSString stringWithFormat:@"%@",[tempValue stringValue]];
+    if( tempValue != nil && [tempValue length] > 0 && [self validatePostId:tempValue] )
+        return;
+    Post *tempPost = [self getPost:tempValue];
+    tempValue = [jsonDict objectForKey:@"title"];
+    if( tempValue != nil && [tempValue length] > 0 )
+        tempPost.title = tempValue;
+    tempValue = [self stringByStrippingHTML:[jsonDict objectForKey:@"content"]];
+    if( tempValue != nil && [tempValue length] > 0 )
+        tempPost.content = tempValue;
+    tempValue = [jsonDict objectForKey:@"like_count"];
+    if( tempValue != nil )
+        tempPost.like_count = [NSNumber numberWithInt:[tempValue intValue]];
+    tempValue = [jsonDict objectForKey:@"comment_count"];
+    if( tempValue != nil )
+        tempPost.comment_count = [NSNumber numberWithInt:[tempValue intValue]];
+    
+    NSMutableDictionary *tempDict = [jsonDict objectForKey:@"tags"];
+    if( [[tempDict allKeys] count] > 0 ){
+        NSString *key = [[tempDict allKeys] objectAtIndex:0];
+        if( [key length] > 0 )
+            tempPost.tags = key;
+    }
+    
+    for( AttatchMent *item in tempPost.attatchments )
+        [ad.managedObjectContext deleteObject:item];
+    [tempPost removeAttatchments:tempPost.attatchments];
+    [self saveContext];
+    
+    NSString *thumbImagePrefix = @"creator";
+    NSMutableDictionary *attatchmentDicts = [jsonDict objectForKey:@"attachments"];
+    for( NSString *key in [attatchmentDicts allKeys] )
+    {
+        NSMutableDictionary *attatchment = [attatchmentDicts objectForKey:key];
+        tempValue = [attatchment objectForKey:@"URL"];
+        if( [[tempValue lastPathComponent] hasPrefix:thumbImagePrefix] ){
+            tempPost.creator_url = tempValue;
+            continue;
+        }
+        if( tempValue != nil && [tempValue length] > 0 ){
+            AttatchMent *tempAttachment = [self saveAttatchment:attatchment withPostId:tempPost.post_id];
+            [tempPost addAttatchmentsObject:tempAttachment];
+        }
+    }
+    [self saveContext];
+}
+
 - (void)savePost:(NSDictionary *)jsonDict
 {
     id tempValue = nil;
     tempValue = [jsonDict objectForKey:@"ID"];
     if( [tempValue isKindOfClass:[NSDecimalNumber class]] )
         tempValue = [NSString stringWithFormat:@"%@",[tempValue stringValue]];
-    if( tempValue != nil && [tempValue length] > 0 && ![self validatePostId:tempValue] )//Post Update?
+    if( tempValue != nil && [tempValue length] > 0 && ![self validatePostId:tempValue] )
         return;
     Post *tempPost = (Post *) [NSEntityDescription insertNewObjectForEntityForName:@"Post" inManagedObjectContext:ad.managedObjectContext];
     tempPost.post_id = tempValue;

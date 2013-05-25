@@ -22,9 +22,35 @@
     
     PinterestViewController *pintrestMainViewController;
     pintrestMainViewController = [[PinterestViewController alloc] init];
+    
+    CGRect tempRect = [SystemInfo isPad]?CGRectMake(0, 0, 768, 40):CGRectMake(0, 0, 320, 40);
+    CGFloat titleFontHeight;
+    if( [UIFONT_NAME isEqualToString:@"HA-TTL"] )
+        titleFontHeight = [SystemInfo isPad]?24.0:24.0f;
+    else
+        titleFontHeight = [SystemInfo isPad]?24.0:24.0f;
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:tempRect];
+    label.font = [UIFont fontWithName:UIFONT_NAME size:titleFontHeight];
+    label.shadowColor = [UIColor clearColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [CommonUI getUIColorFromHexString:@"#696565"];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"해투 야간매점";
+    pintrestMainViewController.navigationItem.titleView = label;
+    
+    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:pintrestMainViewController];
+    navigationVC.navigationBar.tintColor = [UIColor whiteColor];
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    [attributes setValue:[CommonUI getUIColorFromHexString:@"#696565"] forKey:UITextAttributeTextColor];
+    [attributes setValue:[UIColor clearColor] forKey:UITextAttributeTextShadowColor];
+    [attributes setValue:[NSValue valueWithUIOffset:UIOffsetMake(0.0, 0.0)] forKey:UITextAttributeTextShadowOffset];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:attributes forState:UIControlStateNormal];
+    CGFloat verticalOffset = 4;
+    [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:verticalOffset forBarMetrics:UIBarMetricsDefault];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = pintrestMainViewController;
+    self.window.rootViewController = navigationVC;
 
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];

@@ -105,8 +105,7 @@
 - (NSArray *)getShowIndex
 {
     NSArray *visibles = [psCollectionView getVisibleIndex];
-    
-    return nil;
+    return visibles;
 }
 
 #pragma mark - handle Button
@@ -138,13 +137,13 @@
 - (NSMutableAttributedString *)makeAttrString:(NSString *)text withTitleHeight:(CGSize)titleLabelSize
 {
     CGFloat textWidth = 0;
-    textWidth += [[text substringToIndex:1] sizeWithFont:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height]].width;
-    textWidth += [[text substringFromIndex:1] sizeWithFont:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height*.9]].width;
+    textWidth += [[text substringToIndex:1] sizeWithFont:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height]].width;
+    textWidth += [[text substringFromIndex:1] sizeWithFont:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height*.9]].width;
     NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:text];
     [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#FFA500"] range:NSMakeRange(0, 1)];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height] range:NSMakeRange(0, 1)];
+    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height] range:NSMakeRange(0, 1)];
     [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(1, [text length]-1)];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height*.9] range:NSMakeRange(1, [text length]-1)];
+    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height*.9] range:NSMakeRange(1, [text length]-1)];
     if( textWidth > titleLabelSize.width && titleLabelSize.width != 0 ){
         return [self makeAttrString:text withTitleHeight:CGSizeMake(titleLabelSize.width, titleLabelSize.height*.9)];
     }
@@ -163,14 +162,14 @@
     infoString = broadCastNum;
     infoString = [infoString stringByAppendingString:@"회 "];
     infoString = [infoString stringByAppendingString:creator];
-    textWidth += [infoString sizeWithFont:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height]].width;
+    textWidth += [infoString sizeWithFont:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height]].width;
     
     NSInteger colorRocation = [broadCastNum length];
     NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:infoString];
     [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#3EA99F"] range:NSMakeRange(0, colorRocation)];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height] range:NSMakeRange(0, colorRocation)];
+    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height] range:NSMakeRange(0, colorRocation)];
     [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(colorRocation, [infoString length]-colorRocation)];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HA-TTL" size:titleLabelSize.height] range:NSMakeRange(colorRocation, [infoString length]-colorRocation)];
+    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height] range:NSMakeRange(colorRocation, [infoString length]-colorRocation)];
     if( textWidth > titleLabelSize.width && titleLabelSize.width != 0 ){
         return [self makeAttrString:tagTextArr withInfoHeight:CGSizeMake(titleLabelSize.width, titleLabelSize.height*.9)];
     }
@@ -184,7 +183,7 @@
     CGFloat PHONE_TWO_THUMB_WIDTH       = [[rectDic objectForKey:@"PHONE_TWO_THUMB_WIDTH"] floatValue];
     CGFloat THUMB_INFO_HEIGHT           = [[rectDic objectForKey:@"THUMB_INFO_HEIGHT"] floatValue];
     CGFloat DETAIL_INFO_HEIGHT          = [[rectDic objectForKey:@"DETAIL_INFO_HEIGHT"] floatValue];
-    CGFloat HEART_AND_COMMENT_ICONWIDTH = [[rectDic objectForKey:@"HEART_AND_COMMENT_ICONWIDTH"] floatValue];
+//    CGFloat HEART_AND_COMMENT_ICONWIDTH = [[rectDic objectForKey:@"HEART_AND_COMMENT_ICONWIDTH"] floatValue];
     CGFloat USER_THUMB_ICONWIDTH        = [[rectDic objectForKey:@"USER_THUMB_ICONWIDTH"] floatValue];
     
     CGFloat thumbMargin = (PHONE_TWO_CELL_WIDTH - PHONE_TWO_THUMB_WIDTH)/2;
@@ -209,7 +208,7 @@
         noImageLabel.backgroundColor = [CommonUI getUIColorFromHexString:@"#EFEDFA"];
         noImageLabel.textAlignment = NSTextAlignmentCenter;
         noImageLabel.text = @"No Image";
-        noImageLabel.font = [UIFont fontWithName:@"HA-TTL" size:40];
+        noImageLabel.font = [UIFont fontWithName:UIFONT_NAME size:20];
         [noImageLabel setFrame:CGRectMake(thumbMargin, thumbMargin, PHONE_TWO_THUMB_WIDTH, PHONE_TWO_THUMB_WIDTH)];
         [tempView addSubview:noImageLabel];
         
@@ -222,7 +221,7 @@
     [tempLabel setFrame:CGRectMake(thumbMargin, resizeHeight+thumbMargin+5, PHONE_TWO_THUMB_WIDTH, [tempLabel.attributedText size].height+5)];
     [tempView addSubview:tempLabel];
 
-    
+    /*
     UIImageView *heartIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icons-h_black"]];
     heartIcon.alpha = .4f;
     [heartIcon setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*4), resizeHeight+titleHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
@@ -268,7 +267,20 @@
     [tempButton setFrame:CGRectMake(commentIcon.frame.origin.x-3, commentIcon.frame.origin.y-3, commentIcon.frame.size.width+tempLabel.frame.size.width+6, commentIcon.frame.size.height+6)];
     [tempButton addTarget:self action:@selector(handleCommentButtonTap:) forControlEvents:UIControlEventTouchUpInside];
     [tempView addSubview:tempButton];
+    */
     
+    NSArray *infoTextArr = [pintrestItem.tags componentsSeparatedByString:@"|"];
+    
+    tempLabel = [[UILabel alloc] init];
+    tempLabel.textColor = [UIColor blackColor];
+    tempLabel.textAlignment = NSTextAlignmentRight;
+    tempLabel.backgroundColor = [UIColor clearColor];
+    if( [infoTextArr count] > 1 )
+        tempLabel.text = [NSString stringWithFormat:@"%@ 방영",[infoTextArr objectAtIndex:1]];
+    tempLabel.font = [UIFont systemFontOfSize:10];
+    [tempLabel setFrame:CGRectMake(thumbMargin, resizeHeight+thumbMargin+titleHeight+thumbMargin, PHONE_TWO_CELL_WIDTH-thumbMargin*2, THUMB_INFO_HEIGHT)];
+    [tempView addSubview:tempLabel];
+
     UIView *tempView2 = [[UIView alloc] init];
     tempView2.backgroundColor = [CommonUI getUIColorFromHexString:@"#F2F3F7"];
     [tempView2 setFrame:CGRectMake(0, resizeHeight+thumbMargin+titleHeight+THUMB_INFO_HEIGHT, PHONE_TWO_CELL_WIDTH, DETAIL_INFO_HEIGHT)];
@@ -281,9 +293,8 @@
     [tempAsyncImageView setFrame:CGRectMake(thumbMargin, DETAIL_INFO_HEIGHT/2-USER_THUMB_ICONWIDTH/2, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
     [tempView2 addSubview:tempAsyncImageView];
     
-    NSArray *infoTextArr = [pintrestItem.tags componentsSeparatedByString:@"|"];
     if( [infoTextArr count] > 3 ){
-        CGSize infoTextSize = CGSizeMake(PHONE_TWO_CELL_WIDTH-thumbMargin*3-USER_THUMB_ICONWIDTH, DETAIL_INFO_HEIGHT-thumbMargin*2);
+        CGSize infoTextSize = CGSizeMake(PHONE_TWO_CELL_WIDTH-thumbMargin*3-USER_THUMB_ICONWIDTH, DETAIL_INFO_HEIGHT*.6-thumbMargin*2);
         tempLabel = [[UILabel alloc] init];
         tempLabel.attributedText = [self makeAttrString:infoTextArr withInfoHeight:infoTextSize];
         tempLabel.backgroundColor = [UIColor clearColor];
