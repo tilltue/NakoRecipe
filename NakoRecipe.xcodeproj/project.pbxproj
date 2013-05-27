@@ -717,11 +717,15 @@
 		A3FB73461743DE9700413AE8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Park junhyi (8L2VX295UA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Park junhyi (8L2VX295UA)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "NakoRecipe/NakoRecipe-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6D92DF88-CD65-4708-A19F-1C1272100A00";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6D92DF88-CD65-4708-A19F-1C1272100A00";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -729,11 +733,15 @@
 		A3FB73471743DE9700413AE8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Park junhyi (8L2VX295UA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Park junhyi (8L2VX295UA)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "NakoRecipe/NakoRecipe-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6D92DF88-CD65-4708-A19F-1C1272100A00";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6D92DF88-CD65-4708-A19F-1C1272100A00";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
