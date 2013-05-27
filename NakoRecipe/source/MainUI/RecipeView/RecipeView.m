@@ -225,7 +225,28 @@
     swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeHandler:)];
     swipeRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
     [view addGestureRecognizer:swipeRecognizer];
+    
+    UITapGestureRecognizer *tapRecognizer;
+    tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    tapRecognizer.cancelsTouchesInView = NO;
+    [view addGestureRecognizer:tapRecognizer];
 }
+
+-(void)handleTap:(UITapGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer.state==UIGestureRecognizerStateEnded)
+    {
+        CGPoint point = [gestureRecognizer locationInView:recipeInfo];
+        if( point.x < imageScrollView.frame.size.width/2 ){
+            imagePageControl.currentPage -=1;
+            [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
+        }else{
+            imagePageControl.currentPage +=1;
+            [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
+        }
+    }
+}
+
 
 - (NSString *)splitEnter:(NSString*)string
 {
