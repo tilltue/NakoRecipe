@@ -102,6 +102,14 @@
     [psCollectionView reloadData];
 }
 
+- (AttatchItem *)getThumbNailItem:(PintrestItem *)pintrestItem
+{
+    for( AttatchItem *item in pintrestItem.attachItems )
+        if( [[item.image_url lastPathComponent] hasPrefix:@"thumbnail"] )
+            return item;
+    return nil;
+}
+
 - (NSArray *)getShowIndex
 {
     NSArray *visibles = [psCollectionView getVisibleIndex];
@@ -194,12 +202,16 @@
     CGFloat titleHeight = 0;
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
     if( [pintrestItem.attachItems count] > 0){
-        AttatchItem *tempAttatchItem = [pintrestItem.attachItems objectAtIndex:[pintrestItem.attachItems count]-1];
+        AttatchItem *tempAttatchItem = [self getThumbNailItem:pintrestItem];
         AsyncImageView *tempAsyncImageView = [[AsyncImageView alloc] init];
-        [tempAsyncImageView loadImageFromURL:tempAttatchItem.image_url withResizeWidth:PHONE_TWO_THUMB_WIDTH*4];
-        
-        resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
-        titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
+        [tempAsyncImageView loadImageFromURL:tempAttatchItem.image_url withResizeWidth:PHONE_TWO_THUMB_WIDTH*4];        
+        if( tempAttatchItem != nil ){
+            resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
+            titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
+        }else{
+            resizeHeight = PHONE_TWO_THUMB_WIDTH;
+            titleHeight = PHONE_TWO_THUMB_WIDTH*.2;
+        }
         [tempView addSubview:tempAsyncImageView];
         [tempAsyncImageView setFrame:CGRectMake(thumbMargin, thumbMargin, PHONE_TWO_THUMB_WIDTH, resizeHeight)];
     }else{
@@ -317,9 +329,14 @@
     CGFloat titleHeight = 0;
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
     if( [pintrestItem.attachItems count] > 0 ){
-        AttatchItem *tempAttatchItem = [pintrestItem.attachItems objectAtIndex:[pintrestItem.attachItems count]-1];
-        resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
-        titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
+        AttatchItem *tempAttatchItem = [self getThumbNailItem:pintrestItem];
+        if( tempAttatchItem != nil ){
+            resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
+            titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
+        }else{
+            resizeHeight = PHONE_TWO_THUMB_WIDTH;
+            titleHeight = PHONE_TWO_THUMB_WIDTH*.2;
+        }
     }else{
         resizeHeight = PHONE_TWO_THUMB_WIDTH;
         titleHeight = PHONE_TWO_THUMB_WIDTH*.2;

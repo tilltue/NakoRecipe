@@ -7,6 +7,7 @@
 //
 
 #import "CoreDataManager.h"
+#import "HttpApi.h"
 #import "SBJson.h"
 
 @implementation CoreDataManager
@@ -177,12 +178,12 @@
     if( tempValue != nil )
         tempPost.comment_count = [NSNumber numberWithInt:[tempValue intValue]];
     
-    NSMutableDictionary *tempDict = [jsonDict objectForKey:@"tags"];
-    if( [[tempDict allKeys] count] > 0 ){
-        NSString *key = [[tempDict allKeys] objectAtIndex:0];
-        if( [key length] > 0 )
-            tempPost.tags = key;
+    NSArray *tempArr   = [jsonDict objectForKey:@"tags"];
+    if( [tempArr count] > 0 ){
+        NSMutableDictionary *tagDict    = [tempArr objectAtIndex:0];
+        tempPost.tags = [tagDict objectForKey:@"title"];
     }
+//        tempPost.tags = key;
     
     for( AttatchMent *item in tempPost.attatchments )
         [ad.managedObjectContext deleteObject:item];
@@ -190,17 +191,17 @@
     [self saveContext];
     
     NSString *thumbImagePrefix = @"creator";
-    NSMutableDictionary *attatchmentDicts = [jsonDict objectForKey:@"attachments"];
-    for( NSString *key in [attatchmentDicts allKeys] )
+    NSArray *attatchmentArr = [jsonDict objectForKey:@"attachments"];
+    for( NSDictionary *attatchDict in attatchmentArr )
     {
-        NSMutableDictionary *attatchment = [attatchmentDicts objectForKey:key];
-        tempValue = [attatchment objectForKey:@"URL"];
+        NSMutableArray *tempDescArr = [attatchDict objectForKey:@"images"];
+    for( NSDictionary *attatchDict in attatchmentArr )
         if( [[tempValue lastPathComponent] hasPrefix:thumbImagePrefix] ){
             tempPost.creator_url = tempValue;
             continue;
         }
         if( tempValue != nil && [tempValue length] > 0 ){
-            AttatchMent *tempAttachment = [self saveAttatchment:attatchment withPostId:tempPost.post_id];
+            AttatchMent *tempAttachment = [self saveAttatchment:attatchDict withPostId:tempPost.post_id];
             [tempPost addAttatchmentsObject:tempAttachment];
         }
     }
@@ -210,7 +211,7 @@
 - (void)savePost:(NSDictionary *)jsonDict
 {
     id tempValue = nil;
-    tempValue = [jsonDict objectForKey:@"ID"];
+    tempValue = [jsonDict objectForKey:@"id"];
     if( [tempValue isKindOfClass:[NSDecimalNumber class]] )
         tempValue = [NSString stringWithFormat:@"%@",[tempValue stringValue]];
     if( tempValue != nil && [tempValue length] > 0 && ![self validatePostId:tempValue] )
@@ -250,10 +251,8 @@
         if( tempValue != nil && [tempValue length] > 0 ){
             AttatchMent *tempAttachment = [self saveAttatchment:attatchment withPostId:tempPost.post_id];
             [tempPost addAttatchmentsObject:tempAttachment];
-//            NSLog(@"%@",[tempAttachment debugDescription]);
         }
     }
-//    NSLog(@"%@",[tempPost debugDescription]);
     [self saveContext];
 }
 
@@ -262,7 +261,7 @@
     id tempValue = nil;
     AttatchMent *tempAttachment = (AttatchMent *) [NSEntityDescription insertNewObjectForEntityForName:@"AttatchMent" inManagedObjectContext:ad.managedObjectContext];
     tempAttachment.post_id = postId;
-    tempValue = [jsonDict objectForKey:@"URL"];
+    tempValue = [jsonDict objectForKey:@"url"];
     tempAttachment.thumb_url = tempValue;
     tempValue = [jsonDict objectForKey:@"width"];
     if( [tempValue isKindOfClass:[NSDecimalNumber class]] )
@@ -273,6 +272,7 @@
         tempValue = [NSString stringWithFormat:@"%@",[tempValue stringValue]];
     tempAttachment.height = [NSNumber numberWithInt:[tempValue intValue]];
     [self saveContext];
+    
     return tempAttachment;
 }
 

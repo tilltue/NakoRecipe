@@ -120,7 +120,7 @@
     [rectDic setObject:@"15"                forKey:@"IMAGE_PAGECONTROL_HEIGHT"];
 }
 
-- (void)layoutSubviews
+- (void)setLayout
 {
     CGRect tempRect;
     CGFloat youtubeThumbMargin = 3.0f;
@@ -154,18 +154,23 @@
         [youtubeButton      setFrame:CGRectMake(tempRect.origin.y, titleLabel.frame.origin.y+titleLabel.frame.size.height+tempRect.origin.y, (recipeInfo.frame.size.width - tempRect.origin.x*2)*(0.35), YOUTUBE_BTN_HEIGHT)];
         [youtubeThumbImageView setFrame:CGRectMake(youtubeButton.frame.origin.x+youtubeThumbMargin, youtubeButton.frame.origin.y+youtubeThumbMargin, youtubeButton.frame.size.width/3,youtubeButton.frame.size.height-youtubeThumbMargin*2)];
     }
-//    [likeImageView      setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*2), recipeInfo.frame.size.height-iconSize*2, iconSize, iconSize)];
-//    [likeLabel          setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*1), recipeInfo.frame.size.height-iconSize*2, iconSize*2, iconSize)];
-//    [likeButton         setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*2), recipeInfo.frame.size.height-iconSize*2, iconSize*3, iconSize)];
-//    
-//    [commentImageView   setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*5), recipeInfo.frame.size.height-iconSize*2, iconSize, iconSize)];
-//    [commentLabel       setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*4), recipeInfo.frame.size.height-iconSize*2, iconSize*2, iconSize)];
-//    [commentButton      setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*5), recipeInfo.frame.size.height-iconSize*2, iconSize*3, iconSize)];
+    //    [likeImageView      setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*2), recipeInfo.frame.size.height-iconSize*2, iconSize, iconSize)];
+    //    [likeLabel          setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*1), recipeInfo.frame.size.height-iconSize*2, iconSize*2, iconSize)];
+    //    [likeButton         setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*2), recipeInfo.frame.size.height-iconSize*2, iconSize*3, iconSize)];
+    //
+    //    [commentImageView   setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*5), recipeInfo.frame.size.height-iconSize*2, iconSize, iconSize)];
+    //    [commentLabel       setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*4), recipeInfo.frame.size.height-iconSize*2, iconSize*2, iconSize)];
+    //    [commentButton      setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*5), recipeInfo.frame.size.height-iconSize*2, iconSize*3, iconSize)];
     
     [recipeDetailInfo setFrame:CGRectMake(10, recipeInfo.frame.size.height+DETAIL_INFO_MARGIN+10, recipeInfo.frame.size.width,RECIPE_DETAIL_INFO_HEIGHT)];
     [recipeContent setFrame:CGRectMake(10, 10, recipeDetailInfo.frame.size.width-20, recipeDetailInfo.frame.size.height-20)];
     [recipeContent sizeToFit];
     [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height+DETAIL_INFO_MARGIN+10+RECIPE_DETAIL_INFO_HEIGHT+10)];
+}
+
+- (void)layoutSubviews
+{
+    [self setLayout];
 }
 
 - (void)handleHeartButtonTap:(UIButton *)paramSender
@@ -206,7 +211,8 @@
         imagePageControl.currentPage +=1;
         [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
     }
-    [self layoutIfNeeded];
+
+    [self setLayout];
 }
 
 - (void)initGestureRecognizer:(UIView *)view
@@ -309,12 +315,14 @@
         [sortArray sortUsingFunction:intSortURL context:nil];
         for( int i = 0; i < [sortArray count]; i++ ){
             AttatchMent *attachItem = [sortArray objectAtIndex:i];
-            CGFloat resizeHeight = ((imageScrollView.frame.size.width-40) / (float)[attachItem.width integerValue] ) * (float)[attachItem.height intValue];
+            if( [[attachItem.thumb_url lastPathComponent] hasPrefix:@"thumbnail"] )
+                continue;
+            CGFloat resizeHeight = ((imageScrollView.frame.size.width-40) / (float)[attachItem.width integerValue] ) * (float)([attachItem.height intValue]);
             AsyncImageView *tempAsyncImageview = [[AsyncImageView alloc] init];
             [tempAsyncImageview loadImageFromURL:attachItem.thumb_url withResizeWidth:imageScrollView.frame.size.width*4];
             [imageScrollView addSubview:tempAsyncImageview];
             [imageArr addObject:tempAsyncImageview];
-            [tempAsyncImageview setFrame:CGRectMake((imageScrollView.frame.size.width)*i, 0, imageScrollView.frame.size.width,resizeHeight)];
+            [tempAsyncImageview setFrame:CGRectMake((imageScrollView.frame.size.width)*i, 0, imageScrollView.frame.size.width,resizeHeight+40)];
         }
         [imageScrollView setContentSize:CGSizeMake((imageScrollView.frame.size.width)*([imageArr count]), imageScrollView.frame.size.height)];
         //NSLog(@"%@ : %@",postId,recipeContent.text);

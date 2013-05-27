@@ -9,7 +9,8 @@
 #import "HttpAsyncApi.h"
 #import "SBJson.h"
 #define REQUEST_TIMEOUT 10
-#define DATA_URL @"https://public-api.wordpress.com/rest/v1/sites/14.63.219.181/posts/?pretty=true"
+//#define DATA_URL @"https://public-api.wordpress.com/rest/v1/sites/14.63.219.181/posts/?pretty=true"
+#define DATA_URL @"http://14.63.219.181/?json=1"
 
 @implementation HttpAsyncApiRequestResult
 @synthesize retString,errorDomain;
@@ -45,8 +46,8 @@
         if( responseData == nil )
             responseData = [[NSMutableData alloc] init];
         [responseData setLength:0];
-//        NSLog(@"%@",[NSString stringWithFormat:@"%@&number=%d&offset=%d&order=ASC",DATA_URL,numberPostIndex,offsetPostIndex]);
-        NSURL * url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@&number=%d&offset=%d",DATA_URL,numberPostIndex,offsetPostIndex]];
+        NSURL * url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@&count=%d",DATA_URL,numberPostIndex]];
+        //NSLog(@"%@",[url absoluteString]);
         NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:REQUEST_TIMEOUT];
         connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         [connection start];

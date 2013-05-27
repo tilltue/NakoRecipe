@@ -104,12 +104,13 @@
     //NSLog(@"%@",retString);
     //[recipePinterest getShowIndex];
     NSMutableDictionary* dict = [[[SBJsonParser alloc] init] objectWithString:retString];
-    NSString *found = [dict objectForKey:@"found"];
-    if( [found intValue] > 0 ){
+    NSString *count = [dict objectForKey:@"count"];
+    if( [count intValue] > 0 ){
         NSArray *postDictArr = [dict objectForKey:@"posts"];
         for( NSMutableDictionary *postDict in postDictArr )
         {
-            NSString *postID = [postDict objectForKey:@"ID"];
+            NSString *postID = [postDict objectForKey:@"id"];
+            NSLog(@"%@",postID);
             if( postID != nil ){
                 if( [[CoreDataManager getInstance] validatePostId:postID] )
                     [[CoreDataManager getInstance] savePost:postDict];
@@ -120,8 +121,8 @@
         [recipePinterest reloadPintRest];
         //전체 갯수가 더 많을때 부분 요청을 다시 한번 한다.
         NSInteger currentPostCount = [[[CoreDataManager getInstance] getPosts] count];
-        if( currentPostCount < [found intValue] )
-            [[HttpAsyncApi getInstance] requestRecipe:[found intValue] withOffsetPostIndex:currentPostCount];
+        if( currentPostCount < [count intValue] )
+            [[HttpAsyncApi getInstance] requestRecipe:[count intValue] withOffsetPostIndex:currentPostCount];
     }
 
 }
