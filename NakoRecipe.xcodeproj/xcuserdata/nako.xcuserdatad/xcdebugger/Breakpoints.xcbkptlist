@@ -13,7 +13,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "129"
          endingLineNumber = "129"
-         landmarkName = "-numberOfRowsInCollectionView:"
+         landmarkName = "-handleCommentButtonTap:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -26,7 +26,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "141"
          endingLineNumber = "141"
-         landmarkName = "-makeAttrString:withTitleHeight:"
+         landmarkName = "-collectionView:didSelectCell:atIndex:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint

@@ -110,7 +110,6 @@
         for( NSMutableDictionary *postDict in postDictArr )
         {
             NSString *postID = [postDict objectForKey:@"id"];
-            NSLog(@"%@",postID);
             if( postID != nil ){
                 if( [[CoreDataManager getInstance] validatePostId:postID] )
                     [[CoreDataManager getInstance] savePost:postDict];
