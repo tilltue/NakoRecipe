@@ -186,7 +186,7 @@
 
 - (UIView *)collectionView:(PSCollectionView *)collectionView cellForRowAtIndex:(NSInteger)index
 {
-    NSLog(@"show : %d",index);
+//    NSLog(@"show : %d",index);
     CGFloat PHONE_TWO_CELL_WIDTH        = [[rectDic objectForKey:@"PHONE_TWO_CELL_WIDTH"] floatValue];
     CGFloat PHONE_TWO_THUMB_WIDTH       = [[rectDic objectForKey:@"PHONE_TWO_THUMB_WIDTH"] floatValue];
     CGFloat THUMB_INFO_HEIGHT           = [[rectDic objectForKey:@"THUMB_INFO_HEIGHT"] floatValue];
@@ -297,14 +297,14 @@
     tempView2.backgroundColor = [CommonUI getUIColorFromHexString:@"#F2F3F7"];
     [tempView2 setFrame:CGRectMake(0, resizeHeight+thumbMargin+titleHeight+THUMB_INFO_HEIGHT, PHONE_TWO_CELL_WIDTH, DETAIL_INFO_HEIGHT)];
     [tempView addSubview:tempView2];
-    
-    AsyncImageView *tempAsyncImageView = [[AsyncImageView alloc] init];
-    tempAsyncImageView.contentMode = UIViewContentModeScaleAspectFill;
-    tempAsyncImageView.clipsToBounds = YES;
-    [tempAsyncImageView loadImageFromURL:pintrestItem.creatorThumb withResizeWidth:USER_THUMB_ICONWIDTH*4];
-    [tempAsyncImageView setFrame:CGRectMake(thumbMargin, DETAIL_INFO_HEIGHT/2-USER_THUMB_ICONWIDTH/2, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
-    [tempView2 addSubview:tempAsyncImageView];
-    
+    if( [AppPreference getValid] ){
+        AsyncImageView *tempAsyncImageView = [[AsyncImageView alloc] init];
+        tempAsyncImageView.contentMode = UIViewContentModeScaleAspectFill;
+        tempAsyncImageView.clipsToBounds = YES;
+        [tempAsyncImageView loadImageFromURL:pintrestItem.creatorThumb withResizeWidth:USER_THUMB_ICONWIDTH*4];
+        [tempAsyncImageView setFrame:CGRectMake(thumbMargin, DETAIL_INFO_HEIGHT/2-USER_THUMB_ICONWIDTH/2, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
+        [tempView2 addSubview:tempAsyncImageView];
+    }
     if( [infoTextArr count] > 3 ){
         CGSize infoTextSize = CGSizeMake(PHONE_TWO_CELL_WIDTH-thumbMargin*3-USER_THUMB_ICONWIDTH, DETAIL_INFO_HEIGHT*.6-thumbMargin*2);
         tempLabel = [[UILabel alloc] init];

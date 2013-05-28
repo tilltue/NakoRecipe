@@ -11,6 +11,7 @@
 #import "SBJson.h"
 
 #define REQUEST_TIMEOUT 10
+#define VERSION_URL @"https://dl.dropboxusercontent.com/s/8qep15t65a0mfy2/version.txt"
 #define DATA_URL @"https://public-api.wordpress.com/rest/v1/sites/14.63.219.181/posts/?pretty=true&number=100"
 
 @implementation HttpRequestResult
@@ -57,6 +58,28 @@
     else
         tempResult.errorDomain = nil;
     return tempResult;
+}
+
+- (BOOL)requestVersion
+{
+    if( [AppPreference getValid] )
+        return YES;
+    NSError *error = [[NSError alloc] init];
+    NSData *xmlData;
+    NSURLResponse * response;
+    NSURL * surl = [NSURL URLWithString:VERSION_URL];
+    NSURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:surl cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:3];
+    xmlData = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&response error:&error];
+    if (error.code < 0) {
+        return NO;
+    }
+    NSString *jsonString = [[NSString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",jsonString);
+    if( [jsonString intValue] > 101 ){
+        [AppPreference setValid:@"YES"];
+        return YES;
+    }
+    return NO;
 }
 
 - (NSString *)getRecipe

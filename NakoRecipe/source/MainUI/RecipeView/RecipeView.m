@@ -335,15 +335,27 @@
         NSMutableArray *sortArray = [[NSMutableArray alloc] initWithArray:[tempPost.attatchments allObjects]];
         [sortArray sortUsingFunction:intSortURL context:nil];
         for( int i = 0; i < [sortArray count]; i++ ){
-            AttatchMent *attachItem = [sortArray objectAtIndex:i];
-            if( [[attachItem.thumb_url lastPathComponent] hasPrefix:@"thumbnail"] )
-                continue;
-            CGFloat resizeHeight = ((imageScrollView.frame.size.width-40) / (float)[attachItem.width integerValue] ) * (float)([attachItem.height intValue]);
-            AsyncImageView *tempAsyncImageview = [[AsyncImageView alloc] init];
-            [tempAsyncImageview loadImageFromURL:attachItem.thumb_url withResizeWidth:imageScrollView.frame.size.width*4];
-            [imageScrollView addSubview:tempAsyncImageview];
-            [imageArr addObject:tempAsyncImageview];
-            [tempAsyncImageview setFrame:CGRectMake((imageScrollView.frame.size.width)*i, 0, imageScrollView.frame.size.width,resizeHeight+40)];
+            if( [AppPreference getValid] ){
+                AttatchMent *attachItem = [sortArray objectAtIndex:i];
+                if( [[attachItem.thumb_url lastPathComponent] hasPrefix:@"thumbnail"] )
+                    continue;
+                CGFloat resizeHeight = ((imageScrollView.frame.size.width-40) / (float)[attachItem.width integerValue] ) * (float)([attachItem.height intValue]);
+                AsyncImageView *tempAsyncImageview = [[AsyncImageView alloc] init];
+                [tempAsyncImageview loadImageFromURL:attachItem.thumb_url withResizeWidth:imageScrollView.frame.size.width*4];
+                [imageScrollView addSubview:tempAsyncImageview];
+                [imageArr addObject:tempAsyncImageview];
+                [tempAsyncImageview setFrame:CGRectMake((imageScrollView.frame.size.width)*i, 0, imageScrollView.frame.size.width,resizeHeight+40)];
+            }else{
+                AttatchMent *attachItem = [sortArray objectAtIndex:i];
+                if( ![[attachItem.thumb_url lastPathComponent] hasPrefix:@"thumbnail"] )
+                    continue;
+                CGFloat resizeHeight = ((imageScrollView.frame.size.width-40) / (float)[attachItem.width integerValue] ) * (float)([attachItem.height intValue]);
+                AsyncImageView *tempAsyncImageview = [[AsyncImageView alloc] init];
+                [tempAsyncImageview loadImageFromURL:attachItem.thumb_url withResizeWidth:imageScrollView.frame.size.width*4];
+                [imageScrollView addSubview:tempAsyncImageview];
+                [imageArr addObject:tempAsyncImageview];
+                [tempAsyncImageview setFrame:CGRectMake((imageScrollView.frame.size.width)*i, 0, imageScrollView.frame.size.width,resizeHeight+40)];
+            }
         }
         [imageScrollView setContentSize:CGSizeMake((imageScrollView.frame.size.width)*([imageArr count]), imageScrollView.frame.size.height)];
         //NSLog(@"%@ : %@",postId,recipeContent.text);

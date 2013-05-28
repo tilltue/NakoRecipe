@@ -17,4 +17,5 @@
 @interface HttpApi : NSObject
 + (HttpApi *)getInstance;
 - (HttpRequestResult *)requestJSON:(NSString *)url;
+- (BOOL)requestVersion;
 @end

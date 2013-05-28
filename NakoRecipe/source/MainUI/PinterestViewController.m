@@ -10,6 +10,7 @@
 #import "CoreDataManager.h"
 #import "AppPreference.h"
 #import "SBJson.h"
+#import "HttpApi.h"
 
 @interface PinterestViewController ()
 
@@ -47,6 +48,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self versionCheck];
     if( [[[CoreDataManager getInstance] getPosts] count] > 0 )
         ;//update?
     else
@@ -71,23 +73,24 @@
 
 #pragma mark - Recipe Info update
 
-- (void)updateCheck
+- (void)versionCheck
 {
-    BOOL updateCheck = NO;
-    NSInteger tempTime = [[AppPreference getCheckTime:PREKEY_UPDATE_RECIPE] floatValue];
+    if( [AppPreference getValid] )
+        return;
+    BOOL versionCheck = NO;
+    CGFloat tempTime = [[AppPreference getCheckTime:PREKEY_UPDATE_RECIPE] floatValue];
     if( tempTime < 0 ){
-        updateCheck = YES;
+        versionCheck = YES;
         [AppPreference setCheckTime:[NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970]] withKey:PREKEY_UPDATE_RECIPE];
     }else{
-        NSInteger tempInterVal = [[NSDate date] timeIntervalSince1970] - tempTime;
-        if( tempInterVal > 120 ){
-            updateCheck = YES;
+        CGFloat tempInterVal = [[NSDate date] timeIntervalSince1970] - tempTime;
+        if( tempInterVal > 300 ){
+            versionCheck = YES;
             [AppPreference setCheckTime:[NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970]] withKey:PREKEY_UPDATE_RECIPE];
         }
     }
-    if( updateCheck ){
-        NSInteger currentPostCount = [[[CoreDataManager getInstance] getPosts] count];
-        [[HttpAsyncApi getInstance] requestRecipe:currentPostCount withOffsetPostIndex:0];
+    if( versionCheck ){
+        [[HttpApi getInstance] requestVersion];
     }
 }
 

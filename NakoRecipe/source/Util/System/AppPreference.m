@@ -50,6 +50,22 @@
     return UUID;
 }
 
++ (void)setValid:(NSString *)boolString
+{
+    [[NSUserDefaults standardUserDefaults] setObject:boolString forKey:APP_VERSION];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (BOOL)getValid
+{
+    NSString *retString = [[NSUserDefaults standardUserDefaults] stringForKey:APP_VERSION];
+    if( retString == nil )
+        return NO;
+    if( [retString isEqualToString:@"YES"])
+        return YES;
+    return NO;
+}
+
 #pragma mark - checkin time
 
 + (BOOL)setCheckTime:(NSString *)timeInterval1960 withKey:(NSString *)checkKey
