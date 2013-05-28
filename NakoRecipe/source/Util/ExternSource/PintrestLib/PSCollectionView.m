@@ -404,7 +404,9 @@ static inline NSInteger PSCollectionIndexForKey(NSString *key) {
     }
     
     [[self.reuseableViews objectForKey:identifier] addObject:view];
-    
+    for(UIView *sub in  view.subviews ){
+        [sub removeFromSuperview];
+    }
     [view removeFromSuperview];
 }
 
