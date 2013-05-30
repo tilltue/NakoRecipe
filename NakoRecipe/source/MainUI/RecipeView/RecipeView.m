@@ -106,6 +106,7 @@
         
         imageArr = [[NSMutableArray alloc] init];
         currentPostId = nil;
+        
     }
     return self;
 }
@@ -116,7 +117,7 @@
     [rectDic setObject:@"20"                forKey:@"DETAIL_INFO_MARGIN"];
     [rectDic setObject:@"30"                forKey:@"RECIPE_INFO_HEIGHT"];
     [rectDic setObject:@"30"                forKey:@"YOUTUBE_BTN_HEIGHT"];
-    [rectDic setObject:@"300"               forKey:@"RECIPE_DETAIL_INFO_HEIGHT"];
+    [rectDic setObject:@"200"               forKey:@"RECIPE_DETAIL_INFO_HEIGHT"];
     [rectDic setObject:@"15"                forKey:@"IMAGE_PAGECONTROL_HEIGHT"];
 }
 
@@ -165,7 +166,7 @@
     [recipeDetailInfo setFrame:CGRectMake(10, recipeInfo.frame.size.height+DETAIL_INFO_MARGIN+10, recipeInfo.frame.size.width,RECIPE_DETAIL_INFO_HEIGHT)];
     [recipeContent setFrame:CGRectMake(10, 10, recipeDetailInfo.frame.size.width-20, recipeDetailInfo.frame.size.height-20)];
     [recipeContent sizeToFit];
-    [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height+DETAIL_INFO_MARGIN+10+RECIPE_DETAIL_INFO_HEIGHT+10)];
+    [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height+DETAIL_INFO_MARGIN+10+RECIPE_DETAIL_INFO_HEIGHT+10+commentWebView.frame.size.height+10)];
 }
 
 - (void)layoutSubviews

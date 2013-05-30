@@ -29,7 +29,6 @@
 - (void)selectRecipe:(NSString *)recipeId;
 @end
 
-
 @interface RecipePinterest : UIView <PSCollectionViewDataSource,PSCollectionViewDelegate>
 {
     NSMutableDictionary *rectDic;

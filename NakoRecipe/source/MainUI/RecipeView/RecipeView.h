@@ -27,14 +27,14 @@
     UIButton    *youtubeButton;
     /*
     UIImageView *likeImageView;
-    UIImageView *commentImageView;
     UIButton    *likeButton;
-    UIButton    *commentButton;
     UILabel     *likeLabel;
+    UIImageView *commentImageView;
+    UIButton    *commentButton;
     UILabel     *commentLabel;
     */
     NSString    *currentPostId;
-    
+    UIWebView   *commentWebView;
     AsyncImageView *youtubeThumbImageView;
 }
 - (void)reloadRecipeView:(NSString *)postId;

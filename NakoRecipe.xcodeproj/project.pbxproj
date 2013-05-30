@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		224B4ABC174B9E7E00CE7A9B /* 세발자전거L.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4AB8174B9E7E00CE7A9B /* 세발자전거L.TTF */; };
 		224B4ABD174B9E7E00CE7A9B /* 테트리스L.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4AB9174B9E7E00CE7A9B /* 테트리스L.TTF */; };
+		22544C28175726E1008628D0 /* RecipeCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22544C27175726E1008628D0 /* RecipeCommentView.m */; };
 		226072CB1744C06700CF3EAA /* Icons-chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072C81744C06700CF3EAA /* Icons-chat@2x.png */; };
 		226072CC1744C06700CF3EAA /* Icons-comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072C91744C06700CF3EAA /* Icons-comments@2x.png */; };
 		226072CD1744C06700CF3EAA /* Icons-h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072CA1744C06700CF3EAA /* Icons-h@2x.png */; };
@@ -76,6 +77,8 @@
 /* Begin PBXFileReference section */
 		224B4AB8174B9E7E00CE7A9B /* 세발자전거L.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "세발자전거L.TTF"; path = "resource/font/세발자전거L.TTF"; sourceTree = "<group>"; };
 		224B4AB9174B9E7E00CE7A9B /* 테트리스L.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "테트리스L.TTF"; path = "resource/font/테트리스L.TTF"; sourceTree = "<group>"; };
+		22544C26175726E0008628D0 /* RecipeCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecipeCommentView.h; path = source/MainUI/RecipeView/RecipeCommentView.h; sourceTree = "<group>"; };
+		22544C27175726E1008628D0 /* RecipeCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecipeCommentView.m; path = source/MainUI/RecipeView/RecipeCommentView.m; sourceTree = "<group>"; };
 		226072C81744C06700CF3EAA /* Icons-chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-chat@2x.png"; path = "resource/Icons-chat@2x.png"; sourceTree = "<group>"; };
 		226072C91744C06700CF3EAA /* Icons-comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-comments@2x.png"; path = "resource/Icons-comments@2x.png"; sourceTree = "<group>"; };
 		226072CA1744C06700CF3EAA /* Icons-h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icons-h@2x.png"; path = "resource/Icons-h@2x.png"; sourceTree = "<group>"; };
@@ -328,6 +331,8 @@
 				A3D0D565174903DB006C0AA9 /* RecipeViewController.m */,
 				A3D0D567174903FD006C0AA9 /* RecipeView.h */,
 				A3D0D568174903FD006C0AA9 /* RecipeView.m */,
+				22544C26175726E0008628D0 /* RecipeCommentView.h */,
+				22544C27175726E1008628D0 /* RecipeCommentView.m */,
 			);
 			name = RecipeViewController;
 			sourceTree = "<group>";
@@ -615,6 +620,7 @@
 				22D4B472174CB59A00F91441 /* Post.m in Sources */,
 				22D4B478174DFFDE00F91441 /* HttpAsyncApi.m in Sources */,
 				A3E530D217507B5700C651F3 /* AppPreference.m in Sources */,
+				22544C28175726E1008628D0 /* RecipeCommentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -723,15 +729,15 @@
 		A3FB73461743DE9700413AE8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: junhyi park (2HRA7CT7W5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: junhyi park (2HRA7CT7W5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Park junhyi (8L2VX295UA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Park junhyi (8L2VX295UA)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "NakoRecipe/NakoRecipe-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3786E49F-ACCF-4CE5-A629-CD9F8DBDC4E3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3786E49F-ACCF-4CE5-A629-CD9F8DBDC4E3";
+				PROVISIONING_PROFILE = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -739,15 +745,15 @@
 		A3FB73471743DE9700413AE8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: junhyi park (2HRA7CT7W5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: junhyi park (2HRA7CT7W5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Park junhyi (8L2VX295UA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Park junhyi (8L2VX295UA)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "NakoRecipe/NakoRecipe-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3786E49F-ACCF-4CE5-A629-CD9F8DBDC4E3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3786E49F-ACCF-4CE5-A629-CD9F8DBDC4E3";
+				PROVISIONING_PROFILE = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
