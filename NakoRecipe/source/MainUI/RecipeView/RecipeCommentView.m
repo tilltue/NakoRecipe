@@ -27,8 +27,9 @@
     return self;
 }
 
-- (void)loadFacebookComment
+- (void)loadFacebookComment:(NSString *)postId
 {
+    currentPostId = postId;
     [commentWebView setFrame:CGRectMake(10, 10, self.frame.size.width-20, self.frame.size.height-20)];
     commentWebView.hidden = YES;
     [self loadFacebookSocialCommentWebView];

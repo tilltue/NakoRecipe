@@ -13,4 +13,5 @@
     NSString    *currentPostId;
     UIWebView   *commentWebView;
 }
+- (void)loadCommentView:(NSString *)postId;
 @end

@@ -8,6 +8,7 @@
 
 #import "RecipeViewController.h"
 #import "CoreDataManager.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface RecipeViewController ()
 
@@ -33,6 +34,10 @@
     recipeView = [[RecipeView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
     [self.view addSubview:recipeView];
     
+    recipeCommentView = [[RecipeCommentView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
+    recipeCommentView.hidden = YES;
+    [self.view addSubview:recipeCommentView];
+    
     CGRect tempRect = [SystemInfo isPad]?CGRectMake(0, 0, 768, 40):CGRectMake(0, 0, 220, 40);
     CGFloat titleFontHeight;
     if( [UIFONT_NAME isEqualToString:@"HA-TTL"] )
@@ -48,6 +53,8 @@
     label.text = @"";
     self.navigationItem.titleView = label;
     self.navigationItem.backBarButtonItem.tintColor = [CommonUI getUIColorFromHexString:@"#C9C5C5"];
+    UIBarButtonItem *facebookComment = [[UIBarButtonItem alloc] initWithTitle:@"댓글보기" style:UIBarButtonItemStylePlain target:self action:@selector(facebookComment)];
+    self.navigationItem.rightBarButtonItem = facebookComment;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -73,6 +80,24 @@
 - (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
+}
+
+- (void)facebookComment
+{
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.5;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionPush;
+    transition.subtype = kCATransitionFromRight;
+    [recipeView.window.layer addAnimation:transition forKey:nil];
+    recipeView.hidden = YES;
+    transition = [CATransition animation];
+    transition.duration = 0.5;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionPush;
+    transition.subtype = kCATransitionFromRight;
+    [recipeCommentView.window.layer addAnimation:transition forKey:nil];
+    recipeCommentView.hidden = NO;
 }
 
 @end

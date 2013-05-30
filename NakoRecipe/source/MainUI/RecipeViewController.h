@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "RecipeView.h"
+#import "RecipeCommentView.h"
 
 @interface RecipeViewController : UIViewController <UIGestureRecognizerDelegate>
 {
     RecipeView *recipeView;
+    RecipeCommentView *recipeCommentView;
 }
 @property (nonatomic, strong) NSString *currentPostId;
 @end
