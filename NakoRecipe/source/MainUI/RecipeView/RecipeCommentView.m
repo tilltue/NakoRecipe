@@ -127,7 +127,7 @@
                                                    target:self
                                                    action:@selector(closePopup)];
 	
-	[self presentModalViewController:popupNavController animated:YES];
+//	[self presentModalViewController:popupNavController animated:YES];
 }
 
 - (CGSize)getWebContentSize:(UIWebView *)webView

@@ -19,6 +19,10 @@
 		226072DD17450C0700CF3EAA /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 226072DC17450C0600CF3EAA /* libxml2.2.dylib */; };
 		226072E0174B2F5100CF3EAA /* SystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 226072DF174B2F5100CF3EAA /* SystemInfo.m */; };
 		2272B7D71758986900BDD89B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272B7D61758986900BDD89B /* FacebookSDK.framework */; };
+		2272B7D917589A6C00BDD89B /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272B7D817589A6C00BDD89B /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		2272B7DB17589A7200BDD89B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272B7DA17589A7200BDD89B /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		2272B7DD17589A7900BDD89B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272B7DC17589A7900BDD89B /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		2272B7DF17589C8000BDD89B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272B7DE17589C8000BDD89B /* Security.framework */; };
 		22D4B472174CB59A00F91441 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D4B471174CB59A00F91441 /* Post.m */; };
 		22D4B475174DF5BD00F91441 /* DefaultJSON.htm in Resources */ = {isa = PBXBuildFile; fileRef = 22D4B474174DF5BD00F91441 /* DefaultJSON.htm */; };
 		22D4B478174DFFDE00F91441 /* HttpAsyncApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D4B477174DFFDE00F91441 /* HttpAsyncApi.m */; };
@@ -90,6 +94,10 @@
 		226072DE174B2F5100CF3EAA /* SystemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemInfo.h; path = source/Util/System/SystemInfo.h; sourceTree = "<group>"; };
 		226072DF174B2F5100CF3EAA /* SystemInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemInfo.m; path = source/Util/System/SystemInfo.m; sourceTree = "<group>"; };
 		2272B7D61758986900BDD89B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = NakoRecipe/source/Util/ExternSource/FacebookSDK.framework; sourceTree = "<group>"; };
+		2272B7D817589A6C00BDD89B /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		2272B7DA17589A7200BDD89B /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		2272B7DC17589A7900BDD89B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		2272B7DE17589C8000BDD89B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		22D4B470174CB59A00F91441 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Post.h; path = source/Util/System/CoreData/Post.h; sourceTree = "<group>"; };
 		22D4B471174CB59A00F91441 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Post.m; path = source/Util/System/CoreData/Post.m; sourceTree = "<group>"; };
 		22D4B474174DF5BD00F91441 /* DefaultJSON.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = DefaultJSON.htm; path = resource/DefaultJSON/DefaultJSON.htm; sourceTree = "<group>"; };
@@ -173,6 +181,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2272B7DF17589C8000BDD89B /* Security.framework in Frameworks */,
+				2272B7DD17589A7900BDD89B /* Accounts.framework in Frameworks */,
+				2272B7DB17589A7200BDD89B /* Social.framework in Frameworks */,
+				2272B7D917589A6C00BDD89B /* AdSupport.framework in Frameworks */,
 				2272B7D71758986900BDD89B /* FacebookSDK.framework in Frameworks */,
 				A3D0D51917489FD2006C0AA9 /* CoreData.framework in Frameworks */,
 				226072DD17450C0700CF3EAA /* libxml2.2.dylib in Frameworks */,
@@ -363,6 +375,10 @@
 			isa = PBXGroup;
 			children = (
 				226072DC17450C0600CF3EAA /* libxml2.2.dylib */,
+				2272B7DE17589C8000BDD89B /* Security.framework */,
+				2272B7DC17589A7900BDD89B /* Accounts.framework */,
+				2272B7DA17589A7200BDD89B /* Social.framework */,
+				2272B7D817589A6C00BDD89B /* AdSupport.framework */,
 				2272B7D61758986900BDD89B /* FacebookSDK.framework */,
 				A3D0D51817489FD2006C0AA9 /* CoreData.framework */,
 				A3FB735F1743EC1900413AE8 /* QuartzCore.framework */,
@@ -743,6 +759,10 @@
 				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "NakoRecipe/NakoRecipe-Info.plist";
+				OTHER_LDFLAGS = (
+					"-lsqlite3.0",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
@@ -763,6 +783,10 @@
 				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "NakoRecipe/NakoRecipe-Info.plist";
+				OTHER_LDFLAGS = (
+					"-lsqlite3.0",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
