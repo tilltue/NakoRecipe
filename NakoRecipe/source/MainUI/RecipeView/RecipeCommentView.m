@@ -14,20 +14,27 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = [UIColor clearColor];
         // Initialization code
         UIView *tempDimView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         tempDimView.backgroundColor = [UIColor blackColor];
         tempDimView.alpha = .7;
         [self addSubview:tempDimView];
         
-        commentWebView = [[UIWebView alloc] init];
+        commentWebView = [[UIWebView alloc] initWithFrame:CGRectMake(10, 10, frame.size.width-20, frame.size.height-20)];
         commentWebView.delegate = self;
+        [commentWebView.scrollView setBounces:NO];
         [self addSubview:commentWebView];
+        
+        loadingIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(commentWebView.frame.size.width/2-10, commentWebView.frame.size.height/2-10, 20,20)];
+        [loadingIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];
+        [loadingIndicator setHidesWhenStopped:YES];
+        [commentWebView addSubview:loadingIndicator];
     }
     return self;
 }
 
-- (void)loadFacebookComment:(NSString *)postId
+- (void)loadCommentView:(NSString *)postId
 {
     currentPostId = postId;
     [commentWebView setFrame:CGRectMake(10, 10, self.frame.size.width-20, self.frame.size.height-20)];
@@ -43,11 +50,11 @@
 	imagePath = [imagePath stringByReplacingOccurrencesOfString:@"/" withString:@"//"];
 	imagePath = [imagePath stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
     NSString *facebookSocialString = [NSString stringWithFormat:@"<html xmlns:fb='http://ogp.me/ns/fb#'>\
-                                      <head><style type='text/css'>.fb_ltr{height:auto !important;}</style>\
+                                      <head><style type='text/css'>.fb_ltr{height:auto !important;width:%f !important;}</style>\
                                       <script>(function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = 'http://connect.facebook.net/ko_KR/all.js#xfbml=1';fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));</script>\
                                       </head><body>\
                                       <fb:comments href='%@' width='%f' num_posts='3'></fb:comments>\
-                                      </body></html>",[NSString stringWithFormat:@"http://Recipe_id_%@.html",currentPostId],self.frame.size.width-20];
+                                      </body></html>",self.frame.size.width-35,[NSString stringWithFormat:@"http://PostID_%@.com",currentPostId],self.frame.size.width-20];
 	[commentWebView loadHTMLString:facebookSocialString baseURL:nil];
 }
 
@@ -55,16 +62,19 @@
 {
     [commentWebView setFrame:CGRectZero];
     commentWebView.hidden = YES;
+    [loadingIndicator stopAnimating];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     commentWebView.hidden = NO;
     [commentWebView setFrame:CGRectMake(10,10,self.frame.size.width-20,self.frame.size.height-20)];
+    [loadingIndicator stopAnimating];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
+    [loadingIndicator startAnimating];
     if (webView == commentWebView) {
 		NSLog(@"root navigation type %d url tryed to call %@",navigationType,  [[request URL] absoluteString]);
 		
@@ -74,8 +84,15 @@
 		
 		if (FBloginRequest.location != NSNotFound) {
 			// mostro il popup
-			NSLog(@"asd");
-            //			[self loadAndPresentPopupWithRequest:request];
+            [self loadAndPresentPopupWithRequest:request];
+			return NO;
+		}
+        FBloginRequest = [[[request URL] absoluteString]
+                          rangeOfString:@"m.facebook.com/login.php"];
+		
+		if (FBloginRequest.location != NSNotFound) {
+			// mostro il popup
+            [self loadAndPresentPopupWithRequest:request];
 			return NO;
 		}
 		
@@ -110,7 +127,7 @@
                                                    target:self
                                                    action:@selector(closePopup)];
 	
-	//[self presentModalViewController:popupNavController animated:YES];
+	[self presentModalViewController:popupNavController animated:YES];
 }
 
 - (CGSize)getWebContentSize:(UIWebView *)webView

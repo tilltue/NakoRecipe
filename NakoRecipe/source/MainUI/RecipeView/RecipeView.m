@@ -248,7 +248,6 @@
     }
 }
 
-
 - (NSString *)splitEnter:(NSString*)string
 {
     if (string){

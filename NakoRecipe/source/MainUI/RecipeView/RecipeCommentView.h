@@ -12,6 +12,7 @@
 {
     NSString    *currentPostId;
     UIWebView   *commentWebView;
+    UIActivityIndicatorView *loadingIndicator;
 }
 - (void)loadCommentView:(NSString *)postId;
 @end

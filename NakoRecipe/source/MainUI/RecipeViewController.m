@@ -69,6 +69,10 @@
             tempLabel.text = food_name;
         }
     }
+    if( !recipeCommentView.hidden ){
+        recipeCommentView.hidden = YES;
+        self.navigationItem.rightBarButtonItem.title = @"댓글 보기";
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -85,19 +89,22 @@
 - (void)facebookComment
 {
     CATransition *transition = [CATransition animation];
-    transition.duration = 0.5;
-    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    transition.type = kCATransitionPush;
-    transition.subtype = kCATransitionFromRight;
-    [recipeView.window.layer addAnimation:transition forKey:nil];
-    recipeView.hidden = YES;
-    transition = [CATransition animation];
-    transition.duration = 0.5;
-    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    transition.type = kCATransitionPush;
-    transition.subtype = kCATransitionFromRight;
-    [recipeCommentView.window.layer addAnimation:transition forKey:nil];
-    recipeCommentView.hidden = NO;
+    if( recipeCommentView.hidden ){
+        transition.duration = 0.5;
+        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        transition.type = kCATransitionFade;
+        [recipeCommentView.window.layer addAnimation:transition forKey:nil];
+        recipeCommentView.hidden = NO;
+        self.navigationItem.rightBarButtonItem.title = @"댓글 닫기";
+        [recipeCommentView loadCommentView:currentPostId];
+    }else{
+        transition.duration = 0.5;
+        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        transition.type = kCATransitionFade;
+        [recipeCommentView.window.layer addAnimation:transition forKey:nil];
+        recipeCommentView.hidden = YES;
+        self.navigationItem.rightBarButtonItem.title = @"댓글 보기";
+    }
 }
 
 @end

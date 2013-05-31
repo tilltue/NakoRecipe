@@ -18,6 +18,7 @@
 		226072D31744D5D200CF3EAA /* Icons-h_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 226072D01744D5D200CF3EAA /* Icons-h_black@2x.png */; };
 		226072DD17450C0700CF3EAA /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 226072DC17450C0600CF3EAA /* libxml2.2.dylib */; };
 		226072E0174B2F5100CF3EAA /* SystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 226072DF174B2F5100CF3EAA /* SystemInfo.m */; };
+		2272B7D71758986900BDD89B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272B7D61758986900BDD89B /* FacebookSDK.framework */; };
 		22D4B472174CB59A00F91441 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D4B471174CB59A00F91441 /* Post.m */; };
 		22D4B475174DF5BD00F91441 /* DefaultJSON.htm in Resources */ = {isa = PBXBuildFile; fileRef = 22D4B474174DF5BD00F91441 /* DefaultJSON.htm */; };
 		22D4B478174DFFDE00F91441 /* HttpAsyncApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D4B477174DFFDE00F91441 /* HttpAsyncApi.m */; };
@@ -88,6 +89,7 @@
 		226072DC17450C0600CF3EAA /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		226072DE174B2F5100CF3EAA /* SystemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemInfo.h; path = source/Util/System/SystemInfo.h; sourceTree = "<group>"; };
 		226072DF174B2F5100CF3EAA /* SystemInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemInfo.m; path = source/Util/System/SystemInfo.m; sourceTree = "<group>"; };
+		2272B7D61758986900BDD89B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = NakoRecipe/source/Util/ExternSource/FacebookSDK.framework; sourceTree = "<group>"; };
 		22D4B470174CB59A00F91441 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Post.h; path = source/Util/System/CoreData/Post.h; sourceTree = "<group>"; };
 		22D4B471174CB59A00F91441 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Post.m; path = source/Util/System/CoreData/Post.m; sourceTree = "<group>"; };
 		22D4B474174DF5BD00F91441 /* DefaultJSON.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = DefaultJSON.htm; path = resource/DefaultJSON/DefaultJSON.htm; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2272B7D71758986900BDD89B /* FacebookSDK.framework in Frameworks */,
 				A3D0D51917489FD2006C0AA9 /* CoreData.framework in Frameworks */,
 				226072DD17450C0700CF3EAA /* libxml2.2.dylib in Frameworks */,
 				A3FB73601743EC1900413AE8 /* QuartzCore.framework in Frameworks */,
@@ -360,6 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				226072DC17450C0600CF3EAA /* libxml2.2.dylib */,
+				2272B7D61758986900BDD89B /* FacebookSDK.framework */,
 				A3D0D51817489FD2006C0AA9 /* CoreData.framework */,
 				A3FB735F1743EC1900413AE8 /* QuartzCore.framework */,
 				A3FB73161743DE9700413AE8 /* UIKit.framework */,
@@ -731,6 +735,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: Park junhyi (8L2VX295UA)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Park junhyi (8L2VX295UA)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
@@ -747,6 +755,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: Park junhyi (8L2VX295UA)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Park junhyi (8L2VX295UA)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
