@@ -18,6 +18,4 @@
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
-
-@property (strong, nonatomic) FBSession *session;
 @end
