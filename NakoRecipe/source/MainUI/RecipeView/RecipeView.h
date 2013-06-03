@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AsyncImageView.h"
 
-@interface RecipeView : UIScrollView
+@interface RecipeView : UIScrollView <UIWebViewDelegate>
 {
     NSMutableDictionary *rectDic;
     

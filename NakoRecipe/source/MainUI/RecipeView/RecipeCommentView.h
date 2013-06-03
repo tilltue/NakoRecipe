@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol RecipeCommentDelegate <NSObject>
+- (void)faceBookLogin:(UIWebView *)webView withRequest:(NSURLRequest *)request;
+@end
+
 @interface RecipeCommentView : UIView <UIWebViewDelegate>
 {
     NSString    *currentPostId;
@@ -15,4 +19,6 @@
     UIActivityIndicatorView *loadingIndicator;
 }
 - (void)loadCommentView:(NSString *)postId;
+- (void)close;
+@property (nonatomic, unsafe_unretained) id <RecipeCommentDelegate> comment_delegate;
 @end

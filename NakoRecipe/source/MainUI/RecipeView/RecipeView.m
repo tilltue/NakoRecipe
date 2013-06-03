@@ -107,6 +107,12 @@
         imageArr = [[NSMutableArray alloc] init];
         currentPostId = nil;
         
+        commentWebView = [[UIWebView alloc] init];
+        commentWebView.delegate = self;
+        commentWebView.userInteractionEnabled = NO;
+        commentWebView.hidden = YES;
+        [commentWebView setFrame:CGRectZero];
+        [self addSubview:commentWebView];
     }
     return self;
 }
@@ -389,7 +395,77 @@
     imagePageControl.currentPage    = 0;
     imagePageControl.numberOfPages  = [imageArr count];
     [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
+    [commentWebView setFrame:CGRectZero];
+    [self loadFacebookSocialCommentWebView];
     [self layoutIfNeeded];
 }
+
+#pragma mark - facebook webview
+
+- (void)loadFacebookSocialCommentWebView
+{
+    commentWebView.hidden = YES;
+	NSString *imagePath = [[NSBundle mainBundle] resourcePath];
+	imagePath = [imagePath stringByReplacingOccurrencesOfString:@"/" withString:@"//"];
+	imagePath = [imagePath stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    NSString *facebookSocialString = [NSString stringWithFormat:@"<html xmlns:fb='http://ogp.me/ns/fb#'>\
+                                      <head><style type='text/css'>.fb_ltr{height:auto !important;width:%f !important;}</style>\
+                                      <script>(function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = 'http://connect.facebook.net/ko_KR/all.js#xfbml=1&appId=557757880934097';fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));</script>\
+                                      </head><body><div id=\"fb_root\"></div>\
+                                      <fb:comments href='%@' width='%f' num_posts='3' order_by='time' mobile='false'></fb:comments>\
+                                      </body></html>",self.frame.size.width-40,[NSString stringWithFormat:@"http://Nako_PostID_%@.com",currentPostId],self.frame.size.width-20];
+	[commentWebView loadHTMLString:facebookSocialString baseURL:nil];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    [commentWebView setFrame:CGRectZero];
+    commentWebView.hidden = YES;
+}
+
+- (void)webViewShow
+{
+    CATransition *transition = [CATransition animation];
+    if( commentWebView.hidden ){
+        transition.duration = 1.0;
+        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        transition.type = kCATransitionFade;
+        [commentWebView.window.layer addAnimation:transition forKey:nil];
+        CGFloat DETAIL_INFO_MARGIN          = [[rectDic objectForKey:@"DETAIL_INFO_MARGIN"] floatValue];
+        CGFloat RECIPE_DETAIL_INFO_HEIGHT   = [[rectDic objectForKey:@"RECIPE_DETAIL_INFO_HEIGHT"] floatValue];
+        [commentWebView setFrame:CGRectMake(10,recipeDetailInfo.frame.origin.y+recipeDetailInfo.frame.size.height+10,self.frame.size.width-20,230)];
+        [commentWebView.scrollView setContentOffset:CGPointMake(0, 80)];
+        [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height+DETAIL_INFO_MARGIN+10+RECIPE_DETAIL_INFO_HEIGHT+10+commentWebView.frame.size.height+10+commentWebView.frame.size.height)];
+        commentWebView.hidden = NO;
+    }
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    CGSize webSize = [self getWebContentSize:commentWebView];
+    NSLog(@"%f",webSize.height);
+    if( webSize.height > 270 ){
+        [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                                 selector:@selector(webViewShow)
+                                                   object:nil];
+        [self performSelector:@selector(webViewShow) withObject:nil afterDelay:2];
+    }
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSLog(@"%@",[[request URL] absoluteString]);
+	return navigationType != UIWebViewNavigationTypeLinkClicked;
+}
+
+- (CGSize)getWebContentSize:(UIWebView *)webView
+{
+    CGSize tempSize = CGSizeZero;
+    tempSize = CGSizeMake([[webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollWidth;"] floatValue], [[webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight;"] floatValue]);
+    NSLog(@"-------\n\n%@\n",
+          [webView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"]);
+    return tempSize;
+}
+
 
 @end

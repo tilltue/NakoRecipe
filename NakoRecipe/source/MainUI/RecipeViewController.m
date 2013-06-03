@@ -8,6 +8,7 @@
 
 #import "RecipeViewController.h"
 #import "CoreDataManager.h"
+#import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface RecipeViewController ()
@@ -36,6 +37,7 @@
     
     recipeCommentView = [[RecipeCommentView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
     recipeCommentView.hidden = YES;
+    recipeCommentView.comment_delegate = self;
     [self.view addSubview:recipeCommentView];
     
     CGRect tempRect = [SystemInfo isPad]?CGRectMake(0, 0, 768, 40):CGRectMake(0, 0, 220, 40);
@@ -104,7 +106,15 @@
         [recipeCommentView.window.layer addAnimation:transition forKey:nil];
         recipeCommentView.hidden = YES;
         self.navigationItem.rightBarButtonItem.title = @"댓글 보기";
+        [recipeCommentView close];
     }
+}
+
+#pragma mark - recipe comment delegate
+
+- (void)faceBookLogin:(UIWebView *)webView withRequest:(NSURLRequest *)request
+{
+    
 }
 
 @end
