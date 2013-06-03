@@ -31,6 +31,8 @@
 		22D4B472174CB59A00F91441 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D4B471174CB59A00F91441 /* Post.m */; };
 		22D4B475174DF5BD00F91441 /* DefaultJSON.htm in Resources */ = {isa = PBXBuildFile; fileRef = 22D4B474174DF5BD00F91441 /* DefaultJSON.htm */; };
 		22D4B478174DFFDE00F91441 /* HttpAsyncApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D4B477174DFFDE00F91441 /* HttpAsyncApi.m */; };
+		A33DD4CA175C567A009A3EA2 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = A33DD4C9175C567A009A3EA2 /* icon-72.png */; };
+		A33DD4CD175C5930009A3EA2 /* icon144.png in Resources */ = {isa = PBXBuildFile; fileRef = A33DD4CB175C57AD009A3EA2 /* icon144.png */; };
 		A3D0D50217489E7B006C0AA9 /* HttpApi.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D50117489E7B006C0AA9 /* HttpApi.m */; };
 		A3D0D50717489E89006C0AA9 /* CommonUI.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D50417489E89006C0AA9 /* CommonUI.m */; };
 		A3D0D50817489E89006C0AA9 /* FileControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D50617489E89006C0AA9 /* FileControl.m */; };
@@ -122,6 +124,8 @@
 		22D4B474174DF5BD00F91441 /* DefaultJSON.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = DefaultJSON.htm; path = resource/DefaultJSON/DefaultJSON.htm; sourceTree = "<group>"; };
 		22D4B476174DFFDE00F91441 /* HttpAsyncApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpAsyncApi.h; path = source/Util/System/HttpApi/HttpAsyncApi.h; sourceTree = "<group>"; };
 		22D4B477174DFFDE00F91441 /* HttpAsyncApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HttpAsyncApi.m; path = source/Util/System/HttpApi/HttpAsyncApi.m; sourceTree = "<group>"; };
+		A33DD4C9175C567A009A3EA2 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72.png"; sourceTree = "<group>"; };
+		A33DD4CB175C57AD009A3EA2 /* icon144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon144.png; sourceTree = "<group>"; };
 		A3D0D50017489E7B006C0AA9 /* HttpApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpApi.h; path = source/Util/System/HttpApi/HttpApi.h; sourceTree = "<group>"; };
 		A3D0D50117489E7B006C0AA9 /* HttpApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HttpApi.m; path = source/Util/System/HttpApi/HttpApi.m; sourceTree = "<group>"; };
 		A3D0D50317489E89006C0AA9 /* CommonUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonUI.h; path = source/Util/System/CommonUI.h; sourceTree = "<group>"; };
@@ -396,6 +400,8 @@
 		A3FB730A1743DE9700413AE8 = {
 			isa = PBXGroup;
 			children = (
+				A33DD4CB175C57AD009A3EA2 /* icon144.png */,
+				A33DD4C9175C567A009A3EA2 /* icon-72.png */,
 				A3FB731C1743DE9700413AE8 /* NakoRecipe */,
 				A3FB733A1743DE9700413AE8 /* NakoRecipeTests */,
 				A3FB73151743DE9700413AE8 /* Frameworks */,
@@ -622,6 +628,8 @@
 				224B4ABC174B9E7E00CE7A9B /* 세발자전거L.TTF in Resources */,
 				224B4ABD174B9E7E00CE7A9B /* 테트리스L.TTF in Resources */,
 				22D4B475174DF5BD00F91441 /* DefaultJSON.htm in Resources */,
+				A33DD4CA175C567A009A3EA2 /* icon-72.png in Resources */,
+				A33DD4CD175C5930009A3EA2 /* icon144.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,35 +803,7 @@
 		A3FB73461743DE9700413AE8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Park junhyi (8L2VX295UA)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Park junhyi (8L2VX295UA)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				INFOPLIST_FILE = "NakoRecipe/NakoRecipe-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource/GoogleAdMob\"",
-				);
-				OTHER_LDFLAGS = (
-					"-lsqlite3.0",
-					"-ObjC",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Debug;
-		};
-		A3FB73471743DE9700413AE8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Park junhyi (8L2VX295UA)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: junhyi park (2HRA7CT7W5)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: junhyi park (2HRA7CT7W5)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -842,8 +822,36 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
+				PROVISIONING_PROFILE = "3786E49F-ACCF-4CE5-A629-CD9F8DBDC4E3";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3786E49F-ACCF-4CE5-A629-CD9F8DBDC4E3";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		A3FB73471743DE9700413AE8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: junhyi park (RNR9A42JW9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: junhyi park (RNR9A42JW9)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				INFOPLIST_FILE = "NakoRecipe/NakoRecipe-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource/GoogleAdMob\"",
+				);
+				OTHER_LDFLAGS = (
+					"-lsqlite3.0",
+					"-ObjC",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "711441A5-F993-4600-9674-CA80AFAA5D7E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "711441A5-F993-4600-9674-CA80AFAA5D7E";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
