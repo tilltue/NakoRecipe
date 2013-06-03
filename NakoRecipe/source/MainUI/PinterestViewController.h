@@ -10,11 +10,13 @@
 #import "RecipePinterest.h"
 #import "RecipeViewController.h"
 #import "HttpAsyncApi.h"
+#import "GADBannerView.h"
 
 @interface PinterestViewController : UIViewController <RecipePinterestDelegate,RequestObserver>
 {
     RecipePinterest *recipePinterest;
     RecipeViewController *recipeViewController;
+    GADBannerView *bannerView;
     __strong UIActivityIndicatorView *_activityIndicatorView;
 }
 @end

@@ -48,6 +48,16 @@
     [self.view addSubview:recipePinterest];
     [[HttpAsyncApi getInstance] attachObserver:self];
     
+    if( [SystemInfo isPad] ){
+        bannerView = [[GADBannerView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-GAD_SIZE_320x50.height-44, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
+    }else{
+        bannerView = [[GADBannerView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-GAD_SIZE_728x90.height-44, GAD_SIZE_728x90.width, GAD_SIZE_728x90.height)];
+    }
+    bannerView.adUnitID = @"a151ac0e907064e";
+    bannerView.rootViewController = self;
+    [bannerView loadRequest:[GADRequest request]];
+    [self.view addSubview:bannerView];
+    
     recipeViewController = [[RecipeViewController alloc] init];
 }
 
