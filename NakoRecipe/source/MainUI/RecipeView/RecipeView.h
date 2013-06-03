@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AsyncImageView.h"
 
-@interface RecipeView : UIScrollView <UIWebViewDelegate>
+@interface RecipeView : UIScrollView
 {
     NSMutableDictionary *rectDic;
     
@@ -34,7 +34,6 @@
     UILabel     *commentLabel;
     */
     NSString    *currentPostId;
-    UIWebView   *commentWebView;
     AsyncImageView *youtubeThumbImageView;
 }
 - (void)reloadRecipeView:(NSString *)postId;

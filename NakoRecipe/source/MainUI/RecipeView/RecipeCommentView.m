@@ -89,7 +89,7 @@
                                       <script>(function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = 'http://connect.facebook.net/ko_KR/all.js#xfbml=1&appId=557757880934097';fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));</script>\
                                       </head><body><div id=\"fb_root\"></div>\
                                       <fb:comments href='%@' width='%f' num_posts='3' order_by='time' mobile='false'></fb:comments>\
-                                      </body></html>",self.frame.size.width-40,[NSString stringWithFormat:@"http://Nako_PostID_%@.com",currentPostId],self.frame.size.width-20];
+                                      </body></html>",self.frame.size.width-40,[NSString stringWithFormat:@"http://Nako_PostID_%@.com",currentPostId],self.frame.size.width-30];
 	[commentWebView loadHTMLString:facebookSocialString baseURL:nil];
 }
 
@@ -112,7 +112,7 @@
     if( navigationType != UIWebViewNavigationTypeLinkClicked )
         [loadingIndicator startAnimating];
     if (webView == commentWebView) {
-		NSLog(@"root navigation type %d url tryed to call %@",navigationType,  [[request URL] absoluteString]);
+		//NSLog(@"root navigation type %d url tryed to call %@",navigationType,  [[request URL] absoluteString]);
 		
 		// FACEBOOK
 		NSRange FBloginRequest = [[[request URL] absoluteString]
@@ -123,6 +123,17 @@
 		}
         FBloginRequest = [[[request URL] absoluteString]
                           rangeOfString:@"m.facebook.com/login.php"];
+		if (FBloginRequest.location != NSNotFound) {
+			return YES;
+		}
+        FBloginRequest = [[[request URL] absoluteString]
+                          rangeOfString:@"https://www.facebook.com/logout.php"];
+		if (FBloginRequest.location != NSNotFound) {
+            [commentWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://m.facebook.com/logout.php"]]];
+			return YES;
+		}
+        FBloginRequest = [[[request URL] absoluteString]
+                          rangeOfString:@"m.facebook.com/logout.php"];
 		if (FBloginRequest.location != NSNotFound) {
 			return YES;
 		}
