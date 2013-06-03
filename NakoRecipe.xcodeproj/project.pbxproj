@@ -811,8 +811,8 @@
 		A3FB73461743DE9700413AE8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: junhyi park (2HRA7CT7W5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: junhyi park (2HRA7CT7W5)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: junhyi park (RNR9A42JW9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: junhyi park (RNR9A42JW9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource\"",
@@ -830,8 +830,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3786E49F-ACCF-4CE5-A629-CD9F8DBDC4E3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3786E49F-ACCF-4CE5-A629-CD9F8DBDC4E3";
+				PROVISIONING_PROFILE = "711441A5-F993-4600-9674-CA80AFAA5D7E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "711441A5-F993-4600-9674-CA80AFAA5D7E";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
