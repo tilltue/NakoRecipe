@@ -33,6 +33,8 @@
 		22D4B478174DFFDE00F91441 /* HttpAsyncApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D4B477174DFFDE00F91441 /* HttpAsyncApi.m */; };
 		A33DD4CA175C567A009A3EA2 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = A33DD4C9175C567A009A3EA2 /* icon-72.png */; };
 		A33DD4CD175C5930009A3EA2 /* icon144.png in Resources */ = {isa = PBXBuildFile; fileRef = A33DD4CB175C57AD009A3EA2 /* icon144.png */; };
+		A33DD4CF175C5984009A3EA2 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A33DD4CE175C5984009A3EA2 /* icon.png */; };
+		A33DD4D1175C5994009A3EA2 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A33DD4D0175C5994009A3EA2 /* icon@2x.png */; };
 		A3D0D50217489E7B006C0AA9 /* HttpApi.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D50117489E7B006C0AA9 /* HttpApi.m */; };
 		A3D0D50717489E89006C0AA9 /* CommonUI.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D50417489E89006C0AA9 /* CommonUI.m */; };
 		A3D0D50817489E89006C0AA9 /* FileControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D50617489E89006C0AA9 /* FileControl.m */; };
@@ -124,8 +126,10 @@
 		22D4B474174DF5BD00F91441 /* DefaultJSON.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = DefaultJSON.htm; path = resource/DefaultJSON/DefaultJSON.htm; sourceTree = "<group>"; };
 		22D4B476174DFFDE00F91441 /* HttpAsyncApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpAsyncApi.h; path = source/Util/System/HttpApi/HttpAsyncApi.h; sourceTree = "<group>"; };
 		22D4B477174DFFDE00F91441 /* HttpAsyncApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HttpAsyncApi.m; path = source/Util/System/HttpApi/HttpAsyncApi.m; sourceTree = "<group>"; };
-		A33DD4C9175C567A009A3EA2 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72.png"; sourceTree = "<group>"; };
-		A33DD4CB175C57AD009A3EA2 /* icon144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon144.png; sourceTree = "<group>"; };
+		A33DD4C9175C567A009A3EA2 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "../icon-72.png"; sourceTree = "<group>"; };
+		A33DD4CB175C57AD009A3EA2 /* icon144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon144.png; path = ../icon144.png; sourceTree = "<group>"; };
+		A33DD4CE175C5984009A3EA2 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../icon.png; sourceTree = "<group>"; };
+		A33DD4D0175C5994009A3EA2 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "../icon@2x.png"; sourceTree = "<group>"; };
 		A3D0D50017489E7B006C0AA9 /* HttpApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpApi.h; path = source/Util/System/HttpApi/HttpApi.h; sourceTree = "<group>"; };
 		A3D0D50117489E7B006C0AA9 /* HttpApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HttpApi.m; path = source/Util/System/HttpApi/HttpApi.m; sourceTree = "<group>"; };
 		A3D0D50317489E89006C0AA9 /* CommonUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonUI.h; path = source/Util/System/CommonUI.h; sourceTree = "<group>"; };
@@ -400,8 +404,6 @@
 		A3FB730A1743DE9700413AE8 = {
 			isa = PBXGroup;
 			children = (
-				A33DD4CB175C57AD009A3EA2 /* icon144.png */,
-				A33DD4C9175C567A009A3EA2 /* icon-72.png */,
 				A3FB731C1743DE9700413AE8 /* NakoRecipe */,
 				A3FB733A1743DE9700413AE8 /* NakoRecipeTests */,
 				A3FB73151743DE9700413AE8 /* Frameworks */,
@@ -457,6 +459,10 @@
 		A3FB731D1743DE9700413AE8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A33DD4D0175C5994009A3EA2 /* icon@2x.png */,
+				A33DD4CE175C5984009A3EA2 /* icon.png */,
+				A33DD4CB175C57AD009A3EA2 /* icon144.png */,
+				A33DD4C9175C567A009A3EA2 /* icon-72.png */,
 				A3FB731E1743DE9700413AE8 /* NakoRecipe-Info.plist */,
 				A3FB731F1743DE9700413AE8 /* InfoPlist.strings */,
 				A3FB73221743DE9700413AE8 /* main.m */,
@@ -630,6 +636,8 @@
 				22D4B475174DF5BD00F91441 /* DefaultJSON.htm in Resources */,
 				A33DD4CA175C567A009A3EA2 /* icon-72.png in Resources */,
 				A33DD4CD175C5930009A3EA2 /* icon144.png in Resources */,
+				A33DD4CF175C5984009A3EA2 /* icon.png in Resources */,
+				A33DD4D1175C5994009A3EA2 /* icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
