@@ -15,5 +15,6 @@
 {
     RecipePinterest *recipePinterest;
     RecipeViewController *recipeViewController;
+    __strong UIActivityIndicatorView *_activityIndicatorView;
 }
 @end

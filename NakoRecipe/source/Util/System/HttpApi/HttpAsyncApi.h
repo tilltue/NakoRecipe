@@ -23,6 +23,7 @@ typedef enum {
 @protocol RequestObserver <NSObject>
 @optional
 - (void)requestFinished:(NSString *)retString;
+- (void)requestFailed;
 @end
 
 @interface HttpAsyncApi : NSObject

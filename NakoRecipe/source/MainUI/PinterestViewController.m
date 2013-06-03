@@ -32,11 +32,16 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [CommonUI getUIColorFromHexString:@"#E4E3DC"];
+    
+    _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    _activityIndicatorView.hidesWhenStopped = YES;
+
     UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc]
                                       initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                       target:self
                                       action:@selector(update)];
     refreshButton.tintColor = [CommonUI getUIColorFromHexString:@"#C9C5C5"];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_activityIndicatorView];
     self.navigationItem.rightBarButtonItem = refreshButton;
     recipePinterest = [[RecipePinterest alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
     recipePinterest.delegate = self;
@@ -96,6 +101,8 @@
 
 - (void)update
 {
+    [_activityIndicatorView startAnimating];
+    
     NSInteger currentPostCount = [[[CoreDataManager getInstance] getPosts] count];
     [[HttpAsyncApi getInstance] requestRecipe:currentPostCount withOffsetPostIndex:0];
 }
@@ -104,10 +111,12 @@
 
 - (void)requestFinished:(NSString *)retString
 {
-    //NSLog(@"%@",retString);
+    [_activityIndicatorView stopAnimating];
+//    NSLog(@"%@",retString);
     //[recipePinterest getShowIndex];
     NSMutableDictionary* dict = [[[SBJsonParser alloc] init] objectWithString:retString];
     NSString *count = [dict objectForKey:@"count"];
+    NSString *total_count = [dict objectForKey:@"count_total"];
     if( [count intValue] > 0 ){
         NSArray *postDictArr = [dict objectForKey:@"posts"];
         for( NSMutableDictionary *postDict in postDictArr )
@@ -123,10 +132,16 @@
         [recipePinterest reloadPintRest];
         //전체 갯수가 더 많을때 부분 요청을 다시 한번 한다.
         NSInteger currentPostCount = [[[CoreDataManager getInstance] getPosts] count];
-        if( currentPostCount < [count intValue] )
-            [[HttpAsyncApi getInstance] requestRecipe:[count intValue] withOffsetPostIndex:currentPostCount];
+        if( currentPostCount < [total_count intValue] )
+            [[HttpAsyncApi getInstance] requestRecipe:[total_count intValue] withOffsetPostIndex:currentPostCount];
     }
 
+}
+
+- (void)requestFailed
+{
+    NSLog(@"failed");
+    [_activityIndicatorView stopAnimating];
 }
 
 #pragma mark - pintrestview delegate

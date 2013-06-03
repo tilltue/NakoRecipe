@@ -59,40 +59,6 @@
         [youtubeButton addTarget:self action:@selector(handleYoutubeButtonTap:) forControlEvents:UIControlEventTouchUpInside];
         [recipeInfo addSubview:youtubeButton];
         
-//        likeImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icons-h_black"]];
-//        likeImageView.alpha = .4f;
-//        [recipeInfo addSubview:likeImageView];
-//        
-//        likeLabel = [[UILabel alloc] init];
-//        likeLabel.textColor = [UIColor blackColor];
-//        likeLabel.textAlignment = NSTextAlignmentCenter;
-//        likeLabel.backgroundColor = [UIColor clearColor];
-//        likeLabel.alpha = .4f;
-//        likeLabel.font = [UIFont systemFontOfSize:10];
-//        [recipeInfo addSubview:likeLabel];
-//        
-//        likeButton = [[UIButton alloc] init];
-//        likeButton.alpha = .4f;
-//        [likeButton addTarget:self action:@selector(handleHeartButtonTap:) forControlEvents:UIControlEventTouchUpInside];
-//        [recipeInfo addSubview:likeButton];
-//
-//        commentImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icons-comments_black"]];
-//        commentImageView.alpha = .4f;
-//        [recipeInfo addSubview:commentImageView];
-
-//        commentLabel = [[UILabel alloc] init];
-//        commentLabel.textColor = [UIColor blackColor];
-//        commentLabel.textAlignment = NSTextAlignmentCenter;
-//        commentLabel.backgroundColor = [UIColor clearColor];
-//        commentLabel.alpha = .4f;
-//        commentLabel.font = [UIFont systemFontOfSize:10];
-//        [recipeInfo addSubview:commentLabel];
-//        
-//        commentButton = [[UIButton alloc] init];
-//        commentButton.alpha = .4f;
-//        [commentButton addTarget:self action:@selector(handleCommentButtonTap:) forControlEvents:UIControlEventTouchUpInside];
-//        [recipeInfo addSubview:commentButton];
-        
         recipeDetailInfo = [[UIView alloc] init];
         recipeDetailInfo.backgroundColor = [UIColor whiteColor];
         [self addSubview:recipeDetailInfo];
@@ -154,13 +120,6 @@
         [youtubeButton      setFrame:CGRectMake(tempRect.origin.y, titleLabel.frame.origin.y+titleLabel.frame.size.height+tempRect.origin.y, (recipeInfo.frame.size.width - tempRect.origin.x*2)*(0.35), YOUTUBE_BTN_HEIGHT)];
         [youtubeThumbImageView setFrame:CGRectMake(youtubeButton.frame.origin.x+youtubeThumbMargin, youtubeButton.frame.origin.y+youtubeThumbMargin, youtubeButton.frame.size.width/3,youtubeButton.frame.size.height-youtubeThumbMargin*2)];
     }
-    //    [likeImageView      setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*2), recipeInfo.frame.size.height-iconSize*2, iconSize, iconSize)];
-    //    [likeLabel          setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*1), recipeInfo.frame.size.height-iconSize*2, iconSize*2, iconSize)];
-    //    [likeButton         setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*2), recipeInfo.frame.size.height-iconSize*2, iconSize*3, iconSize)];
-    //
-    //    [commentImageView   setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*5), recipeInfo.frame.size.height-iconSize*2, iconSize, iconSize)];
-    //    [commentLabel       setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*4), recipeInfo.frame.size.height-iconSize*2, iconSize*2, iconSize)];
-    //    [commentButton      setFrame:CGRectMake(imageScrollView.frame.size.width-(iconSize*5), recipeInfo.frame.size.height-iconSize*2, iconSize*3, iconSize)];
     
     [recipeDetailInfo setFrame:CGRectMake(10, recipeInfo.frame.size.height+DETAIL_INFO_MARGIN+10, recipeInfo.frame.size.width,RECIPE_DETAIL_INFO_HEIGHT)];
     [recipeContent setFrame:CGRectMake(10, 10, recipeDetailInfo.frame.size.width-20, recipeDetailInfo.frame.size.height-20)];
@@ -328,8 +287,6 @@
     for( AsyncImageView *tempSubImageView in imageArr )
         [tempSubImageView removeFromSuperview];
     [imageArr removeAllObjects];
-//    likeLabel.text      = @"0";
-//    commentLabel.text   = @"0";
     recipeContent.text  = @"";
     
     Post *tempPost = [[CoreDataManager getInstance] getPost:postId];

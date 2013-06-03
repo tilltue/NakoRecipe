@@ -95,7 +95,7 @@
         transition.duration = 0.5;
         transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         transition.type = kCATransitionFade;
-        [recipeCommentView.window.layer addAnimation:transition forKey:nil];
+        [recipeCommentView.layer addAnimation:transition forKey:nil];
         recipeCommentView.hidden = NO;
         self.navigationItem.rightBarButtonItem.title = @"댓글 닫기";
         [recipeCommentView loadCommentView:currentPostId];
@@ -103,7 +103,7 @@
         transition.duration = 0.5;
         transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         transition.type = kCATransitionFade;
-        [recipeCommentView.window.layer addAnimation:transition forKey:nil];
+        [recipeCommentView.layer addAnimation:transition forKey:nil];
         recipeCommentView.hidden = YES;
         self.navigationItem.rightBarButtonItem.title = @"댓글 보기";
         [recipeCommentView close];

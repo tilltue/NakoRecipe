@@ -191,11 +191,10 @@
     CGFloat PHONE_TWO_THUMB_WIDTH       = [[rectDic objectForKey:@"PHONE_TWO_THUMB_WIDTH"] floatValue];
     CGFloat THUMB_INFO_HEIGHT           = [[rectDic objectForKey:@"THUMB_INFO_HEIGHT"] floatValue];
     CGFloat DETAIL_INFO_HEIGHT          = [[rectDic objectForKey:@"DETAIL_INFO_HEIGHT"] floatValue];
-//    CGFloat HEART_AND_COMMENT_ICONWIDTH = [[rectDic objectForKey:@"HEART_AND_COMMENT_ICONWIDTH"] floatValue];
     CGFloat USER_THUMB_ICONWIDTH        = [[rectDic objectForKey:@"USER_THUMB_ICONWIDTH"] floatValue];
     
     CGFloat thumbMargin = (PHONE_TWO_CELL_WIDTH - PHONE_TWO_THUMB_WIDTH)/2;
-    UIView *tempView = [[UIView alloc] init];
+    UIView *tempView = [[UIView alloc] init];    
     tempView.backgroundColor = [UIColor whiteColor];
     
     CGFloat resizeHeight = 0;
@@ -232,54 +231,6 @@
     tempLabel.attributedText = [self makeAttrString:pintrestItem.title withTitleHeight:CGSizeMake(PHONE_TWO_CELL_WIDTH-10, titleHeight)];
     [tempLabel setFrame:CGRectMake(thumbMargin, resizeHeight+thumbMargin+5, PHONE_TWO_THUMB_WIDTH, [tempLabel.attributedText size].height+5)];
     [tempView addSubview:tempLabel];
-
-    /*
-    UIImageView *heartIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icons-h_black"]];
-    heartIcon.alpha = .4f;
-    [heartIcon setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*4), resizeHeight+titleHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
-    [tempView addSubview:heartIcon];
-    
-    tempLabel = [[UILabel alloc] init];
-    tempLabel.textColor = [UIColor blackColor];
-    tempLabel.textAlignment = NSTextAlignmentCenter;
-    tempLabel.backgroundColor = [UIColor clearColor];
-    tempLabel.text = [NSString stringWithFormat:@"%d",pintrestItem.like_count];
-    tempLabel.alpha = .4f;
-    tempLabel.font = [UIFont systemFontOfSize:10];
-    [tempLabel setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*2), resizeHeight+titleHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH*2, HEART_AND_COMMENT_ICONWIDTH)];
-    [tempView addSubview:tempLabel];
-    
-    UIButton *tempButton = [[UIButton alloc] init];
-    //tempButton.backgroundColor = [UIColor redColor];
-    tempButton.alpha = .4f;
-    tempButton.tag = index;
-    [tempButton setFrame:CGRectMake(heartIcon.frame.origin.x-3, heartIcon.frame.origin.y-3, heartIcon.frame.size.width+tempLabel.frame.size.width+6, heartIcon.frame.size.height+6)];
-    [tempButton addTarget:self action:@selector(handleHeartButtonTap:) forControlEvents:UIControlEventTouchUpInside];
-    [tempView addSubview:tempButton];
-    
-    
-    UIImageView *commentIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icons-comments_black"]];
-    commentIcon.alpha = .4f;
-    [commentIcon setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*8), resizeHeight+titleHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH)];
-    [tempView addSubview:commentIcon];
-    
-    tempLabel = [[UILabel alloc] init];
-    tempLabel.textColor = [UIColor blackColor];
-    tempLabel.textAlignment = NSTextAlignmentCenter;
-    tempLabel.backgroundColor = [UIColor clearColor];
-    tempLabel.text = [NSString stringWithFormat:@"%d",pintrestItem.comment_count];
-    tempLabel.alpha = .4f;
-    tempLabel.font = [UIFont systemFontOfSize:10];
-    [tempLabel setFrame:CGRectMake(PHONE_TWO_CELL_WIDTH-thumbMargin-(HEART_AND_COMMENT_ICONWIDTH*6), resizeHeight+titleHeight+THUMB_INFO_HEIGHT-HEART_AND_COMMENT_ICONWIDTH, HEART_AND_COMMENT_ICONWIDTH*2, HEART_AND_COMMENT_ICONWIDTH)];
-    [tempView addSubview:tempLabel];
-    
-    tempButton = [[UIButton alloc] init];
-    //tempButton.backgroundColor = [UIColor blueColor];
-    tempButton.tag = index;
-    [tempButton setFrame:CGRectMake(commentIcon.frame.origin.x-3, commentIcon.frame.origin.y-3, commentIcon.frame.size.width+tempLabel.frame.size.width+6, commentIcon.frame.size.height+6)];
-    [tempButton addTarget:self action:@selector(handleCommentButtonTap:) forControlEvents:UIControlEventTouchUpInside];
-    [tempView addSubview:tempButton];
-    */
     
     NSArray *infoTextArr = [pintrestItem.tags componentsSeparatedByString:@"|"];
     

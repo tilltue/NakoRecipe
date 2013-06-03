@@ -70,6 +70,14 @@
     });
 }
 
+- (void)requestFailed
+{
+    dispatch_async( dispatch_get_main_queue(), ^{
+        if( [self.observer respondsToSelector:@selector(requestFailed:)] )
+            [self.observer requestFailed];
+    });
+}
+
 #pragma mark - conncection delegate
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)aResponse
@@ -98,6 +106,7 @@
 {
     requestState = E_REQUEST_STATE_COMPLETE;
     NSLog(@"failed");
+    [self requestFailed];
 }
 
 @end
