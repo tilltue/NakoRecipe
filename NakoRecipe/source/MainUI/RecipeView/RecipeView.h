@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AsyncImageView.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface RecipeView : UIScrollView
 {
@@ -34,7 +34,10 @@
     UILabel     *commentLabel;
     */
     NSString    *currentPostId;
-    AsyncImageView *youtubeThumbImageView;
+    UIImageView *youtubeThumbImageView;
+    
+    UIImageView *leftArrow;
+    UIImageView *rightArrow;
 }
 - (void)reloadRecipeView:(NSString *)postId;
 @end

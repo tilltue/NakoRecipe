@@ -8,7 +8,7 @@
 
 #import "RecipePinterest.h"
 #import "CoreDataManager.h"
-#import "AsyncImageView.h"
+#import "UIImageView+AFNetworking.h"
 #import <QuartzCore/QuartzCore.h>
 
 @implementation AttatchItem
@@ -202,8 +202,8 @@
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
     if( [pintrestItem.attachItems count] > 0){
         AttatchItem *tempAttatchItem = [self getThumbNailItem:pintrestItem];
-        AsyncImageView *tempAsyncImageView = [[AsyncImageView alloc] init];
-        [tempAsyncImageView loadImageFromURL:tempAttatchItem.image_url withResizeWidth:PHONE_TWO_THUMB_WIDTH*4];        
+        UIImageView *tempAsyncImageView = [[UIImageView alloc] init];
+        [tempAsyncImageView setImageWithURL:[NSURL URLWithString:tempAttatchItem.image_url]];
         if( tempAttatchItem != nil ){
             resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
             titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
@@ -249,10 +249,10 @@
     [tempView2 setFrame:CGRectMake(0, resizeHeight+thumbMargin+titleHeight+THUMB_INFO_HEIGHT, PHONE_TWO_CELL_WIDTH, DETAIL_INFO_HEIGHT)];
     [tempView addSubview:tempView2];
     if( [AppPreference getValid] ){
-        AsyncImageView *tempAsyncImageView = [[AsyncImageView alloc] init];
+        UIImageView *tempAsyncImageView = [[UIImageView alloc] init];
         tempAsyncImageView.contentMode = UIViewContentModeScaleAspectFill;
         tempAsyncImageView.clipsToBounds = YES;
-        [tempAsyncImageView loadImageFromURL:pintrestItem.creatorThumb withResizeWidth:USER_THUMB_ICONWIDTH*4];
+        [tempAsyncImageView setImageWithURL:[NSURL URLWithString:pintrestItem.creatorThumb]];
         [tempAsyncImageView setFrame:CGRectMake(thumbMargin, DETAIL_INFO_HEIGHT/2-USER_THUMB_ICONWIDTH/2, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
         [tempView2 addSubview:tempAsyncImageView];
     }

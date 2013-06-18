@@ -7,7 +7,6 @@
 //
 
 #import "RecipeView.h"
-#import "AsyncImageView.h"
 #import "CoreDataManager.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -40,6 +39,11 @@
         [self initGestureRecognizer:imageScrollView];
         [recipeInfo addSubview:imageScrollView];
         
+        leftArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"page_arrow_left"]];
+        [self addSubview:leftArrow];
+        rightArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"page_arrow_right"]];
+        [self addSubview:rightArrow];
+        
         imagePageControl = [[UIPageControl alloc] init];
         imagePageControl.hidden = YES;
         [recipeInfo addSubview:imagePageControl];
@@ -48,7 +52,7 @@
         titleLabel.backgroundColor = [UIColor clearColor];
         [recipeInfo addSubview:titleLabel];
         
-        youtubeThumbImageView = [[AsyncImageView alloc] init];
+        youtubeThumbImageView = [[UIImageView alloc] init];
         youtubeThumbImageView.backgroundColor = [UIColor clearColor];
         [recipeInfo addSubview:youtubeThumbImageView];
         
@@ -99,11 +103,11 @@
     tempRect = [CommonUI getRectFromDic:rectDic withKey:@"imageScrollView"];
     for( int i = 0; i < [imageArr count]; i++ )
     {
-        AsyncImageView *tempSubImageView = [imageArr objectAtIndex:i];
+        UIImageView *tempSubImageView = [imageArr objectAtIndex:i];
         [tempSubImageView setFrame:CGRectMake((self.frame.size.width - tempRect.origin.x*4)*i, 0, self.frame.size.width - tempRect.origin.x*4, tempSubImageView.frame.size.height)];
     }
     if( [imageArr count] > imagePageControl.currentPage ){
-        AsyncImageView *tempSubImageView = [imageArr objectAtIndex:imagePageControl.currentPage];
+        UIImageView *tempSubImageView = [imageArr objectAtIndex:imagePageControl.currentPage];
         [imageScrollView setFrame:CGRectMake(tempRect.origin.x,tempRect.origin.y, tempSubImageView.frame.size.width, tempSubImageView.frame.size.height)];
         [recipeInfo setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, imageScrollView.frame.size.height+tempRect.origin.y*4+RECIPE_INFO_HEIGHT+YOUTUBE_BTN_HEIGHT)];
         [titleLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y*2+imageScrollView.frame.size.height, recipeInfo.frame.size.width - tempRect.origin.x*2-iconSize*6, RECIPE_INFO_HEIGHT)];
@@ -112,6 +116,8 @@
         [noImageLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8-RECIPE_INFO_HEIGHT-YOUTUBE_BTN_HEIGHT+tempRect.origin.y)];
         [titleLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y*2+noImageLabel.frame.size.height, recipeInfo.frame.size.width - tempRect.origin.x*2-iconSize*6, RECIPE_INFO_HEIGHT)];
     }
+    [leftArrow setFrame:CGRectMake(imageScrollView.frame.origin.x+15,imageScrollView.frame.origin.y+imageScrollView.frame.size.height/2-39/2+10, 22, 39)];
+    [rightArrow setFrame:CGRectMake(imageScrollView.frame.origin.x+imageScrollView.frame.size.width-22, imageScrollView.frame.origin.y+imageScrollView.frame.size.height/2-39/2+10, 22, 39)];
     [imageScrollView setContentSize:CGSizeMake((imageScrollView.frame.size.width)*([imageArr count]), imageScrollView.frame.size.height)];
     if([SystemInfo isPad]){
         [youtubeButton      setFrame:CGRectMake(tempRect.origin.y, titleLabel.frame.origin.y+titleLabel.frame.size.height+tempRect.origin.y, 100, YOUTUBE_BTN_HEIGHT)];
@@ -175,6 +181,14 @@
     }
 
     [self setLayout];
+    if( imagePageControl.currentPage == 0 ){
+        leftArrow.hidden = YES;
+    }else if( imagePageControl.currentPage > 0 && imagePageControl.currentPage +1 != imagePageControl.numberOfPages ){
+        leftArrow.hidden = NO;
+        rightArrow.hidden = NO;
+    }else if( imagePageControl.currentPage +1 == imagePageControl.numberOfPages ){
+        rightArrow.hidden = YES;
+    }
 }
 
 - (void)initGestureRecognizer:(UIView *)view
@@ -207,6 +221,15 @@
             [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
         }
     }
+    if( imagePageControl.currentPage == 0 ){
+        leftArrow.hidden = YES;
+    }else if( imagePageControl.currentPage > 0 && imagePageControl.currentPage +1 != imagePageControl.numberOfPages ){
+        leftArrow.hidden = NO;
+        rightArrow.hidden = NO;
+    }else if( imagePageControl.currentPage+1 == imagePageControl.numberOfPages ){
+        rightArrow.hidden = YES;
+    }
+//    NSLog(@"%d %d",imagePageControl.currentPage,imagePageControl.numberOfPages);
 }
 
 - (NSString *)splitEnter:(NSString*)string
@@ -282,9 +305,11 @@
     [recipeInfo setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height * 0.8)];
     [noImageLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8)];
     [imageScrollView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8)];
+    [leftArrow setFrame:CGRectMake(imageScrollView.frame.origin.x+15,imageScrollView.frame.origin.y+imageScrollView.frame.size.height/2-39/2+10, 22, 39)];
+    [rightArrow setFrame:CGRectMake(imageScrollView.frame.origin.x+imageScrollView.frame.size.width-22, imageScrollView.frame.origin.y+imageScrollView.frame.size.height/2-39/2+10, 22, 39)];
     [titleLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y*2+imageScrollView.frame.size.height, recipeInfo.frame.size.width - tempRect.origin.x*2-iconSize*6, RECIPE_INFO_HEIGHT)];
     
-    for( AsyncImageView *tempSubImageView in imageArr )
+    for( UIImageView *tempSubImageView in imageArr )
         [tempSubImageView removeFromSuperview];
     [imageArr removeAllObjects];
     recipeContent.text  = @"";
@@ -299,8 +324,8 @@
                 if( [[attachItem.thumb_url lastPathComponent] hasPrefix:@"thumbnail"] )
                     continue;
                 CGFloat resizeHeight = ((imageScrollView.frame.size.width-40) / (float)[attachItem.width integerValue] ) * (float)([attachItem.height intValue]);
-                AsyncImageView *tempAsyncImageview = [[AsyncImageView alloc] init];
-                [tempAsyncImageview loadImageFromURL:attachItem.thumb_url withResizeWidth:imageScrollView.frame.size.width*4];
+                UIImageView *tempAsyncImageview = [[UIImageView alloc] init];
+                [tempAsyncImageview setImageWithURL:[NSURL URLWithString:attachItem.thumb_url]];
                 [imageScrollView addSubview:tempAsyncImageview];
                 [imageArr addObject:tempAsyncImageview];
                 [tempAsyncImageview setFrame:CGRectMake((imageScrollView.frame.size.width)*i, 0, imageScrollView.frame.size.width,resizeHeight+40)];
@@ -309,8 +334,8 @@
                 if( ![[attachItem.thumb_url lastPathComponent] hasPrefix:@"thumbnail"] )
                     continue;
                 CGFloat resizeHeight = ((imageScrollView.frame.size.width-40) / (float)[attachItem.width integerValue] ) * (float)([attachItem.height intValue]);
-                AsyncImageView *tempAsyncImageview = [[AsyncImageView alloc] init];
-                [tempAsyncImageview loadImageFromURL:attachItem.thumb_url withResizeWidth:imageScrollView.frame.size.width*4];
+                UIImageView *tempAsyncImageview = [[UIImageView alloc] init];
+                [tempAsyncImageview setImageWithURL:[NSURL URLWithString:attachItem.thumb_url]];
                 [imageScrollView addSubview:tempAsyncImageview];
                 [imageArr addObject:tempAsyncImageview];
                 [tempAsyncImageview setFrame:CGRectMake((imageScrollView.frame.size.width)*i, 0, imageScrollView.frame.size.width,resizeHeight+40)];
@@ -331,12 +356,9 @@
         titleLabel.attributedText = [self makeAttrString:infoTextArr withInfoHeight:titleLabel.frame.size];
         if( ![[infoTextArr objectAtIndex:4] isEqualToString:@"null"] ){
             NSString *thumbImageUrl = [NSString stringWithFormat:@"http://img.youtube.com/vi/%@/default.jpg",[infoTextArr objectAtIndex:4]];
-            youtubeThumbImageView.uniqueDir = nil;
-            youtubeThumbImageView.uniqueDir = [NSString stringWithFormat:@"/%@",[infoTextArr objectAtIndex:4]];
-            [youtubeThumbImageView loadImageFromURL:thumbImageUrl withResizeWidth:youtubeThumbImageView.frame.size.width*4];
+            [youtubeThumbImageView setImageWithURL:[NSURL URLWithString:thumbImageUrl]];
             [self makeYoutubeButton:YES];
         }else{
-            youtubeThumbImageView.uniqueDir = nil;
             [youtubeThumbImageView setImage:nil];
             [self makeYoutubeButton:NO];
         }
@@ -348,6 +370,11 @@
     imagePageControl.currentPage    = 0;
     imagePageControl.numberOfPages  = [imageArr count];
     [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
+    if( imagePageControl.numberOfPages > 1)
+        rightArrow.hidden = NO;
+    else
+        rightArrow.hidden = YES;
+    leftArrow.hidden = YES;
     [self layoutIfNeeded];
 }
 
