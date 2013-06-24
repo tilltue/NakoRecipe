@@ -19,6 +19,7 @@
 @end
 
 @implementation HttpApi
+@synthesize requestState;
 
 + (HttpApi *)getInstance
 {
@@ -64,21 +65,16 @@
 {
     if( [AppPreference getValid] )
         return YES;
-    NSError *error = [[NSError alloc] init];
-    NSData *xmlData;
-    NSURLResponse * response;
-    NSURL * surl = [NSURL URLWithString:VERSION_URL];
-    NSURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:surl cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:3];
-    xmlData = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&response error:&error];
-    if (error.code < 0) {
+    if( requestState == E_REQUEST_STATE_PROGRESS )
         return NO;
-    }
-    NSString *jsonString = [[NSString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",jsonString);
-    if( [jsonString intValue] > 101 ){
-        [AppPreference setValid:@"YES"];
-        return YES;
-    }
+    if( responseData == nil )
+        responseData = [[NSMutableData alloc] init];
+    [responseData setLength:0];
+    NSURL * url = [[NSURL alloc] initWithString:VERSION_URL];
+    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:REQUEST_TIMEOUT];
+    requestState = E_REQUEST_STATE_PROGRESS;
+    connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [connection start];
     return NO;
 }
 
@@ -100,5 +96,35 @@
     }
     return ret.retString;
 }
+
+#pragma mark - conncection delegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)aResponse
+{
+    requestState = E_REQUEST_STATE_PROGRESS;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)theData
+{
+    requestState = E_REQUEST_STATE_PROGRESS;
+    if( responseData != nil )
+        [responseData appendData:theData];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    requestState = E_REQUEST_STATE_COMPLETE;
+    NSString *jsonString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+//    NSLog(@"complete %@",jsonString);
+    if( [jsonString intValue] > 101 ){
+        [AppPreference setValid:@"YES"];
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    requestState = E_REQUEST_STATE_DEFAULT;
+}
+
 
 @end

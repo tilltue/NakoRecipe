@@ -15,6 +15,11 @@
 
 
 @interface HttpApi : NSObject
+{
+    NSURLConnection *connection;
+    NSMutableData *responseData;
+}
+@property NSInteger requestState;
 + (HttpApi *)getInstance;
 - (HttpRequestResult *)requestJSON:(NSString *)url;
 - (BOOL)requestVersion;

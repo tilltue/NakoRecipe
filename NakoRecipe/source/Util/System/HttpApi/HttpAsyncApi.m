@@ -64,18 +64,18 @@
 
 - (void)requestFinished
 {
-    dispatch_async( dispatch_get_main_queue(), ^{
+    //dispatch_async( dispatch_get_main_queue(), ^{
         if( [self.observer respondsToSelector:@selector(requestFinished:)] )
             [self.observer requestFinished:[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]];
-    });
+    //});
 }
 
 - (void)requestFailed
 {
-    dispatch_async( dispatch_get_main_queue(), ^{
+    //dispatch_async( dispatch_get_main_queue(), ^{
         if( [self.observer respondsToSelector:@selector(requestFailed:)] )
             [self.observer requestFailed];
-    });
+    //});
 }
 
 #pragma mark - conncection delegate

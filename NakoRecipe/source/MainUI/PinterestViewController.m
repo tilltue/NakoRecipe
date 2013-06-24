@@ -64,11 +64,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self versionCheck];
-    if( [[[CoreDataManager getInstance] getPosts] count] > 0 )
-        ;//update?
-    else
-        [[CoreDataManager getInstance] makePostFromBundle];
-    [recipePinterest reloadPintRest];
+    if( [[[CoreDataManager getInstance] getPosts] count] > 0 ){
+        [recipePinterest reloadPintRest];
+    }else{
+        [_activityIndicatorView startAnimating];
+        [self performSelectorInBackground:@selector(makeCoreDataFromBundle) withObject:nil];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -86,27 +87,20 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
+- (void)makeCoreDataFromBundle
+{
+    [[CoreDataManager getInstance] makePostFromBundle];
+    [recipePinterest reloadPintRest];
+    [_activityIndicatorView stopAnimating];
+}
+
 #pragma mark - Recipe Info update
 
 - (void)versionCheck
 {
     if( [AppPreference getValid] )
         return;
-    BOOL versionCheck = NO;
-    CGFloat tempTime = [[AppPreference getCheckTime:PREKEY_UPDATE_RECIPE] floatValue];
-    if( tempTime < 0 ){
-        versionCheck = YES;
-        [AppPreference setCheckTime:[NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970]] withKey:PREKEY_UPDATE_RECIPE];
-    }else{
-        CGFloat tempInterVal = [[NSDate date] timeIntervalSince1970] - tempTime;
-        if( tempInterVal > 300 ){
-            versionCheck = YES;
-            [AppPreference setCheckTime:[NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970]] withKey:PREKEY_UPDATE_RECIPE];
-        }
-    }
-    if( versionCheck ){
-        [[HttpApi getInstance] requestVersion];
-    }
+    [[HttpApi getInstance] requestVersion];
 }
 
 - (void)update

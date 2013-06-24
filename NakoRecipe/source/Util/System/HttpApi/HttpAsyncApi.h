@@ -8,13 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
-    E_REQUEST_STATE_DEFAULT = 2,
-    E_REQUEST_STATE_START,
-    E_REQUEST_STATE_PROGRESS,
-    E_REQUEST_STATE_COMPLETE,
-} enum_requestState;
-
 @interface HttpAsyncApiRequestResult : NSObject
 @property (nonatomic, strong) NSString *retString;
 @property (nonatomic, strong) NSString *errorDomain;
