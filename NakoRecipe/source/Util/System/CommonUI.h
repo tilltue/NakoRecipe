@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface CommonUI : NSObject
++ (UIImage *)imageRotatedByDegrees:(UIImage*)oldImage deg:(CGFloat)degrees;
 + (UIColor *)getUIColorFromHexString:(NSString *)hexString;
 + (CGRect)getRectFromDic:(NSMutableDictionary *)rectDic withKey:(NSString *)key;
 + (UIButton *)createTempButtonWithBgImage:(UIImage *)bgImage pressImage:(UIImage *)pressBgImage selectedImage:(UIImage *)selectedBgImage;

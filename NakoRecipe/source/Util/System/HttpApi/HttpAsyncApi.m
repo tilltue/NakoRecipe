@@ -73,7 +73,7 @@
 - (void)requestFailed
 {
     //dispatch_async( dispatch_get_main_queue(), ^{
-        if( [self.observer respondsToSelector:@selector(requestFailed:)] )
+        if( [self.observer respondsToSelector:@selector(requestFailed)] )
             [self.observer requestFailed];
     //});
 }

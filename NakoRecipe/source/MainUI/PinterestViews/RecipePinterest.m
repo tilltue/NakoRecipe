@@ -44,9 +44,37 @@
         }
         [self  addSubview:psCollectionView];
         
-        refreshControl = [[ODRefreshControl alloc] initInScrollView:psCollectionView];
+        UIImage *tempImage = [UIImage imageNamed:@"ic_loading.png"];
+        UIImageView *activityIndicatorView = [[UIImageView alloc] init];
+        float imageSize = [SystemInfo isPad]?35:24;
+        activityIndicatorView.frame = CGRectMake(0, 0, imageSize, imageSize);
+        activityIndicatorView.animationImages = [[NSArray alloc] initWithObjects:
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:0],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:20],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:40],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:60],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:80],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:100],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:120],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:140],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:160],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:180],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:200],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:220],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:240],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:260],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:280],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:300],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:320],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:340],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:360],
+                                                 nil];
+        activityIndicatorView.animationDuration = 1.5;
+        [activityIndicatorView startAnimating];
+                                                 
+        refreshControl = [[ODRefreshControl alloc] initInScrollView:psCollectionView activityIndicatorView:activityIndicatorView];
         [refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
-        [refreshControl setTintColor:[UIColor redColor]];
+        [refreshControl setTintColor:[CommonUI getUIColorFromHexString:@"E04C30"]];
         pintrestItems = [[NSMutableArray alloc] init];
     }
     return self;
@@ -260,9 +288,10 @@
         titleHeight = CELL_WIDTH*.2;
     }
     
+    float fontSize = [SystemInfo isPad]?23:13;
     UILabel *tempLabel = [[UILabel alloc] init];
     tempLabel.backgroundColor = [UIColor clearColor];
-    tempLabel.attributedText = [self makeAttrString:pintrestItem.title withTitleHeight:CGSizeMake(CELL_WIDTH-10, 13)];
+    tempLabel.attributedText = [self makeAttrString:pintrestItem.title withTitleHeight:CGSizeMake(CELL_WIDTH-10, fontSize)];
     [tempLabel setFrame:CGRectMake(10, resizeHeight, CELL_WIDTH-20, [tempLabel.attributedText size].height+5)];
     [tempView addSubview:tempLabel];
     [bgView setFrame:CGRectMake(0, 0, CELL_WIDTH, resizeHeight+tempLabel.frame.size.height)];
@@ -282,21 +311,22 @@
     [tempView addSubview:tempAsyncImageView];
     [bgView setFrame:CGRectMake(0, 0, CELL_WIDTH, bgView.frame.size.height + 1 + USER_THUMB_ICONWIDTH + thumbMargin*2)];
 
+    float subFontSize = [SystemInfo isPad]?15:10;
     tempLabel = [[UILabel alloc] init];
     tempLabel.textColor = [UIColor grayColor];
     tempLabel.backgroundColor = [UIColor clearColor];
     if( [infoTextArr count] > 1 )
         tempLabel.text = [NSString stringWithFormat:@"%@ 방영",[infoTextArr objectAtIndex:1]];
-    tempLabel.font = [SystemInfo isPad]?[UIFont systemFontOfSize:10]:[UIFont systemFontOfSize:10];
-    [tempLabel setFrame:CGRectMake(thumbMargin*2 + USER_THUMB_ICONWIDTH, bgView.frame.size.height - 20, CELL_WIDTH-thumbMargin*2, 10)];
+    tempLabel.font = [UIFont systemFontOfSize:subFontSize];
+    [tempLabel setFrame:CGRectMake(thumbMargin*2 + USER_THUMB_ICONWIDTH, bgView.frame.size.height - 20, CELL_WIDTH-thumbMargin*2, subFontSize)];
     [tempView addSubview:tempLabel];
 
     if( [infoTextArr count] > 3 ){
-        CGSize infoTextSize = CGSizeMake(CELL_WIDTH-thumbMargin*3-USER_THUMB_ICONWIDTH, 10);
+        CGSize infoTextSize = CGSizeMake(CELL_WIDTH-thumbMargin*3-USER_THUMB_ICONWIDTH, subFontSize);
         tempLabel = [[UILabel alloc] init];
         tempLabel.attributedText = [self makeAttrString:infoTextArr withInfoHeight:infoTextSize];
         tempLabel.backgroundColor = [UIColor clearColor];
-        [tempLabel setFrame:CGRectMake(thumbMargin*2 + USER_THUMB_ICONWIDTH, bgView.frame.size.height - 35, infoTextSize.width, 10)];
+        [tempLabel setFrame:CGRectMake(thumbMargin*2 + USER_THUMB_ICONWIDTH, bgView.frame.size.height - 35, infoTextSize.width, subFontSize)];
         [tempView addSubview:tempLabel];
     }
 //    NSLog(@"%@",pintrestItem.tags);
@@ -307,7 +337,7 @@
 - (CGFloat)collectionView:(PSCollectionView *)collectionView heightForRowAtIndex:(NSInteger)index
 {
     CGFloat CELL_WIDTH                  = [[rectDic objectForKey:@"CELL_WIDTH"] floatValue];
-    CGFloat DETAIL_INFO_HEIGHT          = 40;
+    CGFloat DETAIL_INFO_HEIGHT          = [SystemInfo isPad]?50:40;
     
     CGFloat resizeHeight = 0;
     CGFloat titleHeight = 0;
