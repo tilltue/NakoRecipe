@@ -69,6 +69,8 @@
 		A3D0D5611748FBAF006C0AA9 /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D5601748FBAF006C0AA9 /* AsyncImageView.m */; };
 		A3D0D566174903DB006C0AA9 /* RecipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D565174903DB006C0AA9 /* RecipeViewController.m */; };
 		A3D0D569174903FD006C0AA9 /* RecipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0D568174903FD006C0AA9 /* RecipeView.m */; };
+		A3DEA0F4178D3D8D0041E259 /* ODRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DEA0F3178D3D8D0041E259 /* ODRefreshControl.m */; };
+		A3E12E0D177EAE9E00D512A0 /* SDURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E12E0C177EAE9E00D512A0 /* SDURLCache.m */; };
 		A3E530D217507B5700C651F3 /* AppPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E530D117507B5700C651F3 /* AppPreference.m */; };
 		A3FB73171743DE9700413AE8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73161743DE9700413AE8 /* UIKit.framework */; };
 		A3FB73191743DE9700413AE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73181743DE9700413AE8 /* Foundation.framework */; };
@@ -207,6 +209,10 @@
 		A3D0D565174903DB006C0AA9 /* RecipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecipeViewController.m; path = source/MainUI/RecipeViewController.m; sourceTree = "<group>"; };
 		A3D0D567174903FD006C0AA9 /* RecipeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecipeView.h; path = source/MainUI/RecipeView/RecipeView.h; sourceTree = "<group>"; };
 		A3D0D568174903FD006C0AA9 /* RecipeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecipeView.m; path = source/MainUI/RecipeView/RecipeView.m; sourceTree = "<group>"; };
+		A3DEA0F2178D3D8D0041E259 /* ODRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODRefreshControl.h; path = source/Util/ExternSource/ODRefreshControl/ODRefreshControl.h; sourceTree = "<group>"; };
+		A3DEA0F3178D3D8D0041E259 /* ODRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODRefreshControl.m; path = source/Util/ExternSource/ODRefreshControl/ODRefreshControl.m; sourceTree = "<group>"; };
+		A3E12E0B177EAE9E00D512A0 /* SDURLCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDURLCache.h; path = source/Util/ExternSource/SDURLCache/SDURLCache.h; sourceTree = "<group>"; };
+		A3E12E0C177EAE9E00D512A0 /* SDURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDURLCache.m; path = source/Util/ExternSource/SDURLCache/SDURLCache.m; sourceTree = "<group>"; };
 		A3E530D017507B5700C651F3 /* AppPreference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppPreference.h; path = source/Util/System/AppPreference.h; sourceTree = "<group>"; };
 		A3E530D117507B5700C651F3 /* AppPreference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppPreference.m; path = source/Util/System/AppPreference.m; sourceTree = "<group>"; };
 		A3FB73131743DE9700413AE8 /* NakoRecipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NakoRecipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -461,6 +467,24 @@
 			name = RecipeViewController;
 			sourceTree = "<group>";
 		};
+		A3DEA0F1178D3D630041E259 /* ODRefreshControl */ = {
+			isa = PBXGroup;
+			children = (
+				A3DEA0F2178D3D8D0041E259 /* ODRefreshControl.h */,
+				A3DEA0F3178D3D8D0041E259 /* ODRefreshControl.m */,
+			);
+			name = ODRefreshControl;
+			sourceTree = "<group>";
+		};
+		A3E12E0A177EAE8200D512A0 /* SDURLCache */ = {
+			isa = PBXGroup;
+			children = (
+				A3E12E0B177EAE9E00D512A0 /* SDURLCache.h */,
+				A3E12E0C177EAE9E00D512A0 /* SDURLCache.m */,
+			);
+			name = SDURLCache;
+			sourceTree = "<group>";
+		};
 		A3FB730A1743DE9700413AE8 = {
 			isa = PBXGroup;
 			children = (
@@ -575,6 +599,8 @@
 		A3FB73501743E3D600413AE8 /* ExternSource */ = {
 			isa = PBXGroup;
 			children = (
+				A3DEA0F1178D3D630041E259 /* ODRefreshControl */,
+				A3E12E0A177EAE8200D512A0 /* SDURLCache */,
 				A3CE343E17701D8A0032660F /* AFNetworking */,
 				226DFC76175C47A9007E4749 /* GoogleAdMob */,
 				A3D0D55E1748FB61006C0AA9 /* AsyncView */,
@@ -775,6 +801,8 @@
 				A3CE345817701F600032660F /* AFURLConnectionOperation.m in Sources */,
 				A3CE345917701F600032660F /* AFXMLRequestOperation.m in Sources */,
 				A3CE345A17701F600032660F /* UIImageView+AFNetworking.m in Sources */,
+				A3E12E0D177EAE9E00D512A0 /* SDURLCache.m in Sources */,
+				A3DEA0F4178D3D8D0041E259 /* ODRefreshControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -844,8 +872,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "66C6839D-6C15-4C90-917E-DE760E9DA40B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "66C6839D-6C15-4C90-917E-DE760E9DA40B";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -872,8 +900,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "66C6839D-6C15-4C90-917E-DE760E9DA40B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "66C6839D-6C15-4C90-917E-DE760E9DA40B";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -902,8 +930,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3786E49F-ACCF-4CE5-A629-CD9F8DBDC4E3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3786E49F-ACCF-4CE5-A629-CD9F8DBDC4E3";
+				PROVISIONING_PROFILE = "66C6839D-6C15-4C90-917E-DE760E9DA40B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "66C6839D-6C15-4C90-917E-DE760E9DA40B";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -930,8 +958,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3786E49F-ACCF-4CE5-A629-CD9F8DBDC4E3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3786E49F-ACCF-4CE5-A629-CD9F8DBDC4E3";
+				PROVISIONING_PROFILE = "66C6839D-6C15-4C90-917E-DE760E9DA40B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "66C6839D-6C15-4C90-917E-DE760E9DA40B";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

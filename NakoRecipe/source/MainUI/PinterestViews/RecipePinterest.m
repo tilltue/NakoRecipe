@@ -44,6 +44,9 @@
         }
         [self  addSubview:psCollectionView];
         
+        refreshControl = [[ODRefreshControl alloc] initInScrollView:psCollectionView];
+        [refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
+        [refreshControl setTintColor:[UIColor redColor]];
         pintrestItems = [[NSMutableArray alloc] init];
     }
     return self;
@@ -54,19 +57,17 @@
     [rectDic setObject:@"{{0,0},{0,0}}" forKey:@"psCollectionView"];
     //value
     if( [SystemInfo isPad] ){
-        [rectDic setObject:@"245" forKey:@"PHONE_TWO_CELL_WIDTH"];
+        [rectDic setObject:@"245" forKey:@"CELL_WIDTH"];
         [rectDic setObject:@"240" forKey:@"PHONE_TWO_THUMB_WIDTH"];
         [rectDic setObject:@"10" forKey:@"HEART_AND_COMMENT_ICONWIDTH"];
         [rectDic setObject:@"40" forKey:@"THUMB_INFO_HEIGHT"];
-        [rectDic setObject:@"40" forKey:@"DETAIL_INFO_HEIGHT"];
-        [rectDic setObject:@"25" forKey:@"USER_THUMB_ICONWIDTH"];
+        [rectDic setObject:@"32" forKey:@"USER_THUMB_ICONWIDTH"];
     }else{
-        [rectDic setObject:@"148" forKey:@"PHONE_TWO_CELL_WIDTH"];
+        [rectDic setObject:@"148" forKey:@"CELL_WIDTH"];
         [rectDic setObject:@"140" forKey:@"PHONE_TWO_THUMB_WIDTH"];
         [rectDic setObject:@"10" forKey:@"HEART_AND_COMMENT_ICONWIDTH"];
         [rectDic setObject:@"30" forKey:@"THUMB_INFO_HEIGHT"];
-        [rectDic setObject:@"40" forKey:@"DETAIL_INFO_HEIGHT"];
-        [rectDic setObject:@"25" forKey:@"USER_THUMB_ICONWIDTH"];
+        [rectDic setObject:@"32" forKey:@"USER_THUMB_ICONWIDTH"];
     }
 }
 
@@ -101,6 +102,22 @@
     }
     [psCollectionView reloadData];
 }
+
+- (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
+{
+    [[self delegate] update];
+}
+
+- (void)startLoading
+{
+    [refreshControl beginRefreshing];
+}
+
+- (void)stopLoading
+{
+    [refreshControl endRefreshing];
+}
+
 
 - (AttatchItem *)getThumbNailItem:(PintrestItem *)pintrestItem
 {
@@ -174,7 +191,7 @@
     
     NSInteger colorRocation = [broadCastNum length];
     NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:infoString];
-    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#3EA99F"] range:NSMakeRange(0, colorRocation)];
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(0, colorRocation)];
     [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height] range:NSMakeRange(0, colorRocation)];
     [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(colorRocation, [infoString length]-colorRocation)];
     [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height] range:NSMakeRange(colorRocation, [infoString length]-colorRocation)];
@@ -184,18 +201,33 @@
     return attrStr;
 }
 
+- (void)shapeView:(UIView *)view
+{
+    CAShapeLayer * shapeLayer = [CAShapeLayer layer];
+    shapeLayer.backgroundColor = [UIColor clearColor].CGColor;
+    shapeLayer.path = [UIBezierPath bezierPathWithRoundedRect:view.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(5.0, 5.0)].CGPath;
+    
+    view.layer.masksToBounds = YES;
+    view.layer.mask = shapeLayer;
+}
+
 - (UIView *)collectionView:(PSCollectionView *)collectionView cellForRowAtIndex:(NSInteger)index
 {
 //    NSLog(@"show : %d",index);
-    CGFloat PHONE_TWO_CELL_WIDTH        = [[rectDic objectForKey:@"PHONE_TWO_CELL_WIDTH"] floatValue];
-    CGFloat PHONE_TWO_THUMB_WIDTH       = [[rectDic objectForKey:@"PHONE_TWO_THUMB_WIDTH"] floatValue];
-    CGFloat THUMB_INFO_HEIGHT           = [[rectDic objectForKey:@"THUMB_INFO_HEIGHT"] floatValue];
-    CGFloat DETAIL_INFO_HEIGHT          = [[rectDic objectForKey:@"DETAIL_INFO_HEIGHT"] floatValue];
+    CGFloat CELL_WIDTH                  = [[rectDic objectForKey:@"CELL_WIDTH"] floatValue];
     CGFloat USER_THUMB_ICONWIDTH        = [[rectDic objectForKey:@"USER_THUMB_ICONWIDTH"] floatValue];
     
-    CGFloat thumbMargin = (PHONE_TWO_CELL_WIDTH - PHONE_TWO_THUMB_WIDTH)/2;
-    UIView *tempView = [[UIView alloc] init];    
-    tempView.backgroundColor = [UIColor whiteColor];
+    CGFloat thumbMargin = 6;
+    UIView *tempView = [[UIView alloc] init];
+    tempView.backgroundColor = [UIColor clearColor];
+    tempView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
+    tempView.layer.shadowRadius = 2;
+    tempView.layer.shadowOpacity = 0.2;
+    
+    UIView *bgView = [[UIView alloc] init];
+    bgView.backgroundColor = [CommonUI getUIColorFromHexString:@"F4F3F4"];
+    bgView.layer.cornerRadius = 5;
+    [tempView addSubview:bgView];
     
     CGFloat resizeHeight = 0;
     CGFloat titleHeight = 0;
@@ -205,14 +237,15 @@
         UIImageView *tempAsyncImageView = [[UIImageView alloc] init];
         [tempAsyncImageView setImageWithURL:[NSURL URLWithString:tempAttatchItem.image_url]];
         if( tempAttatchItem != nil ){
-            resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
-            titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
+            resizeHeight = (CELL_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
+            titleHeight = resizeHeight>CELL_WIDTH?resizeHeight*.2:CELL_WIDTH*.2;
         }else{
-            resizeHeight = PHONE_TWO_THUMB_WIDTH;
-            titleHeight = PHONE_TWO_THUMB_WIDTH*.2;
+            resizeHeight = CELL_WIDTH;
+            titleHeight = CELL_WIDTH*.2;
         }
         [tempView addSubview:tempAsyncImageView];
-        [tempAsyncImageView setFrame:CGRectMake(thumbMargin, thumbMargin, PHONE_TWO_THUMB_WIDTH, resizeHeight)];
+        [tempAsyncImageView setFrame:CGRectMake(0, 0, CELL_WIDTH, resizeHeight)];
+        [self shapeView:tempAsyncImageView];
     }else{
         UILabel *noImageLabel = [[UILabel alloc] init];
         noImageLabel.textColor = [CommonUI getUIColorFromHexString:@"#657383"];
@@ -220,51 +253,52 @@
         noImageLabel.textAlignment = NSTextAlignmentCenter;
         noImageLabel.text = @"No Image";
         noImageLabel.font = [UIFont fontWithName:UIFONT_NAME size:20];
-        [noImageLabel setFrame:CGRectMake(thumbMargin, thumbMargin, PHONE_TWO_THUMB_WIDTH, PHONE_TWO_THUMB_WIDTH)];
+        [noImageLabel setFrame:CGRectMake(0, 0, CELL_WIDTH, CELL_WIDTH)];
         [tempView addSubview:noImageLabel];
-        
-        resizeHeight = PHONE_TWO_THUMB_WIDTH;
-        titleHeight = PHONE_TWO_THUMB_WIDTH*.2;
+        [self shapeView:noImageLabel];
+        resizeHeight = CELL_WIDTH;
+        titleHeight = CELL_WIDTH*.2;
     }
+    
     UILabel *tempLabel = [[UILabel alloc] init];
     tempLabel.backgroundColor = [UIColor clearColor];
-    tempLabel.attributedText = [self makeAttrString:pintrestItem.title withTitleHeight:CGSizeMake(PHONE_TWO_CELL_WIDTH-10, titleHeight)];
-    [tempLabel setFrame:CGRectMake(thumbMargin, resizeHeight+thumbMargin+5, PHONE_TWO_THUMB_WIDTH, [tempLabel.attributedText size].height+5)];
+    tempLabel.attributedText = [self makeAttrString:pintrestItem.title withTitleHeight:CGSizeMake(CELL_WIDTH-10, 13)];
+    [tempLabel setFrame:CGRectMake(10, resizeHeight, CELL_WIDTH-20, [tempLabel.attributedText size].height+5)];
     [tempView addSubview:tempLabel];
+    [bgView setFrame:CGRectMake(0, 0, CELL_WIDTH, resizeHeight+tempLabel.frame.size.height)];
+    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, resizeHeight + tempLabel.frame.size.height, CELL_WIDTH, 1)];
+    lineView.backgroundColor = [CommonUI getUIColorFromHexString:@"#E4E3DC"];
+    [tempView addSubview:lineView];
     
     NSArray *infoTextArr = [pintrestItem.tags componentsSeparatedByString:@"|"];
     
+    UIImageView *tempAsyncImageView = [[UIImageView alloc] init];
+    tempAsyncImageView.contentMode = UIViewContentModeScaleAspectFill;
+    tempAsyncImageView.clipsToBounds = YES;
+    tempAsyncImageView.layer.cornerRadius = 5;
+    [tempAsyncImageView setImageWithURL:[NSURL URLWithString:pintrestItem.creatorThumb]];
+    [tempAsyncImageView setFrame:CGRectMake(thumbMargin, resizeHeight+tempLabel.frame.size.height+thumbMargin, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
+    [tempView addSubview:tempAsyncImageView];
+    [bgView setFrame:CGRectMake(0, 0, CELL_WIDTH, bgView.frame.size.height + 1 + USER_THUMB_ICONWIDTH + thumbMargin*2)];
+
     tempLabel = [[UILabel alloc] init];
-    tempLabel.textColor = [UIColor blackColor];
-    tempLabel.textAlignment = NSTextAlignmentRight;
+    tempLabel.textColor = [UIColor grayColor];
     tempLabel.backgroundColor = [UIColor clearColor];
     if( [infoTextArr count] > 1 )
         tempLabel.text = [NSString stringWithFormat:@"%@ 방영",[infoTextArr objectAtIndex:1]];
-    tempLabel.font = [SystemInfo isPad]?[UIFont systemFontOfSize:15]:[UIFont systemFontOfSize:10];
-    [tempLabel setFrame:CGRectMake(thumbMargin, resizeHeight+thumbMargin+titleHeight+thumbMargin, PHONE_TWO_CELL_WIDTH-thumbMargin*2, THUMB_INFO_HEIGHT)];
+    tempLabel.font = [SystemInfo isPad]?[UIFont systemFontOfSize:10]:[UIFont systemFontOfSize:10];
+    [tempLabel setFrame:CGRectMake(thumbMargin*2 + USER_THUMB_ICONWIDTH, bgView.frame.size.height - 20, CELL_WIDTH-thumbMargin*2, 10)];
     [tempView addSubview:tempLabel];
 
-    UIView *tempView2 = [[UIView alloc] init];
-    tempView2.backgroundColor = [CommonUI getUIColorFromHexString:@"#F2F3F7"];
-    [tempView2 setFrame:CGRectMake(0, resizeHeight+thumbMargin+titleHeight+THUMB_INFO_HEIGHT, PHONE_TWO_CELL_WIDTH, DETAIL_INFO_HEIGHT)];
-    [tempView addSubview:tempView2];
-    if( [AppPreference getValid] ){
-        UIImageView *tempAsyncImageView = [[UIImageView alloc] init];
-        tempAsyncImageView.contentMode = UIViewContentModeScaleAspectFill;
-        tempAsyncImageView.clipsToBounds = YES;
-        [tempAsyncImageView setImageWithURL:[NSURL URLWithString:pintrestItem.creatorThumb]];
-        [tempAsyncImageView setFrame:CGRectMake(thumbMargin, DETAIL_INFO_HEIGHT/2-USER_THUMB_ICONWIDTH/2, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
-        [tempView2 addSubview:tempAsyncImageView];
-    }
     if( [infoTextArr count] > 3 ){
-        CGSize infoTextSize = CGSizeMake(PHONE_TWO_CELL_WIDTH-thumbMargin*3-USER_THUMB_ICONWIDTH, DETAIL_INFO_HEIGHT*.6-thumbMargin*2);
+        CGSize infoTextSize = CGSizeMake(CELL_WIDTH-thumbMargin*3-USER_THUMB_ICONWIDTH, 10);
         tempLabel = [[UILabel alloc] init];
         tempLabel.attributedText = [self makeAttrString:infoTextArr withInfoHeight:infoTextSize];
         tempLabel.backgroundColor = [UIColor clearColor];
-        [tempLabel setFrame:CGRectMake(thumbMargin*2+USER_THUMB_ICONWIDTH, DETAIL_INFO_HEIGHT/2-infoTextSize.height/3, infoTextSize.width, infoTextSize.height)];
-        [tempView2 addSubview:tempLabel];
+        [tempLabel setFrame:CGRectMake(thumbMargin*2 + USER_THUMB_ICONWIDTH, bgView.frame.size.height - 35, infoTextSize.width, 10)];
+        [tempView addSubview:tempLabel];
     }
-    [tempView addSubview:tempView2];
 //    NSLog(@"%@",pintrestItem.tags);
     
     return tempView;
@@ -272,9 +306,8 @@
 
 - (CGFloat)collectionView:(PSCollectionView *)collectionView heightForRowAtIndex:(NSInteger)index
 {
-    CGFloat PHONE_TWO_THUMB_WIDTH       = [[rectDic objectForKey:@"PHONE_TWO_THUMB_WIDTH"] floatValue];
-    CGFloat THUMB_INFO_HEIGHT           = [[rectDic objectForKey:@"THUMB_INFO_HEIGHT"] floatValue];
-    CGFloat DETAIL_INFO_HEIGHT          = [[rectDic objectForKey:@"DETAIL_INFO_HEIGHT"] floatValue];
+    CGFloat CELL_WIDTH                  = [[rectDic objectForKey:@"CELL_WIDTH"] floatValue];
+    CGFloat DETAIL_INFO_HEIGHT          = 40;
     
     CGFloat resizeHeight = 0;
     CGFloat titleHeight = 0;
@@ -282,16 +315,16 @@
     if( [pintrestItem.attachItems count] > 0 ){
         AttatchItem *tempAttatchItem = [self getThumbNailItem:pintrestItem];
         if( tempAttatchItem != nil ){
-            resizeHeight = (PHONE_TWO_THUMB_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
-            titleHeight = resizeHeight>PHONE_TWO_THUMB_WIDTH?resizeHeight*.2:PHONE_TWO_THUMB_WIDTH*.2;
+            resizeHeight = (CELL_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
+            titleHeight = resizeHeight>CELL_WIDTH?resizeHeight*.2:CELL_WIDTH*.2;
         }else{
-            resizeHeight = PHONE_TWO_THUMB_WIDTH;
-            titleHeight = PHONE_TWO_THUMB_WIDTH*.2;
+            resizeHeight = CELL_WIDTH;
+            titleHeight = CELL_WIDTH*.2;
         }
     }else{
-        resizeHeight = PHONE_TWO_THUMB_WIDTH;
-        titleHeight = PHONE_TWO_THUMB_WIDTH*.2;
+        resizeHeight = CELL_WIDTH;
+        titleHeight = CELL_WIDTH*.2;
     }
-    return resizeHeight+titleHeight+THUMB_INFO_HEIGHT+DETAIL_INFO_HEIGHT;
+    return resizeHeight+titleHeight+DETAIL_INFO_HEIGHT;
 }
 @end

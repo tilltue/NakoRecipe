@@ -141,6 +141,7 @@
             if( [postDict objectForKey:@"id"] != nil )
                 [[CoreDataManager getInstance] savePost:postDict];
         }
+        [[CoreDataManager getInstance] saveContext];
     }
 }
 
@@ -187,7 +188,6 @@
     for( AttatchMent *item in tempPost.attatchments )
         [ad.managedObjectContext deleteObject:item];
     [tempPost removeAttatchments:tempPost.attatchments];
-    [self saveContext];
     
     NSString *thumbImagePrefix = @"creator";
     NSDictionary *attatchmentArr = [jsonDict objectForKey:@"attachments"];
@@ -205,7 +205,6 @@
             [tempPost addAttatchmentsObject:tempAttachment];
         }
     }
-    [self saveContext];
 }
 
 - (void)savePost:(NSDictionary *)jsonDict
@@ -253,7 +252,6 @@
             [tempPost addAttatchmentsObject:tempAttachment];
         }
     }
-    [self saveContext];
 }
 
 - (AttatchMent *)saveAttatchment:(NSDictionary *)jsonDict withPostId:(NSString *)postId
@@ -271,7 +269,6 @@
     if( [tempValue isKindOfClass:[NSDecimalNumber class]] )
         tempValue = [NSString stringWithFormat:@"%@",[tempValue stringValue]];
     tempAttachment.height = [NSNumber numberWithInt:[tempValue intValue]];
-    [self saveContext];
     
     return tempAttachment;
 }

@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "FileControl.h"
 #import "PinterestViewController.h"
+#import "SDURLCache.h"
+
 //HA-SJL 세발자전거 HA-SJB
 //HA-TTL 테트리스 HA-TTM
 @implementation AppDelegate
@@ -19,6 +21,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self managedObjectContext];
+    
+    SDURLCache *urlCache = [[SDURLCache alloc] initWithMemoryCapacity:1024*1024   // 1MB mem cache
+                                                         diskCapacity:1024*1024*100 // 5MB disk cache
+                                                             diskPath:[SDURLCache defaultCachePath]];
+    [NSURLCache setSharedURLCache:urlCache];
+    
     PinterestViewController *pintrestMainViewController;
     pintrestMainViewController = [[PinterestViewController alloc] init];
     

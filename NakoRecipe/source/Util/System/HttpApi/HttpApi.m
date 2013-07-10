@@ -116,7 +116,7 @@
     requestState = E_REQUEST_STATE_COMPLETE;
     NSString *jsonString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
 //    NSLog(@"complete %@",jsonString);
-    if( [jsonString intValue] > 101 ){
+    if( [jsonString intValue] > 103 ){
         [AppPreference setValid:@"YES"];
     }
 }

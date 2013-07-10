@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PSCollectionView.h"
+#import "ODRefreshControl.h"
 
 @interface AttatchItem : NSObject
 @property (nonatomic, strong) NSString *image_url;
@@ -27,6 +28,7 @@
 
 @protocol RecipePinterestDelegate <NSObject>
 - (void)selectRecipe:(NSString *)recipeId;
+- (void)update;
 @end
 
 @interface RecipePinterest : UIView <PSCollectionViewDataSource,PSCollectionViewDelegate>
@@ -34,8 +36,11 @@
     NSMutableDictionary *rectDic;
     PSCollectionView *psCollectionView;
     NSMutableArray *pintrestItems;
+    ODRefreshControl *refreshControl;
 }
 @property (nonatomic, unsafe_unretained) id <RecipePinterestDelegate> delegate;
+- (void)startLoading;
+- (void)stopLoading;
 - (void)reloadPintRest;
 - (NSArray *)getShowIndex;
 @end
