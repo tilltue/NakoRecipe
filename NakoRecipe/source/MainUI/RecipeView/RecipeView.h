@@ -13,18 +13,14 @@
 {
     NSMutableDictionary *rectDic;
     
-    UIView          *imageBgView;
-    UILabel         *titleLabel;
     UIScrollView    *imageScrollView;
     UIPageControl   *imagePageControl;
     UILabel         *noImageLabel;
     NSMutableArray  *imageArr;
     
+    UIView          *bgView;
     UIView          *recipeInfo;
-    UIView          *recipeDetailInfo;
-    UITextView      *recipeContent;
     
-    UIButton    *youtubeButton;
     /*
     UIImageView *likeImageView;
     UIButton    *likeButton;
@@ -34,10 +30,22 @@
     UILabel     *commentLabel;
     */
     NSString    *currentPostId;
-    UIImageView *youtubeThumbImageView;
     
-    UIImageView *leftArrow;
-    UIImageView *rightArrow;
+    UIView      *lineView_1;
+    UIView      *lineView_2;
+    UIView      *lineView_3;
+    UIButton    *youtubeButton;
+    UIImageView *ivLike;
+    UILabel     *lblLike;
+    UIImageView *ivComment;
+    UILabel     *lblComment;
+    
+    UIImageView *ivStuff;
+    UILabel     *lblStuff;
+    UILabel     *lblStuffDetail;
+    UIImageView *ivRecipe;
+    UILabel     *lblRecipe;
+    UITextView  *recipeContent;
 }
 - (void)reloadRecipeView:(NSString *)postId;
 @end

@@ -39,7 +39,8 @@
     
     UILabel *label = [[UILabel alloc] initWithFrame:tempRect];
     label.font = [UIFont fontWithName:UIFONT_NAME size:titleFontHeight];
-    label.shadowColor = [UIColor clearColor];
+    label.shadowColor = [UIColor whiteColor];
+    label.shadowOffset = CGSizeMake(0, 1);
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [CommonUI getUIColorFromHexString:@"#696565"];
     label.textAlignment = NSTextAlignmentCenter;
@@ -47,11 +48,11 @@
     pintrestMainViewController.navigationItem.titleView = label;
     
     UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:pintrestMainViewController];
-    navigationVC.navigationBar.tintColor = [UIColor whiteColor];
+    navigationVC.navigationBar.tintColor = [CommonUI getUIColorFromHexString:@"E4E3DC"];
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
     [attributes setValue:[CommonUI getUIColorFromHexString:@"#696565"] forKey:UITextAttributeTextColor];
-    [attributes setValue:[UIColor clearColor] forKey:UITextAttributeTextShadowColor];
-    [attributes setValue:[NSValue valueWithUIOffset:UIOffsetMake(0.0, 0.0)] forKey:UITextAttributeTextShadowOffset];
+    [attributes setValue:[UIColor whiteColor] forKey:UITextAttributeTextShadowColor];
+    [attributes setValue:[NSValue valueWithUIOffset:UIOffsetMake(0.0, 1.0)] forKey:UITextAttributeTextShadowOffset];
     [[UIBarButtonItem appearance] setTitleTextAttributes:attributes forState:UIControlStateNormal];
     CGFloat verticalOffset = 4;
     [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:verticalOffset forBarMetrics:UIBarMetricsDefault];

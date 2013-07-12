@@ -20,10 +20,20 @@
         // Initialization code
         rectDic = [[NSMutableDictionary alloc] init];
         [self makeLayout];
-                
+
+        bgView = [[UIView alloc] init];
+        bgView.layer.cornerRadius = 5;
+        bgView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
+        bgView.layer.shadowRadius = 2;
+        bgView.layer.shadowOpacity = 0.2;
+        bgView.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
+        [self addSubview:bgView];
+        
         recipeInfo = [[UIView alloc] init];
-        recipeInfo.backgroundColor = [UIColor whiteColor];
-        [self addSubview:recipeInfo];
+        recipeInfo.layer.cornerRadius = 5;
+        recipeInfo.layer.masksToBounds = YES;
+        recipeInfo.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
+        [bgView addSubview:recipeInfo];
         
         noImageLabel = [[UILabel alloc] init];
         noImageLabel.textColor = [CommonUI getUIColorFromHexString:@"#657383"];
@@ -38,41 +48,85 @@
         imageScrollView.scrollEnabled = NO;
         [self initGestureRecognizer:imageScrollView];
         [recipeInfo addSubview:imageScrollView];
-        
-        leftArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"page_arrow_left"]];
-        [self addSubview:leftArrow];
-        rightArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"page_arrow_right"]];
-        [self addSubview:rightArrow];
-        
+                
         imagePageControl = [[UIPageControl alloc] init];
-        imagePageControl.hidden = YES;
+        [imagePageControl setPageIndicatorTintColor:[CommonUI getUIColorFromHexString:@"#E4E3DC"]];
+        [imagePageControl setCurrentPageIndicatorTintColor:[CommonUI getUIColorFromHexString:@"E04C30"]];
         [recipeInfo addSubview:imagePageControl];
         
-        titleLabel = [[UILabel alloc] init];
-        titleLabel.backgroundColor = [UIColor clearColor];
-        [recipeInfo addSubview:titleLabel];
+        lineView_1 = [[UIView alloc] init];
+        lineView_1.backgroundColor = [CommonUI getUIColorFromHexString:@"E4E3DC"];
+        [recipeInfo addSubview:lineView_1];
         
-        youtubeThumbImageView = [[UIImageView alloc] init];
-        youtubeThumbImageView.backgroundColor = [UIColor clearColor];
-        [recipeInfo addSubview:youtubeThumbImageView];
+        lineView_2 = [[UIView alloc] init];
+        lineView_2.backgroundColor = [CommonUI getUIColorFromHexString:@"E4E3DC"];
+        [recipeInfo addSubview:lineView_2];
+        
+        lineView_3 = [[UIView alloc] init];
+        lineView_3.backgroundColor = [CommonUI getUIColorFromHexString:@"E4E3DC"];
+        [recipeInfo addSubview:lineView_3];
+        
+        ivLike = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_like"]];
+        [recipeInfo addSubview:ivLike];
+        
+        lblLike = [[UILabel alloc] init];
+        lblLike.font = [UIFont systemFontOfSize:12];
+        lblLike.textAlignment = NSTextAlignmentCenter;
+        lblLike.textColor = [UIColor grayColor];
+        lblLike.backgroundColor = [UIColor clearColor];
+        [recipeInfo addSubview:lblLike];
+        
+        ivComment = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_comment"]];
+        [recipeInfo addSubview:ivComment];
+
+        lblComment = [[UILabel alloc] init];
+        lblComment.textAlignment = NSTextAlignmentCenter;
+        lblComment.font = [UIFont systemFontOfSize:12];
+        lblComment.textColor = [UIColor grayColor];
+        lblComment.backgroundColor = [UIColor clearColor];
+        [recipeInfo addSubview:lblComment];
+
+        ivStuff = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_ingredients"]];
+        [recipeInfo addSubview:ivStuff];
+        
+        lblStuff = [[UILabel alloc] init];
+        lblStuff.font = [UIFont systemFontOfSize:15];
+        lblStuff.textColor = [CommonUI getUIColorFromHexString:@"E04C30"];
+        lblStuff.text = @"재료";
+        lblStuff.backgroundColor = [UIColor clearColor];
+        [recipeInfo addSubview:lblStuff];
+
+        lblStuffDetail = [[UILabel alloc] init];
+        lblStuffDetail.font = [UIFont systemFontOfSize:12];
+        lblStuffDetail.textColor = [UIColor grayColor];
+        lblStuffDetail.backgroundColor = [UIColor clearColor];
+        lblStuffDetail.lineBreakMode = NSLineBreakByCharWrapping;
+        lblStuffDetail.numberOfLines = 2;
+        [recipeInfo addSubview:lblStuffDetail];
         
         youtubeButton = [[UIButton alloc] init];
         youtubeButton.layer.cornerRadius = 5;
-        youtubeButton.layer.borderColor = [UIColor grayColor].CGColor;
-        youtubeButton.layer.borderWidth = 1.0f;
+        youtubeButton.layer.masksToBounds = YES;
         [youtubeButton addTarget:self action:@selector(handleYoutubeButtonTap:) forControlEvents:UIControlEventTouchUpInside];
+        [youtubeButton setImage:[UIImage imageNamed:@"btn_youtube"] forState:UIControlStateNormal];
         [recipeInfo addSubview:youtubeButton];
         
-        recipeDetailInfo = [[UIView alloc] init];
-        recipeDetailInfo.backgroundColor = [UIColor whiteColor];
-        [self addSubview:recipeDetailInfo];
+        ivRecipe = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_directions"]];
+        [recipeInfo addSubview:ivRecipe];
+        
+        lblRecipe = [[UILabel alloc] init];
+        lblRecipe.font = [UIFont systemFontOfSize:15];
+        lblRecipe.textColor = [CommonUI getUIColorFromHexString:@"E04C30"];
+        lblRecipe.text = @"요리법";
+        lblRecipe.backgroundColor = [UIColor clearColor];
+        [recipeInfo addSubview:lblRecipe];
         
         recipeContent = [[UITextView alloc] init];
-        recipeContent.textColor = [UIColor blackColor];
+        recipeContent.textColor = [UIColor grayColor];
         recipeContent.editable = NO;
         recipeContent.backgroundColor = [UIColor clearColor];
         recipeContent.font = [UIFont fontWithName:UIFONT_NAME size:14];
-        [recipeDetailInfo addSubview:recipeContent];
+        [recipeInfo addSubview:recipeContent];
         
         imageArr = [[NSMutableArray alloc] init];
         currentPostId = nil;
@@ -82,58 +136,134 @@
 
 - (void)makeLayout
 {
-    [rectDic setObject:@"{{10,10},{0,0}}"   forKey:@"imageScrollView"];
-    [rectDic setObject:@"20"                forKey:@"DETAIL_INFO_MARGIN"];
-    [rectDic setObject:@"30"                forKey:@"RECIPE_INFO_HEIGHT"];
-    [rectDic setObject:@"30"                forKey:@"YOUTUBE_BTN_HEIGHT"];
-    [rectDic setObject:@"200"               forKey:@"RECIPE_DETAIL_INFO_HEIGHT"];
-    [rectDic setObject:@"15"                forKey:@"IMAGE_PAGECONTROL_HEIGHT"];
+    [rectDic setObject:@"{{10,10},{0,0}}"     forKey:@"imageScrollView"];
+    [rectDic setObject:@"200"                forKey:@"RECIPE_INFO_HEIGHT"];
+}
+
+- (void)shapeView:(UIView *)view
+{
+    CAShapeLayer * shapeLayer = [CAShapeLayer layer];
+    shapeLayer.backgroundColor = [UIColor clearColor].CGColor;
+    shapeLayer.path = [UIBezierPath bezierPathWithRoundedRect:view.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(5.0, 5.0)].CGPath;
+    
+    view.layer.masksToBounds = YES;
+    view.layer.mask = shapeLayer;
 }
 
 - (void)setLayout
 {
     CGRect tempRect;
-    CGFloat youtubeThumbMargin = 3.0f;
-    CGFloat iconSize = 15.0f;
-    CGFloat DETAIL_INFO_MARGIN          = [[rectDic objectForKey:@"DETAIL_INFO_MARGIN"] floatValue];
     CGFloat RECIPE_INFO_HEIGHT          = [[rectDic objectForKey:@"RECIPE_INFO_HEIGHT"] floatValue];
-    CGFloat RECIPE_DETAIL_INFO_HEIGHT   = [[rectDic objectForKey:@"RECIPE_DETAIL_INFO_HEIGHT"] floatValue];
-    CGFloat YOUTUBE_BTN_HEIGHT          = [[rectDic objectForKey:@"YOUTUBE_BTN_HEIGHT"] floatValue];
     
     tempRect = [CommonUI getRectFromDic:rectDic withKey:@"imageScrollView"];
     for( int i = 0; i < [imageArr count]; i++ )
     {
         UIImageView *tempSubImageView = [imageArr objectAtIndex:i];
-        [tempSubImageView setFrame:CGRectMake((self.frame.size.width - tempRect.origin.x*4)*i, 0, self.frame.size.width - tempRect.origin.x*4, tempSubImageView.frame.size.height)];
+        [tempSubImageView setFrame:CGRectMake((self.frame.size.width - tempRect.origin.x*2)*i, 0, self.frame.size.width - tempRect.origin.x*2, tempSubImageView.frame.size.height)];
     }
     if( [imageArr count] > imagePageControl.currentPage ){
         UIImageView *tempSubImageView = [imageArr objectAtIndex:imagePageControl.currentPage];
-        [imageScrollView setFrame:CGRectMake(tempRect.origin.x,tempRect.origin.y, tempSubImageView.frame.size.width, tempSubImageView.frame.size.height)];
-        [recipeInfo setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, imageScrollView.frame.size.height+tempRect.origin.y*4+RECIPE_INFO_HEIGHT+YOUTUBE_BTN_HEIGHT)];
-        [titleLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y*2+imageScrollView.frame.size.height, recipeInfo.frame.size.width - tempRect.origin.x*2-iconSize*6, RECIPE_INFO_HEIGHT)];
+        [imageScrollView setFrame:CGRectMake(0,0, tempSubImageView.frame.size.width, tempSubImageView.frame.size.height)];
+        [bgView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, imageScrollView.frame.size.height+tempRect.origin.y*4+RECIPE_INFO_HEIGHT)];
+        recipeInfo.frame = CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height);
     }else{
-        [recipeInfo setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height*.3+tempRect.origin.y*4+RECIPE_INFO_HEIGHT+YOUTUBE_BTN_HEIGHT)];
-        [noImageLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8-RECIPE_INFO_HEIGHT-YOUTUBE_BTN_HEIGHT+tempRect.origin.y)];
-        [titleLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y*2+noImageLabel.frame.size.height, recipeInfo.frame.size.width - tempRect.origin.x*2-iconSize*6, RECIPE_INFO_HEIGHT)];
+        [bgView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height*.3+tempRect.origin.y*4+RECIPE_INFO_HEIGHT)];
+        recipeInfo.frame = CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height);
+        [noImageLabel setFrame:CGRectMake(0, 0, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8-RECIPE_INFO_HEIGHT+tempRect.origin.y)];
     }
-    [leftArrow setFrame:CGRectMake(imageScrollView.frame.origin.x+15,imageScrollView.frame.origin.y+imageScrollView.frame.size.height/2-39/2+10, 22, 39)];
-    [rightArrow setFrame:CGRectMake(imageScrollView.frame.origin.x+imageScrollView.frame.size.width-22, imageScrollView.frame.origin.y+imageScrollView.frame.size.height/2-39/2+10, 22, 39)];
     [imageScrollView setContentSize:CGSizeMake((imageScrollView.frame.size.width)*([imageArr count]), imageScrollView.frame.size.height)];
-    if([SystemInfo isPad]){
-        [youtubeButton      setFrame:CGRectMake(tempRect.origin.y, titleLabel.frame.origin.y+titleLabel.frame.size.height+tempRect.origin.y, 100, YOUTUBE_BTN_HEIGHT)];
-        [youtubeThumbImageView setFrame:CGRectMake(youtubeButton.frame.origin.x+youtubeThumbMargin, youtubeButton.frame.origin.y+youtubeThumbMargin, youtubeButton.frame.size.width/3,youtubeButton.frame.size.height-youtubeThumbMargin*2)];
-    }else{
-        [youtubeButton      setFrame:CGRectMake(tempRect.origin.y, titleLabel.frame.origin.y+titleLabel.frame.size.height+tempRect.origin.y, (recipeInfo.frame.size.width - tempRect.origin.x*2)*(0.35), YOUTUBE_BTN_HEIGHT)];
-        [youtubeThumbImageView setFrame:CGRectMake(youtubeButton.frame.origin.x+youtubeThumbMargin, youtubeButton.frame.origin.y+youtubeThumbMargin, youtubeButton.frame.size.width/3,youtubeButton.frame.size.height-youtubeThumbMargin*2)];
-    }
     
-    [recipeDetailInfo setFrame:CGRectMake(10, recipeInfo.frame.size.height+DETAIL_INFO_MARGIN+10, recipeInfo.frame.size.width,RECIPE_DETAIL_INFO_HEIGHT)];
-    [recipeContent setFrame:CGRectMake(10, 10, recipeDetailInfo.frame.size.width-20, recipeDetailInfo.frame.size.height-20)];
-    [recipeContent sizeToFit];
+    tempRect.origin.x = 0;
+    tempRect.origin.y = imageScrollView.frame.origin.y + imageScrollView.frame.size.height + 10;
+    tempRect.size.width = recipeInfo.frame.size.width;
+    tempRect.size.height = 10;
     
-    [recipeDetailInfo setFrame:CGRectMake(10, recipeInfo.frame.size.height+DETAIL_INFO_MARGIN+10, recipeInfo.frame.size.width,recipeContent.contentSize.height+10)];
-    [recipeContent setFrame:CGRectMake(10, 10, recipeDetailInfo.frame.size.width-20, recipeDetailInfo.frame.size.height-10)];
-    [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height+DETAIL_INFO_MARGIN+10+recipeDetailInfo.frame.size.height+10)];
+    imagePageControl.frame = tempRect;
+    
+    tempRect.origin.x = 0;
+    tempRect.origin.y = imagePageControl.frame.origin.y + imagePageControl.frame.size.height + 10;
+    tempRect.size.height = 1;
+    lineView_1.frame = tempRect;
+    
+    tempRect.origin.x = 10;
+    tempRect.origin.y = lineView_1.frame.origin.y + lineView_1.frame.size.height + 5;
+    tempRect.size.width = 102;
+    tempRect.size.height = 25;
+    youtubeButton.frame = tempRect;
+    
+    tempRect.origin.x = recipeInfo.frame.size.width - 100;
+    tempRect.origin.y = lineView_1.frame.origin.y + lineView_1.frame.size.height + 12;
+    tempRect.size.width = 14;
+    tempRect.size.height = 12;
+    ivLike.frame = tempRect;
+    
+    tempRect.origin.x += 19;
+    tempRect.size.width = 25;
+    tempRect.size.height = 12;
+    lblLike.frame = tempRect;
+    lblLike.text = @"300";
+    
+    tempRect.origin.x += 30;
+    tempRect.size.width = 12;
+    ivComment.frame = tempRect;
+    
+    tempRect.origin.x += 17;
+    tempRect.size.width = 25;
+    tempRect.size.height = 12;
+    lblComment.frame = tempRect;
+    lblComment.text = @"300";
+    
+    tempRect.origin.x = 0;
+    tempRect.origin.y = lineView_1.frame.origin.y + 35;
+    tempRect.size.width = recipeInfo.frame.size.width;
+    tempRect.size.height = 1;
+    lineView_2.frame = tempRect;
+    
+    tempRect.origin.x = 10;
+    tempRect.origin.y = lineView_2.frame.origin.y + 11;
+    tempRect.size.width = 24;
+    tempRect.size.height = 24;
+    ivStuff.frame = tempRect;
+    
+    tempRect.origin.x = 44;
+    tempRect.size.width = 30;
+    tempRect.size.height = 24;
+    lblStuff.frame = tempRect;
+    
+    tempRect.origin.x = 10;
+    tempRect.origin.y = ivStuff.frame.origin.y + ivStuff.frame.size.height + 5;
+    tempRect.size.width = recipeInfo.frame.size.width -20;
+    tempRect.size.height = 48;
+    lblStuffDetail.frame = tempRect;
+    
+    tempRect.origin.x = 0;
+    tempRect.origin.y = lineView_2.frame.origin.y + 90;
+    tempRect.size.width = recipeInfo.frame.size.width;
+    tempRect.size.height = 1;
+    lineView_3.frame = tempRect;
+    
+    tempRect.origin.x = 10;
+    tempRect.origin.y = lineView_3.frame.origin.y + 11;
+    tempRect.size.width = 24;
+    tempRect.size.height = 24;
+    ivRecipe.frame = tempRect;
+    
+    tempRect.origin.x = 44;
+    tempRect.size.width = 50;
+    tempRect.size.height = 24;
+    lblRecipe.frame = tempRect;
+    
+    tempRect.origin.x = 5;
+    tempRect.origin.y = ivRecipe.frame.origin.y + ivRecipe.frame.size.height + 10;
+    tempRect.size.width = recipeInfo.frame.size.width - 10;
+    tempRect.size.height = recipeContent.contentSize.height;
+    recipeContent.frame = tempRect;
+    
+    tempRect = recipeInfo.frame;
+    tempRect.size.height += recipeContent.contentSize.height-45;
+    recipeInfo.frame = tempRect;
+    
+    [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + 20)];
 }
 
 - (void)layoutSubviews
@@ -181,14 +311,6 @@
     }
 
     [self setLayout];
-    if( imagePageControl.currentPage == 0 ){
-        leftArrow.hidden = YES;
-    }else if( imagePageControl.currentPage > 0 && imagePageControl.currentPage +1 != imagePageControl.numberOfPages ){
-        leftArrow.hidden = NO;
-        rightArrow.hidden = NO;
-    }else if( imagePageControl.currentPage +1 == imagePageControl.numberOfPages ){
-        rightArrow.hidden = YES;
-    }
 }
 
 - (void)initGestureRecognizer:(UIView *)view
@@ -221,19 +343,15 @@
             [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
         }
     }
-    if( imagePageControl.currentPage == 0 ){
-        leftArrow.hidden = YES;
-    }else if( imagePageControl.currentPage > 0 && imagePageControl.currentPage +1 != imagePageControl.numberOfPages ){
-        leftArrow.hidden = NO;
-        rightArrow.hidden = NO;
-    }else if( imagePageControl.currentPage+1 == imagePageControl.numberOfPages ){
-        rightArrow.hidden = YES;
-    }
 //    NSLog(@"%d %d",imagePageControl.currentPage,imagePageControl.numberOfPages);
 }
 
 - (NSString *)splitEnter:(NSString*)string
 {
+    NSRange range;
+    range = [string rangeOfString:@"서]"];
+    if( range.length )
+        string = [string substringFromIndex:range.location+range.length];
     if (string){
         if( [string length] && [string characterAtIndex:0] == '\n'){
             return [self splitEnter:[string substringFromIndex:1]];
@@ -298,17 +416,12 @@
 {
     currentPostId = postId;
     [self setContentOffset:CGPointMake(0, 0)];
-    CGFloat iconSize = 15.0f;
     CGRect tempRect;
-    CGFloat RECIPE_INFO_HEIGHT          = [[rectDic objectForKey:@"RECIPE_INFO_HEIGHT"] floatValue];
     tempRect = [CommonUI getRectFromDic:rectDic withKey:@"imageScrollView"];
-    [recipeInfo setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height * 0.8)];
+    [bgView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height * 0.8)];
+    [recipeInfo setFrame:CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height)];
     [noImageLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8)];
     [imageScrollView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8)];
-    [leftArrow setFrame:CGRectMake(imageScrollView.frame.origin.x+15,imageScrollView.frame.origin.y+imageScrollView.frame.size.height/2-39/2+10, 22, 39)];
-    [rightArrow setFrame:CGRectMake(imageScrollView.frame.origin.x+imageScrollView.frame.size.width-22, imageScrollView.frame.origin.y+imageScrollView.frame.size.height/2-39/2+10, 22, 39)];
-    [titleLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y*2+imageScrollView.frame.size.height, recipeInfo.frame.size.width - tempRect.origin.x*2-iconSize*6, RECIPE_INFO_HEIGHT)];
-    
     for( UIImageView *tempSubImageView in imageArr )
         [tempSubImageView removeFromSuperview];
     [imageArr removeAllObjects];
@@ -350,31 +463,18 @@
         noImageLabel.hidden = NO;
         imageScrollView.hidden = YES;
     }
+
     NSArray *infoTextArr = [tempPost.tags componentsSeparatedByString:@"|"];
-    if( [infoTextArr count] > 4 ){
-        //NSLog(@"%@",tempPost.tags);
-        titleLabel.attributedText = [self makeAttrString:infoTextArr withInfoHeight:titleLabel.frame.size];
-        if( ![[infoTextArr objectAtIndex:4] isEqualToString:@"null"] ){
-            NSString *thumbImageUrl = [NSString stringWithFormat:@"http://img.youtube.com/vi/%@/default.jpg",[infoTextArr objectAtIndex:4]];
-            [youtubeThumbImageView setImageWithURL:[NSURL URLWithString:thumbImageUrl]];
-            [self makeYoutubeButton:YES];
-        }else{
-            [youtubeThumbImageView setImage:nil];
-            [self makeYoutubeButton:NO];
-        }
-    }else{
-        titleLabel.attributedText = [[NSMutableAttributedString alloc] initWithString:@""];
+    if( [infoTextArr count] > 5 ){
+        NSString *stuffString = [infoTextArr objectAtIndex:5];
+        lblStuffDetail.text = [stuffString stringByReplacingOccurrencesOfString:@"$" withString:@", "];
+        [lblStuffDetail sizeToFit];
     }
 
     recipeContent.text = [self splitEnter:tempPost.content];
     imagePageControl.currentPage    = 0;
     imagePageControl.numberOfPages  = [imageArr count];
     [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
-    if( imagePageControl.numberOfPages > 1)
-        rightArrow.hidden = NO;
-    else
-        rightArrow.hidden = YES;
-    leftArrow.hidden = YES;
     [self layoutIfNeeded];
 }
 

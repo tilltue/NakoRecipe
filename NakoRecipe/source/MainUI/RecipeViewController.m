@@ -48,7 +48,8 @@
         titleFontHeight = [SystemInfo isPad]?24.0:24.0f;
     UILabel *label = [[UILabel alloc] initWithFrame:tempRect];
     label.font = [UIFont fontWithName:UIFONT_NAME size:titleFontHeight];
-    label.shadowColor = [UIColor clearColor];
+    label.shadowColor = [UIColor whiteColor];
+    label.shadowOffset = CGSizeMake(0,1);
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [CommonUI getUIColorFromHexString:@"#696565"];
     label.textAlignment = NSTextAlignmentCenter;
