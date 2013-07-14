@@ -128,6 +128,14 @@
         recipeContent.font = [UIFont fontWithName:UIFONT_NAME size:14];
         [recipeInfo addSubview:recipeContent];
         
+        commentView = [[UIView alloc] init];
+        commentView.layer.cornerRadius = 5;
+        commentView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
+        commentView.layer.shadowRadius = 2;
+        commentView.layer.shadowOpacity = 0.2;
+        commentView.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
+        [self addSubview:commentView];
+        
         imageArr = [[NSMutableArray alloc] init];
         currentPostId = nil;
     }
@@ -263,7 +271,7 @@
     tempRect.size.height += recipeContent.contentSize.height-45;
     recipeInfo.frame = tempRect;
     
-    [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + 20)];
+    [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + 60)];
 }
 
 - (void)layoutSubviews
@@ -475,7 +483,7 @@
     imagePageControl.currentPage    = 0;
     imagePageControl.numberOfPages  = [imageArr count];
     [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
-    [self layoutIfNeeded];
+    [self setLayout];
 }
 
 @end

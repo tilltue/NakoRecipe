@@ -46,6 +46,8 @@
     UIImageView *ivRecipe;
     UILabel     *lblRecipe;
     UITextView  *recipeContent;
+    
+    UIView *commentView;
 }
 - (void)reloadRecipeView:(NSString *)postId;
 @end

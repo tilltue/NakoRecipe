@@ -17,6 +17,7 @@
     RecipePinterest *recipePinterest;
     RecipeViewController *recipeViewController;
     GADBannerView *bannerView;
+    UIView *popView;
     __strong UIActivityIndicatorView *_activityIndicatorView;
 }
 @end

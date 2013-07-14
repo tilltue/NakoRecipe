@@ -53,6 +53,52 @@
     
     recipeViewController = [[RecipeViewController alloc] init];
     [self makeCoreDataFromBundle];
+    
+    UIButton *btnLogin;
+    btnLogin = [[UIButton alloc] init];
+    [btnLogin setFrame:CGRectMake(0, 0, 32, 32)];
+    [btnLogin setImage:[UIImage imageNamed:@"ic_overflow"] forState:UIControlStateNormal];
+    UIBarButtonItem *btnRight = [[UIBarButtonItem alloc] initWithCustomView:btnLogin];
+    [btnLogin addTarget:self action:@selector(btnLogin) forControlEvents:UIControlEventTouchUpInside];
+    btnRight.style = UIBarButtonItemStyleBordered;
+    self.navigationItem.rightBarButtonItem = btnRight;
+    [self makePopView];
+}
+
+- (void)makePopView
+{
+    popView = [[UIView alloc] initWithFrame:self.view.bounds];
+    popView.hidden = YES;
+    
+    UIButton *btnClose = [[UIButton alloc] initWithFrame:self.view.bounds];
+    [btnClose addTarget:self action:@selector(btnClose) forControlEvents:UIControlEventTouchUpInside];
+    [popView addSubview:btnClose];
+    
+    UIButton *btnFacebook = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 160, 5, 150, 38)];
+    btnFacebook.backgroundColor = [UIColor whiteColor];
+    btnFacebook.layer.cornerRadius = 5;
+    btnFacebook.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
+    btnFacebook.layer.shadowRadius = 2;
+    btnFacebook.layer.shadowOpacity = 0.2;
+    [popView addSubview:btnFacebook];
+    
+    UIImageView *ivFaceIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_facebook"]];
+    ivFaceIcon.frame = CGRectMake(self.view.bounds.size.width - 157, 8, 32, 32);
+    [popView addSubview:ivFaceIcon];
+    
+    CGRect frame = ivFaceIcon.frame;
+    frame.origin.x += ivFaceIcon.frame.size.width + 3;
+    frame.size.width = 120;
+    
+    UILabel *lblFacebook = [[UILabel alloc] initWithFrame:frame];
+    lblFacebook.font = [UIFont systemFontOfSize:17];
+    lblFacebook.text = @"페이스북 로그인";
+    lblFacebook.textColor = [UIColor grayColor];
+    lblFacebook.backgroundColor = [UIColor clearColor];
+    [popView addSubview:lblFacebook];
+    
+    [self.view addSubview:popView];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -63,6 +109,16 @@
     }else{
         [self update];
     }
+}
+
+- (void)btnLogin
+{
+    popView.hidden = !popView.hidden;
+}
+
+- (void)btnClose
+{
+    popView.hidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -84,6 +140,7 @@
 {
     [[CoreDataManager getInstance] makePostFromBundle];
 }
+
 
 #pragma mark - Recipe Info update
 
@@ -140,6 +197,7 @@
 - (void)selectRecipe:(NSString *)recipeId
 {
     recipeViewController.currentPostId = recipeId;
+    [recipeViewController prepareWillAppear];
     if( [SystemInfo isPad] ){
         recipeViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     }else{

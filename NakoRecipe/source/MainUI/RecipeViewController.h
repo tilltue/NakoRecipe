@@ -16,4 +16,5 @@
     RecipeCommentView *recipeCommentView;
 }
 @property (nonatomic, strong) NSString *currentPostId;
+- (void)prepareWillAppear;
 @end

@@ -9,16 +9,19 @@
 #import <UIKit/UIKit.h>
 
 @protocol RecipeCommentDelegate <NSObject>
-- (void)faceBookLogin:(UIWebView *)webView withRequest:(NSURLRequest *)request;
 @end
 
-@interface RecipeCommentView : UIView <UIWebViewDelegate>
+@interface MyUITextField : UITextField
+@property (nonatomic, assign) float verticalPadding;
+@property (nonatomic, assign) float horizontalPadding;
+@end
+
+@interface RecipeCommentView : UIView <UITextFieldDelegate>
 {
-    NSString    *currentPostId;
-    UIWebView   *commentWebView;
-    UIActivityIndicatorView *loadingIndicator;
+    UIButton *btnLike;
+    MyUITextField *tfComment;
+    UIButton *btnSend;
 }
-- (void)loadCommentView:(NSString *)postId;
-- (void)close;
 @property (nonatomic, unsafe_unretained) id <RecipeCommentDelegate> comment_delegate;
+- (void)reset;
 @end
