@@ -10,7 +10,7 @@
 #import "RecipeView.h"
 #import "RecipeCommentView.h"
 
-@interface RecipeViewController : UIViewController <UIGestureRecognizerDelegate,RecipeCommentDelegate>
+@interface RecipeViewController : UIViewController <UIGestureRecognizerDelegate,RecipeCommentDelegate,RecipeViewDelegate>
 {
     RecipeView *recipeView;
     RecipeCommentView *recipeCommentView;

@@ -91,7 +91,7 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self managedObjectContext];
-    
+    [[LocalyticsSession shared] startSession:@"99a2b9e01d72622397e6a88-6236d388-ed1f-11e2-8f53-009c5fda0a25"];
     SDURLCache *urlCache = [[SDURLCache alloc] initWithMemoryCapacity:1024*1024   // 1MB mem cache
                                                          diskCapacity:1024*1024*500 // 5MB disk cache
                                                              diskPath:[SDURLCache defaultCachePath]];
@@ -150,11 +150,15 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [[LocalyticsSession shared] close];
+    [[LocalyticsSession shared] upload];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [[LocalyticsSession shared] resume];
+    [[LocalyticsSession shared] upload];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -165,6 +169,8 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Saves changes in the application's managed object context before the application terminates.
+    [[LocalyticsSession shared] close];
+    [[LocalyticsSession shared] upload];
     [self saveContext];
 }
 

@@ -113,6 +113,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [[LocalyticsSession shared] tagEvent:@"MainPintrest"];
     [self versionCheck];
     if( [[[CoreDataManager getInstance] getPosts] count] > 0 ){
         [recipePinterest reloadPintRest];
@@ -138,8 +139,10 @@
         [appDelegate facebookLogout];
         _loginState = NO;
         lblFaceBook.text = @"페이스북 로그인";
+        [[LocalyticsSession shared] tagEvent:@"Facebook Logout"];
     }else{
         [appDelegate openSession];
+        [[LocalyticsSession shared] tagEvent:@"Facebook Login"];
     }
 }
 

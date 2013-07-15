@@ -27,6 +27,7 @@
         tempRect.origin = CGPointZero;
         tempRect.size.height -=44;
         recipeView = [[RecipeView alloc] initWithFrame:tempRect];
+        recipeView.recipe_delegate = self;
         [self.view addSubview:recipeView];
         
         tempRect.origin.x = 0;
@@ -66,6 +67,15 @@
     view.layer.mask = shapeLayer;
 }
 
+- (void)keyboardHide
+{
+    [recipeCommentView reset];
+}
+
+- (void)keyBoardAnimated:(NSNotification *)notification
+{
+    [recipeView keyBoardAnimated:notification];
+}
 
 - (void)viewDidLoad
 {
@@ -76,12 +86,14 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    
+    Post *tempPost = [[CoreDataManager getInstance] getPost:currentPostId];
+    [[LocalyticsSession shared] tagEvent:[NSString stringWithFormat:@"Recipe:%@",tempPost.title]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [recipeView reset];
+    [recipeCommentView reset];
 }
 
 - (void)prepareWillAppear

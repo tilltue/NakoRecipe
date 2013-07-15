@@ -85,6 +85,10 @@
 		A3E12E0D177EAE9E00D512A0 /* SDURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E12E0C177EAE9E00D512A0 /* SDURLCache.m */; };
 		A3E530D217507B5700C651F3 /* AppPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E530D117507B5700C651F3 /* AppPreference.m */; };
 		A3F63CC917941B9500D42883 /* TTTTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F63CC817941B9500D42883 /* TTTTimeIntervalFormatter.m */; };
+		A3F63CCD179459B900D42883 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A3F63CCC179459B800D42883 /* libz.dylib */; };
+		A3F63CCF179459C700D42883 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A3F63CCE179459C700D42883 /* libsqlite3.dylib */; };
+		A3F63CDE17945AFF00D42883 /* libLocalyticsAMP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A3F63CDA17945AFF00D42883 /* libLocalyticsAMP.a */; };
+		A3F63CDF17945AFF00D42883 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A3F63CDB17945AFF00D42883 /* LICENSE */; };
 		A3FB73171743DE9700413AE8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73161743DE9700413AE8 /* UIKit.framework */; };
 		A3FB73191743DE9700413AE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB73181743DE9700413AE8 /* Foundation.framework */; };
 		A3FB731B1743DE9700413AE8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FB731A1743DE9700413AE8 /* CoreGraphics.framework */; };
@@ -242,6 +246,12 @@
 		A3E530D117507B5700C651F3 /* AppPreference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppPreference.m; path = source/Util/System/AppPreference.m; sourceTree = "<group>"; };
 		A3F63CC717941B9500D42883 /* TTTTimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTTTimeIntervalFormatter.h; path = source/Util/ExternSource/TTTTimeInterval/TTTTimeIntervalFormatter.h; sourceTree = "<group>"; };
 		A3F63CC817941B9500D42883 /* TTTTimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTTTimeIntervalFormatter.m; path = source/Util/ExternSource/TTTTimeInterval/TTTTimeIntervalFormatter.m; sourceTree = "<group>"; };
+		A3F63CCC179459B800D42883 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		A3F63CCE179459C700D42883 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		A3F63CDA17945AFF00D42883 /* libLocalyticsAMP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLocalyticsAMP.a; path = source/Util/ExternSource/AMPSDK.bin/libLocalyticsAMP.a; sourceTree = "<group>"; };
+		A3F63CDB17945AFF00D42883 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = source/Util/ExternSource/AMPSDK.bin/LICENSE; sourceTree = "<group>"; };
+		A3F63CDC17945AFF00D42883 /* LocalyticsAmpSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalyticsAmpSession.h; path = source/Util/ExternSource/AMPSDK.bin/LocalyticsAmpSession.h; sourceTree = "<group>"; };
+		A3F63CDD17945AFF00D42883 /* LocalyticsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalyticsSession.h; path = source/Util/ExternSource/AMPSDK.bin/LocalyticsSession.h; sourceTree = "<group>"; };
 		A3FB73131743DE9700413AE8 /* NakoRecipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NakoRecipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3FB73161743DE9700413AE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A3FB73181743DE9700413AE8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -273,6 +283,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3F63CCF179459C700D42883 /* libsqlite3.dylib in Frameworks */,
+				A3F63CCD179459B900D42883 /* libz.dylib in Frameworks */,
 				226DFC89175C497C007E4749 /* StoreKit.framework in Frameworks */,
 				226DFC87175C4904007E4749 /* SystemConfiguration.framework in Frameworks */,
 				226DFC85175C48FC007E4749 /* MessageUI.framework in Frameworks */,
@@ -289,6 +301,7 @@
 				A3FB73191743DE9700413AE8 /* Foundation.framework in Frameworks */,
 				A3FB731B1743DE9700413AE8 /* CoreGraphics.framework in Frameworks */,
 				226DFC81175C47BC007E4749 /* libGoogleAdMobAds.a in Frameworks */,
+				A3F63CDE17945AFF00D42883 /* libLocalyticsAMP.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -533,6 +546,17 @@
 			name = TTTTimeInterval;
 			sourceTree = "<group>";
 		};
+		A3F63CD917945AE900D42883 /* Localytics */ = {
+			isa = PBXGroup;
+			children = (
+				A3F63CDA17945AFF00D42883 /* libLocalyticsAMP.a */,
+				A3F63CDB17945AFF00D42883 /* LICENSE */,
+				A3F63CDC17945AFF00D42883 /* LocalyticsAmpSession.h */,
+				A3F63CDD17945AFF00D42883 /* LocalyticsSession.h */,
+			);
+			name = Localytics;
+			sourceTree = "<group>";
+		};
 		A3FB730A1743DE9700413AE8 = {
 			isa = PBXGroup;
 			children = (
@@ -555,6 +579,8 @@
 		A3FB73151743DE9700413AE8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A3F63CCE179459C700D42883 /* libsqlite3.dylib */,
+				A3F63CCC179459B800D42883 /* libz.dylib */,
 				226DFC88175C497C007E4749 /* StoreKit.framework */,
 				226DFC86175C4904007E4749 /* SystemConfiguration.framework */,
 				226DFC84175C48FC007E4749 /* MessageUI.framework */,
@@ -647,6 +673,7 @@
 		A3FB73501743E3D600413AE8 /* ExternSource */ = {
 			isa = PBXGroup;
 			children = (
+				A3F63CD917945AE900D42883 /* Localytics */,
 				A3F63CC617941B7E00D42883 /* TTTTimeInterval */,
 				A3DEA0F1178D3D630041E259 /* ODRefreshControl */,
 				A3E12E0A177EAE8200D512A0 /* SDURLCache */,
@@ -788,6 +815,7 @@
 				A30844FD1792DC6C002524E1 /* ic_facebook.png in Resources */,
 				A30845001792DD0A002524E1 /* ic_blank_profile.png in Resources */,
 				A30845011792DD0A002524E1 /* ic_overflow.png in Resources */,
+				A3F63CDF17945AFF00D42883 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -986,6 +1014,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource/GoogleAdMob\"",
+					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource/AMP-SDK-latest.bin\"",
+					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource/AMPSDK.bin\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lsqlite3.0",
@@ -1014,6 +1044,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource/GoogleAdMob\"",
+					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource/AMP-SDK-latest.bin\"",
+					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource/AMPSDK.bin\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lsqlite3.0",

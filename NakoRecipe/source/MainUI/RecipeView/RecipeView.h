@@ -10,7 +10,11 @@
 #import "UIImageView+AFNetworking.h"
 #import "HttpAsyncApi.h"
 
-@interface RecipeView : UIScrollView <UITableViewDataSource,UITableViewDelegate,RequestObserver>
+@protocol RecipeViewDelegate <NSObject>
+- (void)keyboardHide;
+@end
+
+@interface RecipeView : UIScrollView <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,RequestObserver>
 {
     NSMutableDictionary *rectDic;
     
@@ -50,7 +54,11 @@
     
     UITableView *tvComment;
     NSMutableArray *commentArr;
+    BOOL isKeyboardShow;
+    float keyBoardHeight;
 }
+@property (nonatomic, unsafe_unretained) id <RecipeViewDelegate> recipe_delegate;
 - (void)reset;
 - (void)reloadRecipeView:(NSString *)postId;
+- (void)keyBoardAnimated:(NSNotification *)notification;
 @end

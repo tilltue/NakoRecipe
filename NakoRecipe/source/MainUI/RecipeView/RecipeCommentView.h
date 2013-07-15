@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @protocol RecipeCommentDelegate <NSObject>
+- (void)keyBoardAnimated:(NSNotification *)notification;
 @end
 
 @interface MyUITextField : UITextField
@@ -18,6 +19,7 @@
 
 @interface RecipeCommentView : UIView <UITextFieldDelegate>
 {
+    UIButton *btnClose;
     UIButton *btnLike;
     MyUITextField *tfComment;
     UIButton *btnSend;

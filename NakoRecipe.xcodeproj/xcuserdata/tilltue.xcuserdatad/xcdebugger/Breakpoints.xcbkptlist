@@ -60,11 +60,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "NakoRecipe/source/MainUI/PinterestViewController.m"
-         timestampString = "395569460.416292"
+         timestampString = "395598907.161311"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "137"
-         endingLineNumber = "137"
+         startingLineNumber = "138"
+         endingLineNumber = "138"
          landmarkName = "-btnFacebook"
          landmarkType = "5">
       </FileBreakpoint>
@@ -73,12 +73,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "NakoRecipe/source/MainUI/RecipeView/RecipeView.m"
-         timestampString = "395582614.395695"
+         timestampString = "395597490.026766"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "531"
-         endingLineNumber = "531"
-         landmarkName = "-requestFinished:"
+         startingLineNumber = "193"
+         endingLineNumber = "193"
+         landmarkName = "-setLayout"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -86,25 +86,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "NakoRecipe/source/MainUI/RecipeView/RecipeView.m"
-         timestampString = "395582614.395695"
+         timestampString = "395597573.383474"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "542"
-         endingLineNumber = "542"
-         landmarkName = "-requestFinished:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "NakoRecipe/source/MainUI/RecipeView/RecipeView.m"
-         timestampString = "395582614.395695"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "541"
-         endingLineNumber = "541"
-         landmarkName = "-requestFinished:"
+         startingLineNumber = "322"
+         endingLineNumber = "322"
+         landmarkName = "-keyBoardAnimated:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

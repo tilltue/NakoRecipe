@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "PinterestViewController.h"
+#import "LocalyticsSession.h"
 
 extern NSString *const FBSessionStateChangedNotification;
 

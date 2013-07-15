@@ -28,6 +28,7 @@
 @property NSInteger requestState;
 + (HttpAsyncApi *)getInstance;
 + (HttpAsyncApi *)getInstanceComment;
++ (HttpAsyncApi *)getInstanceCommentSend;
 - (void)attachObserver:(id<RequestObserver>)observer;
 - (void)clearObserver;
 - (void)requestRecipe:(NSInteger)numberPostIndex withOffsetPostIndex:(NSInteger)offsetPostIndex;

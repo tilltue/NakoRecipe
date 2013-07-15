@@ -54,6 +54,23 @@
     return singletonInstanceComment;
 }
 
++ (HttpAsyncApi *)getInstanceCommentSend
+{
+    static dispatch_once_t onceTokenCommentSend;
+    static HttpAsyncApi * singletonInstanceCommentSend   = nil;;
+    
+    dispatch_once( &onceTokenCommentSend,
+                  ^{
+                      if( singletonInstanceCommentSend == nil )
+                      {
+                          singletonInstanceCommentSend = [ [ HttpAsyncApi alloc ] init ];
+                          singletonInstanceCommentSend.requestState = E_REQUEST_STATE_DEFAULT;
+                      }
+                  });
+    
+    return singletonInstanceCommentSend;
+}
+
 
 - (void)requestRecipe:(NSInteger)numberPostIndex withOffsetPostIndex:(NSInteger)offsetPostIndex
 {

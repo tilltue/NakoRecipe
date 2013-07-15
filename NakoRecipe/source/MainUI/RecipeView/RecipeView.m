@@ -27,6 +27,7 @@
 @end
 
 @implementation RecipeView
+@synthesize recipe_delegate = _recipe_delegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -62,7 +63,7 @@
         imageScrollView = [[UIScrollView alloc] init];
         imageScrollView.backgroundColor = [CommonUI getUIColorFromHexString:@"#EFEDFA"];
         imageScrollView.scrollEnabled = NO;
-        [self initGestureRecognizer:imageScrollView];
+        [self initGestureRecognizer:self];
         [recipeInfo addSubview:imageScrollView];
                 
         imagePageControl = [[UIPageControl alloc] init];
@@ -147,6 +148,8 @@
         tvComment = [[UITableView alloc] init];
         tvComment.dataSource = self;
         tvComment.delegate = self;
+        tvComment.scrollEnabled = NO;
+        tvComment.userInteractionEnabled = NO;
         tvComment.layer.cornerRadius = 5;
         tvComment.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
         tvComment.layer.shadowRadius = 2;
@@ -158,6 +161,7 @@
         imageArr = [[NSMutableArray alloc] init];
         currentPostId = nil;
         
+        isKeyboardShow = NO;
     }
     return self;
 }
@@ -303,12 +307,36 @@
     tempRect.size.height = 35*[commentArr count] + [self totalCommentHeight];
     tvComment.frame = tempRect;
     
-    [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80)];
+    if( isKeyboardShow ){
+        [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80 + keyBoardHeight )];
+        self.scrollEnabled = NO;
+        [self setContentOffset:CGPointMake(0,self.contentSize.height - self.frame.size.height)];
+    }else{
+        self.scrollEnabled = YES;
+        [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80)];
+    }
+}
+
+- (void)keyBoardAnimated:(NSNotification *)notification
+{
+    CGRect keyboardBounds;
+    [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
+    keyboardBounds = [self convertRect:keyboardBounds toView:nil];
+    if([notification name] == UIKeyboardWillShowNotification)
+    {
+        isKeyboardShow = YES;
+    }
+    else if([notification name] == UIKeyboardWillHideNotification)
+    {
+        isKeyboardShow = NO;
+    }
+    keyBoardHeight = keyboardBounds.size.height;
+    [self setLayout];
 }
 
 - (void)layoutSubviews
 {
-    [self setLayout];
+    NSLog(@"layoutsub");
 }
 
 - (void)handleHeartButtonTap:(UIButton *)paramSender
@@ -350,7 +378,7 @@
         [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
     }
 
-    [self setLayout];
+//    [self setLayout];
 }
 
 - (void)initGestureRecognizer:(UIView *)view
@@ -358,20 +386,26 @@
     UISwipeGestureRecognizer *swipeRecognizer;
     swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeHandler:)];
     swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    swipeRecognizer.delegate = self;
     [view addGestureRecognizer:swipeRecognizer];
     
     swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeHandler:)];
     swipeRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+    swipeRecognizer.delegate = self;
     [view addGestureRecognizer:swipeRecognizer];
     
     UITapGestureRecognizer *tapRecognizer;
     tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     tapRecognizer.cancelsTouchesInView = NO;
+    tapRecognizer.delegate = self;
     [view addGestureRecognizer:tapRecognizer];
 }
 
 -(void)handleTap:(UITapGestureRecognizer *)gestureRecognizer
 {
+    if( isKeyboardShow ){
+        [[self recipe_delegate] keyboardHide];
+    }
     if (gestureRecognizer.state==UIGestureRecognizerStateEnded)
     {
         CGPoint point = [gestureRecognizer locationInView:recipeInfo];
@@ -621,7 +655,7 @@
         
         timestampLabel = [[UILabel alloc] init];
         timestampLabel.tag = 3;
-        timestampLabel.font = [UIFont systemFontOfSize:12];
+        timestampLabel.font = [UIFont systemFontOfSize:10];
         timestampLabel.textColor = [UIColor grayColor];
         timestampLabel.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview:timestampLabel];
@@ -642,16 +676,9 @@
     }
     
     CommentObject *tempObject = [commentArr objectAtIndex:indexPath.row];
-    
-    tempRect.origin.x = 5;
-    tempRect.origin.y = 5;
-    tempRect.size.width = 40;
-    tempRect.size.height = 40;
-    userThumb.layer.cornerRadius = 5;
-    userThumb.layer.masksToBounds = YES;
-    userThumb.frame = tempRect;
-    
+
     tempRect.origin.x = 50;
+    tempRect.origin.y = 10;
     tempRect.size.width = 100;
     tempRect.size.height = 15;
     usernameLabel.frame = tempRect;
@@ -671,10 +698,18 @@
     }
     
     tempRect.origin.x = 50;
-    tempRect.origin.y = 25;
+    tempRect.origin.y = 30;
     tempRect.size.width = [SystemInfo isPad]?680:245;
     tempRect.size.height = [self getCommentHeight:indexPath.row];
     commentLabel.frame = tempRect;
+    
+    tempRect.origin.x = 5;
+    tempRect.origin.y = (commentLabel.frame.size.height+35)/2 - 20;
+    tempRect.size.width = 40;
+    tempRect.size.height = 40;
+    userThumb.layer.cornerRadius = 5;
+    userThumb.layer.masksToBounds = YES;
+    userThumb.frame = tempRect;
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     

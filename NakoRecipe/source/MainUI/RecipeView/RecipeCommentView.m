@@ -79,6 +79,8 @@
 - (void)reset
 {
     btnLike.selected = NO;
+    tfComment.text = @"";
+    [tfComment resignFirstResponder];
 }
 
 - (void)keyboardWillAnimate:(NSNotification *)notification
@@ -97,11 +99,13 @@
     {
         frame.origin.y -= keyboardBounds.size.height;
         self.frame = frame;
+        [[self comment_delegate] keyBoardAnimated:notification];
     }
     else if([notification name] == UIKeyboardWillHideNotification)
     {
         frame.origin.y += keyboardBounds.size.height;
         self.frame = frame;
+        [[self comment_delegate] keyBoardAnimated:notification];
     }
     [UIView commitAnimations];
 }
