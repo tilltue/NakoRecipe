@@ -8,27 +8,102 @@
 
 #import "AppDelegate.h"
 #import "FileControl.h"
-#import "PinterestViewController.h"
 #import "SDURLCache.h"
+
+NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionStateChangedNotification";
 
 //HA-SJL 세발자전거 HA-SJB
 //HA-TTL 테트리스 HA-TTM
 @implementation AppDelegate
+@synthesize session = _session;
+@synthesize facebookID = _facebookID;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [FBSession.activeSession handleOpenURL:url];
+}
+#pragma mark - Facebook related methods
+
+- (void)sessionStateChanged:(FBSession *)session
+                      state:(FBSessionState)state
+                      error:(NSError *)error
+{
+    switch (state) {
+        case FBSessionStateOpen:
+            if (!error) {
+                NSLog(@"User session found");
+            }
+            break;
+        case FBSessionStateClosed:
+        case FBSessionStateClosedLoginFailed:
+            [FBSession.activeSession closeAndClearTokenInformation];
+            break;
+        default:
+            break;
+    }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:FBSessionStateChangedNotification
+                                                        object:session];
+
+    if (error) {
+        [pintrestMainViewController loginComplete:NO];
+    }else{
+        [pintrestMainViewController loginComplete:[FBSession activeSession].isOpen];
+        [FBRequestConnection startForMeWithCompletionHandler:
+         ^(FBRequestConnection *connection, id result, NSError *error)
+         {
+             NSLog(@"facebook result: %@", result);
+             NSLog(@"%@",[result objectForKey:@"name"]);
+             _facebookID = [result objectForKey:@"name"];
+         }];
+
+    }
+}
+
+- (NSString *)getFaceBookId
+{
+    return _facebookID;
+}
+
+- (void)facebookLogout
+{
+    _facebookID = nil;
+    [FBSession.activeSession closeAndClearTokenInformation];
+}
+
+- (BOOL)openSession
+{
+    return [FBSession openActiveSessionWithReadPermissions:nil
+                                              allowLoginUI:YES
+                                         completionHandler:^(FBSession *session,FBSessionState state,NSError *error) {
+                                             
+                                             [self sessionStateChanged:session state:state error:error];
+                                         }];
+}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self managedObjectContext];
     
     SDURLCache *urlCache = [[SDURLCache alloc] initWithMemoryCapacity:1024*1024   // 1MB mem cache
-                                                         diskCapacity:1024*1024*100 // 5MB disk cache
+                                                         diskCapacity:1024*1024*500 // 5MB disk cache
                                                              diskPath:[SDURLCache defaultCachePath]];
     [NSURLCache setSharedURLCache:urlCache];
     
-    PinterestViewController *pintrestMainViewController;
     pintrestMainViewController = [[PinterestViewController alloc] init];
+    if(FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded){
+        pintrestMainViewController.loginState = YES;
+        [self openSession];
+    }else{
+        pintrestMainViewController.loginState = NO;
+    }
     
     CGRect tempRect = [SystemInfo isPad]?CGRectMake(0, 0, 668, 40):CGRectMake(0, 0, 220, 40);
     CGFloat titleFontHeight;

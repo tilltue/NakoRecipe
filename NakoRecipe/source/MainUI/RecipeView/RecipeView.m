@@ -7,8 +7,24 @@
 //
 
 #import "RecipeView.h"
+#import "SBJsonParser.h"
 #import "CoreDataManager.h"
+#import "TTTTimeIntervalFormatter.h"
 #import <QuartzCore/QuartzCore.h>
+
+@interface CommentObject : NSObject
+@property (nonatomic, strong) NSString *c_id;
+@property (nonatomic, strong) NSString *user_name;
+@property (nonatomic, strong) NSString *fb_id;
+@property (nonatomic, strong) NSString *thumb_url;
+@property (nonatomic, strong) NSString *timestamp;
+@property (nonatomic, strong) NSString *comment;
+@property (nonatomic, strong) NSString *post_id;
+@end
+
+@implementation CommentObject
+@synthesize c_id,fb_id,user_name,timestamp,post_id,thumb_url,comment;
+@end
 
 @implementation RecipeView
 
@@ -128,18 +144,28 @@
         recipeContent.font = [UIFont fontWithName:UIFONT_NAME size:14];
         [recipeInfo addSubview:recipeContent];
         
-        commentView = [[UIView alloc] init];
-        commentView.layer.cornerRadius = 5;
-        commentView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
-        commentView.layer.shadowRadius = 2;
-        commentView.layer.shadowOpacity = 0.2;
-        commentView.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
-        [self addSubview:commentView];
+        tvComment = [[UITableView alloc] init];
+        tvComment.dataSource = self;
+        tvComment.delegate = self;
+        tvComment.layer.cornerRadius = 5;
+        tvComment.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
+        tvComment.layer.shadowRadius = 2;
+        tvComment.layer.shadowOpacity = 0.2;
+        tvComment.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
+        [self addSubview:tvComment];
         
+        commentArr = [[NSMutableArray alloc] init];
         imageArr = [[NSMutableArray alloc] init];
         currentPostId = nil;
+        
     }
     return self;
+}
+
+- (void)reset
+{
+    [commentArr removeAllObjects];
+    [[HttpAsyncApi getInstanceComment] clearObserver];
 }
 
 - (void)makeLayout
@@ -270,8 +296,14 @@
     tempRect = recipeInfo.frame;
     tempRect.size.height += recipeContent.contentSize.height-45;
     recipeInfo.frame = tempRect;
+ 
+    tempRect.origin.x = 10;
+    tempRect.origin.y = recipeInfo.frame.origin.y + recipeInfo.frame.size.height + 20;
+    tempRect.size.width = recipeInfo.frame.size.width;
+    tempRect.size.height = 35*[commentArr count] + [self totalCommentHeight];
+    tvComment.frame = tempRect;
     
-    [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + 60)];
+    [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80)];
 }
 
 - (void)layoutSubviews
@@ -483,7 +515,174 @@
     imagePageControl.currentPage    = 0;
     imagePageControl.numberOfPages  = [imageArr count];
     [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
+    [[HttpAsyncApi getInstanceComment] attachObserver:self];
+    [[HttpAsyncApi getInstanceComment] requestComment:tempPost.post_id];
     [self setLayout];
 }
 
+- (void)requestFinished:(NSString *)retString
+{
+    NSLog(@"%@",retString);
+    [commentArr removeAllObjects];
+    NSMutableDictionary* dict = [[[SBJsonParser alloc] init] objectWithString:retString];
+    for( NSDictionary *comment in dict )
+    {
+        NSLog(@"%@",comment);
+        CommentObject *tempObject = [[CommentObject alloc] init];
+        tempObject.c_id = [comment objectForKey:@"id"];
+        tempObject.user_name = [comment objectForKey:@"user_name"];
+        tempObject.fb_id = [comment objectForKey:@"fb_id"];
+        tempObject.thumb_url = [comment objectForKey:@"thumb_url"];
+        tempObject.timestamp = [comment objectForKey:@"timestamp"];
+        tempObject.comment = [comment objectForKey:@"comment"];
+        tempObject.post_id = [comment objectForKey:@"post_id"];
+        [commentArr addObject:tempObject];
+    }
+    if( [commentArr count] > 0 ){
+        [tvComment reloadData];
+        
+        CGRect tempRect;
+        tempRect.origin.x = 10;
+        tempRect.origin.y = recipeInfo.frame.origin.y + recipeInfo.frame.size.height + 20;
+        tempRect.size.width = recipeInfo.frame.size.width;
+        tempRect.size.height = 35*[commentArr count] + [self totalCommentHeight];
+        tvComment.frame = tempRect;
+        [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80)];
+    }
+}
+
+- (float)totalCommentHeight
+{
+    float totalHeight = 0;
+    for( int i = 0 ; i < [commentArr count]; i ++ )
+    {
+        totalHeight += [self getCommentHeight:i];
+    }
+    return totalHeight;
+}
+
+- (float)getCommentHeight:(NSInteger)index
+{
+    CommentObject *tempObject = [commentArr objectAtIndex:index];
+    NSString *tempComment = tempObject.comment;
+    CGSize textSize = [tempComment sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake([SystemInfo isPad]?680:245, 10000) lineBreakMode:NSLineBreakByCharWrapping];
+    return textSize.height;
+}
+
+- (NSString *)convertDateToJson:(NSString *)string
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"];
+    NSDate *date = [dateFormatter dateFromString:string];
+    TTTTimeIntervalFormatter *timeIntervalFormatter = [[TTTTimeIntervalFormatter alloc] init];
+    NSString *ret = [timeIntervalFormatter stringForTimeInterval:[date timeIntervalSinceNow]];
+    return ret;
+}
+
+- (void)requestFailed
+{
+    
+}
+
+
+#pragma mark tableView delegate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [commentArr count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentTable"];
+    UIImageView *userThumb = nil;
+    UILabel *usernameLabel = nil;
+    UILabel *timestampLabel = nil;
+    UILabel *commentLabel = nil;
+    CGRect tempRect;
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CommentTable"];
+        
+        userThumb = [[UIImageView alloc] init];
+        userThumb.tag = 1;
+        [cell.contentView addSubview:userThumb];
+        
+        usernameLabel = [[UILabel alloc] init];
+        usernameLabel.tag = 2;
+        usernameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:12];
+        usernameLabel.textColor = [CommonUI getUIColorFromHexString:@"3090C7"];
+        usernameLabel.backgroundColor = [UIColor clearColor];
+        [cell.contentView addSubview:usernameLabel];
+        
+        timestampLabel = [[UILabel alloc] init];
+        timestampLabel.tag = 3;
+        timestampLabel.font = [UIFont systemFontOfSize:12];
+        timestampLabel.textColor = [UIColor grayColor];
+        timestampLabel.backgroundColor = [UIColor clearColor];
+        [cell.contentView addSubview:timestampLabel];
+        
+        commentLabel = [[UILabel alloc] init];
+        commentLabel.tag = 4;
+        commentLabel.font = [UIFont systemFontOfSize:12];
+        commentLabel.textColor = [UIColor grayColor];
+        commentLabel.backgroundColor = [UIColor clearColor];
+        commentLabel.lineBreakMode = NSLineBreakByCharWrapping;
+        commentLabel.numberOfLines = 0;
+        [cell.contentView addSubview:commentLabel];
+    }else{
+        userThumb = (UIImageView *)[cell viewWithTag:1];
+        usernameLabel = (UILabel *)[cell viewWithTag:2];
+        timestampLabel = (UILabel *)[cell viewWithTag:3];
+        commentLabel = (UILabel *)[cell viewWithTag:4];
+    }
+    
+    CommentObject *tempObject = [commentArr objectAtIndex:indexPath.row];
+    
+    tempRect.origin.x = 5;
+    tempRect.origin.y = 5;
+    tempRect.size.width = 40;
+    tempRect.size.height = 40;
+    userThumb.layer.cornerRadius = 5;
+    userThumb.layer.masksToBounds = YES;
+    userThumb.frame = tempRect;
+    
+    tempRect.origin.x = 50;
+    tempRect.size.width = 100;
+    tempRect.size.height = 15;
+    usernameLabel.frame = tempRect;
+    
+    tempRect.origin.x = 155;
+    tempRect.size.width = [SystemInfo isPad]?560:140;
+    tempRect.size.height = 15;
+    timestampLabel.frame = tempRect;
+
+    if( [currentPostId intValue] == [tempObject.post_id intValue] ){
+        [userThumb setImageWithURL:[NSURL URLWithString:tempObject.thumb_url]];
+        usernameLabel.text = tempObject.user_name;
+        timestampLabel.text = [self convertDateToJson:tempObject.timestamp];
+        commentLabel.text = tempObject.comment;
+    }else{
+        commentLabel.text = @"댓글 불러오기에 실패했습니다";
+    }
+    
+    tempRect.origin.x = 50;
+    tempRect.origin.y = 25;
+    tempRect.size.width = [SystemInfo isPad]?680:245;
+    tempRect.size.height = [self getCommentHeight:indexPath.row];
+    commentLabel.frame = tempRect;
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    return cell;
+}
+
+- (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 35+[self getCommentHeight:indexPath.row];
+}
 @end

@@ -11,12 +11,14 @@
 #import "AppPreference.h"
 #import "SBJson.h"
 #import "HttpApi.h"
+#import "AppDelegate.h"
 
 @interface PinterestViewController ()
 
 @end
 
 @implementation PinterestViewController
+@synthesize loginState = _loginState;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -63,6 +65,7 @@
     btnRight.style = UIBarButtonItemStyleBordered;
     self.navigationItem.rightBarButtonItem = btnRight;
     [self makePopView];
+    
 }
 
 - (void)makePopView
@@ -80,6 +83,7 @@
     btnFacebook.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
     btnFacebook.layer.shadowRadius = 2;
     btnFacebook.layer.shadowOpacity = 0.2;
+    [btnFacebook addTarget:self action:@selector(btnFacebook) forControlEvents:UIControlEventTouchUpInside];
     [popView addSubview:btnFacebook];
     
     UIImageView *ivFaceIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_facebook"]];
@@ -90,12 +94,18 @@
     frame.origin.x += ivFaceIcon.frame.size.width + 3;
     frame.size.width = 120;
     
-    UILabel *lblFacebook = [[UILabel alloc] initWithFrame:frame];
-    lblFacebook.font = [UIFont systemFontOfSize:17];
-    lblFacebook.text = @"페이스북 로그인";
-    lblFacebook.textColor = [UIColor grayColor];
-    lblFacebook.backgroundColor = [UIColor clearColor];
-    [popView addSubview:lblFacebook];
+    lblFaceBook = [[UILabel alloc] initWithFrame:frame];
+    lblFaceBook.font = [UIFont systemFontOfSize:15];
+
+    if( _loginState ){
+        lblFaceBook.text = @"페이스북 로그아웃";
+    }else{
+        lblFaceBook.text = @"페이스북 로그인";
+    }
+
+    lblFaceBook.textColor = [UIColor grayColor];
+    lblFaceBook.backgroundColor = [UIColor clearColor];
+    [popView addSubview:lblFaceBook];
     
     [self.view addSubview:popView];
     
@@ -108,6 +118,28 @@
         [recipePinterest reloadPintRest];
     }else{
         [self update];
+    }
+}
+
+- (void)loginComplete:(BOOL)state
+{
+    _loginState = state;
+    if( state ){
+        lblFaceBook.text = @"페이스북 로그아웃";
+    }else{
+        lblFaceBook.text = @"페이스북 로그인";
+    }
+}
+
+- (void)btnFacebook
+{
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if( _loginState ){
+        [appDelegate facebookLogout];
+        _loginState = NO;
+        lblFaceBook.text = @"페이스북 로그인";
+    }else{
+        [appDelegate openSession];
     }
 }
 

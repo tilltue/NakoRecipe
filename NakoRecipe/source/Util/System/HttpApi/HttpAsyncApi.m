@@ -11,7 +11,7 @@
 #define REQUEST_TIMEOUT 10
 //#define DATA_URL @"https://public-api.wordpress.com/rest/v1/sites/14.63.219.181/posts/?pretty=true"
 #define DATA_URL @"http://14.63.219.181/?json=1"
-
+#define COMMENT_URL @"http://14.63.219.181:3000/comment/load/"
 @implementation HttpAsyncApiRequestResult
 @synthesize retString,errorDomain;
 @end
@@ -37,6 +37,24 @@
     return singletonInstance;
 }
 
++ (HttpAsyncApi *)getInstanceComment
+{
+    static dispatch_once_t onceTokenComment;
+    static HttpAsyncApi * singletonInstanceComment   = nil;;
+    
+    dispatch_once( &onceTokenComment,
+                  ^{
+                      if( singletonInstanceComment == nil )
+                      {
+                          singletonInstanceComment = [ [ HttpAsyncApi alloc ] init ];
+                          singletonInstanceComment.requestState = E_REQUEST_STATE_DEFAULT;
+                      }
+                  });
+    
+    return singletonInstanceComment;
+}
+
+
 - (void)requestRecipe:(NSInteger)numberPostIndex withOffsetPostIndex:(NSInteger)offsetPostIndex
 {
     if( requestState == E_REQUEST_STATE_PROGRESS || requestState == E_REQUEST_STATE_START ){
@@ -55,11 +73,36 @@
     }
 }
 
+- (void)requestComment:(NSString *)postID
+{
+    if( requestState == E_REQUEST_STATE_PROGRESS || requestState == E_REQUEST_STATE_START ){
+        NSLog(@"Connection Cancel");
+        [connection cancel];
+    }else{
+        requestState = E_REQUEST_STATE_START;
+        if( responseData == nil )
+            responseData = [[NSMutableData alloc] init];
+        [responseData setLength:0];
+        NSURL * url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@",COMMENT_URL,postID]];
+        //NSLog(@"%@",[url absoluteString]);
+        NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:REQUEST_TIMEOUT];
+        connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        [connection start];
+        NSLog(@"Start comment");
+    }
+}
+
 #pragma mark - Observer Pattern Methods
 
 - (void)attachObserver:(id<RequestObserver>)addObserver
 {
     self.observer = addObserver;
+}
+
+- (void)clearObserver
+{
+    [connection cancel];
+    self.observer = nil;
 }
 
 - (void)requestFinished
@@ -97,7 +140,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSLog(@"finish");
-    //NSLog(@"%@",[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+    NSLog(@"%@",[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
     requestState = E_REQUEST_STATE_COMPLETE;
     [self requestFinished];
 }

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "UIImageView+AFNetworking.h"
+#import "HttpAsyncApi.h"
 
-@interface RecipeView : UIScrollView
+@interface RecipeView : UIScrollView <UITableViewDataSource,UITableViewDelegate,RequestObserver>
 {
     NSMutableDictionary *rectDic;
     
@@ -47,7 +48,9 @@
     UILabel     *lblRecipe;
     UITextView  *recipeContent;
     
-    UIView *commentView;
+    UITableView *tvComment;
+    NSMutableArray *commentArr;
 }
+- (void)reset;
 - (void)reloadRecipeView:(NSString *)postId;
 @end

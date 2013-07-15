@@ -79,6 +79,11 @@
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [recipeView reset];
+}
+
 - (void)prepareWillAppear
 {
     if( currentPostId != nil ){

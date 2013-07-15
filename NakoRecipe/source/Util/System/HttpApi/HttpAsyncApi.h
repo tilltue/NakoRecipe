@@ -27,6 +27,9 @@
 @property (nonatomic, strong) id observer;
 @property NSInteger requestState;
 + (HttpAsyncApi *)getInstance;
++ (HttpAsyncApi *)getInstanceComment;
 - (void)attachObserver:(id<RequestObserver>)observer;
+- (void)clearObserver;
 - (void)requestRecipe:(NSInteger)numberPostIndex withOffsetPostIndex:(NSInteger)offsetPostIndex;
+- (void)requestComment:(NSString *)postID;
 @end

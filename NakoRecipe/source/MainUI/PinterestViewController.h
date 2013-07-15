@@ -18,6 +18,9 @@
     RecipeViewController *recipeViewController;
     GADBannerView *bannerView;
     UIView *popView;
+    UILabel *lblFaceBook;
     __strong UIActivityIndicatorView *_activityIndicatorView;
 }
+@property BOOL loginState;
+- (void)loginComplete:(BOOL)state;
 @end
