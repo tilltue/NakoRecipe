@@ -331,7 +331,15 @@
         isKeyboardShow = NO;
     }
     keyBoardHeight = keyboardBounds.size.height;
-    [self setLayout];
+    if( isKeyboardShow ){
+        [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80 + keyBoardHeight )];
+        self.scrollEnabled = NO;
+        [self setContentOffset:CGPointMake(0,self.contentSize.height - self.frame.size.height)];
+    }else{
+        self.scrollEnabled = YES;
+        [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80)];
+    }
+
 }
 
 - (void)layoutSubviews
