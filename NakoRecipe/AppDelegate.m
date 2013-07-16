@@ -95,7 +95,7 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self managedObjectContext];
-    [[LocalyticsSession shared] startSession:@"99a2b9e01d72622397e6a88-6236d388-ed1f-11e2-8f53-009c5fda0a25"];
+    [[LocalyticsSession shared] startSession:@"f35bdc28310c39d1fabf523-1f941e08-e550-11e2-364a-00a426b17dd8"];
     SDURLCache *urlCache = [[SDURLCache alloc] initWithMemoryCapacity:1024*1024   // 1MB mem cache
                                                          diskCapacity:1024*1024*500 // 5MB disk cache
                                                              diskPath:[SDURLCache defaultCachePath]];
