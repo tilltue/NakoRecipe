@@ -152,12 +152,13 @@
         
         commentArr = [[NSMutableArray alloc] init];
         
+        CGRect frame = self.frame;
         tvComment = [[UITableView alloc] init];
         tvComment.dataSource = self;
         tvComment.delegate = self;
-        tvComment.frame = self.frame;
-        tvComment.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
-        
+        tvComment.frame = frame;
+        tvComment.separatorColor = [CommonUI getUIColorFromHexString:@"E4E3DC"];
+        tvComment.showsVerticalScrollIndicator = NO;
         [self addSubview:tvComment];
     }
     return self;
@@ -165,7 +166,6 @@
 
 - (void)reset
 {
-    [commentArr removeAllObjects];
     [[HttpAsyncApi getInstanceComment] clearObserver];
 }
 
@@ -236,7 +236,7 @@
     tempRect.size.width = 25;
     tempRect.size.height = 12;
     lblLike.frame = tempRect;
-    lblLike.text = @"300";
+    lblLike.text = @"0";
     
     tempRect.origin.x += 30;
     tempRect.size.width = 12;
@@ -246,7 +246,7 @@
     tempRect.size.width = 25;
     tempRect.size.height = 12;
     lblComment.frame = tempRect;
-    lblComment.text = @"300";
+    lblComment.text = @"0";
     
     tempRect.origin.x = 0;
     tempRect.origin.y = lineView_1.frame.origin.y + 35;
@@ -303,11 +303,7 @@
     tempRect.origin = CGPointZero;
     tvHeaderView.frame = tempRect;
     tvComment.tableHeaderView = tvHeaderView;
-    if( isKeyboardShow ){
-    }else{
-    }
 }
-
 - (void)keyBoardAnimated:(NSNotification *)notification
 {
     CGRect keyboardBounds;
@@ -322,11 +318,16 @@
         isKeyboardShow = NO;
     }
     keyBoardHeight = keyboardBounds.size.height;
+    CGRect frame = self.frame;
     if( isKeyboardShow ){
-        [self setFrame:CGRectMake(0, 0, 300, 100)];
+        frame.size.height -= keyBoardHeight;
     }else{
+        frame.size.height += keyBoardHeight;
     }
-
+    
+    self.frame = frame;
+    tvComment.frame = frame;
+    [tvComment scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([commentArr count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (void)layoutSubviews
@@ -391,7 +392,7 @@
     tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     tapRecognizer.cancelsTouchesInView = NO;
     tapRecognizer.delegate = self;
-    [view addGestureRecognizer:tapRecognizer];
+    [self addGestureRecognizer:tapRecognizer];
 }
 
 -(void)handleTap:(UITapGestureRecognizer *)gestureRecognizer
@@ -402,6 +403,9 @@
     if (gestureRecognizer.state==UIGestureRecognizerStateEnded)
     {
         CGPoint point = [gestureRecognizer locationInView:recipeInfo];
+        if(!( point.y < imageScrollView.frame.origin.y + imageScrollView.frame.size.height && point.y > imageScrollView.frame.origin.y )){
+            return;
+        }
         if( point.x < imageScrollView.frame.size.width/2 ){
             imagePageControl.currentPage -=1;
             [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
@@ -567,6 +571,7 @@
         tempObject.post_id = [comment objectForKey:@"post_id"];
         [commentArr addObject:tempObject];
     }
+    lblComment.text = [NSString stringWithFormat:@"%d",[commentArr count]];
     if( [commentArr count] > 0 ){
         [tvComment reloadData];
 //        [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80)];
@@ -630,7 +635,7 @@
     CGRect tempRect;
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CommentTable"];
-        
+        cell.contentView.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3EC"];
         userThumb = [[UIImageView alloc] init];
         userThumb.tag = 1;
         [cell.contentView addSubview:userThumb];

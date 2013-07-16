@@ -25,13 +25,13 @@
         // Custom initialization
         CGRect tempRect = self.view.bounds;
         tempRect.origin = CGPointZero;
-        tempRect.size.height -=44;
+        tempRect.size.height -=84;
         recipeView = [[RecipeView alloc] initWithFrame:tempRect];
         recipeView.recipe_delegate = self;
         [self.view addSubview:recipeView];
         
         tempRect.origin.x = 0;
-        tempRect.origin.y = tempRect.size.height-40;
+        tempRect.origin.y = tempRect.size.height;
         tempRect.size.height = 40;
         recipeCommentView = [[RecipeCommentView alloc] initWithFrame:tempRect];
         recipeCommentView.comment_delegate = self;
