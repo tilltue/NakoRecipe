@@ -33,18 +33,19 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.showsVerticalScrollIndicator = NO;
         // Initialization code
         rectDic = [[NSMutableDictionary alloc] init];
         [self makeLayout];
-
+        
+        tvHeaderView = [[UIView alloc] init];
+        
         bgView = [[UIView alloc] init];
         bgView.layer.cornerRadius = 5;
         bgView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
         bgView.layer.shadowRadius = 2;
         bgView.layer.shadowOpacity = 0.2;
         bgView.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
-        [self addSubview:bgView];
+        [tvHeaderView addSubview:bgView];
         
         recipeInfo = [[UIView alloc] init];
         recipeInfo.layer.cornerRadius = 5;
@@ -63,7 +64,7 @@
         imageScrollView = [[UIScrollView alloc] init];
         imageScrollView.backgroundColor = [CommonUI getUIColorFromHexString:@"#EFEDFA"];
         imageScrollView.scrollEnabled = NO;
-        [self initGestureRecognizer:self];
+        [self initGestureRecognizer:imageScrollView];
         [recipeInfo addSubview:imageScrollView];
                 
         imagePageControl = [[UIPageControl alloc] init];
@@ -144,24 +145,20 @@
         recipeContent.backgroundColor = [UIColor clearColor];
         recipeContent.font = [UIFont fontWithName:UIFONT_NAME size:14];
         [recipeInfo addSubview:recipeContent];
+ 
+        imageArr = [[NSMutableArray alloc] init];
+        currentPostId = nil;
+        isKeyboardShow = NO;
+        
+        commentArr = [[NSMutableArray alloc] init];
         
         tvComment = [[UITableView alloc] init];
         tvComment.dataSource = self;
         tvComment.delegate = self;
-        tvComment.scrollEnabled = NO;
-        tvComment.userInteractionEnabled = NO;
-        tvComment.layer.cornerRadius = 5;
-        tvComment.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
-        tvComment.layer.shadowRadius = 2;
-        tvComment.layer.shadowOpacity = 0.2;
+        tvComment.frame = self.frame;
         tvComment.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
+        
         [self addSubview:tvComment];
-        
-        commentArr = [[NSMutableArray alloc] init];
-        imageArr = [[NSMutableArray alloc] init];
-        currentPostId = nil;
-        
-        isKeyboardShow = NO;
     }
     return self;
 }
@@ -300,20 +297,14 @@
     tempRect = recipeInfo.frame;
     tempRect.size.height += recipeContent.contentSize.height-45;
     recipeInfo.frame = tempRect;
- 
-    tempRect.origin.x = 10;
-    tempRect.origin.y = recipeInfo.frame.origin.y + recipeInfo.frame.size.height + 20;
-    tempRect.size.width = recipeInfo.frame.size.width;
-    tempRect.size.height = 35*[commentArr count] + [self totalCommentHeight];
-    tvComment.frame = tempRect;
     
+    tempRect.size.height += 20;
+    tempRect.size.width = self.frame.size.width;
+    tempRect.origin = CGPointZero;
+    tvHeaderView.frame = tempRect;
+    tvComment.tableHeaderView = tvHeaderView;
     if( isKeyboardShow ){
-        [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80 + keyBoardHeight )];
-        self.scrollEnabled = NO;
-        [self setContentOffset:CGPointMake(0,self.contentSize.height - self.frame.size.height)];
     }else{
-        self.scrollEnabled = YES;
-        [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80)];
     }
 }
 
@@ -332,19 +323,15 @@
     }
     keyBoardHeight = keyboardBounds.size.height;
     if( isKeyboardShow ){
-        [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80 + keyBoardHeight )];
-        self.scrollEnabled = NO;
-        [self setContentOffset:CGPointMake(0,self.contentSize.height - self.frame.size.height)];
+        [self setFrame:CGRectMake(0, 0, 300, 100)];
     }else{
-        self.scrollEnabled = YES;
-        [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80)];
     }
 
 }
 
 - (void)layoutSubviews
 {
-    NSLog(@"layoutsub");
+    //NSLog(@"layoutsub");
 }
 
 - (void)handleHeartButtonTap:(UIButton *)paramSender
@@ -385,8 +372,6 @@
         imagePageControl.currentPage +=1;
         [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
     }
-
-//    [self setLayout];
 }
 
 - (void)initGestureRecognizer:(UIView *)view
@@ -497,7 +482,8 @@
 - (void)reloadRecipeView:(NSString *)postId
 {
     currentPostId = postId;
-    [self setContentOffset:CGPointMake(0, 0)];
+    [tvComment setContentOffset:CGPointMake(0, 0)];
+    
     CGRect tempRect;
     tempRect = [CommonUI getRectFromDic:rectDic withKey:@"imageScrollView"];
     [bgView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height * 0.8)];
@@ -557,6 +543,7 @@
     imagePageControl.currentPage    = 0;
     imagePageControl.numberOfPages  = [imageArr count];
     [imageScrollView setContentOffset:CGPointMake(imagePageControl.currentPage*imageScrollView.frame.size.width, 0) animated:YES];
+    
     [[HttpAsyncApi getInstanceComment] attachObserver:self];
     [[HttpAsyncApi getInstanceComment] requestComment:tempPost.post_id];
     [self setLayout];
@@ -582,14 +569,7 @@
     }
     if( [commentArr count] > 0 ){
         [tvComment reloadData];
-        
-        CGRect tempRect;
-        tempRect.origin.x = 10;
-        tempRect.origin.y = recipeInfo.frame.origin.y + recipeInfo.frame.size.height + 20;
-        tempRect.size.width = recipeInfo.frame.size.width;
-        tempRect.size.height = 35*[commentArr count] + [self totalCommentHeight];
-        tvComment.frame = tempRect;
-        [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80)];
+//        [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80)];
     }
 }
 
@@ -636,6 +616,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSLog(@"%d",[commentArr count]);
     return [commentArr count];
 }
 
@@ -726,6 +707,7 @@
 
 - (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"height %f",[self getCommentHeight:indexPath.row]);
     return 35+[self getCommentHeight:indexPath.row];
 }
 @end

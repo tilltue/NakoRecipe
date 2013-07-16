@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 #import "RecipeCommentView.h"
+#import "CustomAlert.h"
 
 @implementation MyUITextField
 @synthesize horizontalPadding, verticalPadding;
@@ -41,11 +42,13 @@
         tfComment.layer.borderColor = [UIColor grayColor].CGColor;
         tfComment.layer.cornerRadius = 5;
         tfComment.placeholder = @"댓글 쓰기";
+        tfComment.delegate = self;
         [self addSubview:tfComment];
         
         btnSend = [[UIButton alloc] init];
         [btnSend setImage:[UIImage imageNamed:@"btn_send"] forState:UIControlStateNormal];
         [self addSubview:btnSend];
+        [btnSend addTarget:self action:@selector(btnSend) forControlEvents:UIControlEventTouchUpInside];
         [self setLayout];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAnimate:) name:UIKeyboardWillShowNotification object:nil];
@@ -109,4 +112,72 @@
     }
     [UIView commitAnimations];
 }
+
+- (void)btnSend
+{
+    if( [tfComment.text length] > 0 ){
+        [[self comment_delegate] sendComment:tfComment.text];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0://확인
+        {
+            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate openSession];
+        }
+            break;
+        case 1://취소
+            break;
+        default:
+            break;
+    }
+    if( buttonIndex == 0 ){
+        
+    }
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if( ![appDelegate loginCheck] ){
+        CustomAlert *alert = [[CustomAlert alloc]initWithTitle:@"" message:@"페이스북 계정으로 로그인 하시겠습니까?" delegate:self cancelButtonTitle:@"확인" otherButtonTitles:@"취소", nil];
+        alert.delegate = self;
+        [alert show];
+    }
+    return [appDelegate loginCheck];
+}
+
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+	if ([textField isEqual:tfComment]) {
+		//일단 backspace이면 YES
+		if (range.length==1) {
+			return YES;
+		}
+		
+		//새로 만들어지는 문자열
+		NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+		if ([string length]>1) {
+			return NO; //복사해서 붙여넣기는 금지한다.
+		} else {
+			if ([newString length]==1) { //첫번째  문자에	공백이 들어가면 안됨
+				if ([@" " isEqualToString:string]) {
+					return NO;
+				}
+			} else if([newString length]>2) { //2이상의 길이가 되었을때 space가 2개 이상되는 것은 금지시킨다.
+				NSRange newRange = {range.location-1,2};
+				if ([@"  " isEqualToString:[newString substringWithRange:newRange ]] ) {
+					return NO;
+				}
+			}
+		}
+		return YES;
+	}
+	return YES;
+}
+
+
 @end

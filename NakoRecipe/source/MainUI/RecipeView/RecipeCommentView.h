@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @protocol RecipeCommentDelegate <NSObject>
+- (void)sendComment:(NSString *)comment;
 - (void)keyBoardAnimated:(NSNotification *)notification;
 @end
 
@@ -17,7 +18,7 @@
 @property (nonatomic, assign) float horizontalPadding;
 @end
 
-@interface RecipeCommentView : UIView <UITextFieldDelegate>
+@interface RecipeCommentView : UIView <UITextFieldDelegate,UIAlertViewDelegate>
 {
     UIButton *btnClose;
     UIButton *btnLike;

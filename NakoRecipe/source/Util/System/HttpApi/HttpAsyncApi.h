@@ -33,4 +33,5 @@
 - (void)clearObserver;
 - (void)requestRecipe:(NSInteger)numberPostIndex withOffsetPostIndex:(NSInteger)offsetPostIndex;
 - (void)requestComment:(NSString *)postID;
+- (void)sendComment:(NSDictionary *)dict;
 @end

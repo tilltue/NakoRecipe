@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2249DFF11794DE88007D951B /* CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 2249DFF01794DE88007D951B /* CustomAlert.m */; };
 		224B4ABC174B9E7E00CE7A9B /* 세발자전거L.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4AB8174B9E7E00CE7A9B /* 세발자전거L.TTF */; };
 		224B4ABD174B9E7E00CE7A9B /* 테트리스L.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 224B4AB9174B9E7E00CE7A9B /* 테트리스L.TTF */; };
 		22544C28175726E1008628D0 /* RecipeCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22544C27175726E1008628D0 /* RecipeCommentView.m */; };
@@ -119,6 +120,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2249DFEF1794DE88007D951B /* CustomAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomAlert.h; path = source/MainUI/CustomAlert/CustomAlert.h; sourceTree = "<group>"; };
+		2249DFF01794DE88007D951B /* CustomAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomAlert.m; path = source/MainUI/CustomAlert/CustomAlert.m; sourceTree = "<group>"; };
 		224B4AB8174B9E7E00CE7A9B /* 세발자전거L.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "세발자전거L.TTF"; path = "resource/font/세발자전거L.TTF"; sourceTree = "<group>"; };
 		224B4AB9174B9E7E00CE7A9B /* 테트리스L.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = "테트리스L.TTF"; path = "resource/font/테트리스L.TTF"; sourceTree = "<group>"; };
 		22544C26175726E0008628D0 /* RecipeCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecipeCommentView.h; path = source/MainUI/RecipeView/RecipeCommentView.h; sourceTree = "<group>"; };
@@ -318,6 +321,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2249DFEE1794DE58007D951B /* CustomAlert */ = {
+			isa = PBXGroup;
+			children = (
+				2249DFEF1794DE88007D951B /* CustomAlert.h */,
+				2249DFF01794DE88007D951B /* CustomAlert.m */,
+			);
+			name = CustomAlert;
+			sourceTree = "<group>";
+		};
 		226072BC1744A23A00CF3EAA /* Resouce */ = {
 			isa = PBXGroup;
 			children = (
@@ -654,6 +666,7 @@
 		A3FB734B1743E18900413AE8 /* MainUI */ = {
 			isa = PBXGroup;
 			children = (
+				2249DFEE1794DE58007D951B /* CustomAlert */,
 				A3D0D563174903B6006C0AA9 /* RecipeViewController */,
 				A3D0D562174903A7006C0AA9 /* PintrestViewController */,
 			);
@@ -893,6 +906,7 @@
 				A3E12E0D177EAE9E00D512A0 /* SDURLCache.m in Sources */,
 				A3DEA0F4178D3D8D0041E259 /* ODRefreshControl.m in Sources */,
 				A3F63CC917941B9500D42883 /* TTTTimeIntervalFormatter.m in Sources */,
+				2249DFF11794DE88007D951B /* CustomAlert.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1001,8 +1015,8 @@
 		A3FB73461743DE9700413AE8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: junhyi park (2HRA7CT7W5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: junhyi park (2HRA7CT7W5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Park junhyi (8L2VX295UA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Park junhyi (8L2VX295UA)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource\"",
@@ -1022,8 +1036,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "66C6839D-6C15-4C90-917E-DE760E9DA40B";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "66C6839D-6C15-4C90-917E-DE760E9DA40B";
+				PROVISIONING_PROFILE = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1031,8 +1045,8 @@
 		A3FB73471743DE9700413AE8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: junhyi park (2HRA7CT7W5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: junhyi park (2HRA7CT7W5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Park junhyi (8L2VX295UA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Park junhyi (8L2VX295UA)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource\"",
@@ -1052,8 +1066,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "66C6839D-6C15-4C90-917E-DE760E9DA40B";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "66C6839D-6C15-4C90-917E-DE760E9DA40B";
+				PROVISIONING_PROFILE = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0CDCFDCB-66BC-407D-8209-B0247A6591EE";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -20,6 +20,7 @@ extern NSString *const FBSessionStateChangedNotification;
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) FBSession *session;
 @property (strong, nonatomic) NSString *facebookID;
+@property (strong, nonatomic) NSString *facebookName;
 #pragma mark - CoreData
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
@@ -27,6 +28,6 @@ extern NSString *const FBSessionStateChangedNotification;
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 - (BOOL)openSession;
+- (BOOL)loginCheck;
 - (void)facebookLogout;
-- (NSString *)getFaceBookId;
 @end

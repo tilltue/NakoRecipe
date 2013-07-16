@@ -13,7 +13,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "129"
          endingLineNumber = "129"
-         landmarkName = "-handleCommentButtonTap:"
+         landmarkName = "-reloadPintRest"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -26,7 +26,20 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "141"
          endingLineNumber = "141"
-         landmarkName = "-collectionView:didSelectCell:atIndex:"
+         landmarkName = "-startLoading"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "NakoRecipe/source/MainUI/RecipeView/RecipeView.m"
+         timestampString = "395643840.705593"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "545"
+         endingLineNumber = "545"
+         landmarkName = "-reloadRecipeView:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

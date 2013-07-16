@@ -14,7 +14,7 @@
 - (void)keyboardHide;
 @end
 
-@interface RecipeView : UIScrollView <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,RequestObserver>
+@interface RecipeView : UIView <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,RequestObserver>
 {
     NSMutableDictionary *rectDic;
     
@@ -23,6 +23,7 @@
     UILabel         *noImageLabel;
     NSMutableArray  *imageArr;
     
+    UIView          *tvHeaderView;
     UIView          *bgView;
     UIView          *recipeInfo;
     

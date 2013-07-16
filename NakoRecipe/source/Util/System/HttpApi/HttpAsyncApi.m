@@ -11,7 +11,7 @@
 #define REQUEST_TIMEOUT 10
 //#define DATA_URL @"https://public-api.wordpress.com/rest/v1/sites/14.63.219.181/posts/?pretty=true"
 #define DATA_URL @"http://14.63.219.181/?json=1"
-#define COMMENT_URL @"http://14.63.219.181:3000/comment/load/"
+#define COMMENT_URL @"http://14.63.219.181:3000/comment"
 @implementation HttpAsyncApiRequestResult
 @synthesize retString,errorDomain;
 @end
@@ -71,7 +71,6 @@
     return singletonInstanceCommentSend;
 }
 
-
 - (void)requestRecipe:(NSInteger)numberPostIndex withOffsetPostIndex:(NSInteger)offsetPostIndex
 {
     if( requestState == E_REQUEST_STATE_PROGRESS || requestState == E_REQUEST_STATE_START ){
@@ -100,13 +99,33 @@
         if( responseData == nil )
             responseData = [[NSMutableData alloc] init];
         [responseData setLength:0];
-        NSURL * url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@",COMMENT_URL,postID]];
+        NSURL * url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@/load/%@",COMMENT_URL,postID]];
         //NSLog(@"%@",[url absoluteString]);
         NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:REQUEST_TIMEOUT];
         connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         [connection start];
         NSLog(@"Start comment");
     }
+}
+
+- (void)sendComment:(NSDictionary *)dict
+{
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+	
+    NSString *param = @"";
+    for( NSString *key in [dict allKeys])
+    {
+        NSString *value = [dict objectForKey:key];
+        [param stringByAppendingFormat:@"%@=%@&",key,value];
+    }
+	NSData *postData = [param dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+	NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+	[request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/write",COMMENT_URL]]];
+	[request setHTTPMethod:@"POST"];
+	[request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+	[request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+	[request setHTTPBody:postData];
+	[NSURLConnection connectionWithRequest:request delegate:self];
 }
 
 #pragma mark - Observer Pattern Methods

@@ -17,6 +17,7 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
 @implementation AppDelegate
 @synthesize session = _session;
 @synthesize facebookID = _facebookID;
+@synthesize facebookName = _facebookName;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
@@ -42,6 +43,8 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
             break;
         case FBSessionStateClosed:
         case FBSessionStateClosedLoginFailed:
+            _facebookID = nil;
+            _facebookName = nil;
             [FBSession.activeSession closeAndClearTokenInformation];
             break;
         default:
@@ -58,22 +61,19 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
         [FBRequestConnection startForMeWithCompletionHandler:
          ^(FBRequestConnection *connection, id result, NSError *error)
          {
-             NSLog(@"facebook result: %@", result);
-             NSLog(@"%@",[result objectForKey:@"name"]);
-             _facebookID = [result objectForKey:@"name"];
+//             NSLog(@"facebook result: %@", result);
+//             NSLog(@"%@",[result objectForKey:@"name"]);
+             _facebookID = [result objectForKey:@"id"];
+             _facebookName = [result objectForKey:@"name"];
          }];
 
     }
 }
 
-- (NSString *)getFaceBookId
-{
-    return _facebookID;
-}
-
 - (void)facebookLogout
 {
     _facebookID = nil;
+    _facebookName = nil;
     [FBSession.activeSession closeAndClearTokenInformation];
 }
 
@@ -87,6 +87,10 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
                                          }];
 }
 
+- (BOOL)loginCheck
+{
+    return pintrestMainViewController.loginState;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

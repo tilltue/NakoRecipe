@@ -77,6 +77,21 @@
     [recipeView keyBoardAnimated:notification];
 }
 
+- (BOOL)loginCheck
+{
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    return [appDelegate loginCheck];
+}
+
+- (void)sendComment:(NSString *)comment
+{
+    Post *tempPost = [[CoreDataManager getInstance] getPost:currentPostId];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+//    [dict setValue: forKey:@"user_name"];
+//    [dict setValue:tempPost.post_id forKey:@"post_id"];
+    [[HttpAsyncApi getInstanceCommentSend] sendComment:nil];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
