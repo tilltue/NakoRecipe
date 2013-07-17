@@ -825,7 +825,6 @@
 
 - (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"height %f",[self getCommentHeight:indexPath.row]);
     return 35+(int)[self getCommentHeight:indexPath.row];
 }
 @end

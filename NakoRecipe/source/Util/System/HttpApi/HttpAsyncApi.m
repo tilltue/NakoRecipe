@@ -272,7 +272,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSLog(@"finish");
-    NSLog(@"%@",[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+    //NSLog(@"%@",[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
     requestState = E_REQUEST_STATE_COMPLETE;
     [self requestFinished];
 }
