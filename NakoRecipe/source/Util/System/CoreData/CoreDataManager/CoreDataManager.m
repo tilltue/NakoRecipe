@@ -161,16 +161,16 @@
 {
     id tempValue = nil;
     tempValue = [jsonDict objectForKey:@"id"];
-    if( [tempValue isKindOfClass:[NSDecimalNumber class]] )
+    if( [tempValue isKindOfClass:[NSNumber class]] )
         tempValue = [NSString stringWithFormat:@"%@",[tempValue stringValue]];
-    if( tempValue != nil && [tempValue length] > 0 && [self validatePostId:tempValue] )
+    if( tempValue != nil && [self validatePostId:tempValue] )
         return;
     Post *tempPost = [self getPost:tempValue];
     tempValue = [jsonDict objectForKey:@"title"];
-    if( tempValue != nil && [tempValue length] > 0 )
+    if( tempValue != nil )
         tempPost.title = tempValue;
     tempValue = [self stringByStrippingHTML:[jsonDict objectForKey:@"content"]];
-    if( tempValue != nil && [tempValue length] > 0 )
+    if( tempValue != nil )
         tempPost.content = tempValue;
     tempValue = [jsonDict objectForKey:@"like_count"];
     if( tempValue != nil )
@@ -200,7 +200,7 @@
             tempPost.creator_url = tempValue;
             continue;
         }
-        if( tempValue != nil && [tempValue length] > 0 ){
+        if( tempValue != nil ){
             AttatchMent *tempAttachment = [self saveAttatchment:fullDict withPostId:tempPost.post_id];
             [tempPost addAttatchmentsObject:tempAttachment];
         }
