@@ -306,7 +306,7 @@
     tempAsyncImageView.contentMode = UIViewContentModeScaleAspectFill;
     tempAsyncImageView.clipsToBounds = YES;
     tempAsyncImageView.layer.cornerRadius = 5;
-    [tempAsyncImageView setImageWithURL:[NSURL URLWithString:pintrestItem.creatorThumb]];
+    [tempAsyncImageView setImageWithURL:[NSURL URLWithString:pintrestItem.creatorThumb] placeholderImage:[UIImage imageNamed:@"ic_blank_profile"]];
     [tempAsyncImageView setFrame:CGRectMake(thumbMargin, resizeHeight+tempLabel.frame.size.height+thumbMargin, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
     [tempView addSubview:tempAsyncImageView];
     [bgView setFrame:CGRectMake(0, 0, CELL_WIDTH, bgView.frame.size.height + 1 + USER_THUMB_ICONWIDTH + thumbMargin*2)];

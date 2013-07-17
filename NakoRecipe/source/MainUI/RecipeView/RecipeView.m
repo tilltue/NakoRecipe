@@ -673,6 +673,7 @@
             }else{
                 [[self recipe_delegate] likeUpdate:NO];
             }
+            NSLog(@"update like");
         }
             break;
         default:
@@ -783,7 +784,7 @@
     timestampLabel.frame = tempRect;
 
     if( [currentPostId intValue] == [tempObject.post_id intValue] ){
-        [userThumb setImageWithURL:[NSURL URLWithString:tempObject.thumb_url] placeholderImage:[UIImage imageNamed:@"ic_black_profile"]];
+        [userThumb setImageWithURL:[NSURL URLWithString:tempObject.thumb_url] placeholderImage:[UIImage imageNamed:@"ic_blank_profile"]];
         usernameLabel.text = tempObject.user_name;
         timestampLabel.text = [self convertDateToJson:tempObject.timestamp];
         commentLabel.text = tempObject.comment;
