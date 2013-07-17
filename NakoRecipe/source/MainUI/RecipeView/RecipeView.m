@@ -673,7 +673,6 @@
             }else{
                 [[self recipe_delegate] likeUpdate:NO];
             }
-            NSLog(@"update like");
         }
             break;
         default:

@@ -79,6 +79,11 @@ static char kAFImageRequestOperationObjectKey;
 
 #pragma mark -
 
++ (void)clearCache
+{
+    [[[self class] af_sharedImageCache] removeAllObjects];
+}
+
 - (void)setImageWithURL:(NSURL *)url {
     [self setImageWithURL:url placeholderImage:nil];
 }

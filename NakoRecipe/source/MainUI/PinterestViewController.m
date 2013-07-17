@@ -11,6 +11,7 @@
 #import "AppPreference.h"
 #import "HttpApi.h"
 #import "AppDelegate.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface PinterestViewController ()
 
@@ -161,6 +162,7 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [UIImageView clearCache];
 }
 
 - (NSUInteger)supportedInterfaceOrientations
@@ -172,7 +174,6 @@
 {
     [[CoreDataManager getInstance] makePostFromBundle];
 }
-
 
 #pragma mark - Recipe Info update
 
