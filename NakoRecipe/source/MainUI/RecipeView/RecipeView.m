@@ -37,7 +37,7 @@
         [self makeLayout];
         
         tvHeaderView = [[UIView alloc] init];
-        
+        tvFooterView = [[UIView alloc] init];
         bgView = [[UIView alloc] init];
         if( [SystemInfo shadowOptionModel]){
             bgView.layer.cornerRadius = 5;
@@ -239,9 +239,11 @@
         [imageScrollView setFrame:CGRectMake(0,0, tempSubImageView.frame.size.width, tempSubImageView.frame.size.height)];
         noImageLabel.frame = imageScrollView.frame;
         [bgView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, imageScrollView.frame.size.height+tempRect.origin.y*4+RECIPE_INFO_HEIGHT)];
+        tvHeaderView.frame = bgView.frame;
         recipeInfo.frame = CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height);
     }else{
         [bgView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height*.3+tempRect.origin.y*4+RECIPE_INFO_HEIGHT)];
+        tvHeaderView.frame = bgView.frame;
         recipeInfo.frame = CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height);
         [noImageLabel setFrame:CGRectMake(0, 0, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8-RECIPE_INFO_HEIGHT+tempRect.origin.y)];
     }
@@ -337,11 +339,13 @@
     tempRect.size.height += recipeContent.contentSize.height-45;
     recipeInfo.frame = tempRect;
     
-    tempRect.size.height += 20;
+    tempRect.size.height += 40;
     tempRect.size.width = self.frame.size.width;
     tempRect.origin = CGPointZero;
     tvHeaderView.frame = tempRect;
+    tvFooterView.frame = CGRectZero;
     tvComment.tableHeaderView = tvHeaderView;
+    tvComment.tableFooterView = tvFooterView;
 }
 - (void)keyBoardAnimated:(NSNotification *)notification
 {
@@ -549,6 +553,7 @@
     CGRect tempRect;
     tempRect = [CommonUI getRectFromDic:rectDic withKey:@"imageScrollView"];
     [bgView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height * 0.8)];
+    tvHeaderView.frame = bgView.frame;
     [recipeInfo setFrame:CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height)];
     [imageScrollView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8)];
     noImageLabel.frame = imageScrollView.frame;
@@ -643,6 +648,14 @@
                 [commentArr addObject:tempObject];
             }
             lblComment.text = [NSString stringWithFormat:@"%d",[commentArr count]];
+            if( self.frame.size.height >= tvHeaderView.frame.size.height + [self totalCommentHeight] ){
+                CGRect tempRect = CGRectZero;
+                tempRect.size.width = tvHeaderView.frame.size.width;
+                tempRect.size.height =  self.frame.size.height - (tvHeaderView.frame.size.height + [self totalCommentHeight]);
+                tvFooterView.frame = tempRect;
+            }else{
+                tvFooterView.frame = CGRectZero;
+            }
             [tvComment reloadData];
             if( refreshComment ){
                 if( [commentArr count] > 1)
@@ -689,7 +702,8 @@
     float totalHeight = 0;
     for( int i = 0 ; i < [commentArr count]; i ++ )
     {
-        totalHeight += [self getCommentHeight:i];
+        totalHeight += (int)[self getCommentHeight:i];
+        totalHeight += 35;
     }
     return totalHeight;
 }
@@ -793,7 +807,7 @@
     tempRect.origin.x = 50;
     tempRect.origin.y = 30;
     tempRect.size.width = [SystemInfo isPad]?680:245;
-    tempRect.size.height = [self getCommentHeight:indexPath.row];
+    tempRect.size.height = (int)[self getCommentHeight:indexPath.row];
     commentLabel.frame = tempRect;
     
     tempRect.origin.x = 5;
@@ -812,6 +826,6 @@
 - (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"height %f",[self getCommentHeight:indexPath.row]);
-    return 35+[self getCommentHeight:indexPath.row];
+    return 35+(int)[self getCommentHeight:indexPath.row];
 }
 @end

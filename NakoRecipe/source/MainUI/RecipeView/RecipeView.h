@@ -26,6 +26,7 @@
     NSMutableArray  *imageArr;
     
     UIView          *tvHeaderView;
+    UIView          *tvFooterView;
     UIView          *bgView;
     UIView          *recipeInfo;
     

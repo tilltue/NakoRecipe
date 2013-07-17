@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "NakoRecipe/source/MainUI/RecipeView/RecipeView.m"
-         timestampString = "395758083.117575"
+         timestampString = "395761525.936533"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "603"
-         endingLineNumber = "603"
+         startingLineNumber = "608"
+         endingLineNumber = "608"
          landmarkName = "-reloadRecipeView:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -47,11 +47,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "NakoRecipe/source/MainUI/RecipeView/RecipeView.m"
-         timestampString = "395758083.117575"
+         timestampString = "395761525.936533"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "783"
-         endingLineNumber = "783"
+         startingLineNumber = "795"
+         endingLineNumber = "795"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -104,6 +104,19 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "404"
          endingLineNumber = "404">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "NakoRecipe/source/MainUI/RecipeView/RecipeView.m"
+         timestampString = "395761525.936533"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "652"
+         endingLineNumber = "652"
+         landmarkName = "-requestFinished:withInstance:"
+         landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
    <ExceptionBreakpoints>
