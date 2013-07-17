@@ -58,6 +58,7 @@
 
 + (BOOL)getValid
 {
+    return YES;
     NSString *retString = [[NSUserDefaults standardUserDefaults] stringForKey:APP_VERSION];
     if( retString == nil )
         return NO;
