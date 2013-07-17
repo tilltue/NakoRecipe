@@ -87,6 +87,11 @@
     [tfComment resignFirstResponder];
 }
 
+- (void)keyboardHide
+{
+    [tfComment resignFirstResponder];
+}
+
 - (void)keyboardWillAnimate:(NSNotification *)notification
 {
     CGRect keyboardBounds;

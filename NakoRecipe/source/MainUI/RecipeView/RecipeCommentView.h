@@ -31,4 +31,5 @@
 - (void)sendComplete:(BOOL)state;
 - (void)sendLikeComplete:(BOOL)state;
 - (void)likeUpdate:(BOOL)state;
+- (void)keyboardHide;
 @end
