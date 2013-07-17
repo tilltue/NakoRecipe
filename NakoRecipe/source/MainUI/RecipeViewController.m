@@ -102,6 +102,7 @@
 - (void)requestFinished:(NSString *)retString
 {
     [recipeCommentView sendComplete:YES];
+    [recipeView loadComment];
 }
 
 - (void)requestFailed

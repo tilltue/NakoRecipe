@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "FileControl.h"
 #import "SDURLCache.h"
+#import "CustomAlert.h"
 
 NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionStateChangedNotification";
 
@@ -42,10 +43,19 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
             }
             break;
         case FBSessionStateClosed:
-        case FBSessionStateClosedLoginFailed:
             _facebookID = nil;
             _facebookName = nil;
             [FBSession.activeSession closeAndClearTokenInformation];
+            break;
+        case FBSessionStateClosedLoginFailed:
+        {
+            _facebookID = nil;
+            _facebookName = nil;
+            [FBSession.activeSession closeAndClearTokenInformation];
+            CustomAlert *alert = [[CustomAlert alloc]initWithTitle:@"" message:@"로그인 실패" delegate:self cancelButtonTitle:@"확인" otherButtonTitles:nil, nil];
+            alert.delegate = self;
+            [alert show];
+        }
             break;
         default:
             break;
@@ -65,6 +75,11 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
 //             NSLog(@"%@",[result objectForKey:@"name"]);
              _facebookID = [result objectForKey:@"id"];
              _facebookName = [result objectForKey:@"name"];
+             if(_facebookID != nil && _facebookName != nil ){
+                 CustomAlert *alert = [[CustomAlert alloc]initWithTitle:@"" message:[NSString stringWithFormat:@"%@ 님\n로그인 되었습니다.",_facebookName] delegate:self cancelButtonTitle:@"확인" otherButtonTitles:nil, nil];
+                 alert.delegate = self;
+                 [alert show];
+             }
          }];
 
     }
@@ -75,6 +90,9 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
     _facebookID = nil;
     _facebookName = nil;
     [FBSession.activeSession closeAndClearTokenInformation];
+    CustomAlert *alert = [[CustomAlert alloc]initWithTitle:@"" message:@"로그아웃 되었습니다." delegate:self cancelButtonTitle:@"확인" otherButtonTitles:nil, nil];
+    alert.delegate = self;
+    [alert show];
 }
 
 - (BOOL)openSession
@@ -90,6 +108,25 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
 - (BOOL)loginCheck
 {
     return pintrestMainViewController.loginState;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0://확인
+        {
+        }
+            break;
+        case 1://취소
+        {   
+        }
+            break;
+        default:
+            break;
+    }
+    if( buttonIndex == 0 ){
+        
+    }
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

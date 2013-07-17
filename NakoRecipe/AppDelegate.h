@@ -16,6 +16,7 @@ extern NSString *const FBSessionStateChangedNotification;
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
     PinterestViewController *pintrestMainViewController;
+    BOOL loginPopShow;
 }
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) FBSession *session;

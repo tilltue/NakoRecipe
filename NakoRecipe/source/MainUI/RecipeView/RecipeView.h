@@ -57,9 +57,11 @@
     NSMutableArray *commentArr;
     BOOL isKeyboardShow;
     float keyBoardHeight;
+    BOOL refreshComment;
 }
 @property (nonatomic, unsafe_unretained) id <RecipeViewDelegate> recipe_delegate;
 - (void)reset;
+- (void)loadComment;
 - (void)reloadRecipeView:(NSString *)postId;
 - (void)keyBoardAnimated:(NSNotification *)notification;
 @end

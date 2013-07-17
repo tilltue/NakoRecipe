@@ -159,12 +159,15 @@
         tvComment.separatorColor = [CommonUI getUIColorFromHexString:@"#DDDDDD"];
         tvComment.showsVerticalScrollIndicator = NO;
         [self addSubview:tvComment];
+        
+        refreshComment = NO;
     }
     return self;
 }
 
 - (void)reset
 {
+    refreshComment = NO;
     [commentArr removeAllObjects];
     [[HttpAsyncApi getInstanceComment] clearObserver];
 }
@@ -334,6 +337,13 @@
 - (void)layoutSubviews
 {
     //NSLog(@"layoutsub");
+}
+
+- (void)loadComment
+{
+    refreshComment = YES;
+    Post *tempPost = [[CoreDataManager getInstance] getPost:currentPostId];
+    [[HttpAsyncApi getInstanceComment] requestComment:tempPost.post_id];
 }
 
 - (void)handleHeartButtonTap:(UIButton *)paramSender
@@ -583,6 +593,10 @@
     }
     lblComment.text = [NSString stringWithFormat:@"%d",[commentArr count]];
     [tvComment reloadData];
+    if( refreshComment ){
+        if( [commentArr count] > 1)
+            [tvComment scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([commentArr count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
 }
 
 - (float)totalCommentHeight
