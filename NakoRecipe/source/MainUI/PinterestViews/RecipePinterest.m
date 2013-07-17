@@ -257,12 +257,19 @@
     bgView.layer.cornerRadius = 5;
     [tempView addSubview:bgView];
     
+    UILabel *imageBg = [[UILabel alloc] init];
+    imageBg.text = @"Image loading...";
+    imageBg.textAlignment = NSTextAlignmentCenter;
+    imageBg.textColor = [UIColor grayColor];
+    [tempView addSubview:imageBg];
+    
     CGFloat resizeHeight = 0;
     CGFloat titleHeight = 0;
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
     if( [pintrestItem.attachItems count] > 0){
         AttatchItem *tempAttatchItem = [self getThumbNailItem:pintrestItem];
         UIImageView *tempAsyncImageView = [[UIImageView alloc] init];
+        tempAsyncImageView.backgroundColor = [UIColor clearColor];
         [tempAsyncImageView setImageWithURL:[NSURL URLWithString:tempAttatchItem.image_url]];
         if( tempAttatchItem != nil ){
             resizeHeight = (CELL_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
@@ -271,8 +278,10 @@
             resizeHeight = CELL_WIDTH;
             titleHeight = CELL_WIDTH*.2;
         }
-        [tempView addSubview:tempAsyncImageView];
+        //[tempView addSubview:tempAsyncImageView];
         [tempAsyncImageView setFrame:CGRectMake(0, 0, CELL_WIDTH, resizeHeight)];
+        imageBg.frame = tempAsyncImageView.frame;
+        [self shapeView:imageBg];
         [self shapeView:tempAsyncImageView];
     }else{
         UILabel *noImageLabel = [[UILabel alloc] init];
@@ -284,6 +293,7 @@
         [noImageLabel setFrame:CGRectMake(0, 0, CELL_WIDTH, CELL_WIDTH)];
         [tempView addSubview:noImageLabel];
         [self shapeView:noImageLabel];
+        imageBg.frame = noImageLabel.frame;
         resizeHeight = CELL_WIDTH;
         titleHeight = CELL_WIDTH*.2;
     }

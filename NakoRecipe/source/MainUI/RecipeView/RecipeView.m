@@ -56,12 +56,12 @@
         noImageLabel.textColor = [CommonUI getUIColorFromHexString:@"#657383"];
         noImageLabel.backgroundColor = [CommonUI getUIColorFromHexString:@"#EFEDFA"];
         noImageLabel.textAlignment = NSTextAlignmentCenter;
-        noImageLabel.text = @"No Image";
-        noImageLabel.font = [UIFont fontWithName:UIFONT_NAME size:50];
+        noImageLabel.text = @"Image loading...";
+        noImageLabel.font = [UIFont fontWithName:UIFONT_NAME size:20];
         [recipeInfo addSubview:noImageLabel];
         
         imageScrollView = [[UIScrollView alloc] init];
-        imageScrollView.backgroundColor = [CommonUI getUIColorFromHexString:@"#EFEDFA"];
+        imageScrollView.backgroundColor = [UIColor clearColor];
         imageScrollView.scrollEnabled = NO;
         [self initGestureRecognizer:imageScrollView];
         [recipeInfo addSubview:imageScrollView];
@@ -235,6 +235,7 @@
     if( [imageArr count] > imagePageControl.currentPage ){
         UIImageView *tempSubImageView = [imageArr objectAtIndex:imagePageControl.currentPage];
         [imageScrollView setFrame:CGRectMake(0,0, tempSubImageView.frame.size.width, tempSubImageView.frame.size.height)];
+        noImageLabel.frame = imageScrollView.frame;
         [bgView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, imageScrollView.frame.size.height+tempRect.origin.y*4+RECIPE_INFO_HEIGHT)];
         recipeInfo.frame = CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height);
     }else{
@@ -547,8 +548,8 @@
     tempRect = [CommonUI getRectFromDic:rectDic withKey:@"imageScrollView"];
     [bgView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height * 0.8)];
     [recipeInfo setFrame:CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height)];
-    [noImageLabel setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8)];
     [imageScrollView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8)];
+    noImageLabel.frame = imageScrollView.frame;
     for( UIImageView *tempSubImageView in imageArr )
         [tempSubImageView removeFromSuperview];
     [imageArr removeAllObjects];
@@ -583,12 +584,8 @@
         }
         [imageScrollView setContentSize:CGSizeMake((imageScrollView.frame.size.width)*([imageArr count]), imageScrollView.frame.size.height)];
         //NSLog(@"%@ : %@",postId,recipeContent.text);
-        noImageLabel.hidden = YES;
-        imageScrollView.hidden = NO;
     }else{
         //첨부 이미지가 없을때
-        noImageLabel.hidden = NO;
-        imageScrollView.hidden = YES;
     }
 
     NSArray *infoTextArr = [tempPost.tags componentsSeparatedByString:@"|"];
