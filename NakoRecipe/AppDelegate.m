@@ -75,7 +75,7 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
 //             NSLog(@"%@",[result objectForKey:@"name"]);
              _facebookID = [result objectForKey:@"id"];
              _facebookName = [result objectForKey:@"name"];
-             if(_facebookID != nil && _facebookName != nil ){
+             if(_facebookID != nil && _facebookName != nil && loginPopShow ){
                  CustomAlert *alert = [[CustomAlert alloc]initWithTitle:@"" message:[NSString stringWithFormat:@"%@ 님\n로그인 되었습니다.",_facebookName] delegate:self cancelButtonTitle:@"확인" otherButtonTitles:nil, nil];
                  alert.delegate = self;
                  [alert show];
@@ -132,12 +132,15 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self managedObjectContext];
+    
     [[LocalyticsSession shared] startSession:@"f35bdc28310c39d1fabf523-1f941e08-e550-11e2-364a-00a426b17dd8"];
+    
     SDURLCache *urlCache = [[SDURLCache alloc] initWithMemoryCapacity:1024*1024   // 1MB mem cache
                                                          diskCapacity:1024*1024*500 // 5MB disk cache
                                                              diskPath:[SDURLCache defaultCachePath]];
     [NSURLCache setSharedURLCache:urlCache];
     
+    loginPopShow = NO;
     pintrestMainViewController = [[PinterestViewController alloc] init];
     if(FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded){
         pintrestMainViewController.loginState = YES;
@@ -145,7 +148,7 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
     }else{
         pintrestMainViewController.loginState = NO;
     }
-    
+    loginPopShow = YES;
     CGRect tempRect = [SystemInfo isPad]?CGRectMake(0, 0, 668, 40):CGRectMake(0, 0, 220, 40);
     CGFloat titleFontHeight;
     if( [UIFONT_NAME isEqualToString:@"HA-TTL"] )
