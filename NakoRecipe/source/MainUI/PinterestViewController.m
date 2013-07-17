@@ -196,13 +196,13 @@
 //    NSLog(@"%@",retString);
     NSError *error;
     NSDictionary* json = [NSJSONSerialization JSONObjectWithData:[retString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
-    NSString *count = [json objectForKey:@"count"];
-    NSString *total_count = [json objectForKey:@"count_total"];
+    NSString *count = [[json objectForKey:@"count"] isKindOfClass:[NSNumber class]]?[[json objectForKey:@"count"] stringValue]:[json objectForKey:@"count"];
+    NSString *total_count = [[json objectForKey:@"count_total"] isKindOfClass:[NSNumber class]]?[[json objectForKey:@"count_total"] stringValue]:[json objectForKey:@"count_total"];
     if( [count intValue] > 0 ){
         NSArray *postDictArr = [json objectForKey:@"posts"];
         for( NSMutableDictionary *postDict in postDictArr )
         {
-            NSString *postID = [postDict objectForKey:@"id"];
+            NSString *postID = [[json objectForKey:@"id"] isKindOfClass:[NSNumber class]]?[[json objectForKey:@"id"] stringValue]:[json objectForKey:@"id"];
             if( postID != nil ){
                 if( [[CoreDataManager getInstance] validatePostId:postID] )
                     [[CoreDataManager getInstance] savePost:postDict];

@@ -77,26 +77,6 @@
     return NO;
 }
 
-- (NSString *)getRecipe
-{
-    HttpRequestResult *ret = [self requestJSON:DATA_URL];
-    if( ret.errorDomain == nil ){
-        NSError *error;
-        NSDictionary* json = [NSJSONSerialization JSONObjectWithData:[ret.retString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
-        NSString *found = [json objectForKey:@"found"];
-        if( [found intValue] > 0 ){
-            //NSLog(@"fonund %d",[found intValue]);
-            NSArray *postDictArr = [json objectForKey:@"posts"];
-            for( NSMutableDictionary *postDict in postDictArr )
-            {
-                if( [postDict objectForKey:@"ID"] != nil )
-                   [[CoreDataManager getInstance] savePost:postDict];
-            }
-        }
-    }
-    return ret.retString;
-}
-
 #pragma mark - conncection delegate
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)aResponse
