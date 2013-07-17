@@ -80,9 +80,11 @@
     UIButton *btnFacebook = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 160, 5, 150, 38)];
     btnFacebook.backgroundColor = [UIColor whiteColor];
     btnFacebook.layer.cornerRadius = 5;
-    btnFacebook.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
-    btnFacebook.layer.shadowRadius = 2;
-    btnFacebook.layer.shadowOpacity = 0.2;
+    if( [SystemInfo shadowOptionModel]){
+        btnFacebook.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
+        btnFacebook.layer.shadowRadius = 2;
+        btnFacebook.layer.shadowOpacity = 0.2;
+    }
     [btnFacebook addTarget:self action:@selector(btnFacebook) forControlEvents:UIControlEventTouchUpInside];
     [popView addSubview:btnFacebook];
     
@@ -115,8 +117,10 @@
 {
     [[LocalyticsSession shared] tagEvent:@"MainPintrest"];
     [self versionCheck];
-    if( [[[CoreDataManager getInstance] getPosts] count] > 0 ){
-        [recipePinterest reloadPintRest];
+    NSInteger recipeCount = [[[CoreDataManager getInstance] getPosts] count];
+    if( recipeCount > 0 ){
+        if( recipeCount != [recipePinterest getItemCount] )
+            [recipePinterest reloadPintRest];
     }else{
         [self update];
     }

@@ -29,17 +29,21 @@
             ((UIImageView*)view).image = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(50,10,10,10)];
             view.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
             view.layer.cornerRadius = 5;
-            view.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
-            view.layer.shadowRadius = 2;
-            view.layer.shadowOpacity = 0.2;
+            if( [SystemInfo shadowOptionModel]){
+                view.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
+                view.layer.shadowRadius = 2;
+                view.layer.shadowOpacity = 0.2;
+            }
         }
         else if ([view isKindOfClass:[UIButton class]]) { // Button type 이면
             [(UIButton*)view setBackgroundImage:nil forState:UIControlStateNormal];
             [(UIButton*)view setBackgroundColor:[UIColor grayColor]];
             view.layer.cornerRadius = 5;
-            view.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
-            view.layer.shadowRadius = 2;
-            view.layer.shadowOpacity = 0.2;
+            if( [SystemInfo shadowOptionModel]){
+                view.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
+                view.layer.shadowRadius = 2;
+                view.layer.shadowOpacity = 0.2;
+            }
         }
         else if ([view isKindOfClass:[UILabel class]]) {  // UILabel이면.
             UILabel *label = (UILabel*)view; //Cast From UIView to UILabel

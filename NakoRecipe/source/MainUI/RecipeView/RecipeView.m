@@ -39,10 +39,12 @@
         tvHeaderView = [[UIView alloc] init];
         
         bgView = [[UIView alloc] init];
-        bgView.layer.cornerRadius = 5;
-        bgView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
-        bgView.layer.shadowRadius = 2;
-        bgView.layer.shadowOpacity = 0.2;
+        if( [SystemInfo shadowOptionModel]){
+            bgView.layer.cornerRadius = 5;
+            bgView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
+            bgView.layer.shadowRadius = 2;
+            bgView.layer.shadowOpacity = 0.2;
+        }
         bgView.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
         [tvHeaderView addSubview:bgView];
         

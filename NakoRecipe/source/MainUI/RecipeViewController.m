@@ -36,9 +36,11 @@
         recipeCommentView = [[RecipeCommentView alloc] initWithFrame:tempRect];
         recipeCommentView.comment_delegate = self;
         recipeCommentView.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
-        recipeCommentView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
-        recipeCommentView.layer.shadowRadius = 2;
-        recipeCommentView.layer.shadowOpacity = 0.2;
+        if( [SystemInfo shadowOptionModel]){
+            recipeCommentView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
+            recipeCommentView.layer.shadowRadius = 2;
+            recipeCommentView.layer.shadowOpacity = 0.2;
+        }
         [self.view addSubview:recipeCommentView];
         
         tempRect = [SystemInfo isPad]?CGRectMake(0, 0, 768, 40):CGRectMake(0, 0, 220, 40);

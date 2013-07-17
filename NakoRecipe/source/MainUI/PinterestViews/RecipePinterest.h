@@ -41,6 +41,7 @@
 @property (nonatomic, unsafe_unretained) id <RecipePinterestDelegate> delegate;
 - (void)startLoading;
 - (void)stopLoading;
+- (NSInteger)getItemCount;
 - (void)reloadPintRest;
 - (NSArray *)getShowIndex;
 @end

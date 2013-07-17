@@ -99,6 +99,11 @@
     }
 }
 
+- (NSInteger)getItemCount
+{
+    return [pintrestItems count];
+}
+
 - (void)reloadPintRest
 {
     [pintrestItems removeAllObjects];
@@ -248,9 +253,11 @@
     CGFloat thumbMargin = 6;
     UIView *tempView = [[UIView alloc] init];
     tempView.backgroundColor = [UIColor clearColor];
-    tempView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
-    tempView.layer.shadowRadius = 2;
-    tempView.layer.shadowOpacity = 0.2;
+    if( [SystemInfo shadowOptionModel]){
+        tempView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
+        tempView.layer.shadowRadius = 2;
+        tempView.layer.shadowOpacity = 0.2;
+    }
     
     UIView *bgView = [[UIView alloc] init];
     bgView.backgroundColor = [CommonUI getUIColorFromHexString:@"F4F3F4"];

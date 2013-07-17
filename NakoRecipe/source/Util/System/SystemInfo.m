@@ -7,6 +7,7 @@
 //
 
 #import "SystemInfo.h"
+#include <sys/utsname.h>
 
 #define HEIGHT_IPHONE_5 568
 #define IS_PAD      ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
@@ -15,10 +16,55 @@
 
 @implementation SystemInfo
 
++(NSString*)modelAsString
+{
+    struct utsname platform;
+    int rc = uname(&platform);
+    if(rc == -1)
+    {
+        // Error...
+        return nil;
+    }
+    else
+    {
+        // Convert C-string to NSString
+        return [NSString stringWithCString:platform.machine encoding:NSUTF8StringEncoding];
+    }
+}
+
++(BOOL)shadowOptionModel
+{
+    NSString *model = [self modelAsString];
+    if( model != nil ){
+        NSArray *modelArr = [model componentsSeparatedByString:@","];
+        if( [modelArr count] == 2){
+            NSString *prefixModel = [modelArr objectAtIndex:0];
+            if([prefixModel rangeOfString:@"iPod"].length)
+                return NO;
+            if([prefixModel rangeOfString:@"iPhone"].length){
+                NSString *num = [prefixModel substringToIndex:[prefixModel rangeOfString:@"iPhone"].location];
+                if( num != nil && [num intValue] > 5 )
+                    return YES;
+                else
+                    return NO;
+            }
+            if([prefixModel rangeOfString:@"iPad"].length){
+                NSString *num = [prefixModel substringToIndex:[prefixModel rangeOfString:@"iPhone"].location];
+                if( num != nil && [num intValue] > 3 )
+                    return YES;
+                else
+                    return NO;
+            }
+        }
+    }
+    return NO;
+}
+
 +(BOOL)isPad
 {
     return IS_PAD;
 }
+
 
 +(BOOL)isPhone5
 {
