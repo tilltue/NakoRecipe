@@ -7,7 +7,6 @@
 //
 
 #import "HttpAsyncApi.h"
-#import "SBJson.h"
 #define REQUEST_TIMEOUT 10
 //#define DATA_URL @"https://public-api.wordpress.com/rest/v1/sites/14.63.219.181/posts/?pretty=true"
 #define DATA_URL @"http://14.63.219.181/?json=1"

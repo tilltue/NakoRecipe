@@ -7,7 +7,6 @@
 //
 
 #import "RecipeView.h"
-#import "SBJsonParser.h"
 #import "CoreDataManager.h"
 #import "TTTTimeIntervalFormatter.h"
 #import <QuartzCore/QuartzCore.h>
@@ -157,7 +156,7 @@
         tvComment.dataSource = self;
         tvComment.delegate = self;
         tvComment.frame = frame;
-        tvComment.separatorColor = [CommonUI getUIColorFromHexString:@"E4E3DC"];
+        tvComment.separatorColor = [CommonUI getUIColorFromHexString:@"#DDDDDD"];
         tvComment.showsVerticalScrollIndicator = NO;
         [self addSubview:tvComment];
     }
@@ -166,6 +165,7 @@
 
 - (void)reset
 {
+    [commentArr removeAllObjects];
     [[HttpAsyncApi getInstanceComment] clearObserver];
 }
 
@@ -555,27 +555,23 @@
 
 - (void)requestFinished:(NSString *)retString
 {
-    NSLog(@"%@",retString);
     [commentArr removeAllObjects];
-    NSMutableDictionary* dict = [[[SBJsonParser alloc] init] objectWithString:retString];
-    for( NSDictionary *comment in dict )
+    NSError *error;
+    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:[retString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+    for( NSDictionary *comment in json )
     {
-        NSLog(@"%@",comment);
         CommentObject *tempObject = [[CommentObject alloc] init];
         tempObject.c_id = [comment objectForKey:@"id"];
         tempObject.user_name = [comment objectForKey:@"user_name"];
         tempObject.fb_id = [comment objectForKey:@"fb_id"];
         tempObject.thumb_url = [comment objectForKey:@"thumb_url"];
         tempObject.timestamp = [comment objectForKey:@"timestamp"];
-        tempObject.comment = [comment objectForKey:@"comment"];
-        tempObject.post_id = [comment objectForKey:@"post_id"];
+        tempObject.comment = [NSString stringWithUTF8String:([[comment objectForKey:@"comment"] UTF8String])];
+        tempObject.post_id = [comment objectForKey:@"post_id"];        
         [commentArr addObject:tempObject];
     }
     lblComment.text = [NSString stringWithFormat:@"%d",[commentArr count]];
-    if( [commentArr count] > 0 ){
-        [tvComment reloadData];
-//        [self setContentSize:CGSizeMake(self.frame.size.width,recipeInfo.frame.size.height + tvComment.frame.size.height + 80)];
-    }
+    [tvComment reloadData];
 }
 
 - (float)totalCommentHeight
@@ -621,7 +617,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%d",[commentArr count]);
     return [commentArr count];
 }
 
@@ -635,7 +630,7 @@
     CGRect tempRect;
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CommentTable"];
-        cell.contentView.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3EC"];
+        cell.contentView.backgroundColor = [CommonUI getUIColorFromHexString:@"#E8E8E8"];
         userThumb = [[UIImageView alloc] init];
         userThumb.tag = 1;
         [cell.contentView addSubview:userThumb];

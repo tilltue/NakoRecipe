@@ -9,7 +9,6 @@
 #import "PinterestViewController.h"
 #import "CoreDataManager.h"
 #import "AppPreference.h"
-#import "SBJson.h"
 #import "HttpApi.h"
 #import "AppDelegate.h"
 
@@ -197,11 +196,12 @@
 - (void)requestFinished:(NSString *)retString
 {
 //    NSLog(@"%@",retString);
-    NSMutableDictionary* dict = [[[SBJsonParser alloc] init] objectWithString:retString];
-    NSString *count = [dict objectForKey:@"count"];
-    NSString *total_count = [dict objectForKey:@"count_total"];
+    NSError *error;
+    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:[retString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+    NSString *count = [json objectForKey:@"count"];
+    NSString *total_count = [json objectForKey:@"count_total"];
     if( [count intValue] > 0 ){
-        NSArray *postDictArr = [dict objectForKey:@"posts"];
+        NSArray *postDictArr = [json objectForKey:@"posts"];
         for( NSMutableDictionary *postDict in postDictArr )
         {
             NSString *postID = [postDict objectForKey:@"id"];

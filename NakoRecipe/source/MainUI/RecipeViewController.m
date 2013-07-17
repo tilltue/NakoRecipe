@@ -107,8 +107,12 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
     [recipeView reset];
-    [recipeCommentView reset];
+    [recipeCommentView reset];    
 }
 
 - (void)prepareWillAppear

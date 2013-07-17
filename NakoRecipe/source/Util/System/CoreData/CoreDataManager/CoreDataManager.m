@@ -8,7 +8,6 @@
 
 #import "CoreDataManager.h"
 #import "HttpApi.h"
-#import "SBJson.h"
 
 @implementation CoreDataManager
 
@@ -131,11 +130,12 @@
 {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"DefaultJSON" ofType:@"htm"];
     NSData *bundleJSONData = [NSData dataWithContentsOfFile:filePath];
-    NSMutableDictionary* dict = [[[SBJsonParser alloc] init] objectWithData:bundleJSONData];
-    NSString *found = [dict objectForKey:@"count"];
+    NSError *error;
+    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:bundleJSONData options:0 error:&error];
+    NSString *found = [json objectForKey:@"count"];
     if( [found intValue] > 0 ){
         NSLog(@"count %d",[found intValue]);
-        NSArray *postDictArr = [dict objectForKey:@"posts"];
+        NSArray *postDictArr = [json objectForKey:@"posts"];
         for( NSMutableDictionary *postDict in postDictArr )
         {
             if( [postDict objectForKey:@"id"] != nil )
@@ -211,17 +211,17 @@
 {
     id tempValue = nil;
     tempValue = [jsonDict objectForKey:@"id"];
-    if( [tempValue isKindOfClass:[NSDecimalNumber class]] )
+    if( [tempValue isKindOfClass:[NSNumber class]] )
         tempValue = [NSString stringWithFormat:@"%@",[tempValue stringValue]];
-    if( tempValue != nil && [tempValue length] > 0 && ![self validatePostId:tempValue] )
+    if( tempValue != nil && ![self validatePostId:tempValue] )
         return;
     Post *tempPost = (Post *) [NSEntityDescription insertNewObjectForEntityForName:@"Post" inManagedObjectContext:ad.managedObjectContext];
     tempPost.post_id = tempValue;
     tempValue = [jsonDict objectForKey:@"title"];
-    if( tempValue != nil && [tempValue length] > 0 )
+    if( tempValue != nil )
         tempPost.title = tempValue;
     tempValue = [self stringByStrippingHTML:[jsonDict objectForKey:@"content"]];
-    if( tempValue != nil && [tempValue length] > 0 )
+    if( tempValue != nil )
         tempPost.content = tempValue;
     tempValue = [jsonDict objectForKey:@"like_count"];
     if( tempValue != nil )
@@ -247,7 +247,7 @@
             tempPost.creator_url = tempValue;
             continue;
         }
-        if( tempValue != nil && [tempValue length] > 0 ){
+        if( tempValue != nil ){
             AttatchMent *tempAttachment = [self saveAttatchment:fullDict withPostId:tempPost.post_id];
             [tempPost addAttatchmentsObject:tempAttachment];
         }

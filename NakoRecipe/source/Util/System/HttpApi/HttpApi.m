@@ -8,7 +8,6 @@
 
 #import "HttpApi.h"
 #import "CoreDataManager.h"
-#import "SBJson.h"
 
 #define REQUEST_TIMEOUT 10
 #define VERSION_URL @"https://dl.dropboxusercontent.com/s/8qep15t65a0mfy2/version.txt"
@@ -82,11 +81,12 @@
 {
     HttpRequestResult *ret = [self requestJSON:DATA_URL];
     if( ret.errorDomain == nil ){
-        NSMutableDictionary* dict = [[[SBJsonParser alloc] init] objectWithString:ret.retString];
-        NSString *found = [dict objectForKey:@"found"];
+        NSError *error;
+        NSDictionary* json = [NSJSONSerialization JSONObjectWithData:[ret.retString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+        NSString *found = [json objectForKey:@"found"];
         if( [found intValue] > 0 ){
             //NSLog(@"fonund %d",[found intValue]);
-            NSArray *postDictArr = [dict objectForKey:@"posts"];
+            NSArray *postDictArr = [json objectForKey:@"posts"];
             for( NSMutableDictionary *postDict in postDictArr )
             {
                 if( [postDict objectForKey:@"ID"] != nil )
