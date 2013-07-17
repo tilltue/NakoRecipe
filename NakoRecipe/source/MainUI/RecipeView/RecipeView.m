@@ -374,14 +374,14 @@
 
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
 {
-    [self loadComment];
+    [self loadComment:NO];
     [self loadLike];
     [_refreshControl beginRefreshing];
 }
 
-- (void)loadComment
+- (void)loadComment:(BOOL)moveScroll
 {
-    refreshComment = YES;
+    refreshComment = moveScroll;
     [[HttpAsyncApi getInstanceComment] requestComment:currentPostId];
 }
 

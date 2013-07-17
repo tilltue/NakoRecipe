@@ -123,7 +123,7 @@
         case E_REQUEST_COMMENT_SEND:
         {
             [recipeCommentView sendComplete:YES];
-            [recipeView loadComment];
+            [recipeView loadComment:YES];
         }
             break;
         case E_REQUEST_LIKE_SEND:

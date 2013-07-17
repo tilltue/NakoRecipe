@@ -65,7 +65,7 @@
 }
 @property (nonatomic, unsafe_unretained) id <RecipeViewDelegate> recipe_delegate;
 - (void)reset;
-- (void)loadComment;
+- (void)loadComment:(BOOL)moveScroll;
 - (void)loadLike;
 - (void)reloadRecipeView:(NSString *)postId;
 - (void)keyBoardAnimated:(NSNotification *)notification;
