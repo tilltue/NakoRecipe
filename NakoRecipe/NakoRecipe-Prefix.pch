@@ -23,4 +23,12 @@ typedef enum {
     E_REQUEST_STATE_COMPLETE,
 } enum_requestState;
 
+typedef enum {
+    E_REQUEST_RECIPE = 2,
+    E_REQUEST_COMMENT,
+    E_REQUEST_COMMENT_SEND,
+    E_REQUEST_LIKE,
+    E_REQUEST_LIKE_SEND,
+} enum_request;
+
 #endif

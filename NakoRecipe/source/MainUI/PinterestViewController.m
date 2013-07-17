@@ -136,8 +136,6 @@
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if( _loginState ){
         [appDelegate facebookLogout];
-        _loginState = NO;
-        lblFaceBook.text = @"페이스북 로그인";
         [[LocalyticsSession shared] tagEvent:@"Facebook Logout"];
     }else{
         [appDelegate openSession];
@@ -193,7 +191,7 @@
 
 #pragma mark - request observer
 
-- (void)requestFinished:(NSString *)retString
+- (void)requestFinished:(NSString *)retString withInstance:(HttpAsyncApi *)instance
 {
 //    NSLog(@"%@",retString);
     NSError *error;
@@ -222,7 +220,7 @@
     [recipePinterest stopLoading];
 }
 
-- (void)requestFailed
+- (void)requestFailed:(HttpAsyncApi *)instance
 {
     [recipePinterest stopLoading];
 }

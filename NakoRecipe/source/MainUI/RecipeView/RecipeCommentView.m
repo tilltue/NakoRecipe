@@ -33,6 +33,7 @@
         btnLike.tag = 2;
         [btnLike setImage:[UIImage imageNamed:@"btn_unlike"] forState:UIControlStateNormal];
         [btnLike setImage:[UIImage imageNamed:@"btn_like"]  forState:UIControlStateSelected];
+        [btnLike addTarget:self action:@selector(btnLike) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btnLike];
         tfComment = [[MyUITextField alloc] init];
         tfComment.backgroundColor = [UIColor clearColor];
@@ -113,6 +114,18 @@
     [UIView commitAnimations];
 }
 
+- (void)btnLike
+{
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if( ![appDelegate loginCheck] ){
+        CustomAlert *alert = [[CustomAlert alloc]initWithTitle:@"" message:@"페이스북 계정으로 로그인 하시겠습니까?" delegate:self cancelButtonTitle:@"확인" otherButtonTitles:@"취소", nil];
+        alert.delegate = self;
+        [alert show];
+    }else{
+        [[self comment_delegate] sendLike:!btnLike.selected];
+    }
+}
+
 - (void)btnSend
 {
     if( [tfComment.text length] > 0 ){
@@ -128,6 +141,17 @@
     }else{
         [tfComment resignFirstResponder];
     }
+}
+
+- (void)likeUpdate:(BOOL)state
+{
+    btnLike.selected = state;
+}
+
+- (void)sendLikeComplete:(BOOL)state
+{
+    if( state )
+        btnLike.selected = !btnLike.selected;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

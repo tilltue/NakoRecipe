@@ -12,6 +12,7 @@
 
 @protocol RecipeViewDelegate <NSObject>
 - (void)keyboardHide;
+- (void)likeUpdate:(BOOL)state;
 @end
 
 @interface RecipeView : UIView <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,RequestObserver>
@@ -62,6 +63,7 @@
 @property (nonatomic, unsafe_unretained) id <RecipeViewDelegate> recipe_delegate;
 - (void)reset;
 - (void)loadComment;
+- (void)loadLike;
 - (void)reloadRecipeView:(NSString *)postId;
 - (void)keyBoardAnimated:(NSNotification *)notification;
 @end

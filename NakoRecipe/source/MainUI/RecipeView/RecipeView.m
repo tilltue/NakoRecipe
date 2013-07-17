@@ -342,8 +342,12 @@
 - (void)loadComment
 {
     refreshComment = YES;
-    Post *tempPost = [[CoreDataManager getInstance] getPost:currentPostId];
-    [[HttpAsyncApi getInstanceComment] requestComment:tempPost.post_id];
+    [[HttpAsyncApi getInstanceComment] requestComment:currentPostId];
+}
+
+- (void)loadLike
+{
+    [[HttpAsyncApi getInstanceLike] requestLike:currentPostId];
 }
 
 - (void)handleHeartButtonTap:(UIButton *)paramSender
@@ -561,6 +565,8 @@
     
     [[HttpAsyncApi getInstanceComment] attachObserver:self];
     [[HttpAsyncApi getInstanceComment] requestComment:tempPost.post_id];
+    [[HttpAsyncApi getInstanceLike] attachObserver:self];
+    [[HttpAsyncApi getInstanceLike] requestLike:tempPost.post_id];
     [self setLayout];
 }
 
@@ -574,29 +580,66 @@
     return string;
 }
 
-- (void)requestFinished:(NSString *)retString
+- (void)requestFinished:(NSString *)retString withInstance:(HttpAsyncApi *)instance
 {
-    [commentArr removeAllObjects];
-    NSError *error;
-    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:[retString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
-    for( NSDictionary *comment in json )
-    {
-        CommentObject *tempObject = [[CommentObject alloc] init];
-        tempObject.c_id = [comment objectForKey:@"id"];
-        tempObject.user_name = [comment objectForKey:@"user_name"];
-        tempObject.fb_id = [comment objectForKey:@"fb_id"];
-        tempObject.thumb_url = [self thumbUrlReplaceCheck:[comment objectForKey:@"thumb_url"]];
-        tempObject.timestamp = [comment objectForKey:@"timestamp"];
-        tempObject.comment = [NSString stringWithUTF8String:([[comment objectForKey:@"comment"] UTF8String])];
-        tempObject.post_id = [comment objectForKey:@"post_id"];
-        [commentArr addObject:tempObject];
+    switch (instance.kindOfRequest) {
+        case E_REQUEST_COMMENT:
+        {
+            [commentArr removeAllObjects];
+            NSError *error;
+            NSDictionary* json = [NSJSONSerialization JSONObjectWithData:[retString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+            for( NSDictionary *comment in json )
+            {
+                CommentObject *tempObject = [[CommentObject alloc] init];
+                tempObject.c_id = [[comment objectForKey:@"id"] isKindOfClass:[NSNumber class]]?[[comment objectForKey:@"id"] stringValue]:[comment objectForKey:@"id"];
+                tempObject.user_name = [comment objectForKey:@"user_name"];
+                tempObject.fb_id = [[comment objectForKey:@"fb_id"] isKindOfClass:[NSNumber class]]?[[comment objectForKey:@"fb_id"] stringValue]:[comment objectForKey:@"fb_id"];
+                tempObject.thumb_url = [self thumbUrlReplaceCheck:[comment objectForKey:@"thumb_url"]];
+                tempObject.timestamp = [comment objectForKey:@"timestamp"];
+                tempObject.comment = [NSString stringWithUTF8String:([[comment objectForKey:@"comment"] UTF8String])];
+                tempObject.post_id = [[comment objectForKey:@"post_id"] isKindOfClass:[NSNumber class]]?[[comment objectForKey:@"post_id"] stringValue]:[comment objectForKey:@"post_id"];
+                [commentArr addObject:tempObject];
+            }
+            lblComment.text = [NSString stringWithFormat:@"%d",[commentArr count]];
+            [tvComment reloadData];
+            if( refreshComment ){
+                if( [commentArr count] > 1)
+                    [tvComment scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([commentArr count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+            }
+        }
+            break;
+        case E_REQUEST_LIKE:
+        {
+            NSInteger likeCount = 0;
+            NSError *error;
+            NSDictionary* json = [NSJSONSerialization JSONObjectWithData:[retString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+            if( [json isKindOfClass:[NSArray class]] )
+                likeCount = [json count];
+            lblLike.text = [NSString stringWithFormat:@"%d",likeCount];
+            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            if( [appDelegate loginCheck] ){
+                for( NSDictionary *like in json )
+                {
+                    NSString *tempFacebookId = [[like objectForKey:@"fb_id"] isKindOfClass:[NSNumber class]]?[[like objectForKey:@"fb_id"] stringValue]:[like objectForKey:@"fb_id"];
+                    NSString *tempPostId = [[like objectForKey:@"post_id"] isKindOfClass:[NSNumber class]]?[[like objectForKey:@"post_id"] stringValue]:[like objectForKey:@"post_id"];
+                    if( [tempFacebookId isEqualToString:appDelegate.facebookID] && [tempPostId isEqualToString:currentPostId] ){
+                        [[self recipe_delegate] likeUpdate:YES];
+                        break;
+                    }
+                }
+            }else{
+                [[self recipe_delegate] likeUpdate:NO];
+            }
+        }
+            break;
+        default:
+            break;
     }
-    lblComment.text = [NSString stringWithFormat:@"%d",[commentArr count]];
-    [tvComment reloadData];
-    if( refreshComment ){
-        if( [commentArr count] > 1)
-            [tvComment scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([commentArr count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    }
+}
+
+- (void)requestFailed:(HttpAsyncApi *)instance
+{
+    
 }
 
 - (float)totalCommentHeight
@@ -626,12 +669,6 @@
     NSString *ret = [timeIntervalFormatter stringForTimeInterval:[date timeIntervalSinceNow]];
     return ret;
 }
-
-- (void)requestFailed
-{
-    
-}
-
 
 #pragma mark tableView delegate
 
@@ -703,7 +740,7 @@
     timestampLabel.frame = tempRect;
 
     if( [currentPostId intValue] == [tempObject.post_id intValue] ){
-        [userThumb setImageWithURL:[NSURL URLWithString:tempObject.thumb_url]];
+        [userThumb setImageWithURL:[NSURL URLWithString:tempObject.thumb_url] placeholderImage:[UIImage imageNamed:@"ic_black_profile"]];
         usernameLabel.text = tempObject.user_name;
         timestampLabel.text = [self convertDateToJson:tempObject.timestamp];
         commentLabel.text = tempObject.comment;

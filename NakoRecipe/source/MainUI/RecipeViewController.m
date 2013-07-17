@@ -55,6 +55,7 @@
         label.text = @"";
         self.navigationItem.titleView = label;
         [[HttpAsyncApi getInstanceCommentSend] attachObserver:self];
+        [[HttpAsyncApi getInstanceLikeSend] attachObserver:self];
     }
     return self;
 }
@@ -84,6 +85,18 @@
     return [appDelegate loginCheck];
 }
 
+- (void)sendLike:(BOOL)like
+{
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if([appDelegate loginCheck] && appDelegate.facebookID != nil && appDelegate.facebookName != nil){
+        Post *tempPost = [[CoreDataManager getInstance] getPost:currentPostId];
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        [dict setValue:appDelegate.facebookID forKey:@"fb_id"];
+        [dict setValue:tempPost.post_id forKey:@"post_id"];
+        [[HttpAsyncApi getInstanceLikeSend] sendLike:dict withLikeState:like];
+    }
+}
+
 - (void)sendComment:(NSString *)comment
 {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -99,15 +112,48 @@
     }
 }
 
-- (void)requestFinished:(NSString *)retString
+- (void)likeUpdate:(BOOL)state
 {
-    [recipeCommentView sendComplete:YES];
-    [recipeView loadComment];
+    [recipeCommentView likeUpdate:state];
 }
 
-- (void)requestFailed
+- (void)requestFinished:(NSString *)retString withInstance:(HttpAsyncApi *)instance
 {
-    [recipeCommentView sendComplete:NO];
+    switch (instance.kindOfRequest) {
+        case E_REQUEST_COMMENT_SEND:
+        {
+            [recipeCommentView sendComplete:YES];
+            [recipeView loadComment];
+        }
+            break;
+        case E_REQUEST_LIKE_SEND:
+        {
+            [recipeCommentView sendLikeComplete:YES];
+            [recipeView loadLike];
+        }
+            break;
+        default:
+            break;
+    }
+
+}
+
+- (void)requestFailed:(HttpAsyncApi *)instance
+{
+    switch (instance.kindOfRequest) {
+        case E_REQUEST_COMMENT_SEND:
+        {
+            [recipeCommentView sendComplete:NO];
+        }
+            break;
+        case E_REQUEST_LIKE_SEND:
+        {
+            [recipeCommentView sendLikeComplete:NO];
+        }
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)viewDidLoad

@@ -79,6 +79,8 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
                  CustomAlert *alert = [[CustomAlert alloc]initWithTitle:@"" message:[NSString stringWithFormat:@"%@ 님\n로그인 되었습니다.",_facebookName] delegate:self cancelButtonTitle:@"확인" otherButtonTitles:nil, nil];
                  alert.delegate = self;
                  [alert show];
+             }else if( loginPopShow == NO ){
+                 loginPopShow = YES;
              }
          }];
 
@@ -87,12 +89,10 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
 
 - (void)facebookLogout
 {
-    _facebookID = nil;
-    _facebookName = nil;
-    [FBSession.activeSession closeAndClearTokenInformation];
-    CustomAlert *alert = [[CustomAlert alloc]initWithTitle:@"" message:@"로그아웃 되었습니다." delegate:self cancelButtonTitle:@"확인" otherButtonTitles:nil, nil];
+    CustomAlert *alert = [[CustomAlert alloc]initWithTitle:@"" message:@"로그아웃 하시겠습니까?" delegate:self cancelButtonTitle:@"확인" otherButtonTitles:@"취소", nil];
+    alert.tag = 111;
     alert.delegate = self;
-    [alert show];
+    [alert show];    
 }
 
 - (BOOL)openSession
@@ -115,6 +115,11 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
     switch (buttonIndex) {
         case 0://확인
         {
+            if(alertView.tag == 111){
+                _facebookID = nil;
+                _facebookName = nil;
+                [FBSession.activeSession closeAndClearTokenInformation];
+            }
         }
             break;
         case 1://취소
@@ -140,15 +145,15 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
                                                              diskPath:[SDURLCache defaultCachePath]];
     [NSURLCache setSharedURLCache:urlCache];
     
-    loginPopShow = NO;
     pintrestMainViewController = [[PinterestViewController alloc] init];
     if(FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded){
+        loginPopShow = NO;
         pintrestMainViewController.loginState = YES;
         [self openSession];
     }else{
+        loginPopShow = YES;
         pintrestMainViewController.loginState = NO;
     }
-    loginPopShow = YES;
     CGRect tempRect = [SystemInfo isPad]?CGRectMake(0, 0, 668, 40):CGRectMake(0, 0, 220, 40);
     CGFloat titleFontHeight;
     if( [UIFONT_NAME isEqualToString:@"HA-TTL"] )
