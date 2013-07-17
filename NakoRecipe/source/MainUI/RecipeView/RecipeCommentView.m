@@ -116,7 +116,17 @@
 - (void)btnSend
 {
     if( [tfComment.text length] > 0 ){
-        [[self comment_delegate] sendComment:tfComment.text];
+        [[self comment_delegate] sendComment:[NSString stringWithString:tfComment.text]];
+    }
+}
+
+- (void)sendComplete:(BOOL)state
+{
+    if( state ){
+        tfComment.text = @"";
+        [tfComment resignFirstResponder];
+    }else{
+        [tfComment resignFirstResponder];
     }
 }
 
@@ -130,6 +140,9 @@
         }
             break;
         case 1://취소
+        {
+            
+        }
             break;
         default:
             break;

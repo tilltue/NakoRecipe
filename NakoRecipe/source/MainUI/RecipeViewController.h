@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "RecipeView.h"
 #import "RecipeCommentView.h"
+#import "HttpAsyncApi.h"
 
-@interface RecipeViewController : UIViewController <UIGestureRecognizerDelegate,RecipeCommentDelegate,RecipeViewDelegate>
+@interface RecipeViewController : UIViewController <UIGestureRecognizerDelegate,RecipeCommentDelegate,RecipeViewDelegate,RequestObserver>
 {
     RecipeView *recipeView;
     RecipeCommentView *recipeCommentView;

@@ -327,7 +327,8 @@
     
     self.frame = frame;
     tvComment.frame = frame;
-    [tvComment scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([commentArr count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    if( [commentArr count] > 1)
+        [tvComment scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([commentArr count]-1) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (void)layoutSubviews
@@ -553,6 +554,16 @@
     [self setLayout];
 }
 
+- (NSString *)thumbUrlReplaceCheck:(NSString *)string
+{
+    NSRange range;
+    range = [string rangeOfString:@"small"];
+    if( range.length ){
+        return [string stringByReplacingOccurrencesOfString:@"small" withString:@"normal"];
+    }
+    return string;
+}
+
 - (void)requestFinished:(NSString *)retString
 {
     [commentArr removeAllObjects];
@@ -564,10 +575,10 @@
         tempObject.c_id = [comment objectForKey:@"id"];
         tempObject.user_name = [comment objectForKey:@"user_name"];
         tempObject.fb_id = [comment objectForKey:@"fb_id"];
-        tempObject.thumb_url = [comment objectForKey:@"thumb_url"];
+        tempObject.thumb_url = [self thumbUrlReplaceCheck:[comment objectForKey:@"thumb_url"]];
         tempObject.timestamp = [comment objectForKey:@"timestamp"];
         tempObject.comment = [NSString stringWithUTF8String:([[comment objectForKey:@"comment"] UTF8String])];
-        tempObject.post_id = [comment objectForKey:@"post_id"];        
+        tempObject.post_id = [comment objectForKey:@"post_id"];
         [commentArr addObject:tempObject];
     }
     lblComment.text = [NSString stringWithFormat:@"%d",[commentArr count]];

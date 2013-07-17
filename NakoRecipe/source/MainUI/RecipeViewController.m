@@ -54,6 +54,7 @@
         label.textAlignment = NSTextAlignmentCenter;
         label.text = @"";
         self.navigationItem.titleView = label;
+        [[HttpAsyncApi getInstanceCommentSend] attachObserver:self];
     }
     return self;
 }
@@ -85,11 +86,27 @@
 
 - (void)sendComment:(NSString *)comment
 {
-    Post *tempPost = [[CoreDataManager getInstance] getPost:currentPostId];
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-//    [dict setValue: forKey:@"user_name"];
-//    [dict setValue:tempPost.post_id forKey:@"post_id"];
-    [[HttpAsyncApi getInstanceCommentSend] sendComment:nil];
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if([appDelegate loginCheck] && appDelegate.facebookID != nil && appDelegate.facebookName != nil){
+        Post *tempPost = [[CoreDataManager getInstance] getPost:currentPostId];
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        [dict setValue:appDelegate.facebookName forKey:@"user_name"];
+        [dict setValue:appDelegate.facebookID forKey:@"fb_id"];
+        [dict setValue:comment forKey:@"comment"];
+        [dict setValue:tempPost.post_id forKey:@"post_id"];
+        [dict setValue:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal",appDelegate.facebookID] forKey:@"thumb_url"];
+        [[HttpAsyncApi getInstanceCommentSend] sendComment:dict];
+    }
+}
+
+- (void)requestFinished:(NSString *)retString
+{
+    [recipeCommentView sendComplete:YES];
+}
+
+- (void)requestFailed
+{
+    [recipeCommentView sendComplete:NO];
 }
 
 - (void)viewDidLoad

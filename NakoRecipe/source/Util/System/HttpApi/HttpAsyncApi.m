@@ -93,29 +93,38 @@
     if( requestState == E_REQUEST_STATE_PROGRESS || requestState == E_REQUEST_STATE_START ){
         NSLog(@"Connection Cancel");
         [connection cancel];
+        NSLog(@"ReStart comment");
     }else{
-        requestState = E_REQUEST_STATE_START;
-        if( responseData == nil )
-            responseData = [[NSMutableData alloc] init];
-        [responseData setLength:0];
-        NSURL * url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@/load/%@",COMMENT_URL,postID]];
-        //NSLog(@"%@",[url absoluteString]);
-        NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:REQUEST_TIMEOUT];
-        connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-        [connection start];
         NSLog(@"Start comment");
     }
+    requestState = E_REQUEST_STATE_START;
+    if( responseData == nil )
+        responseData = [[NSMutableData alloc] init];
+    [responseData setLength:0];
+    NSURL * url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@/load/%@",COMMENT_URL,postID]];
+    //NSLog(@"%@",[url absoluteString]);
+    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:REQUEST_TIMEOUT];
+    connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [connection start];
 }
 
 - (void)sendComment:(NSDictionary *)dict
 {
+    if( requestState == E_REQUEST_STATE_PROGRESS || requestState == E_REQUEST_STATE_START ){
+        NSLog(@"Connection Cancel");
+        [connection cancel];
+        NSLog(@"ReStart comment send");
+    }else{
+        NSLog(@"Start comment send");
+    }
+    requestState = E_REQUEST_STATE_START;
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	
     NSString *param = @"";
     for( NSString *key in [dict allKeys])
     {
         NSString *value = [dict objectForKey:key];
-        [param stringByAppendingFormat:@"%@=%@&",key,value];
+        param = [param stringByAppendingFormat:@"%@=%@&",key,value];
     }
 	NSData *postData = [param dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
 	NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];

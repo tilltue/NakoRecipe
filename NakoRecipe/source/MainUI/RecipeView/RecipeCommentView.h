@@ -27,4 +27,5 @@
 }
 @property (nonatomic, unsafe_unretained) id <RecipeCommentDelegate> comment_delegate;
 - (void)reset;
+- (void)sendComplete:(BOOL)state;
 @end
