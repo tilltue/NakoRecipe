@@ -120,7 +120,7 @@
             responseData = [[NSMutableData alloc] init];
         [responseData setLength:0];
         NSURL * url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@&count=%d",DATA_URL,numberPostIndex]];
-        //NSLog(@"%@",[url absoluteString]);
+        NSLog(@"%@",[url absoluteString]);
         NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:REQUEST_TIMEOUT];
         connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         [connection start];

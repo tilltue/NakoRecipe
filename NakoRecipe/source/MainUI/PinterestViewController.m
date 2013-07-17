@@ -202,7 +202,7 @@
         NSArray *postDictArr = [json objectForKey:@"posts"];
         for( NSMutableDictionary *postDict in postDictArr )
         {
-            NSString *postID = [[json objectForKey:@"id"] isKindOfClass:[NSNumber class]]?[[json objectForKey:@"id"] stringValue]:[json objectForKey:@"id"];
+            NSString *postID = [[postDict objectForKey:@"id"] isKindOfClass:[NSNumber class]]?[[postDict objectForKey:@"id"] stringValue]:[postDict objectForKey:@"id"];
             if( postID != nil ){
                 if( [[CoreDataManager getInstance] validatePostId:postID] )
                     [[CoreDataManager getInstance] savePost:postDict];
