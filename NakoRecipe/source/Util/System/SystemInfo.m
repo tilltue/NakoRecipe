@@ -38,18 +38,21 @@
     if( model != nil ){
         NSArray *modelArr = [model componentsSeparatedByString:@","];
         if( [modelArr count] == 2){
+            NSInteger subIndex = 0;
             NSString *prefixModel = [modelArr objectAtIndex:0];
             if([prefixModel rangeOfString:@"iPod"].length)
                 return NO;
-            if([prefixModel rangeOfString:@"iPhone"].length){
-                NSString *num = [prefixModel substringToIndex:[prefixModel rangeOfString:@"iPhone"].location];
+            subIndex = [prefixModel rangeOfString:@"iPhone"].length;
+            if(subIndex){
+                NSString *num = [prefixModel substringFromIndex:subIndex];
                 if( num != nil && [num intValue] > 5 )
                     return YES;
                 else
                     return NO;
             }
-            if([prefixModel rangeOfString:@"iPad"].length){
-                NSString *num = [prefixModel substringToIndex:[prefixModel rangeOfString:@"iPhone"].location];
+            subIndex = [prefixModel rangeOfString:@"iPad"].length;
+            if(subIndex){
+                NSString *num = [prefixModel substringFromIndex:subIndex];
                 if( num != nil && [num intValue] > 3 )
                     return YES;
                 else
