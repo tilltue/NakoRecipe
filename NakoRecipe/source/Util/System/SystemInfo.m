@@ -53,7 +53,7 @@
             subIndex = [prefixModel rangeOfString:@"iPad"].length;
             if(subIndex){
                 NSString *num = [prefixModel substringFromIndex:subIndex];
-                if( num != nil && [num intValue] > 2 )
+                if( num != nil && [num intValue] > 3 )
                     return YES;
                 else
                     return NO;
