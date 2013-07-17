@@ -278,7 +278,7 @@
             resizeHeight = CELL_WIDTH;
             titleHeight = CELL_WIDTH*.2;
         }
-        //[tempView addSubview:tempAsyncImageView];
+        [tempView addSubview:tempAsyncImageView];
         [tempAsyncImageView setFrame:CGRectMake(0, 0, CELL_WIDTH, resizeHeight)];
         imageBg.frame = tempAsyncImageView.frame;
         [self shapeView:imageBg];
