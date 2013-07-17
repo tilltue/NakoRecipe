@@ -161,6 +161,38 @@
         [self addSubview:tvComment];
         
         refreshComment = NO;
+        
+        UIImage *tempImage = [UIImage imageNamed:@"ic_loading.png"];
+        UIImageView *activityIndicatorView = [[UIImageView alloc] init];
+        float imageSize = [SystemInfo isPad]?35:24;
+        activityIndicatorView.frame = CGRectMake(0, 0, imageSize, imageSize);
+        activityIndicatorView.animationImages = [[NSArray alloc] initWithObjects:
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:0],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:20],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:40],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:60],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:80],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:100],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:120],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:140],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:160],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:180],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:200],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:220],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:240],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:260],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:280],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:300],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:320],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:340],
+                                                 [CommonUI imageRotatedByDegrees:tempImage deg:360],
+                                                 nil];
+        activityIndicatorView.animationDuration = 1.5;
+        [activityIndicatorView startAnimating];
+        
+        _refreshControl = [[ODRefreshControl alloc] initInScrollView:tvComment activityIndicatorView:activityIndicatorView];
+        [_refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
+        [_refreshControl setTintColor:[CommonUI getUIColorFromHexString:@"E04C30"]];
     }
     return self;
 }
@@ -170,6 +202,7 @@
     refreshComment = NO;
     [commentArr removeAllObjects];
     [[HttpAsyncApi getInstanceComment] clearObserver];
+    [_refreshControl endRefreshing];
 }
 
 - (void)makeLayout
@@ -337,6 +370,13 @@
 - (void)layoutSubviews
 {
     //NSLog(@"layoutsub");
+}
+
+- (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
+{
+    [self loadComment];
+    [self loadLike];
+    [_refreshControl beginRefreshing];
 }
 
 - (void)loadComment
@@ -580,8 +620,11 @@
     return string;
 }
 
+#pragma mark - httpAsync observer
+
 - (void)requestFinished:(NSString *)retString withInstance:(HttpAsyncApi *)instance
 {
+    [_refreshControl endRefreshing];
     switch (instance.kindOfRequest) {
         case E_REQUEST_COMMENT:
         {
@@ -639,7 +682,7 @@
 
 - (void)requestFailed:(HttpAsyncApi *)instance
 {
-    
+    [_refreshControl endRefreshing];
 }
 
 - (float)totalCommentHeight

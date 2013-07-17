@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UIImageView+AFNetworking.h"
 #import "HttpAsyncApi.h"
+#import "ODRefreshControl.h"
 
 @protocol RecipeViewDelegate <NSObject>
 - (void)keyboardHide;
@@ -59,6 +60,8 @@
     BOOL isKeyboardShow;
     float keyBoardHeight;
     BOOL refreshComment;
+    
+    ODRefreshControl *_refreshControl;
 }
 @property (nonatomic, unsafe_unretained) id <RecipeViewDelegate> recipe_delegate;
 - (void)reset;

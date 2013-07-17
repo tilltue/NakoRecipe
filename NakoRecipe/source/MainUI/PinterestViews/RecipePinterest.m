@@ -72,9 +72,9 @@
         activityIndicatorView.animationDuration = 1.5;
         [activityIndicatorView startAnimating];
                                                  
-        refreshControl = [[ODRefreshControl alloc] initInScrollView:psCollectionView activityIndicatorView:activityIndicatorView];
-        [refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
-        [refreshControl setTintColor:[CommonUI getUIColorFromHexString:@"E04C30"]];
+        _refreshControl = [[ODRefreshControl alloc] initInScrollView:psCollectionView activityIndicatorView:activityIndicatorView];
+        [_refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
+        [_refreshControl setTintColor:[CommonUI getUIColorFromHexString:@"E04C30"]];
         pintrestItems = [[NSMutableArray alloc] init];
     }
     return self;
@@ -138,12 +138,12 @@
 
 - (void)startLoading
 {
-    [refreshControl beginRefreshing];
+    [_refreshControl beginRefreshing];
 }
 
 - (void)stopLoading
 {
-    [refreshControl endRefreshing];
+    [_refreshControl endRefreshing];
 }
 
 

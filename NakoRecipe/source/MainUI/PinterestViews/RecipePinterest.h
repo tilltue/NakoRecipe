@@ -36,7 +36,7 @@
     NSMutableDictionary *rectDic;
     PSCollectionView *psCollectionView;
     NSMutableArray *pintrestItems;
-    ODRefreshControl *refreshControl;
+    ODRefreshControl *_refreshControl;
 }
 @property (nonatomic, unsafe_unretained) id <RecipePinterestDelegate> delegate;
 - (void)startLoading;
