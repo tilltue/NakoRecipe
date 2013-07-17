@@ -132,7 +132,7 @@
     NSData *bundleJSONData = [NSData dataWithContentsOfFile:filePath];
     NSError *error;
     NSDictionary* json = [NSJSONSerialization JSONObjectWithData:bundleJSONData options:0 error:&error];
-    NSString *found = [json objectForKey:@"count"];
+    NSString *found = [[json objectForKey:@"count"] isKindOfClass:[NSNumber class]]?[[json objectForKey:@"count"] stringValue]:[json objectForKey:@"count"];
     if( [found intValue] > 0 ){
         NSLog(@"count %d",[found intValue]);
         NSArray *postDictArr = [json objectForKey:@"posts"];
@@ -172,10 +172,10 @@
     tempValue = [self stringByStrippingHTML:[jsonDict objectForKey:@"content"]];
     if( tempValue != nil )
         tempPost.content = tempValue;
-    tempValue = [jsonDict objectForKey:@"like_count"];
+    tempValue = [[jsonDict objectForKey:@"like_count"] isKindOfClass:[NSNumber class]]?[[jsonDict objectForKey:@"like_count"] stringValue]:[jsonDict objectForKey:@"like_count"];
     if( tempValue != nil )
         tempPost.like_count = [NSNumber numberWithInt:[tempValue intValue]];
-    tempValue = [jsonDict objectForKey:@"comment_count"];
+    tempValue = [[jsonDict objectForKey:@"comment_count"] isKindOfClass:[NSNumber class]]?[[jsonDict objectForKey:@"comment_count"] stringValue]:[jsonDict objectForKey:@"comment_count"];
     if( tempValue != nil )
         tempPost.comment_count = [NSNumber numberWithInt:[tempValue intValue]];
     
@@ -223,10 +223,10 @@
     tempValue = [self stringByStrippingHTML:[jsonDict objectForKey:@"content"]];
     if( tempValue != nil )
         tempPost.content = tempValue;
-    tempValue = [jsonDict objectForKey:@"like_count"];
+    tempValue = [[jsonDict objectForKey:@"like_count"] isKindOfClass:[NSNumber class]]?[[jsonDict objectForKey:@"like_count"] stringValue]:[jsonDict objectForKey:@"like_count"];
     if( tempValue != nil )
         tempPost.like_count = [NSNumber numberWithInt:[tempValue intValue]];
-    tempValue = [jsonDict objectForKey:@"comment_count"];
+    tempValue = [[jsonDict objectForKey:@"comment_count"] isKindOfClass:[NSNumber class]]?[[jsonDict objectForKey:@"comment_count"] stringValue]:[jsonDict objectForKey:@"comment_count"];
     if( tempValue != nil )
         tempPost.comment_count = [NSNumber numberWithInt:[tempValue intValue]];
     
@@ -262,11 +262,11 @@
     tempValue = [jsonDict objectForKey:@"url"];
     tempAttachment.thumb_url = tempValue;
     tempValue = [jsonDict objectForKey:@"width"];
-    if( [tempValue isKindOfClass:[NSDecimalNumber class]] )
+    if( [tempValue isKindOfClass:[NSNumber class]] )
         tempValue = [NSString stringWithFormat:@"%@",[tempValue stringValue]];
     tempAttachment.width = [NSNumber numberWithInt:[tempValue intValue]];
     tempValue = [jsonDict objectForKey:@"height"];
-    if( [tempValue isKindOfClass:[NSDecimalNumber class]] )
+    if( [tempValue isKindOfClass:[NSNumber class]] )
         tempValue = [NSString stringWithFormat:@"%@",[tempValue stringValue]];
     tempAttachment.height = [NSNumber numberWithInt:[tempValue intValue]];
     
