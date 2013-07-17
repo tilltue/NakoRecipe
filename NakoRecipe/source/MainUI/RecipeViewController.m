@@ -71,7 +71,6 @@
 
 - (void)keyboardHide
 {
-    [recipeCommentView reset];
 }
 
 - (void)keyBoardAnimated:(NSNotification *)notification
