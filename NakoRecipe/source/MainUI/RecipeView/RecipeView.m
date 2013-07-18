@@ -203,6 +203,7 @@
 {
     refreshComment = NO;
     [commentArr removeAllObjects];
+    [tvComment reloadData];
     [[HttpAsyncApi getInstanceComment] clearObserver];
     [_refreshControl endRefreshing];
 }
@@ -710,7 +711,11 @@
 
 - (float)getCommentHeight:(NSInteger)index
 {
-    CommentObject *tempObject = [commentArr objectAtIndex:index];
+    CommentObject *tempObject = nil;
+    if( index < [commentArr count] )
+        tempObject = [commentArr objectAtIndex:index];
+    else
+        return 0;
     NSString *tempComment = tempObject.comment;
     CGSize textSize = [tempComment sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake([SystemInfo isPad]?680:245, 10000) lineBreakMode:NSLineBreakByCharWrapping];
     return textSize.height;
@@ -781,8 +786,9 @@
         timestampLabel = (UILabel *)[cell viewWithTag:3];
         commentLabel = (UILabel *)[cell viewWithTag:4];
     }
-    
-    CommentObject *tempObject = [commentArr objectAtIndex:indexPath.row];
+    CommentObject *tempObject = nil;
+    if( indexPath.row < [commentArr count] )
+        tempObject = [commentArr objectAtIndex:indexPath.row];
 
     tempRect.origin.x = 50;
     tempRect.origin.y = 10;
