@@ -17,6 +17,7 @@
 
 @implementation RecipeViewController
 @synthesize currentPostId;
+@synthesize likeVCShow = _likeVCShow;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -58,6 +59,8 @@
         self.navigationItem.titleView = label;
         [[HttpAsyncApi getInstanceCommentSend] attachObserver:self];
         [[HttpAsyncApi getInstanceLikeSend] attachObserver:self];
+        
+        likeListViewController = [[LikeListViewController alloc] init];
     }
     return self;
 }
@@ -119,6 +122,20 @@
     [recipeCommentView likeUpdate:state];
 }
 
+- (void)showLikeList:(NSArray *)likeList
+{
+    _likeVCShow = YES;
+    if( [SystemInfo isPad] ){
+        likeListViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    }else{
+        likeListViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    }
+    [likeListViewController.likeArr removeAllObjects];
+    [likeListViewController.likeArr addObjectsFromArray:likeList];
+    [self.navigationController pushViewController:likeListViewController animated:YES];
+
+}
+
 - (void)requestFinished:(NSString *)retString withInstance:(HttpAsyncApi *)instance
 {
     switch (instance.kindOfRequest) {
@@ -163,12 +180,15 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [CommonUI getUIColorFromHexString:@"#E4E3DC"];
+    _likeVCShow = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    Post *tempPost = [[CoreDataManager getInstance] getPost:currentPostId];
-    [[LocalyticsSession shared] tagEvent:[NSString stringWithFormat:@"Recipe:%@",tempPost.title]];
+    if( !_likeVCShow ){
+        Post *tempPost = [[CoreDataManager getInstance] getPost:currentPostId];
+        [[LocalyticsSession shared] tagEvent:[NSString stringWithFormat:@"Recipe:%@",tempPost.title]];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -177,12 +197,15 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [recipeView reset];
-    [recipeCommentView reset];    
+    if( !_likeVCShow ){
+        [recipeView reset];
+        [recipeCommentView reset];
+    }
 }
 
 - (void)prepareWillAppear
 {
+    _likeVCShow = NO;
     if( currentPostId != nil ){
         [recipeView reloadRecipeView:currentPostId];
         Post *tempPost = [[CoreDataManager getInstance] getPost:currentPostId];

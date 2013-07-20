@@ -147,11 +147,19 @@
         recipeContent.font = [UIFont fontWithName:UIFONT_NAME size:14];
         [recipeInfo addSubview:recipeContent];
  
+        btnLikeList = [[UIButton alloc] init];
+        btnLikeList.layer.borderColor = [CommonUI getUIColorFromHexString:@"E4E3DC"].CGColor;
+        btnLikeList.layer.borderWidth = 1;
+        btnLikeList.backgroundColor = [UIColor clearColor];
+        [btnLikeList addTarget:self action:@selector(btnLikeList) forControlEvents:UIControlEventTouchUpInside];
+        [tvHeaderView addSubview:btnLikeList];
+        
         imageArr = [[NSMutableArray alloc] init];
         currentPostId = nil;
         isKeyboardShow = NO;
         
         commentArr = [[NSMutableArray alloc] init];
+        likeArr = [[NSMutableArray alloc] init];
         
         CGRect frame = self.frame;
         tvComment = [[UITableView alloc] init];
@@ -203,6 +211,8 @@
 {
     refreshComment = NO;
     [commentArr removeAllObjects];
+    [likeArr removeAllObjects];
+    [self btnLikeSubViewClear];
     [tvComment reloadData];
     [[HttpAsyncApi getInstanceComment] clearObserver];
     [_refreshControl endRefreshing];
@@ -340,7 +350,10 @@
     tempRect.size.height += recipeContent.contentSize.height-45;
     recipeInfo.frame = tempRect;
     
-    tempRect.size.height += 40;
+    btnLikeList.frame = CGRectZero;
+    
+    tempRect.size.height = recipeInfo.frame.size.height;
+    tempRect.size.height += 30;
     tempRect.size.width = self.frame.size.width;
     tempRect.origin = CGPointZero;
     tvHeaderView.frame = tempRect;
@@ -398,6 +411,12 @@
     [[HttpAsyncApi getInstanceLike] requestLike:currentPostId];
 }
 
+- (void)btnLikeSubViewClear
+{
+    for( UIView *subview in btnLikeList.subviews )
+        [subview removeFromSuperview];
+}
+
 - (void)handleHeartButtonTap:(UIButton *)paramSender
 {
     NSLog(@"Heart Button :%d",paramSender.tag);
@@ -406,6 +425,12 @@
 - (void)handleCommentButtonTap:(UIButton *)paramSender
 {
     NSLog(@"Comment Button :%d",paramSender.tag);
+}
+
+- (void)btnLikeList
+{
+    if( [likeArr count] > 0 )
+        [[self recipe_delegate] showLikeList:likeArr];
 }
 
 - (void)handleYoutubeButtonTap:(UIButton *)paramSender
@@ -625,6 +650,61 @@
     return string;
 }
 
+- (void)makeLikeBtn
+{
+    CGRect tempRect;
+    tempRect.origin.x = 0;
+    tempRect.origin.y = recipeInfo.frame.origin.y + recipeInfo.frame.size.height + 20;
+    tempRect.size.height = 50;
+    tempRect.size.width = self.frame.size.width;
+    btnLikeList.frame = tempRect;
+    
+    tempRect.size.height = recipeInfo.frame.size.height;
+    tempRect.size.height += 70;
+    tempRect.size.width = self.frame.size.width;
+    tempRect.origin = CGPointZero;
+    tvHeaderView.frame = tempRect;
+    tvFooterView.frame = CGRectZero;
+    tvComment.tableHeaderView = tvHeaderView;
+    tvComment.tableFooterView = tvFooterView;
+
+    tempRect = CGRectZero;
+    tempRect.origin.x = 5;
+    tempRect.origin.y = 5;
+    tempRect.size.width = 40;
+    tempRect.size.height = 40;
+    
+    UIImageView *tempImageView;
+    tempImageView = [[UIImageView alloc] init];;
+    tempImageView.layer.cornerRadius = 5;
+    tempImageView.layer.masksToBounds = YES;
+    [tempImageView setImage:[UIImage imageNamed:@"ic_like_circle"]];
+    [tempImageView setFrame:tempRect];
+    [btnLikeList addSubview:tempImageView];
+    
+    for( NSString *facebookId in likeArr )
+    {
+        if( tempRect.origin.x + (tempRect.size.width+5)*3 > self.frame.size.width )
+            break;
+        tempRect.origin.x += tempRect.size.width+5;
+        tempImageView = [[UIImageView alloc] init];;
+        tempImageView.layer.cornerRadius = 5;
+        tempImageView.layer.masksToBounds = YES;
+        [tempImageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal",facebookId]]];
+        [tempImageView setFrame:tempRect];
+        [btnLikeList addSubview:tempImageView];
+    }
+    tempRect.origin.x += tempRect.size.width+5;
+    UILabel *tempLabel = [[UILabel alloc] initWithFrame:tempRect];
+    tempLabel.layer.cornerRadius = 5;
+    tempLabel.backgroundColor = [CommonUI getUIColorFromHexString:@"E04C30"];
+    tempLabel.textColor = [UIColor whiteColor];
+    tempLabel.text = [NSString stringWithFormat:@"+%d",[likeArr count]];
+    tempLabel.textAlignment = NSTextAlignmentCenter;
+    tempLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
+    [btnLikeList addSubview:tempLabel];
+}
+
 #pragma mark - httpAsync observer
 
 - (void)requestFinished:(NSString *)retString withInstance:(HttpAsyncApi *)instance
@@ -666,26 +746,33 @@
             break;
         case E_REQUEST_LIKE:
         {
+            [likeArr removeAllObjects];
             NSInteger likeCount = 0;
             NSError *error;
             NSDictionary* json = [NSJSONSerialization JSONObjectWithData:[retString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
             if( [json isKindOfClass:[NSArray class]] )
                 likeCount = [json count];
             lblLike.text = [NSString stringWithFormat:@"%d",likeCount];
+            BOOL userLikeUpdate = NO;
             AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            if( [appDelegate loginCheck] ){
-                for( NSDictionary *like in json )
-                {
-                    NSString *tempFacebookId = [[like objectForKey:@"fb_id"] isKindOfClass:[NSNumber class]]?[[like objectForKey:@"fb_id"] stringValue]:[like objectForKey:@"fb_id"];
-                    NSString *tempPostId = [[like objectForKey:@"post_id"] isKindOfClass:[NSNumber class]]?[[like objectForKey:@"post_id"] stringValue]:[like objectForKey:@"post_id"];
-                    if( [tempFacebookId isEqualToString:appDelegate.facebookID] && [tempPostId isEqualToString:currentPostId] ){
-                        [[self recipe_delegate] likeUpdate:YES];
-                        break;
-                    }
+            for( NSDictionary *like in json )
+            {
+                NSString *tempFacebookId = [[like objectForKey:@"fb_id"] isKindOfClass:[NSNumber class]]?[[like objectForKey:@"fb_id"] stringValue]:[like objectForKey:@"fb_id"];
+                NSLog(@"%@",tempFacebookId);
+                NSString *tempPostId = [[like objectForKey:@"post_id"] isKindOfClass:[NSNumber class]]?[[like objectForKey:@"post_id"] stringValue]:[like objectForKey:@"post_id"];
+                if( [tempFacebookId isEqualToString:appDelegate.facebookID] && [tempPostId isEqualToString:currentPostId] ){
+                    userLikeUpdate = YES;
                 }
+                if( [tempPostId isEqualToString:currentPostId])
+                    [likeArr addObject:tempFacebookId];
+            }
+            if( [appDelegate loginCheck] && userLikeUpdate ){
+                [[self recipe_delegate] likeUpdate:YES];
             }else{
                 [[self recipe_delegate] likeUpdate:NO];
             }
+            if( [likeArr count] > 0 )
+                [self makeLikeBtn];
         }
             break;
         default:

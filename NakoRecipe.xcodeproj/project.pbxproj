@@ -50,6 +50,8 @@
 		A33DD4CD175C5930009A3EA2 /* icon144.png in Resources */ = {isa = PBXBuildFile; fileRef = A33DD4CB175C57AD009A3EA2 /* icon144.png */; };
 		A33DD4CF175C5984009A3EA2 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A33DD4CE175C5984009A3EA2 /* icon.png */; };
 		A33DD4D1175C5994009A3EA2 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A33DD4D0175C5994009A3EA2 /* icon@2x.png */; };
+		A39275EF179A89DE00FC8AB1 /* LikeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A39275ED179A89DE00FC8AB1 /* LikeListViewController.m */; };
+		A39275F2179A92F800FC8AB1 /* ic_like_circle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A39275F1179A92F800FC8AB1 /* ic_like_circle@2x.png */; };
 		A3CE345217701F600032660F /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE344017701F600032660F /* AFHTTPClient.m */; };
 		A3CE345317701F600032660F /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE344217701F600032660F /* AFHTTPRequestOperation.m */; };
 		A3CE345417701F600032660F /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE344417701F600032660F /* AFImageRequestOperation.m */; };
@@ -167,6 +169,9 @@
 		A33DD4CB175C57AD009A3EA2 /* icon144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon144.png; path = ../icon144.png; sourceTree = "<group>"; };
 		A33DD4CE175C5984009A3EA2 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../icon.png; sourceTree = "<group>"; };
 		A33DD4D0175C5994009A3EA2 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "../icon@2x.png"; sourceTree = "<group>"; };
+		A39275EC179A89DE00FC8AB1 /* LikeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LikeListViewController.h; path = source/MainUI/LikeListViews/LikeListViewController.h; sourceTree = "<group>"; };
+		A39275ED179A89DE00FC8AB1 /* LikeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LikeListViewController.m; path = source/MainUI/LikeListViews/LikeListViewController.m; sourceTree = "<group>"; };
+		A39275F1179A92F800FC8AB1 /* ic_like_circle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_like_circle@2x.png"; path = "resource/ic_like_circle@2x.png"; sourceTree = "<group>"; };
 		A3CE343F17701F600032660F /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPClient.h; path = source/Util/ExternSource/AFNetworking/AFHTTPClient.h; sourceTree = "<group>"; };
 		A3CE344017701F600032660F /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFHTTPClient.m; path = source/Util/ExternSource/AFNetworking/AFHTTPClient.m; sourceTree = "<group>"; };
 		A3CE344117701F600032660F /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPRequestOperation.h; path = source/Util/ExternSource/AFNetworking/AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -302,6 +307,7 @@
 		226072BC1744A23A00CF3EAA /* Resouce */ = {
 			isa = PBXGroup;
 			children = (
+				A39275F1179A92F800FC8AB1 /* ic_like_circle@2x.png */,
 				A30844FE1792DD0A002524E1 /* ic_blank_profile@2x.png */,
 				A30844FF1792DD0A002524E1 /* ic_overflow.png */,
 				A30844FC1792DC6C002524E1 /* ic_facebook.png */,
@@ -380,6 +386,15 @@
 				22D4B474174DF5BD00F91441 /* DefaultJSON.htm */,
 			);
 			name = DefaultJSON;
+			sourceTree = "<group>";
+		};
+		A39275EB179A89B600FC8AB1 /* LikeListViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A39275EC179A89DE00FC8AB1 /* LikeListViewController.h */,
+				A39275ED179A89DE00FC8AB1 /* LikeListViewController.m */,
+			);
+			name = LikeListViewController;
 			sourceTree = "<group>";
 		};
 		A3CE343E17701D8A0032660F /* AFNetworking */ = {
@@ -606,6 +621,7 @@
 		A3FB734B1743E18900413AE8 /* MainUI */ = {
 			isa = PBXGroup;
 			children = (
+				A39275EB179A89B600FC8AB1 /* LikeListViewController */,
 				2249DFEE1794DE58007D951B /* CustomAlert */,
 				A3D0D563174903B6006C0AA9 /* RecipeViewController */,
 				A3D0D562174903A7006C0AA9 /* PintrestViewController */,
@@ -769,6 +785,7 @@
 				A30845001792DD0A002524E1 /* ic_blank_profile@2x.png in Resources */,
 				A30845011792DD0A002524E1 /* ic_overflow.png in Resources */,
 				A3F63CDF17945AFF00D42883 /* LICENSE in Resources */,
+				A39275F2179A92F800FC8AB1 /* ic_like_circle@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -837,6 +854,7 @@
 				A3DEA0F4178D3D8D0041E259 /* ODRefreshControl.m in Sources */,
 				A3F63CC917941B9500D42883 /* TTTTimeIntervalFormatter.m in Sources */,
 				2249DFF11794DE88007D951B /* CustomAlert.m in Sources */,
+				A39275EF179A89DE00FC8AB1 /* LikeListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -890,8 +908,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -925,8 +943,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;

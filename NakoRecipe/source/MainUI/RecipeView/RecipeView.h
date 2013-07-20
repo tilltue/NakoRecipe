@@ -14,6 +14,7 @@
 @protocol RecipeViewDelegate <NSObject>
 - (void)keyboardHide;
 - (void)likeUpdate:(BOOL)state;
+- (void)showLikeList:(NSArray *)likeList;
 @end
 
 @interface RecipeView : UIView <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,RequestObserver>
@@ -55,6 +56,9 @@
     UIImageView *ivRecipe;
     UILabel     *lblRecipe;
     UITextView  *recipeContent;
+    
+    UIButton *btnLikeList;
+    NSMutableArray *likeArr;
     
     UITableView *tvComment;
     NSMutableArray *commentArr;

@@ -10,12 +10,15 @@
 #import "RecipeView.h"
 #import "RecipeCommentView.h"
 #import "HttpAsyncApi.h"
+#import "LikeListViewController.h"
 
 @interface RecipeViewController : UIViewController <UIGestureRecognizerDelegate,RecipeCommentDelegate,RecipeViewDelegate,RequestObserver>
 {
     RecipeView *recipeView;
     RecipeCommentView *recipeCommentView;
+    LikeListViewController *likeListViewController;
 }
 @property (nonatomic, strong) NSString *currentPostId;
+@property BOOL likeVCShow;
 - (void)prepareWillAppear;
 @end

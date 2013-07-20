@@ -13,7 +13,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "243"
          endingLineNumber = "243"
-         landmarkName = "-collectionView:cellForRowAtIndex:"
+         landmarkName = "-shapeView:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -65,7 +65,20 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "138"
          endingLineNumber = "138"
-         landmarkName = "-btnFacebook"
+         landmarkName = "@implementation PinterestViewController"
+         landmarkType = "3">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "NakoRecipe/source/MainUI/RecipeView/RecipeView.m"
+         timestampString = "396008454.581709"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "201"
+         endingLineNumber = "201"
+         landmarkName = "-initWithFrame:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -73,11 +86,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "NakoRecipe/source/MainUI/RecipeView/RecipeView.m"
-         timestampString = "395597490.026766"
+         timestampString = "396008454.581709"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "193"
-         endingLineNumber = "193"
+         startingLineNumber = "333"
+         endingLineNumber = "333"
          landmarkName = "-setLayout"
          landmarkType = "5">
       </FileBreakpoint>
@@ -86,12 +99,38 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "NakoRecipe/source/MainUI/RecipeView/RecipeView.m"
-         timestampString = "395597573.383474"
+         timestampString = "396008454.581709"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "322"
-         endingLineNumber = "322"
-         landmarkName = "-keyBoardAnimated:"
+         startingLineNumber = "749"
+         endingLineNumber = "749"
+         landmarkName = "-requestFinished:withInstance:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "NakoRecipe/source/MainUI/RecipeView/RecipeView.m"
+         timestampString = "396008454.581709"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "682"
+         endingLineNumber = "682"
+         landmarkName = "-makeLikeBtn"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "NakoRecipe/source/MainUI/RecipeView/RecipeView.m"
+         timestampString = "396009957.805809"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "760"
+         endingLineNumber = "760"
+         landmarkName = "-requestFinished:withInstance:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
