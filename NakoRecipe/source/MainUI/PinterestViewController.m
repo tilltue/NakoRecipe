@@ -39,7 +39,7 @@
     _activityIndicatorView.hidesWhenStopped = YES;
 
     recipePinterest = [[RecipePinterest alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
-    recipePinterest.delegate = self;
+    recipePinterest.recipe_delegate = self;
     [self.view addSubview:recipePinterest];
     [[HttpAsyncApi getInstance] attachObserver:self];
     

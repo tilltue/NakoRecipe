@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PSCollectionView.h"
+#import "GMGridView.h"
 #import "ODRefreshControl.h"
 
 @interface AttatchItem : NSObject
@@ -31,14 +31,14 @@
 - (void)update;
 @end
 
-@interface RecipePinterest : UIView <PSCollectionViewDataSource,PSCollectionViewDelegate>
+@interface RecipePinterest : UIView <GMGridViewActionDelegate,GMGridViewDataSource>
 {
     NSMutableDictionary *rectDic;
-    PSCollectionView *psCollectionView;
+    GMGridView *_gridView;
     NSMutableArray *pintrestItems;
     ODRefreshControl *_refreshControl;
 }
-@property (nonatomic, unsafe_unretained) id <RecipePinterestDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id <RecipePinterestDelegate> recipe_delegate;
 - (void)startLoading;
 - (void)stopLoading;
 - (NSInteger)getItemCount;

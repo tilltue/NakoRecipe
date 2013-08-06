@@ -20,7 +20,7 @@
 @end
 
 @implementation RecipePinterest
-@synthesize delegate;
+@synthesize recipe_delegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -30,19 +30,12 @@
         rectDic = [[NSMutableDictionary alloc] init];
         [self makeLayout];
         
-        psCollectionView = [[PSCollectionView alloc] initWithFrame:frame];
-        psCollectionView.backgroundColor = [UIColor clearColor];
-        psCollectionView.autoresizingMask = ~UIViewAutoresizingNone;
-        psCollectionView.collectionViewDataSource = self;
-        psCollectionView.collectionViewDelegate = self;
-        if( [SystemInfo isPad] ){
-            psCollectionView.numColsPortrait = 3;
-            psCollectionView.numColsLandscape = 3;
-        }else{
-            psCollectionView.numColsPortrait = 2;
-            psCollectionView.numColsLandscape = 2;
-        }
-        [self  addSubview:psCollectionView];
+        _gridView = [[GMGridView alloc] initWithFrame:frame];
+        _gridView.backgroundColor = [UIColor clearColor];
+        _gridView.autoresizingMask = ~UIViewAutoresizingNone;
+        _gridView.dataSource = self;
+        _gridView.actionDelegate = self;
+        [self  addSubview:_gridView];
         
         UIImage *tempImage = [UIImage imageNamed:@"ic_loading.png"];
         UIImageView *activityIndicatorView = [[UIImageView alloc] init];
@@ -72,7 +65,7 @@
         activityIndicatorView.animationDuration = 1.5;
         [activityIndicatorView startAnimating];
                                                  
-        _refreshControl = [[ODRefreshControl alloc] initInScrollView:psCollectionView activityIndicatorView:activityIndicatorView];
+        _refreshControl = [[ODRefreshControl alloc] initInScrollView:_gridView activityIndicatorView:activityIndicatorView];
         [_refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
         [_refreshControl setTintColor:[CommonUI getUIColorFromHexString:@"E04C30"]];
         pintrestItems = [[NSMutableArray alloc] init];
@@ -133,12 +126,12 @@
             [pintrestItems addObject:newPintrestItem];
         }
     }
-    [psCollectionView reloadData];
+    [_gridView reloadData];
 }
 
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
 {
-    [[self delegate] update];
+    [[self recipe_delegate] update];
 }
 
 - (void)startLoading
@@ -160,12 +153,6 @@
     return nil;
 }
 
-- (NSArray *)getShowIndex
-{
-    NSArray *visibles = [psCollectionView getVisibleIndex];
-    return visibles;
-}
-
 #pragma mark - handle Button
 
 - (void)handleHeartButtonTap:(UIButton *)paramSender
@@ -178,18 +165,17 @@
     NSLog(@"Comment Button :%d",paramSender.tag);
 }
 
-- (Class)collectionView:(PSCollectionView *)collectionView cellClassForRowAtIndex:(NSInteger)index {
-    return [PSCollectionViewCell class];
-}
+#pragma mark - grid delegate
 
-- (NSInteger)numberOfRowsInCollectionView:(PSCollectionView *)collectionView {
+- (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
+{
     return [pintrestItems count];
 }
 
-- (void)collectionView:(PSCollectionView *)collectionView didSelectCell:(PSCollectionViewCell *)cell atIndex:(NSInteger)index
+- (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position
 {
-    PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
-    [[self delegate] selectRecipe:pintrestItem.postId];
+    PintrestItem *pintrestItem = [pintrestItems objectAtIndex:position];
+    [[self recipe_delegate] selectRecipe:pintrestItem.postId];
 }
 
 - (NSMutableAttributedString *)makeAttrString:(NSString *)text withTitleHeight:(CGSize)titleLabelSize
@@ -244,24 +230,40 @@
     view.layer.mask = shapeLayer;
 }
 
-- (UIView *)collectionView:(PSCollectionView *)collectionView cellForRowAtIndex:(NSInteger)index
+- (CGSize)GMGridView:(GMGridView *)gridView sizeForItemsInInterfaceOrientation:(UIInterfaceOrientation)orientation
 {
-//    NSLog(@"show : %d",index);
-    CGFloat CELL_WIDTH                  = [[rectDic objectForKey:@"CELL_WIDTH"] floatValue];
+    if([SystemInfo isPad])
+        return CGSizeMake(300, 200);
+    else
+        return CGSizeMake(150, 200);
+}
+
+- (GMGridViewCell *)GMGridView:(GMGridView *)gridView cellForItemAtIndex:(NSInteger)index
+{
+    GMGridViewCell *cell = [gridView dequeueReusableCell];
+    CGSize size = [self GMGridView:gridView sizeForItemsInInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    size.height -= 65;
+    if (!cell)
+    {
+        cell = [[GMGridViewCell alloc] init];
+        
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+        view.layer.masksToBounds = NO;
+//        view.layer.cornerRadius = 8;
+        
+        cell.contentView = view;
+    }
+    
+    [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
     CGFloat USER_THUMB_ICONWIDTH        = [[rectDic objectForKey:@"USER_THUMB_ICONWIDTH"] floatValue];
     
     CGFloat thumbMargin = 6;
     UIView *tempView = [[UIView alloc] init];
     tempView.backgroundColor = [UIColor clearColor];
-    if( [SystemInfo shadowOptionModel]){
-        tempView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
-        tempView.layer.shadowRadius = 2;
-        tempView.layer.shadowOpacity = 0.2;
-    }
     
     UIView *bgView = [[UIView alloc] init];
     bgView.backgroundColor = [CommonUI getUIColorFromHexString:@"F4F3F4"];
-    bgView.layer.cornerRadius = 5;
     [tempView addSubview:bgView];
     
     UILabel *imageBg = [[UILabel alloc] init];
@@ -270,26 +272,27 @@
     imageBg.textColor = [UIColor grayColor];
     [tempView addSubview:imageBg];
     
-    CGFloat resizeHeight = 0;
-    CGFloat titleHeight = 0;
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
     if( [pintrestItem.attachItems count] > 0){
         AttatchItem *tempAttatchItem = [self getThumbNailItem:pintrestItem];
         UIImageView *tempAsyncImageView = [[UIImageView alloc] init];
         tempAsyncImageView.backgroundColor = [UIColor clearColor];
-        [tempAsyncImageView setImageWithURL:[NSURL URLWithString:tempAttatchItem.image_url]];
-        if( tempAttatchItem != nil ){
-            resizeHeight = (CELL_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
-            titleHeight = resizeHeight>CELL_WIDTH?resizeHeight*.2:CELL_WIDTH*.2;
-        }else{
-            resizeHeight = CELL_WIDTH;
-            titleHeight = CELL_WIDTH*.2;
-        }
+        [tempAsyncImageView setImageWithURL:[NSURL URLWithString:tempAttatchItem.image_url] placeholderImage:nil];
+/*
+        [tempAsyncImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:tempAttatchItem.image_url]]
+                                  placeholderImage:nil
+                                           success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                               tempAsyncImageView.image = image;
+                                           }
+                                           failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                               ;
+                                           }];
+ */
         [tempView addSubview:tempAsyncImageView];
-        [tempAsyncImageView setFrame:CGRectMake(0, 0, CELL_WIDTH, resizeHeight)];
+        [tempAsyncImageView setFrame:CGRectMake(0, 0, size.width, size.height)];
         imageBg.frame = tempAsyncImageView.frame;
-        [self shapeView:imageBg];
-        [self shapeView:tempAsyncImageView];
+//        [self shapeView:imageBg];
+//        [self shapeView:tempAsyncImageView];
     }else{
         UILabel *noImageLabel = [[UILabel alloc] init];
         noImageLabel.textColor = [CommonUI getUIColorFromHexString:@"#657383"];
@@ -297,23 +300,21 @@
         noImageLabel.textAlignment = NSTextAlignmentCenter;
         noImageLabel.text = @"No Image";
         noImageLabel.font = [UIFont fontWithName:UIFONT_NAME size:20];
-        [noImageLabel setFrame:CGRectMake(0, 0, CELL_WIDTH, CELL_WIDTH)];
+        [noImageLabel setFrame:CGRectMake(0, 0, size.width,size.height)];
         [tempView addSubview:noImageLabel];
-        [self shapeView:noImageLabel];
+//        [self shapeView:noImageLabel];
         imageBg.frame = noImageLabel.frame;
-        resizeHeight = CELL_WIDTH;
-        titleHeight = CELL_WIDTH*.2;
     }
     
     float fontSize = [SystemInfo isPad]?23:13;
     UILabel *tempLabel = [[UILabel alloc] init];
     tempLabel.backgroundColor = [UIColor clearColor];
-    tempLabel.attributedText = [self makeAttrString:pintrestItem.title withTitleHeight:CGSizeMake(CELL_WIDTH-10, fontSize)];
-    [tempLabel setFrame:CGRectMake(10, resizeHeight, CELL_WIDTH-20, [tempLabel.attributedText size].height+5)];
+    tempLabel.attributedText = [self makeAttrString:pintrestItem.title withTitleHeight:CGSizeMake(size.width-10, fontSize)];
+    [tempLabel setFrame:CGRectMake(10, size.height, size.width-20, [tempLabel.attributedText size].height+5)];
     [tempView addSubview:tempLabel];
-    [bgView setFrame:CGRectMake(0, 0, CELL_WIDTH, resizeHeight+tempLabel.frame.size.height)];
+    [bgView setFrame:CGRectMake(0, 0, size.width, size.height+tempLabel.frame.size.height)];
     
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, resizeHeight + tempLabel.frame.size.height, CELL_WIDTH, 1)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, size.height + tempLabel.frame.size.height, size.width, 1)];
     lineView.backgroundColor = [CommonUI getUIColorFromHexString:@"#E4E3DC"];
     [tempView addSubview:lineView];
     
@@ -322,11 +323,10 @@
     UIImageView *tempAsyncImageView = [[UIImageView alloc] init];
     tempAsyncImageView.contentMode = UIViewContentModeScaleAspectFill;
     tempAsyncImageView.clipsToBounds = YES;
-    tempAsyncImageView.layer.cornerRadius = 5;
     [tempAsyncImageView setImageWithURL:[NSURL URLWithString:pintrestItem.creatorThumb] placeholderImage:[UIImage imageNamed:@"ic_blank_profile"]];
-    [tempAsyncImageView setFrame:CGRectMake(thumbMargin, resizeHeight+tempLabel.frame.size.height+thumbMargin, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
+    [tempAsyncImageView setFrame:CGRectMake(thumbMargin, size.height+tempLabel.frame.size.height+thumbMargin, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
     [tempView addSubview:tempAsyncImageView];
-    [bgView setFrame:CGRectMake(0, 0, CELL_WIDTH, bgView.frame.size.height + 1 + USER_THUMB_ICONWIDTH + thumbMargin*2)];
+    [bgView setFrame:CGRectMake(0, 0, size.width, bgView.frame.size.height + 1 + USER_THUMB_ICONWIDTH + thumbMargin*2)];
 
     float subFontSize = [SystemInfo isPad]?15:10;
     tempLabel = [[UILabel alloc] init];
@@ -335,11 +335,11 @@
     if( [infoTextArr count] > 1 )
         tempLabel.text = [NSString stringWithFormat:@"%@ 방영",[infoTextArr objectAtIndex:1]];
     tempLabel.font = [UIFont systemFontOfSize:subFontSize];
-    [tempLabel setFrame:CGRectMake(thumbMargin*2 + USER_THUMB_ICONWIDTH, bgView.frame.size.height - 20, CELL_WIDTH-thumbMargin*2, subFontSize)];
+    [tempLabel setFrame:CGRectMake(thumbMargin*2 + USER_THUMB_ICONWIDTH, bgView.frame.size.height - 20, size.width-thumbMargin*2, subFontSize)];
     [tempView addSubview:tempLabel];
 
     if( [infoTextArr count] > 3 ){
-        CGSize infoTextSize = CGSizeMake(CELL_WIDTH-thumbMargin*3-USER_THUMB_ICONWIDTH, subFontSize);
+        CGSize infoTextSize = CGSizeMake(size.width-thumbMargin*3-USER_THUMB_ICONWIDTH, subFontSize);
         tempLabel = [[UILabel alloc] init];
         tempLabel.attributedText = [self makeAttrString:infoTextArr withInfoHeight:infoTextSize];
         tempLabel.backgroundColor = [UIColor clearColor];
@@ -347,31 +347,8 @@
         [tempView addSubview:tempLabel];
     }
 //    NSLog(@"%@",pintrestItem.tags);
-    
-    return tempView;
+    [cell addSubview:tempView];
+    return cell;
 }
 
-- (CGFloat)collectionView:(PSCollectionView *)collectionView heightForRowAtIndex:(NSInteger)index
-{
-    CGFloat CELL_WIDTH                  = [[rectDic objectForKey:@"CELL_WIDTH"] floatValue];
-    CGFloat DETAIL_INFO_HEIGHT          = [SystemInfo isPad]?50:40;
-    
-    CGFloat resizeHeight = 0;
-    CGFloat titleHeight = 0;
-    PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
-    if( [pintrestItem.attachItems count] > 0 ){
-        AttatchItem *tempAttatchItem = [self getThumbNailItem:pintrestItem];
-        if( tempAttatchItem != nil ){
-            resizeHeight = (CELL_WIDTH / (float)tempAttatchItem.width ) * (float)tempAttatchItem.height;
-            titleHeight = resizeHeight>CELL_WIDTH?resizeHeight*.2:CELL_WIDTH*.2;
-        }else{
-            resizeHeight = CELL_WIDTH;
-            titleHeight = CELL_WIDTH*.2;
-        }
-    }else{
-        resizeHeight = CELL_WIDTH;
-        titleHeight = CELL_WIDTH*.2;
-    }
-    return resizeHeight+titleHeight+DETAIL_INFO_HEIGHT;
-}
 @end
