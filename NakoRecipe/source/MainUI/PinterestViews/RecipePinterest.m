@@ -249,7 +249,7 @@
         
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
         view.layer.masksToBounds = NO;
-//        view.layer.cornerRadius = 8;
+        view.layer.cornerRadius = 8;
         
         cell.contentView = view;
     }
@@ -261,9 +261,15 @@
     CGFloat thumbMargin = 6;
     UIView *tempView = [[UIView alloc] init];
     tempView.backgroundColor = [UIColor clearColor];
+    if( [SystemInfo shadowOptionModel]){
+        tempView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
+        tempView.layer.shadowRadius = 2;
+        tempView.layer.shadowOpacity = 0.2;
+    }
     
     UIView *bgView = [[UIView alloc] init];
     bgView.backgroundColor = [CommonUI getUIColorFromHexString:@"F4F3F4"];
+    bgView.layer.cornerRadius = 5;
     [tempView addSubview:bgView];
     
     UILabel *imageBg = [[UILabel alloc] init];
@@ -291,8 +297,8 @@
         [tempView addSubview:tempAsyncImageView];
         [tempAsyncImageView setFrame:CGRectMake(0, 0, size.width, size.height)];
         imageBg.frame = tempAsyncImageView.frame;
-//        [self shapeView:imageBg];
-//        [self shapeView:tempAsyncImageView];
+        [self shapeView:imageBg];
+        [self shapeView:tempAsyncImageView];
     }else{
         UILabel *noImageLabel = [[UILabel alloc] init];
         noImageLabel.textColor = [CommonUI getUIColorFromHexString:@"#657383"];
@@ -302,7 +308,7 @@
         noImageLabel.font = [UIFont fontWithName:UIFONT_NAME size:20];
         [noImageLabel setFrame:CGRectMake(0, 0, size.width,size.height)];
         [tempView addSubview:noImageLabel];
-//        [self shapeView:noImageLabel];
+        [self shapeView:noImageLabel];
         imageBg.frame = noImageLabel.frame;
     }
     
@@ -323,6 +329,7 @@
     UIImageView *tempAsyncImageView = [[UIImageView alloc] init];
     tempAsyncImageView.contentMode = UIViewContentModeScaleAspectFill;
     tempAsyncImageView.clipsToBounds = YES;
+    tempAsyncImageView.layer.cornerRadius = 5;
     [tempAsyncImageView setImageWithURL:[NSURL URLWithString:pintrestItem.creatorThumb] placeholderImage:[UIImage imageNamed:@"ic_blank_profile"]];
     [tempAsyncImageView setFrame:CGRectMake(thumbMargin, size.height+tempLabel.frame.size.height+thumbMargin, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
     [tempView addSubview:tempAsyncImageView];
