@@ -9,6 +9,7 @@
 #import "RecipePinterest.h"
 #import "CoreDataManager.h"
 #import "UIImageView+AFNetworking.h"
+#import "FileControl.h"
 #import <QuartzCore/QuartzCore.h>
 
 @implementation AttatchItem
@@ -29,14 +30,18 @@
         // Initialization code
         rectDic = [[NSMutableDictionary alloc] init];
         [self makeLayout];
-        
         _gridView = [[GMGridView alloc] initWithFrame:frame];
         _gridView.backgroundColor = [UIColor clearColor];
         _gridView.autoresizingMask = ~UIViewAutoresizingNone;
         _gridView.dataSource = self;
         _gridView.actionDelegate = self;
         [self  addSubview:_gridView];
-        
+        /*
+        _tableView = [[UITableView alloc] initWithFrame:frame];
+        _tableView.dataSource = self;
+        _tableView.delegate = self;
+        testArr = [[NSMutableArray alloc] init];
+        [self addSubview:_tableView];*/
         UIImage *tempImage = [UIImage imageNamed:@"ic_loading.png"];
         UIImageView *activityIndicatorView = [[UIImageView alloc] init];
         float imageSize = [SystemInfo isPad]?35:24;
@@ -167,6 +172,79 @@
 
 #pragma mark - grid delegate
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [pintrestItems count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"scoreListTable"];
+    CGSize size = CGSizeMake(100, 100);
+    size.height -= 65;
+    
+    PintrestItem *pintrestItem = [pintrestItems objectAtIndex:indexPath.row];
+    UIImageView *ivRecipeThumb;
+    UILabel     *lblLoading;
+    CGFloat thumbMargin = 6;
+    float fontSize = [SystemInfo isPad]?23:13;
+    CGFloat USER_THUMB_ICONWIDTH        = [[rectDic objectForKey:@"USER_THUMB_ICONWIDTH"] floatValue];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"scoreListTable"];
+        ivRecipeThumb = [[UIImageView alloc] init];
+        ivRecipeThumb.tag = 3;
+        [ivRecipeThumb setFrame:CGRectMake(0, 0, size.width, size.height)];
+        
+        lblLoading = [[UILabel alloc] init];
+        lblLoading.frame = ivRecipeThumb.frame;
+        lblLoading.tag = 4;
+        lblLoading.text = @"Image loading...";
+        lblLoading.textAlignment = NSTextAlignmentCenter;
+        lblLoading.textColor = [UIColor grayColor];
+        [cell.contentView addSubview:lblLoading];
+        [cell.contentView addSubview:ivRecipeThumb];
+    }else{
+        ivRecipeThumb = (UIImageView *)[cell.contentView viewWithTag:3];
+        lblLoading = (UILabel *)[cell.contentView viewWithTag:4];
+    }
+    
+    if( [pintrestItem.attachItems count] > 0){
+        NSString *test = nil;
+        if( [testArr count] > indexPath.row ){
+            test = [testArr objectAtIndex:indexPath.row];
+        }else{
+            AttatchItem *tempAttatchItem = [self getThumbNailItem:pintrestItem];
+            [testArr addObject:tempAttatchItem.image_url];
+            test = tempAttatchItem.image_url;
+        }
+        
+        ivRecipeThumb.backgroundColor = [UIColor clearColor];
+        //        [tempAsyncImageView setImageWithURL:[NSURL URLWithString:tempAttatchItem.image_url] placeholderImage:nil];
+        UIImage *tempImage = [FileControl checkCachedImage:test withDir:pintrestItem.postId];
+        if( tempImage != nil ){
+            ivRecipeThumb.image = tempImage;
+        }else{
+            [ivRecipeThumb setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:test]]
+                                 placeholderImage:nil
+                                          success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                              //ivRecipeThumb.image = image;
+                                              UIImage *saveImage = [CommonUI ImageResize:image withSize:CGSizeMake(image.size.width/4, image.size.height/4)];
+                                              ivRecipeThumb.image = saveImage;
+                                              [FileControl cacheImage:test withImage:saveImage withDir:pintrestItem.postId];
+                                          }
+                                          failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                              ;
+                                          }];
+        }
+    }
+    return cell;
+}
+
 - (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
 {
     return [pintrestItems count];
@@ -241,120 +319,61 @@
 - (GMGridViewCell *)GMGridView:(GMGridView *)gridView cellForItemAtIndex:(NSInteger)index
 {
     GMGridViewCell *cell = [gridView dequeueReusableCell];
+    
     CGSize size = [self GMGridView:gridView sizeForItemsInInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     size.height -= 65;
+    
+    PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
+    UIImageView *ivRecipeThumb;
+    UILabel     *lblLoading;
+    CGFloat thumbMargin = 6;
+    float fontSize = [SystemInfo isPad]?23:13;
+    CGFloat USER_THUMB_ICONWIDTH        = [[rectDic objectForKey:@"USER_THUMB_ICONWIDTH"] floatValue];
     if (!cell)
     {
         cell = [[GMGridViewCell alloc] init];
         
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
         view.layer.masksToBounds = NO;
-        view.layer.cornerRadius = 8;
+        if( [SystemInfo shadowOptionModel])
+            view.layer.cornerRadius = 8;
         
         cell.contentView = view;
     }
-    
     [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-
-    CGFloat USER_THUMB_ICONWIDTH        = [[rectDic objectForKey:@"USER_THUMB_ICONWIDTH"] floatValue];
+    ivRecipeThumb = [[UIImageView alloc] init];
+    ivRecipeThumb.tag = 3;
+    [ivRecipeThumb setFrame:CGRectMake(0, 0, size.width, size.height)];
     
-    CGFloat thumbMargin = 6;
-    UIView *tempView = [[UIView alloc] init];
-    tempView.backgroundColor = [UIColor clearColor];
-    if( [SystemInfo shadowOptionModel]){
-        tempView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
-        tempView.layer.shadowRadius = 2;
-        tempView.layer.shadowOpacity = 0.2;
-    }
+    lblLoading = [[UILabel alloc] init];
+    lblLoading.frame = ivRecipeThumb.frame;
+    lblLoading.tag = 4;
+    lblLoading.text = @"Image loading...";
+    lblLoading.textAlignment = NSTextAlignmentCenter;
+    lblLoading.textColor = [UIColor grayColor];
     
-    UIView *bgView = [[UIView alloc] init];
-    bgView.backgroundColor = [CommonUI getUIColorFromHexString:@"F4F3F4"];
-    bgView.layer.cornerRadius = 5;
-    [tempView addSubview:bgView];
-    
-    UILabel *imageBg = [[UILabel alloc] init];
-    imageBg.text = @"Image loading...";
-    imageBg.textAlignment = NSTextAlignmentCenter;
-    imageBg.textColor = [UIColor grayColor];
-    [tempView addSubview:imageBg];
-    
-    PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
     if( [pintrestItem.attachItems count] > 0){
         AttatchItem *tempAttatchItem = [self getThumbNailItem:pintrestItem];
-        UIImageView *tempAsyncImageView = [[UIImageView alloc] init];
-        tempAsyncImageView.backgroundColor = [UIColor clearColor];
-        [tempAsyncImageView setImageWithURL:[NSURL URLWithString:tempAttatchItem.image_url] placeholderImage:nil];
-/*
-        [tempAsyncImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:tempAttatchItem.image_url]]
-                                  placeholderImage:nil
-                                           success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                               tempAsyncImageView.image = image;
-                                           }
-                                           failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                               ;
-                                           }];
- */
-        [tempView addSubview:tempAsyncImageView];
-        [tempAsyncImageView setFrame:CGRectMake(0, 0, size.width, size.height)];
-        imageBg.frame = tempAsyncImageView.frame;
-        [self shapeView:imageBg];
-        [self shapeView:tempAsyncImageView];
-    }else{
-        UILabel *noImageLabel = [[UILabel alloc] init];
-        noImageLabel.textColor = [CommonUI getUIColorFromHexString:@"#657383"];
-        noImageLabel.backgroundColor = [CommonUI getUIColorFromHexString:@"#EFEDFA"];
-        noImageLabel.textAlignment = NSTextAlignmentCenter;
-        noImageLabel.text = @"No Image";
-        noImageLabel.font = [UIFont fontWithName:UIFONT_NAME size:20];
-        [noImageLabel setFrame:CGRectMake(0, 0, size.width,size.height)];
-        [tempView addSubview:noImageLabel];
-        [self shapeView:noImageLabel];
-        imageBg.frame = noImageLabel.frame;
+        ivRecipeThumb.backgroundColor = [UIColor clearColor];
+        //        [tempAsyncImageView setImageWithURL:[NSURL URLWithString:tempAttatchItem.image_url] placeholderImage:nil];
+        UIImage *tempImage = [FileControl checkCachedImage:tempAttatchItem.image_url withDir:pintrestItem.postId];
+        if( tempImage != nil ){
+            ivRecipeThumb.image = tempImage;
+        }else{
+            [ivRecipeThumb setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:tempAttatchItem.image_url]]
+                                 placeholderImage:nil
+                                          success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                              UIImage *saveImage = [CommonUI ImageResize:image withSize:CGSizeMake(image.size.width/4, image.size.height/4)];
+                                              ivRecipeThumb.image = saveImage;
+                                              [FileControl cacheImage:tempAttatchItem.image_url withImage:image withDir:pintrestItem.postId];
+                                          }
+                                          failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                              ;
+                                          }];
+        }
     }
-    
-    float fontSize = [SystemInfo isPad]?23:13;
-    UILabel *tempLabel = [[UILabel alloc] init];
-    tempLabel.backgroundColor = [UIColor clearColor];
-    tempLabel.attributedText = [self makeAttrString:pintrestItem.title withTitleHeight:CGSizeMake(size.width-10, fontSize)];
-    [tempLabel setFrame:CGRectMake(10, size.height, size.width-20, [tempLabel.attributedText size].height+5)];
-    [tempView addSubview:tempLabel];
-    [bgView setFrame:CGRectMake(0, 0, size.width, size.height+tempLabel.frame.size.height)];
-    
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, size.height + tempLabel.frame.size.height, size.width, 1)];
-    lineView.backgroundColor = [CommonUI getUIColorFromHexString:@"#E4E3DC"];
-    [tempView addSubview:lineView];
-    
-    NSArray *infoTextArr = [pintrestItem.tags componentsSeparatedByString:@"|"];
-    
-    UIImageView *tempAsyncImageView = [[UIImageView alloc] init];
-    tempAsyncImageView.contentMode = UIViewContentModeScaleAspectFill;
-    tempAsyncImageView.clipsToBounds = YES;
-    tempAsyncImageView.layer.cornerRadius = 5;
-    [tempAsyncImageView setImageWithURL:[NSURL URLWithString:pintrestItem.creatorThumb] placeholderImage:[UIImage imageNamed:@"ic_blank_profile"]];
-    [tempAsyncImageView setFrame:CGRectMake(thumbMargin, size.height+tempLabel.frame.size.height+thumbMargin, USER_THUMB_ICONWIDTH, USER_THUMB_ICONWIDTH)];
-    [tempView addSubview:tempAsyncImageView];
-    [bgView setFrame:CGRectMake(0, 0, size.width, bgView.frame.size.height + 1 + USER_THUMB_ICONWIDTH + thumbMargin*2)];
-
-    float subFontSize = [SystemInfo isPad]?15:10;
-    tempLabel = [[UILabel alloc] init];
-    tempLabel.textColor = [UIColor grayColor];
-    tempLabel.backgroundColor = [UIColor clearColor];
-    if( [infoTextArr count] > 1 )
-        tempLabel.text = [NSString stringWithFormat:@"%@ 방영",[infoTextArr objectAtIndex:1]];
-    tempLabel.font = [UIFont systemFontOfSize:subFontSize];
-    [tempLabel setFrame:CGRectMake(thumbMargin*2 + USER_THUMB_ICONWIDTH, bgView.frame.size.height - 20, size.width-thumbMargin*2, subFontSize)];
-    [tempView addSubview:tempLabel];
-
-    if( [infoTextArr count] > 3 ){
-        CGSize infoTextSize = CGSizeMake(size.width-thumbMargin*3-USER_THUMB_ICONWIDTH, subFontSize);
-        tempLabel = [[UILabel alloc] init];
-        tempLabel.attributedText = [self makeAttrString:infoTextArr withInfoHeight:infoTextSize];
-        tempLabel.backgroundColor = [UIColor clearColor];
-        [tempLabel setFrame:CGRectMake(thumbMargin*2 + USER_THUMB_ICONWIDTH, bgView.frame.size.height - 35, infoTextSize.width, subFontSize)];
-        [tempView addSubview:tempLabel];
-    }
-//    NSLog(@"%@",pintrestItem.tags);
-    [cell addSubview:tempView];
+    [cell.contentView addSubview:lblLoading];
+    [cell.contentView addSubview:ivRecipeThumb];
     return cell;
 }
 

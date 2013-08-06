@@ -31,11 +31,13 @@
 - (void)update;
 @end
 
-@interface RecipePinterest : UIView <GMGridViewActionDelegate,GMGridViewDataSource>
+@interface RecipePinterest : UIView <GMGridViewActionDelegate,GMGridViewDataSource,UITableViewDataSource,UITableViewDelegate>
 {
     NSMutableDictionary *rectDic;
     GMGridView *_gridView;
+    //UITableView *_tableView;
     NSMutableArray *pintrestItems;
+    NSMutableArray *testArr;
     ODRefreshControl *_refreshControl;
 }
 @property (nonatomic, unsafe_unretained) id <RecipePinterestDelegate> recipe_delegate;
