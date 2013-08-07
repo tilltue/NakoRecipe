@@ -97,6 +97,7 @@ typedef enum
 - (GMGridViewCell *)cellForItemAtIndex:(NSInteger)position;           // Might return nil if cell not loaded yet
 
 // Actions
+- (NSRange)getRangeOfPosition;
 - (void)reloadData;
 - (void)insertObjectAtIndex:(NSInteger)index animated:(BOOL)animated;
 - (void)insertObjectAtIndex:(NSInteger)index withAnimation:(GMGridViewItemAnimation)animation;

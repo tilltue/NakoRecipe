@@ -12,6 +12,7 @@
 #import "HttpApi.h"
 #import "AppDelegate.h"
 #import "UIImageView+AFNetworking.h"
+#import "AFJSONRequestOperation.h"
 
 @interface PinterestViewController ()
 
@@ -119,8 +120,10 @@
     [self versionCheck];
     NSInteger recipeCount = [[[CoreDataManager getInstance] getPosts] count];
     if( recipeCount > 0 ){
-        if( recipeCount != [recipePinterest getItemCount] )
+        if( recipeCount != [recipePinterest getItemCount] ){
             [recipePinterest reloadPintRest];
+            [self likeCommentUpdate];
+        }
     }else{
         [self update];
     }
@@ -188,10 +191,37 @@
     [[HttpApi getInstance] requestVersion];
 }
 
+- (void)likeCommentUpdate
+{
+    NSURL *url = [NSURL URLWithString:@"http://14.63.219.181:3000/count_info"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        if( [JSON count] > 0 )
+           [recipePinterest.likeCommentArr removeAllObjects];
+        for( NSDictionary *item in JSON ){
+            NSString *post_id = [[item objectForKey:@"post_id"] isKindOfClass:[NSNumber class]]?[[item objectForKey:@"post_id"] stringValue]:[item objectForKey:@"post_id"];
+            if( post_id != nil ){
+                NSString *likeCount = [[item objectForKey:@"likes"] isKindOfClass:[NSNumber class]]?[[item objectForKey:@"likes"] stringValue]:[item objectForKey:@"likes"];
+                NSString *commentCount = [[item objectForKey:@"comments"] isKindOfClass:[NSNumber class]]?[[item objectForKey:@"comments"] stringValue]:[item objectForKey:@"comments"];
+                LikeCommentItem *likeItem = [[LikeCommentItem alloc] init];
+                likeItem.postId = post_id;
+                likeItem.like_count = [likeCount intValue];
+                likeItem.comment_count = [commentCount intValue];
+                [recipePinterest.likeCommentArr addObject:likeItem];
+            }
+        }
+        [recipePinterest reloadLikePintRest];
+    } failure:nil];
+    
+    [operation start];
+}
+
 - (void)update
 {
     NSInteger currentPostCount = [[[CoreDataManager getInstance] getPosts] count];
     [[HttpAsyncApi getInstance] requestRecipe:currentPostCount withOffsetPostIndex:0];
+    [self likeCommentUpdate];
 }
 
 #pragma mark - request observer

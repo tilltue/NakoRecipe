@@ -20,28 +20,26 @@
 @synthesize title,attachItems,like_count,comment_count,creatorThumb,tags;
 @end
 
+@implementation LikeCommentItem
+@synthesize postId,like_count,comment_count;
+@end
+
 @implementation RecipePinterest
 @synthesize recipe_delegate;
+@synthesize likeCommentArr;
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
-        rectDic = [[NSMutableDictionary alloc] init];
-        [self makeLayout];
         _gridView = [[GMGridView alloc] initWithFrame:frame];
         _gridView.backgroundColor = [UIColor clearColor];
         _gridView.autoresizingMask = ~UIViewAutoresizingNone;
         _gridView.dataSource = self;
         _gridView.actionDelegate = self;
+        _gridView.delegate = self;
         [self  addSubview:_gridView];
-        /*
-        _tableView = [[UITableView alloc] initWithFrame:frame];
-        _tableView.dataSource = self;
-        _tableView.delegate = self;
-        testArr = [[NSMutableArray alloc] init];
-        [self addSubview:_tableView];*/
+
         UIImage *tempImage = [UIImage imageNamed:@"ic_loading.png"];
         UIImageView *activityIndicatorView = [[UIImageView alloc] init];
         float imageSize = [SystemInfo isPad]?35:24;
@@ -74,27 +72,12 @@
         [_refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
         [_refreshControl setTintColor:[CommonUI getUIColorFromHexString:@"E04C30"]];
         pintrestItems = [[NSMutableArray alloc] init];
+        
+        queue = dispatch_queue_create("yourOwnQueueName", NULL);
+        _decelerating = NO;
+        likeCommentArr = [[NSMutableArray alloc] init];
     }
     return self;
-}
-
-- (void)makeLayout
-{
-    [rectDic setObject:@"{{0,0},{0,0}}" forKey:@"psCollectionView"];
-    //value
-    if( [SystemInfo isPad] ){
-        [rectDic setObject:@"245" forKey:@"CELL_WIDTH"];
-        [rectDic setObject:@"240" forKey:@"PHONE_TWO_THUMB_WIDTH"];
-        [rectDic setObject:@"10" forKey:@"HEART_AND_COMMENT_ICONWIDTH"];
-        [rectDic setObject:@"40" forKey:@"THUMB_INFO_HEIGHT"];
-        [rectDic setObject:@"32" forKey:@"USER_THUMB_ICONWIDTH"];
-    }else{
-        [rectDic setObject:@"148" forKey:@"CELL_WIDTH"];
-        [rectDic setObject:@"140" forKey:@"PHONE_TWO_THUMB_WIDTH"];
-        [rectDic setObject:@"10" forKey:@"HEART_AND_COMMENT_ICONWIDTH"];
-        [rectDic setObject:@"30" forKey:@"THUMB_INFO_HEIGHT"];
-        [rectDic setObject:@"32" forKey:@"USER_THUMB_ICONWIDTH"];
-    }
 }
 
 - (NSInteger)getItemCount
@@ -131,6 +114,11 @@
             [pintrestItems addObject:newPintrestItem];
         }
     }
+    [_gridView reloadData];
+}
+
+- (void)reloadLikePintRest
+{
     [_gridView reloadData];
 }
 
@@ -172,79 +160,6 @@
 
 #pragma mark - grid delegate
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [pintrestItems count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"scoreListTable"];
-    CGSize size = CGSizeMake(100, 100);
-    size.height -= 65;
-    
-    PintrestItem *pintrestItem = [pintrestItems objectAtIndex:indexPath.row];
-    UIImageView *ivRecipeThumb;
-    UILabel     *lblLoading;
-    CGFloat thumbMargin = 6;
-    float fontSize = [SystemInfo isPad]?23:13;
-    CGFloat USER_THUMB_ICONWIDTH        = [[rectDic objectForKey:@"USER_THUMB_ICONWIDTH"] floatValue];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"scoreListTable"];
-        ivRecipeThumb = [[UIImageView alloc] init];
-        ivRecipeThumb.tag = 3;
-        [ivRecipeThumb setFrame:CGRectMake(0, 0, size.width, size.height)];
-        
-        lblLoading = [[UILabel alloc] init];
-        lblLoading.frame = ivRecipeThumb.frame;
-        lblLoading.tag = 4;
-        lblLoading.text = @"Image loading...";
-        lblLoading.textAlignment = NSTextAlignmentCenter;
-        lblLoading.textColor = [UIColor grayColor];
-        [cell.contentView addSubview:lblLoading];
-        [cell.contentView addSubview:ivRecipeThumb];
-    }else{
-        ivRecipeThumb = (UIImageView *)[cell.contentView viewWithTag:3];
-        lblLoading = (UILabel *)[cell.contentView viewWithTag:4];
-    }
-    
-    if( [pintrestItem.attachItems count] > 0){
-        NSString *test = nil;
-        if( [testArr count] > indexPath.row ){
-            test = [testArr objectAtIndex:indexPath.row];
-        }else{
-            AttatchItem *tempAttatchItem = [self getThumbNailItem:pintrestItem];
-            [testArr addObject:tempAttatchItem.image_url];
-            test = tempAttatchItem.image_url;
-        }
-        
-        ivRecipeThumb.backgroundColor = [UIColor clearColor];
-        //        [tempAsyncImageView setImageWithURL:[NSURL URLWithString:tempAttatchItem.image_url] placeholderImage:nil];
-        UIImage *tempImage = [FileControl checkCachedImage:test withDir:pintrestItem.postId];
-        if( tempImage != nil ){
-            ivRecipeThumb.image = tempImage;
-        }else{
-            [ivRecipeThumb setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:test]]
-                                 placeholderImage:nil
-                                          success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                              //ivRecipeThumb.image = image;
-                                              UIImage *saveImage = [CommonUI ImageResize:image withSize:CGSizeMake(image.size.width/4, image.size.height/4)];
-                                              ivRecipeThumb.image = saveImage;
-                                              [FileControl cacheImage:test withImage:saveImage withDir:pintrestItem.postId];
-                                          }
-                                          failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                              ;
-                                          }];
-        }
-    }
-    return cell;
-}
-
 - (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
 {
     return [pintrestItems count];
@@ -254,48 +169,6 @@
 {
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:position];
     [[self recipe_delegate] selectRecipe:pintrestItem.postId];
-}
-
-- (NSMutableAttributedString *)makeAttrString:(NSString *)text withTitleHeight:(CGSize)titleLabelSize
-{
-    CGFloat textWidth = 0;
-    textWidth += [[text substringToIndex:1] sizeWithFont:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height]].width;
-    textWidth += [[text substringFromIndex:1] sizeWithFont:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height*.9]].width;
-    NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:text];
-    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#FFA500"] range:NSMakeRange(0, 1)];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height] range:NSMakeRange(0, 1)];
-    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(1, [text length]-1)];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height*.9] range:NSMakeRange(1, [text length]-1)];
-    if( textWidth > titleLabelSize.width && titleLabelSize.width != 0 ){
-        return [self makeAttrString:text withTitleHeight:CGSizeMake(titleLabelSize.width, titleLabelSize.height*.9)];
-    }
-    return attrStr;
-}
-
-- (NSMutableAttributedString *)makeAttrString:(NSArray *)tagTextArr withInfoHeight:(CGSize)titleLabelSize
-{
-    if( [tagTextArr count] < 3 )
-        return nil;
-    CGFloat textWidth = 0;
-    NSString *infoString    = nil;
-    NSString *broadCastNum  = [tagTextArr objectAtIndex:0];
-    NSString *creator       = [tagTextArr objectAtIndex:2];
-    
-    infoString = broadCastNum;
-    infoString = [infoString stringByAppendingString:@"회 "];
-    infoString = [infoString stringByAppendingString:creator];
-    textWidth += [infoString sizeWithFont:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height]].width;
-    
-    NSInteger colorRocation = [broadCastNum length];
-    NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:infoString];
-    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(0, colorRocation)];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height] range:NSMakeRange(0, colorRocation)];
-    [attrStr addAttribute:NSForegroundColorAttributeName value:[CommonUI getUIColorFromHexString:@"#696565"] range:NSMakeRange(colorRocation, [infoString length]-colorRocation)];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:UIFONT_NAME size:titleLabelSize.height] range:NSMakeRange(colorRocation, [infoString length]-colorRocation)];
-    if( textWidth > titleLabelSize.width && titleLabelSize.width != 0 ){
-        return [self makeAttrString:tagTextArr withInfoHeight:CGSizeMake(titleLabelSize.width, titleLabelSize.height*.9)];
-    }
-    return attrStr;
 }
 
 - (void)shapeView:(UIView *)view
@@ -316,65 +189,308 @@
         return CGSizeMake(150, 200);
 }
 
+- (LikeCommentItem *)getLikeItem:(NSString *)postId
+{
+    for( LikeCommentItem *item in likeCommentArr )
+        if( [item.postId isEqualToString:postId] )
+            return item;
+    return nil;
+}
+
 - (GMGridViewCell *)GMGridView:(GMGridView *)gridView cellForItemAtIndex:(NSInteger)index
 {
     GMGridViewCell *cell = [gridView dequeueReusableCell];
     
     CGSize size = [self GMGridView:gridView sizeForItemsInInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
-    size.height -= 65;
+    size.height -= 40;
     
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
     UIImageView *ivRecipeThumb;
     UILabel     *lblLoading;
-    CGFloat thumbMargin = 6;
+    UIImageView *ivCreatorThumb;
+    UILabel *lblRecipeName;
+    UILabel *lblCreator;
+    UILabel *lblCount;
+    UIImageView *ivLike;
+    UIImageView *ivComment;
+    UILabel *lblLike;
+    UILabel *lblComment;
+    
+    CGFloat thumbMargin = 5;
+    CGFloat iconSize = 37;
     float fontSize = [SystemInfo isPad]?23:13;
-    CGFloat USER_THUMB_ICONWIDTH        = [[rectDic objectForKey:@"USER_THUMB_ICONWIDTH"] floatValue];
+    CGRect rect = CGRectZero;
     if (!cell)
     {
         cell = [[GMGridViewCell alloc] init];
         
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
         view.layer.masksToBounds = NO;
-        if( [SystemInfo shadowOptionModel])
-            view.layer.cornerRadius = 8;
-        
+        view.layer.cornerRadius = 5;
+        if( [SystemInfo shadowOptionModel]){
+            view.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
+            view.layer.shadowRadius = 2;
+            view.layer.shadowOpacity = 0.2;
+        }
+        view.backgroundColor = [CommonUI getUIColorFromHexString:@"F4F3F4"];
         cell.contentView = view;
     }
     [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        
     ivRecipeThumb = [[UIImageView alloc] init];
-    ivRecipeThumb.tag = 3;
+    ivRecipeThumb.tag = 4;
+    ivRecipeThumb.clipsToBounds = YES;
+    ivRecipeThumb.contentMode = UIViewContentModeScaleAspectFill;
     [ivRecipeThumb setFrame:CGRectMake(0, 0, size.width, size.height)];
     
     lblLoading = [[UILabel alloc] init];
     lblLoading.frame = ivRecipeThumb.frame;
-    lblLoading.tag = 4;
+    lblLoading.tag = 5;
     lblLoading.text = @"Image loading...";
     lblLoading.textAlignment = NSTextAlignmentCenter;
     lblLoading.textColor = [UIColor grayColor];
     
+    rect = [SystemInfo isPad]?CGRectMake(0, 0, 40, 20):CGRectMake(0, 0, 40, 20);
+    lblCount = [[UILabel alloc] init];
+    lblCount.tag = 6;
+    lblCount.textAlignment = NSTextAlignmentCenter;
+    lblCount.backgroundColor = [CommonUI getUIColorFromHexString:@"E04C30"];
+    lblCount.textColor = [UIColor whiteColor];
+    lblCount.font = [UIFont systemFontOfSize:fontSize];
+    lblCount.frame = rect;
+    
+    rect.origin = CGPointMake(thumbMargin, size.height-iconSize-thumbMargin);
+    rect.size = CGSizeMake(iconSize, iconSize);
+    ivCreatorThumb = [[UIImageView alloc] init];
+    ivCreatorThumb.tag = 7;
+    ivCreatorThumb.clipsToBounds = YES;
+    ivCreatorThumb.layer.cornerRadius = 5;
+    ivCreatorThumb.contentMode = UIViewContentModeScaleAspectFill;
+    ivCreatorThumb.frame = rect;
+    ivCreatorThumb.backgroundColor = [UIColor clearColor];
+    
+    rect.origin = CGPointMake(thumbMargin, size.height+thumbMargin+2);
+    rect.size = CGSizeMake(100, 15);
+    lblRecipeName = [[UILabel alloc] init];
+    lblRecipeName.backgroundColor = [UIColor clearColor];
+    lblRecipeName.textColor = [UIColor darkGrayColor];
+    lblRecipeName.frame = rect;
+    lblRecipeName.text = pintrestItem.title;
+    lblRecipeName.font = [UIFont systemFontOfSize:fontSize];
+    
+    rect.origin.y += rect.size.height;
+    rect.size = CGSizeMake(50, 14);
+    lblCreator = [[UILabel alloc] init];
+    lblCreator.backgroundColor = [UIColor clearColor];
+    lblCreator.textColor = [UIColor grayColor];
+    lblCreator.frame = rect;
+    lblCreator.font = [UIFont systemFontOfSize:fontSize-1];
+    
+    rect.origin = CGPointMake(70, size.height+thumbMargin+17);
+    rect.size = CGSizeMake(14, 12);
+    ivLike = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_like"]];
+    ivLike.frame = rect;
+    
+    LikeCommentItem *tempLikeItem = [self getLikeItem:pintrestItem.postId];
+    rect.origin.x += 17;
+    rect.size = CGSizeMake(20, 12);
+    lblLike = [[UILabel alloc] init];
+    lblLike.backgroundColor = [UIColor clearColor];
+    lblLike.textColor = [UIColor darkGrayColor];
+    lblLike.font = [UIFont systemFontOfSize:fontSize-2];
+    lblLike.frame = rect;
+    lblLike.tag = 8;
+    lblLike.textAlignment = NSTextAlignmentCenter;
+    lblLike.text = tempLikeItem!=nil?[NSString stringWithFormat:@"%d",tempLikeItem.like_count]:@"0";
+    
+    rect.origin.x += 22;
+    rect.size = CGSizeMake(14, 12);
+    ivComment = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_comment"]];
+    ivComment.frame = rect;
+    
+    rect.origin.x += 17;
+    rect.size = CGSizeMake(20, 12);
+    lblComment = [[UILabel alloc] init];
+    lblComment.backgroundColor = [UIColor clearColor];
+    lblComment.textColor = [UIColor darkGrayColor];
+    lblComment.font = [UIFont systemFontOfSize:fontSize-2];
+    lblComment.frame = rect;
+    lblComment.tag = 9;
+    lblComment.textAlignment = NSTextAlignmentCenter;
+    lblComment.text = tempLikeItem!=nil?[NSString stringWithFormat:@"%d",tempLikeItem.comment_count]:@"0";
+    
+    UIImage *tempImage = [FileControl checkCachedImage:pintrestItem.creatorThumb withDir:pintrestItem.postId];
+    if( tempImage != nil ){
+        if( !_decelerating )
+            ivCreatorThumb.image = tempImage;
+    }else{
+        [ivCreatorThumb setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:pintrestItem.creatorThumb]]
+                             placeholderImage:nil
+                                      success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                          int scale = [SystemInfo imageResizeScale];
+                                          UIImage *saveImage;
+                                          if( image.size.width < iconSize || image.size.height < iconSize){
+                                              saveImage = image;
+                                          }else{
+                                              saveImage = [CommonUI ImageResize:image
+                                                                       withSize:CGSizeMake(image.size.width/scale,
+                                                                                           image.size.height/scale)];
+                                              
+                                          }
+                                          GMGridViewCell *cell = [_gridView cellForItemAtIndex:index];
+                                          UIImageView *tempImageView = (UIImageView *)[cell.contentView viewWithTag:4];
+                                          tempImageView = (UIImageView *)[tempImageView viewWithTag:7];
+                                          tempImageView.image = image;
+                                          dispatch_async( queue ,
+                                                         ^ {
+                                                             [FileControl cacheImage:pintrestItem.creatorThumb withImage:image withDir:pintrestItem.postId];
+                                                         });
+                                      }
+                                      failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                          ;
+                                      }];
+    }
+    NSArray *infoTextArr = [pintrestItem.tags componentsSeparatedByString:@"|"];
+    if( [infoTextArr count] > 3){
+        lblCount.text = [NSString stringWithFormat:@"%@호",[infoTextArr objectAtIndex:0]];
+        lblCreator.text = [infoTextArr objectAtIndex:2];
+    }
     if( [pintrestItem.attachItems count] > 0){
         AttatchItem *tempAttatchItem = [self getThumbNailItem:pintrestItem];
         ivRecipeThumb.backgroundColor = [UIColor clearColor];
-        //        [tempAsyncImageView setImageWithURL:[NSURL URLWithString:tempAttatchItem.image_url] placeholderImage:nil];
         UIImage *tempImage = [FileControl checkCachedImage:tempAttatchItem.image_url withDir:pintrestItem.postId];
         if( tempImage != nil ){
-            ivRecipeThumb.image = tempImage;
+            if( !_decelerating )
+                ivRecipeThumb.image = tempImage;
+            else{
+                lblLoading.text = @"";
+                lblLoading.backgroundColor = [CommonUI getUIColorFromHexString:@"F4F3F4"];
+            }
         }else{
             [ivRecipeThumb setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:tempAttatchItem.image_url]]
                                  placeholderImage:nil
                                           success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                              UIImage *saveImage = [CommonUI ImageResize:image withSize:CGSizeMake(image.size.width/4, image.size.height/4)];
-                                              ivRecipeThumb.image = saveImage;
-                                              [FileControl cacheImage:tempAttatchItem.image_url withImage:image withDir:pintrestItem.postId];
+                                              int scale = [SystemInfo imageResizeScale];
+                                              UIImage *saveImage;
+                                              if( image.size.width < size.width * 2 || image.size.height < size.height * 2){
+                                                  saveImage = image;
+                                              }else{
+                                                  saveImage = [CommonUI ImageResize:image
+                                                                           withSize:CGSizeMake(image.size.width/scale,
+                                                                                               image.size.height/scale)];
+                                                  
+                                              }
+                                              GMGridViewCell *cell = [_gridView cellForItemAtIndex:index];
+                                              UIImageView *tempImageView = (UIImageView *)[cell.contentView viewWithTag:4];
+                                              tempImageView.image = saveImage;
+                                              dispatch_async( queue ,
+                                                             ^ {
+                                                                 [FileControl cacheImage:tempAttatchItem.image_url withImage:saveImage withDir:pintrestItem.postId];
+                                                             });
                                           }
                                           failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                                               ;
                                           }];
         }
     }
+
+    [ivRecipeThumb addSubview:ivCreatorThumb];
+    [cell.contentView addSubview:ivLike];
+    [cell.contentView addSubview:lblLike];
+    [cell.contentView addSubview:ivComment];
+    [cell.contentView addSubview:lblComment];
+    
+    [cell.contentView addSubview:lblRecipeName];
+    [cell.contentView addSubview:lblCreator];
     [cell.contentView addSubview:lblLoading];
     [cell.contentView addSubview:ivRecipeThumb];
+    [cell.contentView addSubview:lblCount];
     return cell;
 }
 
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+    if( [SystemInfo shadowOptionModel] )
+        return;
+    CGPoint currentOffset = _gridView.contentOffset;
+    NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
+    
+    NSTimeInterval timeDiff = currentTime - lastOffsetCapture;
+    if(timeDiff > 0.1) {
+        CGFloat distance = currentOffset.y - lastOffset.y;
+        //The multiply by 10, / 1000 isn't really necessary.......
+        CGFloat scrollSpeedNotAbs = (distance * 10) / 1000; //in pixels per millisecond
+        
+        CGFloat scrollSpeed = fabsf(scrollSpeedNotAbs);
+        if (scrollSpeed > 0.5) {
+            isScrollingFast = YES;
+            //NSLog(@"Fast");
+        } else {
+            if( isScrollingFast ){
+                [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(loadImage) object:nil];
+                [self performSelector:@selector(loadImage)];
+            }
+            isScrollingFast = NO;
+            //NSLog(@"Slow");
+        }
+        
+        lastOffset = currentOffset;
+        lastOffsetCapture = currentTime;
+    }
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    if( ![SystemInfo shadowOptionModel] )
+        _decelerating = YES;
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if( ![SystemInfo shadowOptionModel] ){
+        _decelerating = NO;
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(loadImage) object:nil];
+        [self performSelector:@selector(loadImage)];
+    }
+}
+
+- (void)loadImage
+{
+    NSRange range = [_gridView getRangeOfPosition];
+    CGSize size = [self GMGridView:_gridView sizeForItemsInInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    size.height -= 40;
+    for( int i = range.location; i < range.location+range.length; i++){
+        if( i > [pintrestItems count]-1 )
+            break;
+        PintrestItem *pintrestItem = [pintrestItems objectAtIndex:i];
+        UIImageView *ivRecipeThumb;
+        UIImageView *ivCreatorThumb;
+        GMGridViewCell *cell = [_gridView cellForItemAtIndex:i];
+        ivRecipeThumb = (UIImageView *)[cell.contentView viewWithTag:4];
+        ivCreatorThumb = (UIImageView *)[ivRecipeThumb viewWithTag:7];
+        
+        if( ivCreatorThumb.image == nil ){
+            UIImage *tempImage = [FileControl checkCachedImage:pintrestItem.creatorThumb withDir:pintrestItem.postId];
+            if( tempImage != nil ){
+                ivCreatorThumb.image = tempImage;
+            }
+        }
+            
+        if( ivRecipeThumb.image != nil )
+            continue;
+        if( [pintrestItem.attachItems count] > 0){
+            AttatchItem *tempAttatchItem = [self getThumbNailItem:pintrestItem];
+            ivRecipeThumb.backgroundColor = [UIColor clearColor];
+            UIImage *tempImage = [FileControl checkCachedImage:tempAttatchItem.image_url withDir:pintrestItem.postId];
+            if( tempImage != nil ){
+                ivRecipeThumb.alpha = 0;
+                ivRecipeThumb.image = tempImage;
+                [UIView beginAnimations:nil context:NULL];
+                [UIView setAnimationDuration:1+(i%5)*.1];
+                [ivRecipeThumb setAlpha:1];
+                [UIView commitAnimations];
+            }else{
+            }
+        }
+    }
+}
 @end

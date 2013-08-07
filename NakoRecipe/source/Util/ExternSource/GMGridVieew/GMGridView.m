@@ -1375,6 +1375,12 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
 #pragma mark loading/destroying items & reusing cells
 //////////////////////////////////////////////////////////////
 
+- (NSRange)getRangeOfPosition
+{
+    NSRange rangeOfPositions = [self.layoutStrategy rangeOfPositionsInBoundsFromOffset: self.contentOffset];
+    return rangeOfPositions;
+}
+
 - (void)loadRequiredItems
 {
     NSRange rangeOfPositions = [self.layoutStrategy rangeOfPositionsInBoundsFromOffset: self.contentOffset];

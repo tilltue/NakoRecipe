@@ -26,24 +26,34 @@
 @property (nonatomic, assign) NSInteger comment_count;
 @end
 
+@interface LikeCommentItem : NSObject
+@property (nonatomic, strong) NSString *postId;
+@property (nonatomic, assign) NSInteger like_count;
+@property (nonatomic, assign) NSInteger comment_count;
+@end
+
 @protocol RecipePinterestDelegate <NSObject>
 - (void)selectRecipe:(NSString *)recipeId;
 - (void)update;
 @end
 
-@interface RecipePinterest : UIView <GMGridViewActionDelegate,GMGridViewDataSource,UITableViewDataSource,UITableViewDelegate>
+@interface RecipePinterest : UIView <GMGridViewActionDelegate,GMGridViewDataSource,UIScrollViewDelegate>
 {
-    NSMutableDictionary *rectDic;
     GMGridView *_gridView;
-    //UITableView *_tableView;
     NSMutableArray *pintrestItems;
     NSMutableArray *testArr;
     ODRefreshControl *_refreshControl;
+    dispatch_queue_t queue;
+    BOOL _decelerating;
+    CGPoint lastOffset;
+    NSTimeInterval lastOffsetCapture;
+    BOOL isScrollingFast;
 }
 @property (nonatomic, unsafe_unretained) id <RecipePinterestDelegate> recipe_delegate;
+@property (nonatomic, strong) NSMutableArray *likeCommentArr;
 - (void)startLoading;
 - (void)stopLoading;
 - (NSInteger)getItemCount;
 - (void)reloadPintRest;
-- (NSArray *)getShowIndex;
+- (void)reloadLikePintRest;
 @end

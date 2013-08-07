@@ -32,6 +32,39 @@
     }
 }
 
++(NSInteger)imageResizeScale
+{
+    NSString *model = [self modelAsString];
+    if( model != nil ){
+        NSArray *modelArr = [model componentsSeparatedByString:@","];
+        if( [modelArr count] == 2){
+            NSInteger subIndex = 0;
+            NSString *prefixModel = [modelArr objectAtIndex:0];
+            if([prefixModel rangeOfString:@"iPod"].length)
+                return 3;
+            subIndex = [prefixModel rangeOfString:@"iPhone"].length;
+            if(subIndex){
+                NSString *num = [prefixModel substringFromIndex:subIndex];
+                if( num != nil && [num intValue] > 4 )
+                    return 2;
+                else
+                    return 3;
+            }
+            subIndex = [prefixModel rangeOfString:@"iPad"].length;
+            if(subIndex){
+                NSString *num = [prefixModel substringFromIndex:subIndex];
+                if( num != nil && [num intValue] > 3 )
+                    return 1;
+                else
+                    return 2;
+            }
+        }else{
+            return 3;
+        }
+    }
+    return 1;
+}
+
 +(BOOL)shadowOptionModel
 {
     NSString *model = [self modelAsString];
@@ -58,6 +91,8 @@
                 else
                     return NO;
             }
+        }else{
+            return NO;
         }
     }
     return NO;

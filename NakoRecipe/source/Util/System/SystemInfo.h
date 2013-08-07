@@ -11,6 +11,7 @@
 #define UIFONT_NAME @"AppleSDGothicNeo-Medium"
 
 @interface SystemInfo : NSObject
++(NSInteger)imageResizeScale;
 +(BOOL)shadowOptionModel;
 +(BOOL)isPad;
 +(BOOL)isPhone5;

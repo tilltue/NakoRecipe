@@ -172,12 +172,6 @@
     tempValue = [self stringByStrippingHTML:[jsonDict objectForKey:@"content"]];
     if( tempValue != nil )
         tempPost.content = tempValue;
-    tempValue = [[jsonDict objectForKey:@"like_count"] isKindOfClass:[NSNumber class]]?[[jsonDict objectForKey:@"like_count"] stringValue]:[jsonDict objectForKey:@"like_count"];
-    if( tempValue != nil )
-        tempPost.like_count = [NSNumber numberWithInt:[tempValue intValue]];
-    tempValue = [[jsonDict objectForKey:@"comment_count"] isKindOfClass:[NSNumber class]]?[[jsonDict objectForKey:@"comment_count"] stringValue]:[jsonDict objectForKey:@"comment_count"];
-    if( tempValue != nil )
-        tempPost.comment_count = [NSNumber numberWithInt:[tempValue intValue]];
     
     NSArray *tempArr   = [jsonDict objectForKey:@"tags"];
     if( [tempArr count] > 0 ){
@@ -223,13 +217,6 @@
     tempValue = [self stringByStrippingHTML:[jsonDict objectForKey:@"content"]];
     if( tempValue != nil )
         tempPost.content = tempValue;
-    tempValue = [[jsonDict objectForKey:@"like_count"] isKindOfClass:[NSNumber class]]?[[jsonDict objectForKey:@"like_count"] stringValue]:[jsonDict objectForKey:@"like_count"];
-    if( tempValue != nil )
-        tempPost.like_count = [NSNumber numberWithInt:[tempValue intValue]];
-    tempValue = [[jsonDict objectForKey:@"comment_count"] isKindOfClass:[NSNumber class]]?[[jsonDict objectForKey:@"comment_count"] stringValue]:[jsonDict objectForKey:@"comment_count"];
-    if( tempValue != nil )
-        tempPost.comment_count = [NSNumber numberWithInt:[tempValue intValue]];
-    
     NSArray *tempArr   = [jsonDict objectForKey:@"tags"];
     if( [tempArr count] > 0 ){
         NSMutableDictionary *tagDict    = [tempArr objectAtIndex:0];
