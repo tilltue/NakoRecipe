@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BlogWebViewController.h"
+#import "AFHTTPRequestOperation.h"
 
 @interface BlogListItem : NSObject
 @property (nonatomic, strong) NSString *url;
@@ -20,6 +21,7 @@
 {
     UITableView *blogTable;
     BlogWebViewController *webViewController;
+    AFHTTPRequestOperation *currentOperation;
 }
 @property (nonatomic, strong) NSString *searchBaseURL;
 @property (nonatomic, strong) NSString *recipeTitle;

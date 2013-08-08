@@ -7,6 +7,8 @@
 //
 
 #import "BlogListViewController.h"
+#import "AFHTTPRequestOperation.h"
+#import "GDataXMLNode.h"
 
 @implementation BlogListItem
 @synthesize url,blog_title,blog_name,blog_desc;
@@ -75,6 +77,10 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    if( currentOperation != nil ){
+        [currentOperation cancel];
+        currentOperation = nil;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -82,6 +88,55 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (NSString *)getValueForElemnt:(GDataXMLElement *)element withName:(NSString *)name;
+{
+    NSArray *arr = [element elementsForName:name];
+    if( [arr count] > 0 ){
+        GDataXMLElement *find = [arr objectAtIndex:0];
+        return [find stringValue];
+    }
+    return nil;
+}
+
+- (void)moreLoad
+{
+    currentOperation = nil;
+    if( searchBaseURL != nil ){
+        NSString *searchURL = [NSString stringWithFormat:@"%@&start=%d&display=10",searchBaseURL,[blogArr count]+1];
+        NSURL *url = [NSURL URLWithString:searchURL];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            GDataXMLDocument *xmlDoc;
+            xmlDoc = [[GDataXMLDocument alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding error:nil];
+            NSArray *items = [xmlDoc nodesForXPath:@"//rss/channel" error:nil];
+            if( [items count] > 0 ){
+                GDataXMLElement *item = [items objectAtIndex:0];
+                NSString *total_count = [self getValueForElemnt:item withName:@"total"];
+                if( total_count != nil ){
+                    NSArray *blogItems = [item elementsForName:@"item"];
+                    for( GDataXMLElement *blogItem in blogItems)
+                    {
+                        BlogListItem *newItem = [[BlogListItem alloc] init];
+                        newItem.url = [self getValueForElemnt:blogItem withName:@"link"];
+                        newItem.blog_name = [self getValueForElemnt:blogItem withName:@"bloggername"];
+                        newItem.blog_title = [self getValueForElemnt:blogItem withName:@"title"];
+                        newItem.blog_desc = [self getValueForElemnt:blogItem withName:@"description"];
+                        [blogArr addObject:newItem];
+                    }
+                    [blogTable reloadData];
+                }
+            }
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            ;
+        }];
+        currentOperation = operation;
+        [operation start];
+
+    }
+}
+
 
 #pragma mark tableView delegate
 
@@ -92,14 +147,24 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [blogArr count];
+    BOOL loadMore = NO;
+    if( totalCount > [blogArr count] )
+        loadMore = YES;
+    return loadMore?[blogArr count]+1:[blogArr count];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BlogListItem *tempBlogItem = [blogArr objectAtIndex:indexPath.row];
-    webViewController.url = tempBlogItem.url;
-    [self.navigationController pushViewController:webViewController animated:YES];
+    BOOL loadMore = NO;
+    if( totalCount > [blogArr count] )
+        loadMore = YES;
+    if( loadMore && indexPath.row == [blogArr count]){
+        [self moreLoad];
+    }else{
+        BlogListItem *tempBlogItem = [blogArr objectAtIndex:indexPath.row];
+        webViewController.url = tempBlogItem.url;
+        [self.navigationController pushViewController:webViewController animated:YES];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -109,7 +174,6 @@
     UILabel *lblBlogDesc = nil;
     UILabel *lblBlogTitle = nil;
     
-    BlogListItem *tempBlogItem = [blogArr objectAtIndex:indexPath.row];
     CGRect tempRect;
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CommentTable"];
@@ -163,10 +227,19 @@
         lblBlogTitle = (UILabel *)[cell viewWithTag:3];
     }
     
-    lblBlogName.text = [self stringByStrippingHTML:tempBlogItem.blog_name];
-    lblBlogDesc.text = [self stringByStrippingHTML:tempBlogItem.blog_desc];
-    lblBlogTitle.text = [self stringByStrippingHTML: tempBlogItem.blog_title];
-    
+    BOOL loadMore = NO;
+    if( totalCount > [blogArr count] )
+        loadMore = YES;
+    if( loadMore && indexPath.row == [blogArr count]){
+        lblBlogName.text = @"더 보기...";
+        lblBlogDesc.text = @"";
+        lblBlogTitle.text = @"";
+    }else{
+        BlogListItem *tempBlogItem = [blogArr objectAtIndex:indexPath.row];
+        lblBlogName.text = [self stringByStrippingHTML:tempBlogItem.blog_name];
+        lblBlogDesc.text = [self stringByStrippingHTML:tempBlogItem.blog_desc];
+        lblBlogTitle.text = [self stringByStrippingHTML: tempBlogItem.blog_title];
+    }
     return cell;
 }
 
