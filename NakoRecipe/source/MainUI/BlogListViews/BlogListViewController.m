@@ -68,6 +68,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [blogTable reloadData];
+    blogTable.contentOffset = CGPointMake(0, 0);
     UILabel *tempLabel = (UILabel *)self.navigationItem.titleView;
     if( recipeTitle != nil )
         tempLabel.text = [NSString stringWithFormat:@"%@ 의 블로그 검색 결과",recipeTitle];

@@ -123,7 +123,7 @@
 {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if( ![appDelegate loginCheck] ){
-        CustomAlert *alert = [[CustomAlert alloc]initWithTitle:@"" message:@"페이스북 계정으로 로그인 하시겠습니까?\n허락없이 페이스북에 글을\n 남기지 않습니다."  delegate:self cancelButtonTitle:@"확인" otherButtonTitles:@"취소", nil];
+        CustomAlert *alert = [[CustomAlert alloc]initWithTitle:@"" message:@"페이스북 계정으로 로그인 하시겠습니까?\n허락없이 페이스북에 글을\n 남기지 않습니다."delegate:self cancelButtonTitle:@"확인" otherButtonTitles:@"취소", nil];
         alert.delegate = self;
         [alert show];
     }else{

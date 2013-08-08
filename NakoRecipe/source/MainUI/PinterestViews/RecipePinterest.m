@@ -226,7 +226,7 @@
         cell = [[GMGridViewCell alloc] init];
         
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-        view.layer.masksToBounds = NO;
+        view.clipsToBounds = YES;
         view.layer.cornerRadius = 5;
         if( [SystemInfo shadowOptionModel]){
             view.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
