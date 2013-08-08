@@ -276,6 +276,10 @@
             {
                 [outString deleteCharactersInRange:r];
             }
+            while ((r = [outString rangeOfString:@"&[^;]+;" options:NSRegularExpressionSearch]).location != NSNotFound)
+            {
+                [outString deleteCharactersInRange:r];
+            }
         }
     }
     

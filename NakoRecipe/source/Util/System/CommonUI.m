@@ -126,21 +126,23 @@
  //[Nako]혹시라도 파일이 없을 경우를 대비해야 할것.
  return tempImage;
  }
- 
- + (UIImage *)makeShadowImage:(UIColor *)color withSize:(CGSize)dstSize
- {
- UIGraphicsBeginImageContext(dstSize);
- CGContextRef context = UIGraphicsGetCurrentContext();
- CGContextSetFillColor(context, [color CGColor]);
- CGContextFillRect(context, CGRectMake(0, 0, dstSize.width, dstSize.height));
- UIImage *im = nil;
- im = UIGraphicsGetImageFromCurrentImageContext();
- UIGraphicsEndImageContext();
- return im;
- }
- 
- 
  */
++ (UIImage *)makeShadowImage:(UIColor *)color withSize:(CGSize)dstSize
+{
+    UIImage *img = nil;
+    
+    CGRect rect = CGRectMake(0, 0, dstSize.width, dstSize.height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context,
+                                   color.CGColor);
+    CGContextFillRect(context, rect);
+    
+    img = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    return img;
+}
 
 + (UIImage *)addLabelToImage:(UIImage *)bgImage inLabel:(UILabel *)inLabel withInRect:(CGRect)dstRect
 {

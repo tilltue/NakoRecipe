@@ -12,6 +12,7 @@
 @interface LikeListViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *likeTable;
+    NSMutableDictionary *likeNameDict;
 }
 @property (nonatomic, strong) NSMutableArray *likeArr;
 @property (nonatomic, strong) FBRequestConnection *requestConnection;

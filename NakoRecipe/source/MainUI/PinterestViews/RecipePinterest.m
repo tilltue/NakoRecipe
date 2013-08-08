@@ -303,7 +303,6 @@
     lblLike.frame = rect;
     lblLike.tag = 8;
     lblLike.textAlignment = NSTextAlignmentCenter;
-    lblLike.text = @"999";
     lblLike.text = tempLikeItem!=nil?[NSString stringWithFormat:@"%d",tempLikeItem.like_count]:@"0";
     
     rect.origin.x += [SystemInfo isPad]?32:22;

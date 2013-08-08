@@ -61,6 +61,7 @@
         [[HttpAsyncApi getInstanceLikeSend] attachObserver:self];
         
         likeListViewController = [[LikeListViewController alloc] init];
+        blogListViewController = [[BlogListViewController alloc] init];
     }
     return self;
 }
@@ -134,6 +135,18 @@
     [likeListViewController.likeArr addObjectsFromArray:likeList];
     [self.navigationController pushViewController:likeListViewController animated:YES];
 
+}
+
+- (void)showBlogList:(NSArray *)blogList withBaseURL:(NSString *)baseURL withTotal:(int)total
+{
+    _likeVCShow = YES;
+    Post *tempPost = [[CoreDataManager getInstance] getPost:currentPostId];
+    [blogListViewController.blogArr removeAllObjects];
+    [blogListViewController.blogArr addObjectsFromArray:blogList];
+    blogListViewController.searchBaseURL = baseURL;
+    blogListViewController.totalCount = total;
+    blogListViewController.recipeTitle = tempPost.title;
+    [self.navigationController pushViewController:blogListViewController animated:YES];
 }
 
 - (void)requestFinished:(NSString *)retString withInstance:(HttpAsyncApi *)instance

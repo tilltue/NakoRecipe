@@ -48,6 +48,7 @@
         [self.view addSubview:likeTable];
         
         _likeArr = [[NSMutableArray alloc] init];
+        likeNameDict =[[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -82,6 +83,9 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [_requestConnection cancel];
+    [likeNameDict removeAllObjects];
+    [_likeArr removeAllObjects];
+    [likeTable reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -113,6 +117,8 @@
         NSDictionary *dictionary = (NSDictionary *)result;
         text = (NSString *)[dictionary objectForKey:@"name"];
         usernameLabel.text = text;
+        [likeNameDict setObject:text forKey:fbID];
+        [likeTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:NO];
     }
 }
 
@@ -168,6 +174,12 @@
     userThumb.layer.cornerRadius = 5;
     userThumb.layer.masksToBounds = YES;
     userThumb.frame = tempRect;
+    
+    NSString *fbid = [_likeArr objectAtIndex:indexPath.row];
+    if( [likeNameDict objectForKey:fbid] != nil )
+        usernameLabel.text = [likeNameDict objectForKey:fbid];
+    else
+        usernameLabel.text = @"";
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     

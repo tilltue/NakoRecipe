@@ -8,7 +8,9 @@
 
 #import "RecipeView.h"
 #import "FileControl.h"
+#import "GDataXMLNode.h"
 #import "CoreDataManager.h"
+#import "AFHTTPRequestOperation.h"
 #import "TTTTimeIntervalFormatter.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -139,6 +141,14 @@
         recipeContent.font = [UIFont fontWithName:UIFONT_NAME size:14];
         [recipeInfo addSubview:recipeContent];
  
+        btnSearchList = [[UIButton alloc] init];
+        btnSearchList.layer.borderColor = [CommonUI getUIColorFromHexString:@"E4E3DC"].CGColor;
+        btnSearchList.layer.borderWidth = 1;
+        btnSearchList.backgroundColor = [UIColor clearColor];
+        [btnSearchList addTarget:self action:@selector(btnSearchList) forControlEvents:UIControlEventTouchUpInside];
+        [recipeInfo addSubview:btnSearchList];
+        [self makeSearchBtn];
+        
         btnLikeList = [[UIButton alloc] init];
         btnLikeList.layer.borderColor = [CommonUI getUIColorFromHexString:@"E4E3DC"].CGColor;
         btnLikeList.layer.borderWidth = 1;
@@ -152,6 +162,7 @@
         
         commentArr = [[NSMutableArray alloc] init];
         likeArr = [[NSMutableArray alloc] init];
+        blogItemArr = [[NSMutableArray alloc] init];
         
         CGRect frame = self.frame;
         tvComment = [[UITableView alloc] init];
@@ -206,6 +217,9 @@
     refreshComment = NO;
     [commentArr removeAllObjects];
     [likeArr removeAllObjects];
+    [blogItemArr removeAllObjects];
+    totalBlogItems = 0;
+    baseNaverURL = nil;
     [self btnLikeSubViewClear];
     [tvComment reloadData];
     [[HttpAsyncApi getInstanceComment] clearObserver];
@@ -329,9 +343,17 @@
     tempRect.size.height = recipeContent.contentSize.height;
     recipeContent.frame = tempRect;
     
+    tempRect.origin.x = 0;
+    tempRect.origin.y = recipeContent.frame.origin.y + recipeContent.contentSize.height;
+    tempRect.size.width = self.frame.size.width;
+    tempRect.size.height = 110;
+    btnSearchList.frame = tempRect;
+    [btnSearchList setBackgroundImage:[CommonUI makeShadowImage:[CommonUI getUIColorFromHexString:@"E4E3DC"] withSize:tempRect.size] forState:UIControlStateHighlighted];
+    
     tempRect = CGRectZero;
     tempRect.size = CGSizeMake(self.frame.size.width,recipeContent.frame.origin.y);
     tempRect.size.height += recipeContent.contentSize.height-45;
+    tempRect.size.height += btnSearchList.frame.size.height;
     recipeInfo.frame = tempRect;
     
     btnLikeList.frame = CGRectZero;
@@ -415,6 +437,12 @@
 {
     if( [likeArr count] > 0 )
         [[self recipe_delegate] showLikeList:likeArr];
+}
+
+- (void)btnSearchList
+{
+    if( [blogItemArr count] > 0 )
+        [[self recipe_delegate] showBlogList:blogItemArr withBaseURL:baseNaverURL withTotal:totalBlogItems];
 }
 
 - (void)handleYoutubeButtonTap:(UIButton *)paramSender
@@ -580,7 +608,6 @@
                     continue;
                 CGFloat resizeHeight = ((imageScrollView.frame.size.width-40) / (float)[attachItem.width integerValue] ) * (float)([attachItem.height intValue]);
                 UIImageView *tempAsyncImageview = [[UIImageView alloc] init];
-//                [tempAsyncImageview setImageWithURL:[NSURL URLWithString:attachItem.thumb_url]];
                 UIImage *tempImage = [FileControl checkCachedImage:attachItem.thumb_url withDir:postId];
                 if( tempImage != nil ){
                     tempAsyncImageview.image = tempImage;
@@ -588,7 +615,6 @@
                     [tempAsyncImageview setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:attachItem.thumb_url]]
                                          placeholderImage:nil
                                                   success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                                      int scale = [SystemInfo imageResizeScale];
                                                       tempAsyncImageview.image = image;
                                                       dispatch_async( queue ,
                                                                      ^ {
@@ -636,7 +662,69 @@
     [[HttpAsyncApi getInstanceComment] requestComment:tempPost.post_id];
     [[HttpAsyncApi getInstanceLike] attachObserver:self];
     [[HttpAsyncApi getInstanceLike] requestLike:tempPost.post_id];
+
     [self setLayout];
+    [self blogSearchRequest:tempPost.post_id];
+}
+
+#define NAVER_KEY @"68aa802d0fc40ab1c65993fd7c1819b2"
+
+- (NSString *)getValueForElemnt:(GDataXMLElement *)element withName:(NSString *)name;
+{
+    NSArray *arr = [element elementsForName:name];
+    if( [arr count] > 0 ){
+        GDataXMLElement *find = [arr objectAtIndex:0];
+        return [find stringValue];
+    }
+    return nil;
+}
+
+#pragma mark - blog
+
+- (void)blogSearchRequest:(NSString *)postId
+{
+    Post *tempPost = [[CoreDataManager getInstance] getPost:postId];
+    NSArray *infoTextArr = [tempPost.tags componentsSeparatedByString:@"|"];
+    NSString *searchURL;
+    if( [infoTextArr count] > 2){
+        NSString *search_query = [SystemInfo urlEncode:[NSString stringWithFormat:@"%@ %@ 야간매점 레시피",tempPost.title,[infoTextArr objectAtIndex:2]] encodingType:@"UTF8"];
+        searchURL = [NSString stringWithFormat:@"http://openapi.naver.com/search?key=%@&target=blog&query=%@",NAVER_KEY,search_query];
+    }else{
+        searchURL = [NSString stringWithFormat:@"http://openapi.naver.com/search?key=%@&target=blog&query=%@",NAVER_KEY,tempPost.title];
+    }
+    NSLog(@"%@",searchURL);
+    NSURL *url = [NSURL URLWithString:searchURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        GDataXMLDocument *xmlDoc;
+        xmlDoc = [[GDataXMLDocument alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding error:nil];
+        NSArray *items = [xmlDoc nodesForXPath:@"//rss/channel" error:nil];
+        if( [items count] > 0 ){
+            GDataXMLElement *item = [items objectAtIndex:0];
+            NSString *total_count = [self getValueForElemnt:item withName:@"total"];
+            if( total_count != nil ){
+                lblSearchBlog.text = [NSString stringWithFormat:@"%@ 개의 블로그 글이 검색되었습니다.",total_count];
+                NSArray *blogItems = [item elementsForName:@"item"];
+                [blogItemArr removeAllObjects];
+                for( GDataXMLElement *blogItem in blogItems)
+                {
+                    BlogListItem *newItem = [[BlogListItem alloc] init];
+                    newItem.url = [self getValueForElemnt:blogItem withName:@"link"];
+                    newItem.blog_name = [self getValueForElemnt:blogItem withName:@"bloggername"];
+                    newItem.blog_title = [self getValueForElemnt:blogItem withName:@"title"];
+                    newItem.blog_desc = [self getValueForElemnt:blogItem withName:@"description"];
+                    [blogItemArr addObject:newItem];
+                }
+                totalBlogItems = [total_count intValue];
+                baseNaverURL = searchURL;
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        ;
+    }];
+    [operation start];
 }
 
 - (NSString *)thumbUrlReplaceCheck:(NSString *)string
@@ -649,15 +737,62 @@
     return string;
 }
 
+- (void)makeSearchBtn
+{
+    CGRect tempRect;
+
+    tempRect = CGRectZero;
+    tempRect.origin.x = 10;
+    tempRect.origin.y = 5;
+    tempRect.size.width = 24;
+    tempRect.size.height = 24;
+    
+    UIImageView *tempImageView;
+    tempImageView = [[UIImageView alloc] init];;
+    tempImageView.layer.cornerRadius = 5;
+    tempImageView.layer.masksToBounds = YES;
+    [tempImageView setImage:[UIImage imageNamed:@"ic_web"]];
+    [tempImageView setFrame:tempRect];
+    [btnSearchList addSubview:tempImageView];
+    
+    tempRect.origin.x = 44;
+    tempRect.origin.y = 5;
+    tempRect.size.width = 200;
+    tempRect.size.height = 24;
+    UILabel *tempLabel;
+    tempLabel = [[UILabel alloc] init];
+    tempLabel.frame = tempRect;
+    tempLabel.text = @"블로그";
+    tempLabel.font = [UIFont systemFontOfSize:15];
+    tempLabel.backgroundColor = [UIColor clearColor];
+    tempLabel.textColor = [CommonUI getUIColorFromHexString:@"E04C30"];
+    [btnSearchList addSubview:tempLabel];
+    
+    tempRect.origin.x = 10;
+    tempRect.origin.y = 35;
+    tempRect.size.width = 300;
+    tempRect.size.height = 24;
+    tempLabel = [[UILabel alloc] init];
+    tempLabel.frame = tempRect;
+    tempLabel.text = @"0 개의 블로그 글이 검색되었습니다.";
+    tempLabel.font = [UIFont systemFontOfSize:15];
+    tempLabel.backgroundColor = [UIColor clearColor];
+    tempLabel.textColor = [UIColor grayColor];
+    lblSearchBlog = tempLabel;
+    [btnSearchList addSubview:tempLabel];
+
+}
+
 - (void)makeLikeBtn
 {
     [self btnLikeSubViewClear];
     CGRect tempRect;
     tempRect.origin.x = 0;
-    tempRect.origin.y = recipeInfo.frame.origin.y + recipeInfo.frame.size.height + 20;
+    tempRect.origin.y = recipeInfo.frame.origin.y + recipeInfo.frame.size.height;
     tempRect.size.height = 80;
     tempRect.size.width = self.frame.size.width;
     btnLikeList.frame = tempRect;
+    [btnLikeList setBackgroundImage:[CommonUI makeShadowImage:[CommonUI getUIColorFromHexString:@"E4E3DC"] withSize:tempRect.size] forState:UIControlStateHighlighted];
     
     tempRect.size.height = recipeInfo.frame.size.height;
     tempRect.size.height += 100;
@@ -777,7 +912,7 @@
             for( NSDictionary *like in json )
             {
                 NSString *tempFacebookId = [[like objectForKey:@"fb_id"] isKindOfClass:[NSNumber class]]?[[like objectForKey:@"fb_id"] stringValue]:[like objectForKey:@"fb_id"];
-                NSLog(@"%@",tempFacebookId);
+//                NSLog(@"%@",tempFacebookId);
                 NSString *tempPostId = [[like objectForKey:@"post_id"] isKindOfClass:[NSNumber class]]?[[like objectForKey:@"post_id"] stringValue]:[like objectForKey:@"post_id"];
                 if( [tempFacebookId isEqualToString:appDelegate.facebookID] && [tempPostId isEqualToString:currentPostId] ){
                     userLikeUpdate = YES;
@@ -790,8 +925,12 @@
             }else{
                 [[self recipe_delegate] likeUpdate:NO];
             }
-            if( [likeArr count] > 0 )
+            if( [likeArr count] > 0 ){
+                btnLikeList.hidden = NO;
                 [self makeLikeBtn];
+            }else
+                btnLikeList.hidden = YES;
+                
         }
             break;
         default:

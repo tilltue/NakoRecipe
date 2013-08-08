@@ -15,6 +15,7 @@
 - (void)keyboardHide;
 - (void)likeUpdate:(BOOL)state;
 - (void)showLikeList:(NSArray *)likeList;
+- (void)showBlogList:(NSArray *)blogList withBaseURL:(NSString *)baseURL withTotal:(int)total;
 @end
 
 @interface RecipeView : UIView <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,RequestObserver>
@@ -50,6 +51,12 @@
     
     UIButton *btnLikeList;
     NSMutableArray *likeArr;
+    
+    UIButton *btnSearchList;
+    UILabel *lblSearchBlog;
+    NSMutableArray *blogItemArr;
+    int totalBlogItems;
+    NSString *baseNaverURL;
     
     UITableView *tvComment;
     NSMutableArray *commentArr;
