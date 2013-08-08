@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "UIImageView+AFNetworking.h"
 #import "AFJSONRequestOperation.h"
+#import "CustomAlert.h"
 
 @interface PinterestViewController ()
 
@@ -146,8 +147,32 @@
         [appDelegate facebookLogout];
         [[LocalyticsSession shared] tagEvent:@"Facebook Logout"];
     }else{
-        [appDelegate openSession];
-        [[LocalyticsSession shared] tagEvent:@"Facebook Login"];
+        CustomAlert *alert = [[CustomAlert alloc]initWithTitle:@"" message:@"페이스북 계정으로 로그인 하시겠습니까?\n허락없이 페이스북에 글을\n 남기지 않습니다." delegate:self cancelButtonTitle:@"확인" otherButtonTitles:@"취소", nil];
+        alert.delegate = self;
+        [alert show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0://확인
+        {
+            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate openSession];
+            [[LocalyticsSession shared] tagEvent:@"Facebook Login"];
+        }
+            break;
+        case 1://취소
+        {
+            
+        }
+            break;
+        default:
+            break;
+    }
+    if( buttonIndex == 0 ){
+        
     }
 }
 
@@ -221,7 +246,6 @@
 {
     NSInteger currentPostCount = [[[CoreDataManager getInstance] getPosts] count];
     [[HttpAsyncApi getInstance] requestRecipe:currentPostCount withOffsetPostIndex:0];
-    [self likeCommentUpdate];
 }
 
 #pragma mark - request observer
@@ -252,6 +276,7 @@
         if( currentPostCount < [total_count intValue] )
             [[HttpAsyncApi getInstance] requestRecipe:[total_count intValue] withOffsetPostIndex:currentPostCount];
     }
+    [self likeCommentUpdate];
     [recipePinterest stopLoading];
 }
 

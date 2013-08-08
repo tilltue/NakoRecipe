@@ -46,6 +46,8 @@
             if(subIndex){
                 NSString *num = [prefixModel substringFromIndex:subIndex];
                 if( num != nil && [num intValue] > 4 )
+                    return 1;
+                else if( num != nil && [num intValue] > 3 )
                     return 2;
                 else
                     return 3;
@@ -59,7 +61,7 @@
                     return 2;
             }
         }else{
-            return 3;
+            return 1;
         }
     }
     return 1;
@@ -87,7 +89,7 @@
             if(subIndex){
                 NSString *num = [prefixModel substringFromIndex:subIndex];
                 if( num != nil && [num intValue] > 3 )
-                    return YES;
+                    return NO;
                 else
                     return NO;
             }

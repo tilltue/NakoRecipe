@@ -28,12 +28,12 @@
     if (self) {
         // Custom initialization
         CGRect tempRect;
-        tempRect = [SystemInfo isPad]?CGRectMake(0, 0, 768, 40):CGRectMake(0, 0, 220, 40);
+        tempRect = [SystemInfo isPad]?CGRectMake(0, 0, 668, 40):CGRectMake(0, 0, 220, 40);
         CGFloat titleFontHeight;
         if( [UIFONT_NAME isEqualToString:@"HA-TTL"] )
-            titleFontHeight = [SystemInfo isPad]?24.0:20.0f;
+            titleFontHeight = [SystemInfo isPad]?24.0:15.0f;
         else
-            titleFontHeight = [SystemInfo isPad]?24.0:20.0f;
+            titleFontHeight = [SystemInfo isPad]?24.0:15.0f;
         UILabel *label = [[UILabel alloc] initWithFrame:tempRect];
         label.font = [UIFont fontWithName:UIFONT_NAME size:titleFontHeight];
         label.backgroundColor = [UIColor clearColor];
@@ -163,6 +163,7 @@
     }else{
         BlogListItem *tempBlogItem = [blogArr objectAtIndex:indexPath.row];
         webViewController.url = tempBlogItem.url;
+        webViewController.title = tempBlogItem.blog_name;
         [self.navigationController pushViewController:webViewController animated:YES];
     }
 }

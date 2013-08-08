@@ -13,13 +13,29 @@
 @end
 
 @implementation BlogWebViewController
-@synthesize url;
+@synthesize url,title;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.view.backgroundColor = [UIColor whiteColor];
+        
+        CGRect tempRect;
+        tempRect = [SystemInfo isPad]?CGRectMake(0, 0, 668, 40):CGRectMake(0, 0, 220, 40);
+        CGFloat titleFontHeight;
+        if( [UIFONT_NAME isEqualToString:@"HA-TTL"] )
+            titleFontHeight = [SystemInfo isPad]?24.0:15.0f;
+        else
+            titleFontHeight = [SystemInfo isPad]?24.0:15.0f;
+        UILabel *label = [[UILabel alloc] initWithFrame:tempRect];
+        label.font = [UIFont fontWithName:UIFONT_NAME size:titleFontHeight];
+        label.backgroundColor = [UIColor clearColor];
+        label.textColor = [UIColor whiteColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.text = @"블로그";
+        self.navigationItem.titleView = label;
+
         // Custom initialization
         _webView = [[UIWebView alloc] init];
         _webView.delegate = self;
@@ -53,6 +69,12 @@
         activityIndicatorView.alpha = .9;
         [activityIndicatorView.layer removeAllAnimations];
         [self runSpinAnimationOnView:activityIndicatorView duration:2 rotations:1 repeat:3];
+        UILabel *tempLabel = (UILabel *)self.navigationItem.titleView;
+        if( title != nil )
+            tempLabel.text = [NSString stringWithFormat:@"%@",title];
+        else
+            tempLabel.text = @"블로그";
+
     }
 }
 
@@ -76,6 +98,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     url = nil;
+    title = nil;
     [_webView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML = \"\";"];
 }
 

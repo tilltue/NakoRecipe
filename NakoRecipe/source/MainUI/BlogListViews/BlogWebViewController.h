@@ -14,4 +14,5 @@
     UIImageView *activityIndicatorView;
 }
 @property (nonatomic, strong) NSString *url;
+@property (nonatomic, strong) NSString *title;
 @end
