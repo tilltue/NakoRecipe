@@ -7,6 +7,7 @@
 //
 
 #import "RecipeView.h"
+#import "FileControl.h"
 #import "CoreDataManager.h"
 #import "TTTTimeIntervalFormatter.h"
 #import <QuartzCore/QuartzCore.h>
@@ -38,21 +39,12 @@
         
         tvHeaderView = [[UIView alloc] init];
         tvFooterView = [[UIView alloc] init];
-        bgView = [[UIView alloc] init];
-        if( [SystemInfo shadowOptionModel]){
-            bgView.layer.cornerRadius = 5;
-            bgView.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
-            bgView.layer.shadowRadius = 2;
-            bgView.layer.shadowOpacity = 0.2;
-        }
-        bgView.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
-        [tvHeaderView addSubview:bgView];
+        tvHeaderView.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
         
         recipeInfo = [[UIView alloc] init];
-        recipeInfo.layer.cornerRadius = 5;
         recipeInfo.layer.masksToBounds = YES;
         recipeInfo.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
-        [bgView addSubview:recipeInfo];
+        [tvHeaderView addSubview:recipeInfo];
         
         noImageLabel = [[UILabel alloc] init];
         noImageLabel.textColor = [CommonUI getUIColorFromHexString:@"#657383"];
@@ -203,6 +195,8 @@
         _refreshControl = [[ODRefreshControl alloc] initInScrollView:tvComment activityIndicatorView:activityIndicatorView];
         [_refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
         [_refreshControl setTintColor:[CommonUI getUIColorFromHexString:@"E04C30"]];
+        queue = dispatch_queue_create("recipeView", NULL);
+        [self makeLayout];
     }
     return self;
 }
@@ -237,26 +231,15 @@
 - (void)setLayout
 {
     CGRect tempRect;
-    CGFloat RECIPE_INFO_HEIGHT          = [[rectDic objectForKey:@"RECIPE_INFO_HEIGHT"] floatValue];
-    
-    tempRect = [CommonUI getRectFromDic:rectDic withKey:@"imageScrollView"];
+    tempRect = CGRectZero;
+    tempRect.size = [SystemInfo isPad]?CGSizeMake(self.frame.size.width, 450):CGSizeMake(self.frame.size.width, 200);
+    imageScrollView.frame = tempRect;
+    recipeInfo.frame = tempRect;
     for( int i = 0; i < [imageArr count]; i++ )
     {
         UIImageView *tempSubImageView = [imageArr objectAtIndex:i];
-        [tempSubImageView setFrame:CGRectMake((self.frame.size.width - tempRect.origin.x*2)*i, 0, self.frame.size.width - tempRect.origin.x*2, tempSubImageView.frame.size.height)];
-    }
-    if( [imageArr count] > imagePageControl.currentPage ){
-        UIImageView *tempSubImageView = [imageArr objectAtIndex:imagePageControl.currentPage];
-        [imageScrollView setFrame:CGRectMake(0,0, tempSubImageView.frame.size.width, tempSubImageView.frame.size.height)];
-        noImageLabel.frame = imageScrollView.frame;
-        [bgView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, imageScrollView.frame.size.height+tempRect.origin.y*4+RECIPE_INFO_HEIGHT)];
-        tvHeaderView.frame = bgView.frame;
-        recipeInfo.frame = CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height);
-    }else{
-        [bgView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height*.3+tempRect.origin.y*4+RECIPE_INFO_HEIGHT)];
-        tvHeaderView.frame = bgView.frame;
-        recipeInfo.frame = CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height);
-        [noImageLabel setFrame:CGRectMake(0, 0, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8-RECIPE_INFO_HEIGHT+tempRect.origin.y)];
+        tempRect.origin.x = self.frame.size.width*i;
+        tempSubImageView.frame = tempRect;
     }
     [imageScrollView setContentSize:CGSizeMake((imageScrollView.frame.size.width)*([imageArr count]), imageScrollView.frame.size.height)];
     
@@ -346,7 +329,8 @@
     tempRect.size.height = recipeContent.contentSize.height;
     recipeContent.frame = tempRect;
     
-    tempRect = recipeInfo.frame;
+    tempRect = CGRectZero;
+    tempRect.size = CGSizeMake(self.frame.size.width,recipeContent.frame.origin.y);
     tempRect.size.height += recipeContent.contentSize.height-45;
     recipeInfo.frame = tempRect;
     
@@ -576,12 +560,9 @@
     currentPostId = postId;
     [tvComment setContentOffset:CGPointMake(0, 0)];
     
-    CGRect tempRect;
-    tempRect = [CommonUI getRectFromDic:rectDic withKey:@"imageScrollView"];
-    [bgView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, self.frame.size.width - tempRect.origin.x*2, self.frame.size.height * 0.8)];
-    tvHeaderView.frame = bgView.frame;
-    [recipeInfo setFrame:CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height)];
-    [imageScrollView setFrame:CGRectMake(tempRect.origin.x, tempRect.origin.y, recipeInfo.frame.size.width - tempRect.origin.x*2, recipeInfo.frame.size.height * 0.8)];
+    CGRect tempRect = CGRectZero;
+    tempRect.size = CGSizeMake(self.frame.size.width, 200);
+    imageScrollView.frame = tempRect;
     noImageLabel.frame = imageScrollView.frame;
     for( UIImageView *tempSubImageView in imageArr )
         [tempSubImageView removeFromSuperview];
@@ -591,7 +572,7 @@
     Post *tempPost = [[CoreDataManager getInstance] getPost:postId];
     if( [tempPost.attatchments count] > 0 ){
         NSMutableArray *sortArray = [[NSMutableArray alloc] initWithArray:[tempPost.attatchments allObjects]];
-        [sortArray sortUsingFunction:intSortURL context:nil];
+        [sortArray sortUsingFunction:intSortRecipeURL context:nil];
         for( int i = 0; i < [sortArray count]; i++ ){
             if( [AppPreference getValid] ){
                 AttatchMent *attachItem = [sortArray objectAtIndex:i];
@@ -599,7 +580,25 @@
                     continue;
                 CGFloat resizeHeight = ((imageScrollView.frame.size.width-40) / (float)[attachItem.width integerValue] ) * (float)([attachItem.height intValue]);
                 UIImageView *tempAsyncImageview = [[UIImageView alloc] init];
-                [tempAsyncImageview setImageWithURL:[NSURL URLWithString:attachItem.thumb_url]];
+//                [tempAsyncImageview setImageWithURL:[NSURL URLWithString:attachItem.thumb_url]];
+                UIImage *tempImage = [FileControl checkCachedImage:attachItem.thumb_url withDir:postId];
+                if( tempImage != nil ){
+                    tempAsyncImageview.image = tempImage;
+                }else{
+                    [tempAsyncImageview setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:attachItem.thumb_url]]
+                                         placeholderImage:nil
+                                                  success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                                      int scale = [SystemInfo imageResizeScale];
+                                                      tempAsyncImageview.image = image;
+                                                      dispatch_async( queue ,
+                                                                     ^ {
+                                                                         [FileControl cacheImage:attachItem.thumb_url withImage:image withDir:postId];
+                                                                     });
+                                                  }
+                                                  failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                      ;
+                                                  }];
+                }
                 [imageScrollView addSubview:tempAsyncImageview];
                 [imageArr addObject:tempAsyncImageview];
                 [tempAsyncImageview setFrame:CGRectMake((imageScrollView.frame.size.width)*i, 0, imageScrollView.frame.size.width,resizeHeight+40)];
@@ -652,15 +651,16 @@
 
 - (void)makeLikeBtn
 {
+    [self btnLikeSubViewClear];
     CGRect tempRect;
     tempRect.origin.x = 0;
     tempRect.origin.y = recipeInfo.frame.origin.y + recipeInfo.frame.size.height + 20;
-    tempRect.size.height = 50;
+    tempRect.size.height = 80;
     tempRect.size.width = self.frame.size.width;
     btnLikeList.frame = tempRect;
     
     tempRect.size.height = recipeInfo.frame.size.height;
-    tempRect.size.height += 70;
+    tempRect.size.height += 100;
     tempRect.size.width = self.frame.size.width;
     tempRect.origin = CGPointZero;
     tvHeaderView.frame = tempRect;
@@ -669,40 +669,59 @@
     tvComment.tableFooterView = tvFooterView;
 
     tempRect = CGRectZero;
-    tempRect.origin.x = 5;
+    tempRect.origin.x = 10;
     tempRect.origin.y = 5;
-    tempRect.size.width = 40;
-    tempRect.size.height = 40;
+    tempRect.size.width = 24;
+    tempRect.size.height = 24;
     
     UIImageView *tempImageView;
     tempImageView = [[UIImageView alloc] init];;
     tempImageView.layer.cornerRadius = 5;
     tempImageView.layer.masksToBounds = YES;
-    [tempImageView setImage:[UIImage imageNamed:@"ic_like_circle"]];
+    [tempImageView setImage:[UIImage imageNamed:@"btn_unlike"]];
     [tempImageView setFrame:tempRect];
     [btnLikeList addSubview:tempImageView];
     
-    for( NSString *facebookId in likeArr )
+    tempRect.origin.x = 44;
+    tempRect.origin.y = 5;
+    tempRect.size.width = 200;
+    tempRect.size.height = 24;
+    UILabel *tempLabel;
+    tempLabel = [[UILabel alloc] init];
+    tempLabel.frame = tempRect;
+    tempLabel.text = [NSString stringWithFormat:@"%d 명이 좋아해요",[likeArr count]];
+    tempLabel.font = [UIFont systemFontOfSize:15];
+    tempLabel.backgroundColor = [UIColor clearColor];
+    tempLabel.textColor = [CommonUI getUIColorFromHexString:@"E04C30"];
+    [btnLikeList addSubview:tempLabel];
+    
+    tempRect.origin.y = 35;
+    tempRect.size.width = 40;
+    tempRect.size.height = 40;
+    for( int i = 0; i < [likeArr count]; i++)
     {
-        if( tempRect.origin.x + (tempRect.size.width+5)*3 > self.frame.size.width )
+        NSString *facebookId = [likeArr objectAtIndex:([likeArr count]-(i+1))];
+        tempRect.origin.x = (tempRect.size.width+5)*i+5;
+        if( tempRect.origin.x + ((tempRect.size.width+5)+5) > self.frame.size.width && i != [likeArr count]-1){
+            tempRect.origin.x = (tempRect.size.width+5)*i+5;
+            UILabel *tempLabel = [[UILabel alloc] initWithFrame:tempRect];
+            tempLabel.layer.cornerRadius = 5;
+            tempLabel.backgroundColor = [CommonUI getUIColorFromHexString:@"E04C30"];
+            tempLabel.textColor = [UIColor whiteColor];
+            tempLabel.text = [NSString stringWithFormat:@"+%d",[likeArr count]-i];
+            tempLabel.textAlignment = NSTextAlignmentCenter;
+            tempLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
+            [btnLikeList addSubview:tempLabel];
             break;
-        tempRect.origin.x += tempRect.size.width+5;
+        }
         tempImageView = [[UIImageView alloc] init];;
         tempImageView.layer.cornerRadius = 5;
-        tempImageView.layer.masksToBounds = YES;
-        [tempImageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal",facebookId]]];
+        tempImageView.clipsToBounds = YES;
+        tempImageView.contentMode = UIViewContentModeScaleAspectFill;
+        [tempImageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal",facebookId]] placeholderImage:[UIImage imageNamed:@"ic_blank_profile"]];
         [tempImageView setFrame:tempRect];
         [btnLikeList addSubview:tempImageView];
     }
-    tempRect.origin.x += tempRect.size.width+5;
-    UILabel *tempLabel = [[UILabel alloc] initWithFrame:tempRect];
-    tempLabel.layer.cornerRadius = 5;
-    tempLabel.backgroundColor = [CommonUI getUIColorFromHexString:@"E04C30"];
-    tempLabel.textColor = [UIColor whiteColor];
-    tempLabel.text = [NSString stringWithFormat:@"+%d",[likeArr count]];
-    tempLabel.textAlignment = NSTextAlignmentCenter;
-    tempLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
-    [btnLikeList addSubview:tempLabel];
 }
 
 #pragma mark - httpAsync observer
@@ -843,6 +862,8 @@
         cell.contentView.backgroundColor = [CommonUI getUIColorFromHexString:@"#E8E8E8"];
         userThumb = [[UIImageView alloc] init];
         userThumb.tag = 1;
+        userThumb.clipsToBounds = YES;
+        userThumb.contentMode = UIViewContentModeScaleAspectFill;
         [cell.contentView addSubview:userThumb];
         
         usernameLabel = [[UILabel alloc] init];

@@ -27,4 +27,5 @@
 #pragma mark - Attachment
 //sort
 NSInteger intSortURL(AttatchMent *item1, AttatchMent *item2, void *context);
+NSInteger intSortRecipeURL(AttatchMent *item1, AttatchMent *item2, void *context);
 @end

@@ -38,9 +38,13 @@
         label.text = @"이 레시피를 좋아해요!";
         self.navigationItem.titleView = label;
         
-        likeTable = [[UITableView alloc] initWithFrame:self.view.bounds];
+        tempRect = self.view.bounds;
+        tempRect.size.height -= 44;
+        likeTable = [[UITableView alloc] init];
+        likeTable.frame = tempRect;
         likeTable.dataSource = self;
         likeTable.delegate = self;
+        likeTable.backgroundColor = [CommonUI getUIColorFromHexString:@"#E8E8E8"];
         [self.view addSubview:likeTable];
         
         _likeArr = [[NSMutableArray alloc] init];
@@ -132,9 +136,10 @@
     CGRect tempRect;
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CommentTable"];
-        cell.contentView.backgroundColor = [CommonUI getUIColorFromHexString:@"#E8E8E8"];
         userThumb = [[UIImageView alloc] init];
         userThumb.tag = 1;
+        userThumb.clipsToBounds = YES;
+        userThumb.contentMode = UIViewContentModeScaleAspectFill;
         [cell.contentView addSubview:userThumb];
         
         usernameLabel = [[UILabel alloc] init];

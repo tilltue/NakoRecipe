@@ -28,17 +28,8 @@
     
     UIView          *tvHeaderView;
     UIView          *tvFooterView;
-    UIView          *bgView;
     UIView          *recipeInfo;
-    
-    /*
-    UIImageView *likeImageView;
-    UIButton    *likeButton;
-    UILabel     *likeLabel;
-    UIImageView *commentImageView;
-    UIButton    *commentButton;
-    UILabel     *commentLabel;
-    */
+
     NSString    *currentPostId;
     
     UIView      *lineView_1;
@@ -67,6 +58,7 @@
     BOOL refreshComment;
     
     ODRefreshControl *_refreshControl;
+    dispatch_queue_t queue;
 }
 @property (nonatomic, unsafe_unretained) id <RecipeViewDelegate> recipe_delegate;
 - (void)reset;

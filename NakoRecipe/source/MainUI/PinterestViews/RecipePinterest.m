@@ -119,7 +119,8 @@
 
 - (void)reloadLikePintRest
 {
-    [_gridView reloadData];
+    if( !_refreshControl.refreshing )
+        [_gridView reloadData];
 }
 
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
@@ -184,7 +185,7 @@
 - (CGSize)GMGridView:(GMGridView *)gridView sizeForItemsInInterfaceOrientation:(UIInterfaceOrientation)orientation
 {
     if([SystemInfo isPad])
-        return CGSizeMake(300, 200);
+        return CGSizeMake(245, 310);
     else
         return CGSizeMake(150, 200);
 }
@@ -202,7 +203,7 @@
     GMGridViewCell *cell = [gridView dequeueReusableCell];
     
     CGSize size = [self GMGridView:gridView sizeForItemsInInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
-    size.height -= 40;
+    size.height -= [SystemInfo isPad]?60:40;
     
     PintrestItem *pintrestItem = [pintrestItems objectAtIndex:index];
     UIImageView *ivRecipeThumb;
@@ -217,7 +218,7 @@
     UILabel *lblComment;
     
     CGFloat thumbMargin = 5;
-    CGFloat iconSize = 37;
+    CGFloat iconSize = [SystemInfo isPad]?50:37;
     float fontSize = [SystemInfo isPad]?23:13;
     CGRect rect = CGRectZero;
     if (!cell)
@@ -250,7 +251,7 @@
     lblLoading.textAlignment = NSTextAlignmentCenter;
     lblLoading.textColor = [UIColor grayColor];
     
-    rect = [SystemInfo isPad]?CGRectMake(0, 0, 40, 20):CGRectMake(0, 0, 40, 20);
+    rect = [SystemInfo isPad]?CGRectMake(0, 0, 70, 35):CGRectMake(0, 0, 40, 20);
     lblCount = [[UILabel alloc] init];
     lblCount.tag = 6;
     lblCount.textAlignment = NSTextAlignmentCenter;
@@ -270,7 +271,7 @@
     ivCreatorThumb.backgroundColor = [UIColor clearColor];
     
     rect.origin = CGPointMake(thumbMargin, size.height+thumbMargin+2);
-    rect.size = CGSizeMake(100, 15);
+    rect.size = [SystemInfo isPad]?CGSizeMake(200, 30):CGSizeMake(100, 15);
     lblRecipeName = [[UILabel alloc] init];
     lblRecipeName.backgroundColor = [UIColor clearColor];
     lblRecipeName.textColor = [UIColor darkGrayColor];
@@ -279,41 +280,43 @@
     lblRecipeName.font = [UIFont systemFontOfSize:fontSize];
     
     rect.origin.y += rect.size.height;
-    rect.size = CGSizeMake(50, 14);
+    rect.size = [SystemInfo isPad]?CGSizeMake(100, 20):CGSizeMake(50, 14);
     lblCreator = [[UILabel alloc] init];
     lblCreator.backgroundColor = [UIColor clearColor];
     lblCreator.textColor = [UIColor grayColor];
     lblCreator.frame = rect;
-    lblCreator.font = [UIFont systemFontOfSize:fontSize-1];
+    lblCreator.font = [UIFont systemFontOfSize:fontSize-([SystemInfo isPad]?3:1)];
     
-    rect.origin = CGPointMake(70, size.height+thumbMargin+17);
+    rect.origin.x = [SystemInfo isPad]?130:70;
+    rect.origin.y = size.height+thumbMargin+([SystemInfo isPad]?38:17);
     rect.size = CGSizeMake(14, 12);
     ivLike = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_like"]];
     ivLike.frame = rect;
     
     LikeCommentItem *tempLikeItem = [self getLikeItem:pintrestItem.postId];
     rect.origin.x += 17;
-    rect.size = CGSizeMake(20, 12);
+    rect.size = [SystemInfo isPad]?CGSizeMake(30, 12):CGSizeMake(20, 12);
     lblLike = [[UILabel alloc] init];
     lblLike.backgroundColor = [UIColor clearColor];
     lblLike.textColor = [UIColor darkGrayColor];
-    lblLike.font = [UIFont systemFontOfSize:fontSize-2];
+    lblLike.font = [UIFont systemFontOfSize:fontSize-([SystemInfo isPad]?8:2)];
     lblLike.frame = rect;
     lblLike.tag = 8;
     lblLike.textAlignment = NSTextAlignmentCenter;
+    lblLike.text = @"999";
     lblLike.text = tempLikeItem!=nil?[NSString stringWithFormat:@"%d",tempLikeItem.like_count]:@"0";
     
-    rect.origin.x += 22;
+    rect.origin.x += [SystemInfo isPad]?32:22;
     rect.size = CGSizeMake(14, 12);
     ivComment = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_comment"]];
     ivComment.frame = rect;
     
     rect.origin.x += 17;
-    rect.size = CGSizeMake(20, 12);
+    rect.size = [SystemInfo isPad]?CGSizeMake(30, 12):CGSizeMake(20, 12);
     lblComment = [[UILabel alloc] init];
     lblComment.backgroundColor = [UIColor clearColor];
     lblComment.textColor = [UIColor darkGrayColor];
-    lblComment.font = [UIFont systemFontOfSize:fontSize-2];
+    lblComment.font = [UIFont systemFontOfSize:fontSize-([SystemInfo isPad]?8:2)];
     lblComment.frame = rect;
     lblComment.tag = 9;
     lblComment.textAlignment = NSTextAlignmentCenter;
