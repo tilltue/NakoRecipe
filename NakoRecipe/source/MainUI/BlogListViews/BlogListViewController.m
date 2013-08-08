@@ -46,7 +46,7 @@
         blogTable.frame = tempRect;
         blogTable.dataSource = self;
         blogTable.delegate = self;
-        blogTable.backgroundColor = [CommonUI getUIColorFromHexString:@"#E8E8E8"];
+        blogTable.backgroundColor = [CommonUI getUIColorFromHexString:@"#EAEAEA"];
         [self.view addSubview:blogTable];
         
         blogArr = [[NSMutableArray alloc] init];

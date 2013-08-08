@@ -789,13 +789,13 @@
     CGRect tempRect;
     tempRect.origin.x = 0;
     tempRect.origin.y = recipeInfo.frame.origin.y + recipeInfo.frame.size.height;
-    tempRect.size.height = 80;
+    tempRect.size.height = 90;
     tempRect.size.width = self.frame.size.width;
     btnLikeList.frame = tempRect;
     [btnLikeList setBackgroundImage:[CommonUI makeShadowImage:[CommonUI getUIColorFromHexString:@"E4E3DC"] withSize:tempRect.size] forState:UIControlStateHighlighted];
     
     tempRect.size.height = recipeInfo.frame.size.height;
-    tempRect.size.height += 100;
+    tempRect.size.height += 90;
     tempRect.size.width = self.frame.size.width;
     tempRect.origin = CGPointZero;
     tvHeaderView.frame = tempRect;

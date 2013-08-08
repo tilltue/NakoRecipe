@@ -118,7 +118,7 @@
         text = (NSString *)[dictionary objectForKey:@"name"];
         usernameLabel.text = text;
         [likeNameDict setObject:text forKey:fbID];
-        [likeTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:NO];
+        //[likeTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:NO];
     }
 }
 
