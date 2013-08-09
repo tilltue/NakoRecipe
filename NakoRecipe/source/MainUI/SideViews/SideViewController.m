@@ -192,7 +192,7 @@
             rect.size = CGSizeMake(150, 30);
             messageLabel = [[UILabel alloc] init];
             messageLabel.tag = 3;
-            messageLabel.text = @"허락없이 타임라인에 글을 남기지 않아요.";
+            messageLabel.text = @"허락없이 타임라인에 글을\n남기지 않아요.";
             messageLabel.lineBreakMode = NSLineBreakByWordWrapping;
             messageLabel.numberOfLines = 2;
             messageLabel.textColor = [UIColor grayColor];
