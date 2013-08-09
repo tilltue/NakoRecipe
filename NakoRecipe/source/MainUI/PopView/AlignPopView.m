@@ -23,7 +23,7 @@
         [self addSubview:btnClose];
         
         CGRect rect;
-        rect = CGRectMake(self.frame.size.width - 90, 5, 80, 160);
+        rect = CGRectMake(self.frame.size.width - 90, 10, 80, 160);
         UITableView *tableView = [[UITableView alloc] initWithFrame:frame];
         tableView.scrollEnabled = NO;
         tableView.dataSource = self;

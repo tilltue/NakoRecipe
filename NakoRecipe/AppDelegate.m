@@ -157,7 +157,7 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
         loginPopShow = YES;
         pintrestMainViewController.loginState = NO;
     }
-    CGRect tempRect = [SystemInfo isPad]?CGRectMake(0, 0, 668, 40):CGRectMake(0, 0, 220, 40);
+    CGRect tempRect = [SystemInfo isPad]?CGRectMake(0, 0, 568, 40):CGRectMake(0, 0, 120, 40);
     CGFloat titleFontHeight;
     if( [UIFONT_NAME isEqualToString:@"HA-TTL"] )
         titleFontHeight = [SystemInfo isPad]?24.0:24.0f;
@@ -169,7 +169,7 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
-    label.text = @"해투 야간매점";
+    label.text = @" 야간매점";
     pintrestMainViewController.navigationItem.titleView = label;
     
     UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:pintrestMainViewController];
