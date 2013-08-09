@@ -62,12 +62,12 @@
         [self setUserAgent:@"Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3"];
 }
 
+
 - (void)viewWillAppear:(BOOL)animated
 {
     if( url != nil ){
         [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
         activityIndicatorView.alpha = .9;
-        [activityIndicatorView.layer removeAllAnimations];
         [self runSpinAnimationOnView:activityIndicatorView duration:2 rotations:1 repeat:3];
         UILabel *tempLabel = (UILabel *)self.navigationItem.titleView;
         if( title != nil )
@@ -78,7 +78,7 @@
     }
 }
 
-- (void) runSpinAnimationOnView:(UIView*)view duration:(CGFloat)duration rotations:(CGFloat)rotations repeat:(float)repeat;
+- (void)runSpinAnimationOnView:(UIView*)view duration:(CGFloat)duration rotations:(CGFloat)rotations repeat:(float)repeat;
 {
     CABasicAnimation* rotationAnimation;
     rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
@@ -99,6 +99,7 @@
 {
     url = nil;
     title = nil;
+    [activityIndicatorView.layer removeAllAnimations];
     [_webView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML = \"\";"];
 }
 

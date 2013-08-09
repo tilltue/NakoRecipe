@@ -361,7 +361,6 @@
     btnLikeList.frame = CGRectZero;
     
     tempRect.size.height = recipeInfo.frame.size.height;
-    tempRect.size.height += 30;
     tempRect.size.width = self.frame.size.width;
     tempRect.origin = CGPointZero;
     tvHeaderView.frame = tempRect;

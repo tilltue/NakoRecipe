@@ -477,7 +477,7 @@ NSInteger intSortCommenctCount(PintrestItem *item1, PintrestItem *item2, void *c
                 lblLoading.backgroundColor = [CommonUI getUIColorFromHexString:@"F4F3F4"];
             }
         }else{
-            NSLog(@"%d %@",index,tempAttatchItem.image_url);
+            //NSLog(@"%d %@",index,tempAttatchItem.image_url);
             [ivRecipeThumb setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:tempAttatchItem.image_url]]
                                  placeholderImage:nil
                                           success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
