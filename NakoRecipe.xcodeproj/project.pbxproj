@@ -83,6 +83,15 @@
 		A3DEA0F4178D3D8D0041E259 /* ODRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DEA0F3178D3D8D0041E259 /* ODRefreshControl.m */; };
 		A3E12E0D177EAE9E00D512A0 /* SDURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E12E0C177EAE9E00D512A0 /* SDURLCache.m */; };
 		A3E530D217507B5700C651F3 /* AppPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E530D117507B5700C651F3 /* AppPreference.m */; };
+		A3E6CC4617B4AADB00A83905 /* MMDrawerBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E6CC3F17B4AADB00A83905 /* MMDrawerBarButtonItem.m */; };
+		A3E6CC4717B4AADB00A83905 /* MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E6CC4117B4AADB00A83905 /* MMDrawerController.m */; };
+		A3E6CC4817B4AADB00A83905 /* MMDrawerVisualState.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E6CC4317B4AADB00A83905 /* MMDrawerVisualState.m */; };
+		A3E6CC4917B4AADB00A83905 /* UIViewController+MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E6CC4517B4AADB00A83905 /* UIViewController+MMDrawerController.m */; };
+		A3E6CC4D17B4AB9000A83905 /* SideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E6CC4C17B4AB9000A83905 /* SideViewController.m */; };
+		A3E6CC5017B4ACC000A83905 /* MMExampleDrawerVisualStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E6CC4F17B4ACC000A83905 /* MMExampleDrawerVisualStateManager.m */; };
+		A3E6CC5217B4C51A00A83905 /* ic_kakaotalk.png in Resources */ = {isa = PBXBuildFile; fileRef = A3E6CC5117B4C51A00A83905 /* ic_kakaotalk.png */; };
+		A3E6CC5817B4C7F100A83905 /* KakaoLinkCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E6CC5717B4C7F100A83905 /* KakaoLinkCenter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A3E6CC5C17B4C93300A83905 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E6CC5B17B4C93300A83905 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A3F63CC917941B9500D42883 /* TTTTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F63CC817941B9500D42883 /* TTTTimeIntervalFormatter.m */; };
 		A3F63CCD179459B900D42883 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A3F63CCC179459B800D42883 /* libz.dylib */; };
 		A3F63CCF179459C700D42883 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A3F63CCE179459C700D42883 /* libsqlite3.dylib */; };
@@ -240,6 +249,23 @@
 		A3E12E0C177EAE9E00D512A0 /* SDURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDURLCache.m; path = source/Util/ExternSource/SDURLCache/SDURLCache.m; sourceTree = "<group>"; };
 		A3E530D017507B5700C651F3 /* AppPreference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppPreference.h; path = source/Util/System/AppPreference.h; sourceTree = "<group>"; };
 		A3E530D117507B5700C651F3 /* AppPreference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppPreference.m; path = source/Util/System/AppPreference.m; sourceTree = "<group>"; };
+		A3E6CC3E17B4AADB00A83905 /* MMDrawerBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMDrawerBarButtonItem.h; path = source/Util/ExternSource/MMDrawerController/MMDrawerBarButtonItem.h; sourceTree = "<group>"; };
+		A3E6CC3F17B4AADB00A83905 /* MMDrawerBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMDrawerBarButtonItem.m; path = source/Util/ExternSource/MMDrawerController/MMDrawerBarButtonItem.m; sourceTree = "<group>"; };
+		A3E6CC4017B4AADB00A83905 /* MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMDrawerController.h; path = source/Util/ExternSource/MMDrawerController/MMDrawerController.h; sourceTree = "<group>"; };
+		A3E6CC4117B4AADB00A83905 /* MMDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMDrawerController.m; path = source/Util/ExternSource/MMDrawerController/MMDrawerController.m; sourceTree = "<group>"; };
+		A3E6CC4217B4AADB00A83905 /* MMDrawerVisualState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMDrawerVisualState.h; path = source/Util/ExternSource/MMDrawerController/MMDrawerVisualState.h; sourceTree = "<group>"; };
+		A3E6CC4317B4AADB00A83905 /* MMDrawerVisualState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMDrawerVisualState.m; path = source/Util/ExternSource/MMDrawerController/MMDrawerVisualState.m; sourceTree = "<group>"; };
+		A3E6CC4417B4AADB00A83905 /* UIViewController+MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+MMDrawerController.h"; path = "source/Util/ExternSource/MMDrawerController/UIViewController+MMDrawerController.h"; sourceTree = "<group>"; };
+		A3E6CC4517B4AADB00A83905 /* UIViewController+MMDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+MMDrawerController.m"; path = "source/Util/ExternSource/MMDrawerController/UIViewController+MMDrawerController.m"; sourceTree = "<group>"; };
+		A3E6CC4B17B4AB9000A83905 /* SideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SideViewController.h; path = source/MainUI/SideViews/SideViewController.h; sourceTree = "<group>"; };
+		A3E6CC4C17B4AB9000A83905 /* SideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SideViewController.m; path = source/MainUI/SideViews/SideViewController.m; sourceTree = "<group>"; };
+		A3E6CC4E17B4ACC000A83905 /* MMExampleDrawerVisualStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMExampleDrawerVisualStateManager.h; path = source/Util/ExternSource/MMDrawerController/MMExampleDrawerVisualStateManager.h; sourceTree = "<group>"; };
+		A3E6CC4F17B4ACC000A83905 /* MMExampleDrawerVisualStateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMExampleDrawerVisualStateManager.m; path = source/Util/ExternSource/MMDrawerController/MMExampleDrawerVisualStateManager.m; sourceTree = "<group>"; };
+		A3E6CC5117B4C51A00A83905 /* ic_kakaotalk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_kakaotalk.png; path = resource/ic_kakaotalk.png; sourceTree = "<group>"; };
+		A3E6CC5617B4C7F100A83905 /* KakaoLinkCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KakaoLinkCenter.h; path = source/Util/ExternSource/KakaoLink/KakaoLinkCenter.h; sourceTree = "<group>"; };
+		A3E6CC5717B4C7F100A83905 /* KakaoLinkCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KakaoLinkCenter.m; path = source/Util/ExternSource/KakaoLink/KakaoLinkCenter.m; sourceTree = "<group>"; };
+		A3E6CC5A17B4C93300A83905 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = source/Util/ExternSource/JSONKit/JSONKit.h; sourceTree = "<group>"; };
+		A3E6CC5B17B4C93300A83905 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = source/Util/ExternSource/JSONKit/JSONKit.m; sourceTree = "<group>"; };
 		A3F63CC717941B9500D42883 /* TTTTimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTTTimeIntervalFormatter.h; path = source/Util/ExternSource/TTTTimeInterval/TTTTimeIntervalFormatter.h; sourceTree = "<group>"; };
 		A3F63CC817941B9500D42883 /* TTTTimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTTTimeIntervalFormatter.m; path = source/Util/ExternSource/TTTTimeInterval/TTTTimeIntervalFormatter.m; sourceTree = "<group>"; };
 		A3F63CCC179459B800D42883 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -326,6 +352,7 @@
 		226072BC1744A23A00CF3EAA /* Resouce */ = {
 			isa = PBXGroup;
 			children = (
+				A3E6CC5117B4C51A00A83905 /* ic_kakaotalk.png */,
 				A392762617B3A2E200FC8AB1 /* ic_web.png */,
 				A39275F1179A92F800FC8AB1 /* ic_like_circle@2x.png */,
 				A30844FE1792DD0A002524E1 /* ic_blank_profile@2x.png */,
@@ -554,6 +581,50 @@
 			name = SDURLCache;
 			sourceTree = "<group>";
 		};
+		A3E6CC3D17B4A8F800A83905 /* MMDrawerController */ = {
+			isa = PBXGroup;
+			children = (
+				A3E6CC4E17B4ACC000A83905 /* MMExampleDrawerVisualStateManager.h */,
+				A3E6CC4F17B4ACC000A83905 /* MMExampleDrawerVisualStateManager.m */,
+				A3E6CC3E17B4AADB00A83905 /* MMDrawerBarButtonItem.h */,
+				A3E6CC3F17B4AADB00A83905 /* MMDrawerBarButtonItem.m */,
+				A3E6CC4017B4AADB00A83905 /* MMDrawerController.h */,
+				A3E6CC4117B4AADB00A83905 /* MMDrawerController.m */,
+				A3E6CC4217B4AADB00A83905 /* MMDrawerVisualState.h */,
+				A3E6CC4317B4AADB00A83905 /* MMDrawerVisualState.m */,
+				A3E6CC4417B4AADB00A83905 /* UIViewController+MMDrawerController.h */,
+				A3E6CC4517B4AADB00A83905 /* UIViewController+MMDrawerController.m */,
+			);
+			name = MMDrawerController;
+			sourceTree = "<group>";
+		};
+		A3E6CC4A17B4AB6E00A83905 /* SideViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A3E6CC4B17B4AB9000A83905 /* SideViewController.h */,
+				A3E6CC4C17B4AB9000A83905 /* SideViewController.m */,
+			);
+			name = SideViewController;
+			sourceTree = "<group>";
+		};
+		A3E6CC5517B4C7CE00A83905 /* KakaoLink */ = {
+			isa = PBXGroup;
+			children = (
+				A3E6CC5617B4C7F100A83905 /* KakaoLinkCenter.h */,
+				A3E6CC5717B4C7F100A83905 /* KakaoLinkCenter.m */,
+			);
+			name = KakaoLink;
+			sourceTree = "<group>";
+		};
+		A3E6CC5917B4C92100A83905 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				A3E6CC5A17B4C93300A83905 /* JSONKit.h */,
+				A3E6CC5B17B4C93300A83905 /* JSONKit.m */,
+			);
+			name = JSONKit;
+			sourceTree = "<group>";
+		};
 		A3F63CC617941B7E00D42883 /* TTTTimeInterval */ = {
 			isa = PBXGroup;
 			children = (
@@ -671,6 +742,7 @@
 		A3FB734B1743E18900413AE8 /* MainUI */ = {
 			isa = PBXGroup;
 			children = (
+				A3E6CC4A17B4AB6E00A83905 /* SideViewController */,
 				A392761F17B39EBB00FC8AB1 /* BlogListViewController */,
 				A39275EB179A89B600FC8AB1 /* LikeListViewController */,
 				2249DFEE1794DE58007D951B /* CustomAlert */,
@@ -693,6 +765,9 @@
 		A3FB73501743E3D600413AE8 /* ExternSource */ = {
 			isa = PBXGroup;
 			children = (
+				A3E6CC5917B4C92100A83905 /* JSONKit */,
+				A3E6CC5517B4C7CE00A83905 /* KakaoLink */,
+				A3E6CC3D17B4A8F800A83905 /* MMDrawerController */,
 				A392760C17B10E7A00FC8AB1 /* GMGridView */,
 				A3F63CD917945AE900D42883 /* Localytics */,
 				A3F63CC617941B7E00D42883 /* TTTTimeInterval */,
@@ -827,6 +902,7 @@
 				A3F63CDF17945AFF00D42883 /* LICENSE in Resources */,
 				A39275F2179A92F800FC8AB1 /* ic_like_circle@2x.png in Resources */,
 				A392762717B3A2E300FC8AB1 /* ic_web.png in Resources */,
+				A3E6CC5217B4C51A00A83905 /* ic_kakaotalk.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,6 +977,14 @@
 				A392761D17B10E8B00FC8AB1 /* UIView+GMGridViewAdditions.m in Sources */,
 				A392762217B39EF600FC8AB1 /* BlogListViewController.m in Sources */,
 				A392762517B39F7800FC8AB1 /* BlogWebViewController.m in Sources */,
+				A3E6CC4617B4AADB00A83905 /* MMDrawerBarButtonItem.m in Sources */,
+				A3E6CC4717B4AADB00A83905 /* MMDrawerController.m in Sources */,
+				A3E6CC4817B4AADB00A83905 /* MMDrawerVisualState.m in Sources */,
+				A3E6CC4917B4AADB00A83905 /* UIViewController+MMDrawerController.m in Sources */,
+				A3E6CC4D17B4AB9000A83905 /* SideViewController.m in Sources */,
+				A3E6CC5017B4ACC000A83905 /* MMExampleDrawerVisualStateManager.m in Sources */,
+				A3E6CC5817B4C7F100A83905 /* KakaoLinkCenter.m in Sources */,
+				A3E6CC5C17B4C93300A83905 /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

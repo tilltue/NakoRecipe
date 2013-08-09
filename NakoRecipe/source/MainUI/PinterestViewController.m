@@ -14,6 +14,8 @@
 #import "UIImageView+AFNetworking.h"
 #import "AFJSONRequestOperation.h"
 #import "CustomAlert.h"
+#import "UIViewController+MMDrawerController.h"
+#import "MMDrawerBarButtonItem.h"
 
 @interface PinterestViewController ()
 
@@ -67,7 +69,14 @@
     btnRight.style = UIBarButtonItemStyleBordered;
     self.navigationItem.rightBarButtonItem = btnRight;
     [self makePopView];
-    
+
+    [self setupLeftMenuButton];
+}
+
+
+-(void)setupLeftMenuButton{
+    MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
+    [self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
 }
 
 - (void)makePopView
@@ -298,4 +307,9 @@
     }
     [self.navigationController pushViewController:recipeViewController animated:YES];
 }
+
+-(void)leftDrawerButtonPress:(id)sender{
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+}
+
 @end

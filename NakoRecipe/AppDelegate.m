@@ -10,6 +10,8 @@
 #import "FileControl.h"
 #import "SDURLCache.h"
 #import "CustomAlert.h"
+#import "MMDrawerController.h"
+#import "MMExampleDrawerVisualStateManager.h"
 
 NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionStateChangedNotification";
 
@@ -82,6 +84,7 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
              }else if( loginPopShow == NO ){
                  loginPopShow = YES;
              }
+             [sideviewController reloadTable];
          }];
 
     }
@@ -180,8 +183,31 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
     [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:verticalOffset forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setBackgroundColor:[CommonUI getUIColorFromHexString:@"E04C30"]];
+    
+    
+    sideviewController = [[SideViewController alloc] init];
+    
+    MMDrawerController * drawerController = [[MMDrawerController alloc]
+                                             initWithCenterViewController:navigationVC
+                                             leftDrawerViewController:sideviewController
+                                             rightDrawerViewController:nil];
+    [drawerController setMaximumLeftDrawerWidth:[SystemInfo isPad]?350:250];
+    [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModePanningNavigationBar|MMOpenDrawerGestureModeBezelPanningCenterView];
+    [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
+    
+    [drawerController
+     setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
+         MMDrawerControllerDrawerVisualStateBlock block;
+         block = [[MMExampleDrawerVisualStateManager sharedManager]
+                  drawerVisualStateBlockForDrawerSide:drawerSide];
+         if(block){
+             block(drawerController, drawerSide, percentVisible);
+         }
+     }];
+
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = navigationVC;
+    self.window.rootViewController = drawerController;
 
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];

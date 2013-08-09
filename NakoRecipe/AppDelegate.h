@@ -10,12 +10,14 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "PinterestViewController.h"
 #import "LocalyticsSession.h"
+#import "SideViewController.h"
 
 extern NSString *const FBSessionStateChangedNotification;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
     PinterestViewController *pintrestMainViewController;
+    SideViewController *sideviewController;
     BOOL loginPopShow;
 }
 @property (strong, nonatomic) UIWindow *window;
