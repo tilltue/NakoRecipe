@@ -60,14 +60,14 @@
     
     UIButton *btnAlign;
     btnAlign = [[UIButton alloc] init];
-    [btnAlign setFrame:CGRectMake(0, 0, 83, 33)];
+    [btnAlign setFrame:CGRectMake(0, 0, 83, 45)];
     btnAlign.backgroundColor = [UIColor clearColor];
 //    UIImageView *btnImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"abs_spinner_default"]];
 //    [btnImage setFrame:CGRectMake(60, 0, 23, 33)];
 //    [btnAlign addSubview:btnImage];
 //    UIImage *stretchableImage = [[UIImage imageNamed:@"abs_spinner_default"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 60, 0, 0)];
     [btnAlign setImage:[UIImage imageNamed:@"abs_spinner_default"] forState:UIControlStateNormal];
-    [btnAlign setImageEdgeInsets:UIEdgeInsetsMake(0, 60, 0, 0)];
+    [btnAlign setImageEdgeInsets:UIEdgeInsetsMake(15, 60, 0, 0)];
     [btnAlign setTitleEdgeInsets:UIEdgeInsetsMake(0, -50, 0, 0)];
     btnAlign.titleLabel.font = [UIFont systemFontOfSize:15];
     
