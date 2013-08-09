@@ -92,6 +92,8 @@
 		A3E6CC5217B4C51A00A83905 /* ic_kakaotalk.png in Resources */ = {isa = PBXBuildFile; fileRef = A3E6CC5117B4C51A00A83905 /* ic_kakaotalk.png */; };
 		A3E6CC5817B4C7F100A83905 /* KakaoLinkCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E6CC5717B4C7F100A83905 /* KakaoLinkCenter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A3E6CC5C17B4C93300A83905 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E6CC5B17B4C93300A83905 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A3E6CC5E17B4CDB700A83905 /* abs_spinner_default.png in Resources */ = {isa = PBXBuildFile; fileRef = A3E6CC5D17B4CDB600A83905 /* abs_spinner_default.png */; };
+		A3E6CC6117B4D0D800A83905 /* AlignPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E6CC6017B4D0D800A83905 /* AlignPopView.m */; };
 		A3F63CC917941B9500D42883 /* TTTTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F63CC817941B9500D42883 /* TTTTimeIntervalFormatter.m */; };
 		A3F63CCD179459B900D42883 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A3F63CCC179459B800D42883 /* libz.dylib */; };
 		A3F63CCF179459C700D42883 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A3F63CCE179459C700D42883 /* libsqlite3.dylib */; };
@@ -266,6 +268,9 @@
 		A3E6CC5717B4C7F100A83905 /* KakaoLinkCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KakaoLinkCenter.m; path = source/Util/ExternSource/KakaoLink/KakaoLinkCenter.m; sourceTree = "<group>"; };
 		A3E6CC5A17B4C93300A83905 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = source/Util/ExternSource/JSONKit/JSONKit.h; sourceTree = "<group>"; };
 		A3E6CC5B17B4C93300A83905 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = source/Util/ExternSource/JSONKit/JSONKit.m; sourceTree = "<group>"; };
+		A3E6CC5D17B4CDB600A83905 /* abs_spinner_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = abs_spinner_default.png; path = resource/abs_spinner_default.png; sourceTree = "<group>"; };
+		A3E6CC5F17B4D0D800A83905 /* AlignPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlignPopView.h; path = source/MainUI/PopView/AlignPopView.h; sourceTree = "<group>"; };
+		A3E6CC6017B4D0D800A83905 /* AlignPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlignPopView.m; path = source/MainUI/PopView/AlignPopView.m; sourceTree = "<group>"; };
 		A3F63CC717941B9500D42883 /* TTTTimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTTTimeIntervalFormatter.h; path = source/Util/ExternSource/TTTTimeInterval/TTTTimeIntervalFormatter.h; sourceTree = "<group>"; };
 		A3F63CC817941B9500D42883 /* TTTTimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTTTimeIntervalFormatter.m; path = source/Util/ExternSource/TTTTimeInterval/TTTTimeIntervalFormatter.m; sourceTree = "<group>"; };
 		A3F63CCC179459B800D42883 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -352,6 +357,7 @@
 		226072BC1744A23A00CF3EAA /* Resouce */ = {
 			isa = PBXGroup;
 			children = (
+				A3E6CC5D17B4CDB600A83905 /* abs_spinner_default.png */,
 				A3E6CC5117B4C51A00A83905 /* ic_kakaotalk.png */,
 				A392762617B3A2E200FC8AB1 /* ic_web.png */,
 				A39275F1179A92F800FC8AB1 /* ic_like_circle@2x.png */,
@@ -546,6 +552,8 @@
 				A3FB734D1743E1D000413AE8 /* PinterestViewController.m */,
 				A3FB736117445B3000413AE8 /* RecipePinterest.h */,
 				A3FB736217445B3000413AE8 /* RecipePinterest.m */,
+				A3E6CC5F17B4D0D800A83905 /* AlignPopView.h */,
+				A3E6CC6017B4D0D800A83905 /* AlignPopView.m */,
 			);
 			name = PintrestViewController;
 			sourceTree = "<group>";
@@ -903,6 +911,7 @@
 				A39275F2179A92F800FC8AB1 /* ic_like_circle@2x.png in Resources */,
 				A392762717B3A2E300FC8AB1 /* ic_web.png in Resources */,
 				A3E6CC5217B4C51A00A83905 /* ic_kakaotalk.png in Resources */,
+				A3E6CC5E17B4CDB700A83905 /* abs_spinner_default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -985,6 +994,7 @@
 				A3E6CC5017B4ACC000A83905 /* MMExampleDrawerVisualStateManager.m in Sources */,
 				A3E6CC5817B4C7F100A83905 /* KakaoLinkCenter.m in Sources */,
 				A3E6CC5C17B4C93300A83905 /* JSONKit.m in Sources */,
+				A3E6CC6117B4D0D800A83905 /* AlignPopView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

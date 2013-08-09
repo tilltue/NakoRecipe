@@ -17,16 +17,17 @@
 @end
 
 @implementation PintrestItem
-@synthesize title,attachItems,like_count,comment_count,creatorThumb,tags;
+@synthesize title,attachItems,like_count,comment_count,creatorThumb,tags,count;
 @end
 
 @implementation LikeCommentItem
-@synthesize postId,like_count,comment_count;
+@synthesize postId,count,like_count,comment_count;
 @end
 
 @implementation RecipePinterest
 @synthesize recipe_delegate;
 @synthesize likeCommentArr;
+@synthesize alignType;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -119,10 +120,108 @@
     [_gridView reloadData];
 }
 
+- (void)updatePintrestItemForLike
+{
+    for( LikeCommentItem *item in likeCommentArr ){
+        PintrestItem *pintrestItem = [self getPintrestItem:item.postId];
+        if( pintrestItem != nil ){
+            pintrestItem.like_count = item.like_count;
+            pintrestItem.comment_count = item.comment_count;
+            pintrestItem.count = item.count;
+        }
+    }
+    NSMutableArray *sortArray = pintrestItems;
+    switch (alignType) {
+        case 0:
+            [sortArray sortUsingFunction:intSortNew context:nil];
+            break;
+        case 1:
+            [sortArray sortUsingFunction:intSortCount context:nil];
+            break;
+        case 2:
+            [sortArray sortUsingFunction:intSortLikeCount context:nil];
+            break;
+        case 3:
+            [sortArray sortUsingFunction:intSortCommenctCount context:nil];
+            break;
+        default:
+            break;
+    }
+}
+
+
+NSInteger intSortNew(PintrestItem *item1, PintrestItem *item2, void *context)
+{
+    int v1 = [item1.postId intValue];
+    int v2 = [item2.postId intValue];
+    if (v1 > v2)
+        return NSOrderedAscending;
+    else if (v1 < v2)
+        return NSOrderedDescending;
+    else
+        return NSOrderedSame;
+}
+
+NSInteger intSortCount(PintrestItem *item1, PintrestItem *item2, void *context)
+{
+    int v1 = item1.count;
+    int v2 = item2.count;
+    if (v1 > v2)
+        return NSOrderedAscending;
+    else if (v1 < v2)
+        return NSOrderedDescending;
+    else
+        return NSOrderedSame;
+}
+
+NSInteger intSortLikeCount(PintrestItem *item1, PintrestItem *item2, void *context)
+{
+    int v1 = item1.like_count;
+    int v2 = item2.like_count;
+    if (v1 > v2)
+        return NSOrderedAscending;
+    else if (v1 < v2)
+        return NSOrderedDescending;
+    else
+        return NSOrderedSame;
+}
+
+NSInteger intSortCommenctCount(PintrestItem *item1, PintrestItem *item2, void *context)
+{
+    int v1 = item1.comment_count;
+    int v2 = item2.comment_count;
+    if (v1 > v2)
+        return NSOrderedAscending;
+    else if (v1 < v2)
+        return NSOrderedDescending;
+    else
+        return NSOrderedSame;
+}
+
+
 - (void)reloadLikePintRest
 {
-    if( !_refreshControl.refreshing )
+    if( [likeCommentArr count] > 0 )
+        [self updatePintrestItemForLike];
+    if( !_refreshControl.refreshing ){
         [_gridView reloadData];
+    }
+}
+
+- (void)sortAlign
+{
+    
+}
+
+- (void)algin:(int)type
+{
+    if( alignType != type ){
+        alignType = type;
+        if( !_refreshControl.refreshing ){
+            [self updatePintrestItemForLike];
+            [_gridView reloadData];
+        }
+    }
 }
 
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
@@ -190,6 +289,14 @@
         return CGSizeMake(245, 310);
     else
         return CGSizeMake(150, 200);
+}
+
+- (PintrestItem *)getPintrestItem:(NSString *)postId
+{
+    for( PintrestItem *item in pintrestItems )
+        if( [item.postId isEqualToString:postId] )
+            return item;
+    return nil;
 }
 
 - (LikeCommentItem *)getLikeItem:(NSString *)postId

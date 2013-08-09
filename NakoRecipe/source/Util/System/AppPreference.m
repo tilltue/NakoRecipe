@@ -21,6 +21,20 @@
     return deviceID;
 }
 
++ (NSString *)getAlign
+{
+    NSString * align = [[NSUserDefaults standardUserDefaults] stringForKey:PREKEY_ALIGN];
+    if( align == nil )
+        return @"0";
+    return align;
+}
+
++ (void)setAlign:(int)alignType
+{
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d",alignType] forKey:PREKEY_ALIGN];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 + (NSString *)md5:(NSString *)str
 {
 	const char *cStr = [str UTF8String];

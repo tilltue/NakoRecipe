@@ -46,19 +46,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "NakoRecipe/source/MainUI/PinterestViewController.m"
-         timestampString = "397717129.206511"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "151"
-         endingLineNumber = "151"
-         landmarkName = "@implementation PinterestViewController"
-         landmarkType = "3">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "NakoRecipe/source/MainUI/RecipeView/RecipeView.m"
          timestampString = "397715125.113735"
          startingColumnNumber = "9223372036854775807"
@@ -125,11 +112,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "NakoRecipe/source/MainUI/PinterestViews/RecipePinterest.m"
-         timestampString = "397668841.211692"
+         timestampString = "397733719.159185"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "455"
-         endingLineNumber = "455"
+         startingLineNumber = "562"
+         endingLineNumber = "562"
          landmarkName = "-scrollViewDidEndDecelerating:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -138,11 +125,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "NakoRecipe/source/MainUI/PinterestViews/RecipePinterest.m"
-         timestampString = "397668841.211692"
+         timestampString = "397733719.159185"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "339"
-         endingLineNumber = "339"
+         startingLineNumber = "446"
+         endingLineNumber = "446"
          landmarkName = "-GMGridView:cellForItemAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -222,6 +209,32 @@
          startingLineNumber = "72"
          endingLineNumber = "72"
          landmarkName = "+shadowOptionModel"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "NakoRecipe/source/MainUI/PinterestViewController.m"
+         timestampString = "397731627.178795"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "117"
+         endingLineNumber = "117"
+         landmarkName = "-updateAlignText"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "NakoRecipe/source/MainUI/PinterestViewController.m"
+         timestampString = "397733511.533603"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "144"
+         endingLineNumber = "144"
+         landmarkName = "-selectAlign:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

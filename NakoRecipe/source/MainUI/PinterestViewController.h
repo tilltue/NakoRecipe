@@ -11,15 +11,14 @@
 #import "RecipeViewController.h"
 #import "HttpAsyncApi.h"
 #import "GADBannerView.h"
+#import "AlignPopView.h"
 
-@interface PinterestViewController : UIViewController <RecipePinterestDelegate,RequestObserver>
+@interface PinterestViewController : UIViewController <RecipePinterestDelegate,RequestObserver,AlignPopViewDelegate>
 {
     RecipePinterest *recipePinterest;
     RecipeViewController *recipeViewController;
     GADBannerView *bannerView;
-    UIView *popView;
-    UILabel *lblFaceBook;
-    __strong UIActivityIndicatorView *_activityIndicatorView;
+    AlignPopView *popView;
 }
 @property BOOL loginState;
 - (void)loginComplete:(BOOL)state;

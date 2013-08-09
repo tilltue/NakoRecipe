@@ -39,11 +39,9 @@
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [CommonUI getUIColorFromHexString:@"#E4E3DC"];
     
-    _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    _activityIndicatorView.hidesWhenStopped = YES;
-
     recipePinterest = [[RecipePinterest alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-GAD_SIZE_320x50.height)];
     recipePinterest.recipe_delegate = self;
+    recipePinterest.alignType = [[AppPreference getAlign] intValue];
     [self.view addSubview:recipePinterest];
     [[HttpAsyncApi getInstance] attachObserver:self];
     
@@ -60,12 +58,21 @@
     recipeViewController = [[RecipeViewController alloc] init];
     [self makeCoreDataFromBundle];
     
-    UIButton *btnLogin;
-    btnLogin = [[UIButton alloc] init];
-    [btnLogin setFrame:CGRectMake(0, 0, 32, 32)];
-    [btnLogin setImage:[UIImage imageNamed:@"ic_overflow"] forState:UIControlStateNormal];
-    UIBarButtonItem *btnRight = [[UIBarButtonItem alloc] initWithCustomView:btnLogin];
-    [btnLogin addTarget:self action:@selector(btnLogin) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *btnAlign;
+    btnAlign = [[UIButton alloc] init];
+    [btnAlign setFrame:CGRectMake(0, 0, 83, 33)];
+    btnAlign.backgroundColor = [UIColor clearColor];
+//    UIImageView *btnImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"abs_spinner_default"]];
+//    [btnImage setFrame:CGRectMake(60, 0, 23, 33)];
+//    [btnAlign addSubview:btnImage];
+//    UIImage *stretchableImage = [[UIImage imageNamed:@"abs_spinner_default"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 60, 0, 0)];
+    [btnAlign setImage:[UIImage imageNamed:@"abs_spinner_default"] forState:UIControlStateNormal];
+    [btnAlign setImageEdgeInsets:UIEdgeInsetsMake(0, 60, 0, 0)];
+    [btnAlign setTitleEdgeInsets:UIEdgeInsetsMake(0, -50, 0, 0)];
+    btnAlign.titleLabel.font = [UIFont systemFontOfSize:15];
+    
+    UIBarButtonItem *btnRight = [[UIBarButtonItem alloc] initWithCustomView:btnAlign];
+    [btnAlign addTarget:self action:@selector(btnAlign) forControlEvents:UIControlEventTouchUpInside];
     btnRight.style = UIBarButtonItemStyleBordered;
     self.navigationItem.rightBarButtonItem = btnRight;
     [self makePopView];
@@ -81,44 +88,9 @@
 
 - (void)makePopView
 {
-    popView = [[UIView alloc] initWithFrame:self.view.bounds];
+    popView = [[AlignPopView alloc] initWithFrame:self.view.bounds];
     popView.hidden = YES;
-    
-    UIButton *btnClose = [[UIButton alloc] initWithFrame:self.view.bounds];
-    [btnClose addTarget:self action:@selector(btnClose) forControlEvents:UIControlEventTouchUpInside];
-    [popView addSubview:btnClose];
-    
-    UIButton *btnFacebook = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 160, 5, 150, 38)];
-    btnFacebook.backgroundColor = [UIColor whiteColor];
-    btnFacebook.layer.cornerRadius = 5;
-    if( [SystemInfo shadowOptionModel]){
-        btnFacebook.layer.shadowOffset = CGSizeMake(-0.5, 0.5);
-        btnFacebook.layer.shadowRadius = 2;
-        btnFacebook.layer.shadowOpacity = 0.2;
-    }
-    [btnFacebook addTarget:self action:@selector(btnFacebook) forControlEvents:UIControlEventTouchUpInside];
-    [popView addSubview:btnFacebook];
-    
-    UIImageView *ivFaceIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_facebook"]];
-    ivFaceIcon.frame = CGRectMake(self.view.bounds.size.width - 157, 8, 32, 32);
-    [popView addSubview:ivFaceIcon];
-    
-    CGRect frame = ivFaceIcon.frame;
-    frame.origin.x += ivFaceIcon.frame.size.width + 3;
-    frame.size.width = 120;
-    
-    lblFaceBook = [[UILabel alloc] initWithFrame:frame];
-    lblFaceBook.font = [UIFont systemFontOfSize:15];
-
-    if( _loginState ){
-        lblFaceBook.text = @"페이스북 로그아웃";
-    }else{
-        lblFaceBook.text = @"페이스북 로그인";
-    }
-
-    lblFaceBook.textColor = [UIColor grayColor];
-    lblFaceBook.backgroundColor = [UIColor clearColor];
-    [popView addSubview:lblFaceBook];
+    popView.align_delegate = self;
     
     [self.view addSubview:popView];
     
@@ -137,62 +109,47 @@
     }else{
         [self update];
     }
+    [self updateAlignText];
+}
+
+- (void)updateAlignText
+{
+    UIBarButtonItem *btnRight = self.navigationItem.rightBarButtonItem;
+    UIButton *btnAlign = (UIButton *)btnRight.customView;
+    switch ([[AppPreference getAlign] intValue] ) {
+        case 0:
+            [btnAlign setTitle:@"최신순" forState:UIControlStateNormal];
+            break;
+        case 1:
+            [btnAlign setTitle:@"조회순" forState:UIControlStateNormal];
+            break;
+        case 2:
+            [btnAlign setTitle:@"좋아요순" forState:UIControlStateNormal];
+            break;
+        case 3:
+            [btnAlign setTitle:@"댓글순" forState:UIControlStateNormal];
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)loginComplete:(BOOL)state
 {
     _loginState = state;
-    if( state ){
-        lblFaceBook.text = @"페이스북 로그아웃";
-    }else{
-        lblFaceBook.text = @"페이스북 로그인";
-    }
 }
 
-- (void)btnFacebook
+- (void)selectAlign:(int)alignType
 {
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if( _loginState ){
-        [appDelegate facebookLogout];
-        [[LocalyticsSession shared] tagEvent:@"Facebook Logout"];
-    }else{
-        CustomAlert *alert = [[CustomAlert alloc]initWithTitle:@"" message:@"페이스북 계정으로 로그인 하시겠습니까?\n허락없이 페이스북에 글을\n 남기지 않습니다." delegate:self cancelButtonTitle:@"확인" otherButtonTitles:@"취소", nil];
-        alert.delegate = self;
-        [alert show];
-    }
+    [AppPreference setAlign:alignType];
+    [self updateAlignText];
+    popView.hidden = YES;
+    [recipePinterest algin:alignType];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    switch (buttonIndex) {
-        case 0://확인
-        {
-            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate openSession];
-            [[LocalyticsSession shared] tagEvent:@"Facebook Login"];
-        }
-            break;
-        case 1://취소
-        {
-            
-        }
-            break;
-        default:
-            break;
-    }
-    if( buttonIndex == 0 ){
-        
-    }
-}
-
-- (void)btnLogin
+- (void)btnAlign
 {
     popView.hidden = !popView.hidden;
-}
-
-- (void)btnClose
-{
-    popView.hidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -236,10 +193,12 @@
         for( NSDictionary *item in JSON ){
             NSString *post_id = [[item objectForKey:@"post_id"] isKindOfClass:[NSNumber class]]?[[item objectForKey:@"post_id"] stringValue]:[item objectForKey:@"post_id"];
             if( post_id != nil ){
+                NSString *count = [[item objectForKey:@"count"] isKindOfClass:[NSNumber class]]?[[item objectForKey:@"count"] stringValue]:[item objectForKey:@"count"];
                 NSString *likeCount = [[item objectForKey:@"likes"] isKindOfClass:[NSNumber class]]?[[item objectForKey:@"likes"] stringValue]:[item objectForKey:@"likes"];
                 NSString *commentCount = [[item objectForKey:@"comments"] isKindOfClass:[NSNumber class]]?[[item objectForKey:@"comments"] stringValue]:[item objectForKey:@"comments"];
                 LikeCommentItem *likeItem = [[LikeCommentItem alloc] init];
                 likeItem.postId = post_id;
+                likeItem.count = [count intValue];
                 likeItem.like_count = [likeCount intValue];
                 likeItem.comment_count = [commentCount intValue];
                 [recipePinterest.likeCommentArr addObject:likeItem];

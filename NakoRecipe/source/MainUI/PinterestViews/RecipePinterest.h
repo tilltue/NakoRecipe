@@ -24,10 +24,12 @@
 @property (nonatomic, strong) NSMutableArray *attachItems;
 @property (nonatomic, assign) NSInteger like_count;
 @property (nonatomic, assign) NSInteger comment_count;
+@property (nonatomic, assign) NSInteger count;
 @end
 
 @interface LikeCommentItem : NSObject
 @property (nonatomic, strong) NSString *postId;
+@property (nonatomic, assign) NSInteger count;
 @property (nonatomic, assign) NSInteger like_count;
 @property (nonatomic, assign) NSInteger comment_count;
 @end
@@ -41,7 +43,6 @@
 {
     GMGridView *_gridView;
     NSMutableArray *pintrestItems;
-    NSMutableArray *testArr;
     ODRefreshControl *_refreshControl;
     dispatch_queue_t queue;
     BOOL _decelerating;
@@ -51,9 +52,11 @@
 }
 @property (nonatomic, unsafe_unretained) id <RecipePinterestDelegate> recipe_delegate;
 @property (nonatomic, strong) NSMutableArray *likeCommentArr;
+@property int alignType;
 - (void)startLoading;
 - (void)stopLoading;
 - (NSInteger)getItemCount;
 - (void)reloadPintRest;
 - (void)reloadLikePintRest;
+- (void)algin:(int)type;
 @end
