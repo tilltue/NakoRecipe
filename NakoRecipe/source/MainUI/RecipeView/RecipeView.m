@@ -220,7 +220,9 @@
     [blogItemArr removeAllObjects];
     totalBlogItems = 0;
     baseNaverURL = nil;
+    lblSearchBlog.text = [NSString stringWithFormat:@"%d 개의 블로그 글이 검색되었습니다.",0];
     [self btnLikeSubViewClear];
+    btnLikeList.hidden = YES;
     [tvComment reloadData];
     [[HttpAsyncApi getInstanceComment] clearObserver];
     [_refreshControl endRefreshing];
@@ -585,6 +587,7 @@
 
 - (void)reloadRecipeView:(NSString *)postId
 {
+    [self reset];
     currentPostId = postId;
     [tvComment setContentOffset:CGPointMake(0, 0)];
     

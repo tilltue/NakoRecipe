@@ -146,6 +146,7 @@
     blogListViewController.searchBaseURL = baseURL;
     blogListViewController.totalCount = total;
     blogListViewController.recipeTitle = tempPost.title;
+    blogListViewController.pushVC = YES;
     [self.navigationController pushViewController:blogListViewController animated:YES];
 }
 

@@ -38,6 +38,8 @@
         _gridView.dataSource = self;
         _gridView.actionDelegate = self;
         _gridView.delegate = self;
+        _gridView.showsHorizontalScrollIndicator = NO;
+        _gridView.showsVerticalScrollIndicator = NO;
         [self  addSubview:_gridView];
 
         UIImage *tempImage = [UIImage imageNamed:@"ic_loading.png"];
@@ -226,7 +228,6 @@
         cell = [[GMGridViewCell alloc] init];
         
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-        view.clipsToBounds = YES;
         view.layer.cornerRadius = 5;
         if( [SystemInfo shadowOptionModel]){
             view.layer.shadowOffset = CGSizeMake(-0.5, 0.5);

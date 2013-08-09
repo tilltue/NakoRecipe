@@ -123,8 +123,8 @@
     if( recipeCount > 0 ){
         if( recipeCount != [recipePinterest getItemCount] ){
             [recipePinterest reloadPintRest];
-            [self likeCommentUpdate];
         }
+        [self likeCommentUpdate];
     }else{
         [self update];
     }

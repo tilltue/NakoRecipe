@@ -27,4 +27,5 @@
 @property (nonatomic, strong) NSString *recipeTitle;
 @property (nonatomic, strong) NSMutableArray *blogArr;
 @property (nonatomic, assign) int totalCount;
+@property BOOL pushVC;
 @end

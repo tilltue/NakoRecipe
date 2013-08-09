@@ -19,7 +19,7 @@
 @end
 
 @implementation BlogListViewController
-@synthesize blogArr,searchBaseURL,totalCount,recipeTitle;
+@synthesize blogArr,searchBaseURL,totalCount,recipeTitle,pushVC;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -55,6 +55,7 @@
         totalCount = 0;
         searchBaseURL = nil;
         webViewController = [[BlogWebViewController alloc] init];
+        pushVC = NO;
     }
     return self;
 }
@@ -68,12 +69,18 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [blogTable reloadData];
-    blogTable.contentOffset = CGPointMake(0, 0);
+    if( pushVC )
+        blogTable.contentOffset = CGPointMake(0, 0);
     UILabel *tempLabel = (UILabel *)self.navigationItem.titleView;
     if( recipeTitle != nil )
         tempLabel.text = [NSString stringWithFormat:@"%@ 의 블로그 검색 결과",recipeTitle];
     else
         tempLabel.text = @"블로그 검색 결과";
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    pushVC = NO;
 }
 
 - (void)viewDidDisappear:(BOOL)animated
