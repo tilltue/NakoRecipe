@@ -154,6 +154,10 @@
         btnLikeList.layer.borderWidth = 1;
         btnLikeList.backgroundColor = [UIColor clearColor];
         [btnLikeList addTarget:self action:@selector(btnLikeList) forControlEvents:UIControlEventTouchUpInside];
+        btnLikeSubView = [[UIView alloc] init];
+        btnLikeSubView.userInteractionEnabled = NO;
+        [btnLikeList addSubview:btnLikeSubView];
+        
         [tvHeaderView addSubview:btnLikeList];
         
         imageArr = [[NSMutableArray alloc] init];
@@ -358,8 +362,6 @@
     tempRect.size.height += btnSearchList.frame.size.height;
     recipeInfo.frame = tempRect;
     
-    btnLikeList.frame = CGRectZero;
-    
     tempRect.size.height = recipeInfo.frame.size.height;
     tempRect.size.width = self.frame.size.width;
     tempRect.origin = CGPointZero;
@@ -420,7 +422,7 @@
 
 - (void)btnLikeSubViewClear
 {
-    for( UIView *subview in btnLikeList.subviews )
+    for( UIView *subview in btnLikeSubView.subviews )
         [subview removeFromSuperview];
 }
 
@@ -793,7 +795,10 @@
     tempRect.origin.y = recipeInfo.frame.origin.y + recipeInfo.frame.size.height;
     tempRect.size.height = 90;
     tempRect.size.width = self.frame.size.width;
-    btnLikeList.frame = tempRect;
+    btnLikeList.frame  = tempRect;
+    tempRect.origin.y = 0;
+    btnLikeSubView.frame = tempRect;
+    btnLikeSubView.backgroundColor = [UIColor clearColor];
     [btnLikeList setBackgroundImage:[CommonUI makeShadowImage:[CommonUI getUIColorFromHexString:@"E4E3DC"] withSize:tempRect.size] forState:UIControlStateHighlighted];
     
     tempRect.size.height = recipeInfo.frame.size.height;
@@ -817,7 +822,7 @@
     tempImageView.layer.masksToBounds = YES;
     [tempImageView setImage:[UIImage imageNamed:@"btn_unlike"]];
     [tempImageView setFrame:tempRect];
-    [btnLikeList addSubview:tempImageView];
+    [btnLikeSubView addSubview:tempImageView];
     
     tempRect.origin.x = 44;
     tempRect.origin.y = 5;
@@ -830,7 +835,7 @@
     tempLabel.font = [UIFont systemFontOfSize:15];
     tempLabel.backgroundColor = [UIColor clearColor];
     tempLabel.textColor = [CommonUI getUIColorFromHexString:@"E04C30"];
-    [btnLikeList addSubview:tempLabel];
+    [btnLikeSubView addSubview:tempLabel];
     
     tempRect.origin.y = 35;
     tempRect.size.width = 40;
@@ -848,7 +853,7 @@
             tempLabel.text = [NSString stringWithFormat:@"+%d",[likeArr count]-i];
             tempLabel.textAlignment = NSTextAlignmentCenter;
             tempLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
-            [btnLikeList addSubview:tempLabel];
+            [btnLikeSubView addSubview:tempLabel];
             break;
         }
         tempImageView = [[UIImageView alloc] init];;
@@ -857,7 +862,7 @@
         tempImageView.contentMode = UIViewContentModeScaleAspectFill;
         [tempImageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal",facebookId]] placeholderImage:[UIImage imageNamed:@"ic_blank_profile"]];
         [tempImageView setFrame:tempRect];
-        [btnLikeList addSubview:tempImageView];
+        [btnLikeSubView addSubview:tempImageView];
     }
 }
 

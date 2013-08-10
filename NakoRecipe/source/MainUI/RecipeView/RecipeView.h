@@ -50,6 +50,7 @@
     UITextView  *recipeContent;
     
     UIButton *btnLikeList;
+    UIView *btnLikeSubView;
     NSMutableArray *likeArr;
     
     UIButton *btnSearchList;
