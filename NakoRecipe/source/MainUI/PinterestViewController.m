@@ -29,6 +29,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.view.clipsToBounds = YES;
     }
     return self;
 }
@@ -36,19 +37,27 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSInteger navigationBarHeight = 44;
+    if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [self setEdgesForExtendedLayout:UIRectEdgeNone];
+        navigationBarHeight = 64;
+    }
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [CommonUI getUIColorFromHexString:@"#E4E3DC"];
     
-    recipePinterest = [[RecipePinterest alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-GAD_SIZE_320x50.height)];
+    recipePinterest = [[RecipePinterest alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-navigationBarHeight-GAD_SIZE_320x50.height)];
     recipePinterest.recipe_delegate = self;
     recipePinterest.alignType = [[AppPreference getAlign] intValue];
     [self.view addSubview:recipePinterest];
     [[HttpAsyncApi getInstance] attachObserver:self];
     
+
     if( [SystemInfo isPad] ){
-        bannerView = [[GADBannerView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-GAD_SIZE_320x50.width/2, self.view.bounds.size.height-GAD_SIZE_320x50.height-44, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
+        bannerView = [[GADBannerView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-GAD_SIZE_320x50.width/2, self.view.bounds.size.height-GAD_SIZE_320x50.height-navigationBarHeight, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
     }else{
-        bannerView = [[GADBannerView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-GAD_SIZE_320x50.height-44, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
+        bannerView = [[GADBannerView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-GAD_SIZE_320x50.height-navigationBarHeight, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
     }
     bannerView.adUnitID = @"a151ac0e907064e";
     bannerView.rootViewController = self;
@@ -62,10 +71,6 @@
     btnAlign = [[UIButton alloc] init];
     [btnAlign setFrame:CGRectMake(0, 0, 83, 45)];
     btnAlign.backgroundColor = [UIColor clearColor];
-//    UIImageView *btnImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"abs_spinner_default"]];
-//    [btnImage setFrame:CGRectMake(60, 0, 23, 33)];
-//    [btnAlign addSubview:btnImage];
-//    UIImage *stretchableImage = [[UIImage imageNamed:@"abs_spinner_default"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 60, 0, 0)];
     [btnAlign setImage:[UIImage imageNamed:@"abs_spinner_default"] forState:UIControlStateNormal];
     [btnAlign setImageEdgeInsets:UIEdgeInsetsMake(15, 60, 0, 0)];
     [btnAlign setTitleEdgeInsets:UIEdgeInsetsMake(0, -50, 0, 0)];

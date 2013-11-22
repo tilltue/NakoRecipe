@@ -22,6 +22,7 @@
     if (self) {
         // Custom initialization
         CGRect rect = self.view.bounds;
+        rect.origin.y = 20;
         rect.size.width = [SystemInfo isPad]?350:250;
         rect.size.height = 260;
         sideTable = [[UITableView alloc] init];
@@ -39,7 +40,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [self setEdgesForExtendedLayout:UIRectEdgeNone];
+    }
     self.view.backgroundColor = [CommonUI getUIColorFromHexString:@"#F4F3F4"];
 }
 

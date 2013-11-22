@@ -559,7 +559,11 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-
+    
+    if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [self setEdgesForExtendedLayout:UIRectEdgeNone];
+    }
 	[self.view setBackgroundColor:[UIColor blackColor]];
 
 	[self setupGestureRecognizers];

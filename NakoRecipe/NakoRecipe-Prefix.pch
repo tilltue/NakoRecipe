@@ -15,6 +15,7 @@
     #import "CommonUI.h"
     #import "SystemInfo.h"
     #import "AppPreference.h"
+    #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 typedef enum {
     E_REQUEST_STATE_DEFAULT = 2,

@@ -26,7 +26,7 @@
         // Custom initialization
         CGRect tempRect = self.view.bounds;
         tempRect.origin = CGPointZero;
-        tempRect.size.height -=84;
+        tempRect.size.height -=104;
         recipeView = [[RecipeView alloc] initWithFrame:tempRect];
         recipeView.recipe_delegate = self;
         [self.view addSubview:recipeView];
@@ -192,7 +192,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [self setEdgesForExtendedLayout:UIRectEdgeNone];
+    }
     self.view.backgroundColor = [CommonUI getUIColorFromHexString:@"#E4E3DC"];
     _likeVCShow = NO;
 }
@@ -207,6 +210,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [recipeCommentView keyboardHide];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

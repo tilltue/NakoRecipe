@@ -852,6 +852,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = tilltue;
+				TargetAttributes = {
+					A3FB73121743DE9700413AE8 = {
+						DevelopmentTeam = RNR9A42JW9;
+					};
+				};
 			};
 			buildConfigurationList = A3FB730E1743DE9700413AE8 /* Build configuration list for PBXProject "NakoRecipe" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1113,6 +1118,7 @@
 				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "NakoRecipe/NakoRecipe-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource/GoogleAdMob\"",
@@ -1133,8 +1139,8 @@
 		A3FB73471743DE9700413AE8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource\"",
@@ -1143,6 +1149,7 @@
 				GCC_PREFIX_HEADER = "NakoRecipe/NakoRecipe-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "NakoRecipe/NakoRecipe-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/NakoRecipe/source/Util/ExternSource/GoogleAdMob\"",

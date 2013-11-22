@@ -346,11 +346,14 @@
     tempRect.origin.x = 5;
     tempRect.origin.y = ivRecipe.frame.origin.y + ivRecipe.frame.size.height + 10;
     tempRect.size.width = recipeInfo.frame.size.width - 10;
-    tempRect.size.height = recipeContent.contentSize.height;
+    CGSize textViewSize = [recipeContent.text sizeWithFont:recipeContent.font
+                                        constrainedToSize:CGSizeMake(tempRect.size.width, FLT_MAX)];
+    tempRect.size.height = textViewSize.height+20;
     recipeContent.frame = tempRect;
+    recipeContent.scrollEnabled = NO;
     
     tempRect.origin.x = 0;
-    tempRect.origin.y = recipeContent.frame.origin.y + recipeContent.contentSize.height;
+    tempRect.origin.y = recipeContent.frame.origin.y + recipeContent.frame.size.height;
     tempRect.size.width = self.frame.size.width;
     tempRect.size.height = 110;
     btnSearchList.frame = tempRect;
@@ -358,7 +361,7 @@
     
     tempRect = CGRectZero;
     tempRect.size = CGSizeMake(self.frame.size.width,recipeContent.frame.origin.y);
-    tempRect.size.height += recipeContent.contentSize.height-45;
+    tempRect.size.height += recipeContent.frame.size.height-45;
     tempRect.size.height += btnSearchList.frame.size.height;
     recipeInfo.frame = tempRect;
     
@@ -370,6 +373,7 @@
     tvComment.tableHeaderView = tvHeaderView;
     tvComment.tableFooterView = tvFooterView;
 }
+
 - (void)keyBoardAnimated:(NSNotification *)notification
 {
     CGRect keyboardBounds;
@@ -970,7 +974,7 @@
         return 0;
     NSString *tempComment = tempObject.comment;
     CGSize textSize = [tempComment sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake([SystemInfo isPad]?680:245, 10000) lineBreakMode:NSLineBreakByCharWrapping];
-    return textSize.height;
+    return textSize.height+5;
 }
 
 - (NSString *)convertDateToJson:(NSString *)string

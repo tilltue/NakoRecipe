@@ -39,7 +39,10 @@
         self.navigationItem.titleView = label;
         
         tempRect = self.view.bounds;
-        tempRect.size.height -= 44;
+        if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+            tempRect.size.height -= 64;
+        else
+            tempRect.size.height -= 44;
         likeTable = [[UITableView alloc] init];
         likeTable.frame = tempRect;
         likeTable.dataSource = self;
@@ -56,7 +59,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [self setEdgesForExtendedLayout:UIRectEdgeNone];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated

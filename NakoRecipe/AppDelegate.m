@@ -174,10 +174,11 @@ NSString *const FBSessionStateChangedNotification = @"com.sample.app:FBSessionSt
     
     UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:pintrestMainViewController];
     navigationVC.navigationBar.tintColor = [UIColor whiteColor];//[CommonUI getUIColorFromHexString:@"E04C30"];
+    
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-    [attributes setValue:[CommonUI getUIColorFromHexString:@"E04C30"] forKey:UITextAttributeTextColor];
-    [attributes setValue:[UIColor whiteColor] forKey:UITextAttributeTextShadowColor];
-    [attributes setValue:[NSValue valueWithUIOffset:UIOffsetMake(0.0, 1.0)] forKey:UITextAttributeTextShadowOffset];
+    [attributes setValue:[UIColor whiteColor] forKey:UITextAttributeTextColor];
+    //[attributes setValue:[UIColor whiteColor] forKey:UITextAttributeTextShadowColor];
+    //[attributes setValue:[NSValue valueWithUIOffset:UIOffsetMake(0.0, 1.0)] forKey:UITextAttributeTextShadowOffset];
     [[UIBarButtonItem appearance] setTitleTextAttributes:attributes forState:UIControlStateNormal];
     CGFloat verticalOffset = 4;
     [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:verticalOffset forBarMetrics:UIBarMetricsDefault];
