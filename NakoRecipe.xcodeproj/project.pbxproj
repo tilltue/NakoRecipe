@@ -60,6 +60,9 @@
 		A392762217B39EF600FC8AB1 /* BlogListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A392762117B39EF600FC8AB1 /* BlogListViewController.m */; };
 		A392762517B39F7800FC8AB1 /* BlogWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A392762417B39F7800FC8AB1 /* BlogWebViewController.m */; };
 		A392762717B3A2E300FC8AB1 /* ic_web.png in Resources */ = {isa = PBXBuildFile; fileRef = A392762617B3A2E200FC8AB1 /* ic_web.png */; };
+		A3C4436F183F4F9300143E97 /* icon120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = A3C4436E183F4F9300143E97 /* icon120x120.png */; };
+		A3C44372183F509F00143E97 /* icon76x76.png in Resources */ = {isa = PBXBuildFile; fileRef = A3C44370183F509F00143E97 /* icon76x76.png */; };
+		A3C44373183F509F00143E97 /* icon152_152.png in Resources */ = {isa = PBXBuildFile; fileRef = A3C44371183F509F00143E97 /* icon152_152.png */; };
 		A3CE345217701F600032660F /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE344017701F600032660F /* AFHTTPClient.m */; };
 		A3CE345317701F600032660F /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE344217701F600032660F /* AFHTTPRequestOperation.m */; };
 		A3CE345417701F600032660F /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE344417701F600032660F /* AFImageRequestOperation.m */; };
@@ -206,6 +209,9 @@
 		A392762317B39F7800FC8AB1 /* BlogWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlogWebViewController.h; path = source/MainUI/BlogListViews/BlogWebViewController.h; sourceTree = "<group>"; };
 		A392762417B39F7800FC8AB1 /* BlogWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlogWebViewController.m; path = source/MainUI/BlogListViews/BlogWebViewController.m; sourceTree = "<group>"; };
 		A392762617B3A2E200FC8AB1 /* ic_web.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_web.png; path = resource/ic_web.png; sourceTree = "<group>"; };
+		A3C4436E183F4F9300143E97 /* icon120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon120x120.png; sourceTree = SOURCE_ROOT; };
+		A3C44370183F509F00143E97 /* icon76x76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon76x76.png; sourceTree = SOURCE_ROOT; };
+		A3C44371183F509F00143E97 /* icon152_152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon152_152.png; sourceTree = SOURCE_ROOT; };
 		A3CE343F17701F600032660F /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPClient.h; path = source/Util/ExternSource/AFNetworking/AFHTTPClient.h; sourceTree = "<group>"; };
 		A3CE344017701F600032660F /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFHTTPClient.m; path = source/Util/ExternSource/AFNetworking/AFHTTPClient.m; sourceTree = "<group>"; };
 		A3CE344117701F600032660F /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPRequestOperation.h; path = source/Util/ExternSource/AFNetworking/AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -713,6 +719,9 @@
 		A3FB731D1743DE9700413AE8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A3C44370183F509F00143E97 /* icon76x76.png */,
+				A3C44371183F509F00143E97 /* icon152_152.png */,
+				A3C4436E183F4F9300143E97 /* icon120x120.png */,
 				A33DD4D0175C5994009A3EA2 /* icon@2x.png */,
 				A33DD4CE175C5984009A3EA2 /* icon.png */,
 				A33DD4CB175C57AD009A3EA2 /* icon144.png */,
@@ -882,6 +891,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A3FB73211743DE9700413AE8 /* InfoPlist.strings in Resources */,
+				A3C4436F183F4F9300143E97 /* icon120x120.png in Resources */,
 				A3FB73291743DE9700413AE8 /* Default.png in Resources */,
 				A3FB732B1743DE9700413AE8 /* Default@2x.png in Resources */,
 				A3FB732D1743DE9700413AE8 /* Default-568h@2x.png in Resources */,
@@ -912,7 +922,9 @@
 				A30844FD1792DC6C002524E1 /* ic_facebook.png in Resources */,
 				A30845001792DD0A002524E1 /* ic_blank_profile@2x.png in Resources */,
 				A30845011792DD0A002524E1 /* ic_overflow.png in Resources */,
+				A3C44373183F509F00143E97 /* icon152_152.png in Resources */,
 				A3F63CDF17945AFF00D42883 /* LICENSE in Resources */,
+				A3C44372183F509F00143E97 /* icon76x76.png in Resources */,
 				A39275F2179A92F800FC8AB1 /* ic_like_circle@2x.png in Resources */,
 				A392762717B3A2E300FC8AB1 /* ic_web.png in Resources */,
 				A3E6CC5217B4C51A00A83905 /* ic_kakaotalk.png in Resources */,
